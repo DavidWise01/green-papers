@@ -1,0 +1,219 @@
+<h2 class="sr-only">Interactive laptop motherboard dashboard. Click components on the board to see what each does individually, its power and duty cycle, and its role for the whole system.</h2>
+
+<style>
+.lmb-board { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 14px; }
+.lmb-component { cursor: pointer; transition: opacity 0.15s; }
+.lmb-component:hover .lmb-rect { stroke: var(--color-text-info); stroke-width: 1.5; }
+.lmb-component.lmb-active .lmb-rect { stroke: var(--color-text-info); stroke-width: 2; }
+.lmb-component.lmb-dim { opacity: 0.25; }
+.lmb-detail { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 18px; margin-top: 12px; min-height: 140px; }
+.lmb-detail-title { font-size: 16px; font-weight: 500; margin: 0 0 2px; color: var(--color-text-primary); }
+.lmb-detail-sub { font-size: 12px; color: var(--color-text-secondary); margin: 0 0 10px; }
+.lmb-detail-grid { display: grid; grid-template-columns: 110px 1fr; gap: 4px 12px; font-size: 13px; line-height: 1.5; }
+.lmb-detail-key { color: var(--color-text-secondary); }
+.lmb-detail-val { color: var(--color-text-primary); }
+.lmb-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0 0; }
+.lmb-stat { background: var(--color-background-secondary); padding: 10px 12px; border-radius: var(--border-radius-md); }
+.lmb-stat-label { font-size: 11px; color: var(--color-text-secondary); }
+.lmb-stat-val { font-size: 16px; font-weight: 500; }
+.lmb-filter-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+.lmb-filter-btn { background: transparent; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 4px 10px; font-size: 12px; cursor: pointer; color: var(--color-text-primary); }
+.lmb-filter-btn.active { background: var(--color-background-info); color: var(--color-text-info); border-color: var(--color-text-info); }
+.lmb-filter-btn:hover:not(.active) { background: var(--color-background-tertiary); }
+.lmb-legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 11.5px; color: var(--color-text-secondary); margin-top: 10px; }
+.lmb-legend-item { display: flex; align-items: center; gap: 5px; }
+.lmb-legend-swatch { width: 10px; height: 10px; border-radius: 2px; }
+.duty-bar { background: var(--color-background-tertiary); height: 6px; border-radius: 3px; overflow: hidden; margin-top: 4px; }
+.duty-bar-fill { height: 100%; background: var(--color-text-info); transition: width 0.3s; }
+</style>
+
+<div class="lmb-filter-row" id="lmb-filters"></div>
+
+<div class="lmb-board">
+<svg id="lmb-svg" width="100%" viewBox="0 0 640 360" role="img">
+<title>Laptop motherboard component layout</title>
+<desc>Top-down view of a laptop motherboard with clickable components.</desc>
+
+<rect x="6" y="6" width="628" height="348" rx="14" fill="none" stroke="var(--color-border-tertiary)" stroke-width="0.5" stroke-dasharray="3 3"/>
+
+<g id="lmb-components"></g>
+</svg>
+</div>
+
+<div class="lmb-stats">
+<div class="lmb-stat"><div class="lmb-stat-label">idle draw</div><div class="lmb-stat-val">~3.5 W</div></div>
+<div class="lmb-stat"><div class="lmb-stat-label">avg load</div><div class="lmb-stat-val">~28 W</div></div>
+<div class="lmb-stat"><div class="lmb-stat-label">peak burst</div><div class="lmb-stat-val">~95 W</div></div>
+<div class="lmb-stat"><div class="lmb-stat-label">components</div><div class="lmb-stat-val">17</div></div>
+</div>
+
+<div class="lmb-detail" id="lmb-detail"></div>
+
+<div class="lmb-legend">
+<div class="lmb-legend-item"><span class="lmb-legend-swatch" style="background:#7F77DD"></span>compute</div>
+<div class="lmb-legend-item"><span class="lmb-legend-swatch" style="background:#1D9E75"></span>memory / storage</div>
+<div class="lmb-legend-item"><span class="lmb-legend-swatch" style="background:#D85A30"></span>power</div>
+<div class="lmb-legend-item"><span class="lmb-legend-swatch" style="background:#378ADD"></span>i/o &amp; connectivity</div>
+<div class="lmb-legend-item"><span class="lmb-legend-swatch" style="background:#888780"></span>support / sensors</div>
+</div>
+
+<script>
+const components = [
+  {id:'soc', cat:'compute', x:230, y:120, w:140, h:90, name:'SoC / CPU+GPU package', sub:'main processor, integrated graphics',
+    individual:'Executes instructions, runs the OS, renders graphics. Modern laptops integrate CPU cores, GPU cores, NPU, memory controller, and PCIe root complex into one die.',
+    duty:'95', idle:'1-3 W', load:'15-28 W', peak:'45-65 W', clock:'400 MHz idle to 5+ GHz boost',
+    forwhole:'The conductor of the board. Every other component exists to feed it data, give it power, or carry its output.'},
+  {id:'ram1', cat:'memory', x:80, y:60, w:110, h:24, name:'DDR5 SO-DIMM (slot 1)', sub:'main system memory',
+    individual:'Volatile working memory. DDR5-5600 typical, 16-32 GB common. Stores active program data and OS pages.',
+    duty:'80', idle:'0.5 W', load:'2-3 W', peak:'4 W', clock:'2800 MHz (DDR5-5600 effective)',
+    forwhole:'Working surface for the SoC. Empty when powered off, refreshed every 64ms while running. Loses everything when power drops.'},
+  {id:'ram2', cat:'memory', x:80, y:88, w:110, h:24, name:'DDR5 SO-DIMM (slot 2)', sub:'main system memory',
+    individual:'Second RAM channel for dual-channel operation. Doubles effective memory bandwidth when matched with slot 1.',
+    duty:'80', idle:'0.5 W', load:'2-3 W', peak:'4 W', clock:'2800 MHz (DDR5-5600 effective)',
+    forwhole:'Doubles the bandwidth pipe to the SoC. Single-channel operation throttles modern integrated graphics severely.'},
+  {id:'nvme', cat:'memory', x:430, y:60, w:140, h:30, name:'NVMe M.2 SSD', sub:'primary storage',
+    individual:'Non-volatile storage on PCIe Gen4/5 lanes. 512GB-2TB common. Sequential reads up to 14 GB/s on Gen5.',
+    duty:'40', idle:'0.05 W', load:'4-6 W', peak:'8.5 W', clock:'controller-internal',
+    forwhole:'Persistent state. Where the OS, apps, and user files live. SoC pulls from here on every cold boot and page fault.'},
+  {id:'vrm', cat:'power', x:230, y:50, w:140, h:50, name:'CPU VRM (multi-phase)', sub:'voltage regulator for SoC',
+    individual:'Steps 12-20V battery rail down to ~0.6-1.4V at very high current (50-100A) for the SoC core. 4-8 phase typical, switching at 600 kHz-2 MHz.',
+    duty:'100', idle:'0.5-1 W loss', load:'3-5 W loss', peak:'8 W loss', clock:'switching @ ~1 MHz',
+    forwhole:'Without this, no SoC. Phase count and quality determine sustained boost behavior. Bad VRMs are why laptops thermal-throttle even when CPU temps are fine.'},
+  {id:'pmic', cat:'power', x:570, y:130, w:60, h:80, name:'PMIC', sub:'power management IC',
+    individual:'Multi-rail regulator generating all the secondary voltages (3.3V, 1.8V, 1.2V, 1.05V, 0.9V) that the chipset, RAM, and I/O need. Sequencing is critical at boot.',
+    duty:'100', idle:'0.3 W', load:'1-2 W', peak:'3 W', clock:'always-on',
+    forwhole:'The board has dozens of voltage rails. PMIC orchestrates them and shuts them off in sleep states. Bad PMIC = no power-on at all.'},
+  {id:'battery', cat:'power', x:30, y:280, w:200, h:60, name:'Battery + charger IC', sub:'energy source + charging',
+    individual:'Li-ion or Li-poly cells (3-4S typical, 11.4-15.4V nominal). Charger IC handles MPPT, cell balancing, fuel gauge, USB-PD negotiation, thermal cutoff.',
+    duty:'100', idle:'discharging at idle', load:'discharging fast', peak:'charging up to 100W via PD',
+    forwhole:'The energy reservoir. Without it the laptop is a desktop that cant move. Charger negotiates wattage with whatever is plugged in.'},
+  {id:'ec', cat:'support', x:430, y:230, w:90, h:60, name:'EC / SMC', sub:'embedded controller',
+    individual:'Always-on microcontroller. Runs the keyboard, trackpad, fan, battery monitoring, lid switch, and power button before the main SoC has even started.',
+    duty:'100', idle:'0.05 W', load:'0.1 W', peak:'0.2 W', clock:'48 MHz typical',
+    forwhole:'The boards immune system and reflex arc. Decides when to wake the SoC, when to throttle, when to shut down on overheat. First chip alive at boot, last one to die at shutdown.'},
+  {id:'tpm', cat:'support', x:530, y:230, w:90, h:30, name:'TPM 2.0', sub:'security chip',
+    individual:'Trusted Platform Module. Holds device keys, measures boot integrity, accelerates crypto. Required for Windows 11 and BitLocker.',
+    duty:'5', idle:'<0.01 W', load:'0.05 W', peak:'0.1 W', clock:'33 MHz typical',
+    forwhole:'Root of hardware trust. Verifies firmware before the OS loads. Without it the laptop cant prove its the same laptop it was yesterday.'},
+  {id:'wifi', cat:'io', x:430, y:120, w:90, h:40, name:'Wi-Fi 6E / 7 + BT', sub:'wireless radio',
+    individual:'M.2 2230 module. Wi-Fi 7 hits 5+ Gbps on 6 GHz band. Bluetooth 5.3+ for peripherals. Sits on PCIe Gen2 x1 + USB 2.0 + CNVio2.',
+    duty:'70', idle:'0.05 W', load:'0.8-2 W', peak:'4 W', clock:'multiple — 2.4/5/6 GHz radios',
+    forwhole:'How the laptop talks to the world. Without it the SoC is on an island with only its NVMe for company.'},
+  {id:'usb-pd', cat:'io', x:30, y:140, w:160, h:36, name:'USB-C / Thunderbolt controller', sub:'high-speed I/O',
+    individual:'Handles up to 4 USB-C ports. Thunderbolt 4/5 negotiates 40-80 Gbps over the same connector that does USB-PD charging and DisplayPort alt-mode.',
+    duty:'60', idle:'0.1 W', load:'1-2 W', peak:'4 W', clock:'controller-internal',
+    forwhole:'One connector, four protocols. Charges the laptop, drives external displays, mounts external SSDs, and carries data. The most overloaded port on the board.'},
+  {id:'audio', cat:'io', x:30, y:200, w:140, h:30, name:'Audio codec + amp', sub:'sound in/out',
+    individual:'Realtek/Cirrus codec converts digital to analog for speakers and headphones, ADC for microphones. Integrated Class-D amp drives speakers.',
+    duty:'30', idle:'0.02 W', load:'0.5-1 W', peak:'2 W speakers loud', clock:'48-192 kHz sample rate',
+    forwhole:'Speakers, mic, and 3.5mm jack all route through here. Most underrated component — bad codec = bad calls regardless of how good the rest is.'},
+  {id:'display-phy', cat:'io', x:200, y:230, w:140, h:36, name:'eDP transmitter', sub:'internal display link',
+    individual:'Embedded DisplayPort. Carries video from SoC GPU to the laptop panel. 4 lanes typical, up to 8.1 Gbps each. Includes panel self-refresh for power saving.',
+    duty:'85', idle:'panel off', load:'1-2 W', peak:'3 W', clock:'controller-internal',
+    forwhole:'Connects what the SoC computes to what your eyes actually see. Panel self-refresh is why static screens drop to near-zero power.'},
+  {id:'cam', cat:'io', x:200, y:280, w:140, h:30, name:'Webcam + IR sensor', sub:'imaging',
+    individual:'1080p RGB sensor + IR camera for Windows Hello. MIPI CSI-2 lanes to SoC. NPU on SoC does background blur and face recognition.',
+    duty:'15', idle:'<0.01 W', load:'0.5 W', peak:'1.5 W in active call', clock:'30-60 fps',
+    forwhole:'How the laptop sees you. IR sensor lets the SoC unlock the device without password. NPU does the inference locally.'},
+  {id:'fan', cat:'support', x:380, y:300, w:120, h:36, name:'Fan + thermal sensors', sub:'cooling',
+    individual:'PWM-controlled brushless DC fan, 4-wire (12V, GND, tach, PWM). Thermistors at SoC, VRM, NVMe report temps to EC.',
+    duty:'40', idle:'fan off, 0 W', load:'0.5-1 W', peak:'2-3 W full RPM', clock:'25 kHz PWM',
+    forwhole:'The reason the SoC can sustain boost clocks. EC reads thermals 10x/sec and modulates RPM. No fan = severe throttling within 30 seconds of load.'},
+  {id:'spi', cat:'support', x:530, y:280, w:90, h:36, name:'SPI flash (BIOS/UEFI)', sub:'firmware storage',
+    individual:'16-32 MB SPI NOR flash. Holds UEFI firmware, ME/PSP firmware, EC firmware, board init code. Read on every boot before NVMe is even initialized.',
+    duty:'2', idle:'<0.01 W', load:'<0.05 W', peak:'0.1 W', clock:'50-100 MHz SPI',
+    forwhole:'The instructions for how to be a laptop. Bricked SPI = paperweight. Where firmware updates write to.'},
+  {id:'crystal', cat:'support', x:560, y:50, w:50, h:36, name:'RTC + crystal', sub:'time + reference clock',
+    individual:'32.768 kHz crystal + 25 MHz reference. CMOS battery keeps RTC running across power-off so the laptop knows what time it is.',
+    duty:'100', idle:'~1 microwatt', load:'~1 microwatt', peak:'~1 microwatt', clock:'32.768 kHz / 25 MHz',
+    forwhole:'Time and frequency anchor. Every clock on the board is derived from these. Loses time when CMOS battery dies (laptops use the main battery for this if removed too long, system clock resets).'}
+];
+
+const colorMap = {
+  compute: {fill:'#EEEDFE', stroke:'#534AB7', text:'#26215C', dot:'#7F77DD'},
+  memory:  {fill:'#E1F5EE', stroke:'#0F6E56', text:'#04342C', dot:'#1D9E75'},
+  power:   {fill:'#FAECE7', stroke:'#993C1D', text:'#4A1B0C', dot:'#D85A30'},
+  io:      {fill:'#E6F1FB', stroke:'#185FA5', text:'#042C53', dot:'#378ADD'},
+  support: {fill:'#F1EFE8', stroke:'#5F5E5A', text:'#2C2C2A', dot:'#888780'}
+};
+const catNames = {compute:'compute', memory:'memory / storage', power:'power', io:'i/o & connectivity', support:'support / sensors'};
+
+const compGroup = document.getElementById('lmb-components');
+components.forEach(c => {
+  const colors = colorMap[c.cat];
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.setAttribute('class', 'lmb-component');
+  g.setAttribute('id', 'lmb-' + c.id);
+  g.dataset.cat = c.cat;
+  g.onclick = () => showDetail(c.id);
+
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('class', 'lmb-rect');
+  rect.setAttribute('x', c.x); rect.setAttribute('y', c.y);
+  rect.setAttribute('width', c.w); rect.setAttribute('height', c.h);
+  rect.setAttribute('rx', 6);
+  rect.setAttribute('fill', colors.fill);
+  rect.setAttribute('stroke', colors.stroke);
+  rect.setAttribute('stroke-width', '0.5');
+  g.appendChild(rect);
+
+  const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  label.setAttribute('x', c.x + c.w/2);
+  label.setAttribute('y', c.y + c.h/2);
+  label.setAttribute('text-anchor', 'middle');
+  label.setAttribute('dominant-baseline', 'central');
+  label.setAttribute('font-size', c.w < 90 ? '10' : '11');
+  label.setAttribute('font-weight', '500');
+  label.setAttribute('fill', colors.text);
+  label.textContent = c.name.split(' / ')[0].split(' (')[0].split(' + ')[0];
+  if (label.textContent.length > 16) label.textContent = label.textContent.substring(0, 14) + '...';
+  g.appendChild(label);
+
+  compGroup.appendChild(g);
+});
+
+const filters = ['all', 'compute', 'memory', 'power', 'io', 'support'];
+const filterRow = document.getElementById('lmb-filters');
+filters.forEach(f => {
+  const btn = document.createElement('button');
+  btn.className = 'lmb-filter-btn' + (f === 'all' ? ' active' : '');
+  btn.textContent = f === 'all' ? 'all' : catNames[f];
+  btn.onclick = () => filterCat(f, btn);
+  filterRow.appendChild(btn);
+});
+
+function filterCat(cat, btn) {
+  document.querySelectorAll('.lmb-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.lmb-component').forEach(g => {
+    if (cat === 'all' || g.dataset.cat === cat) g.classList.remove('lmb-dim');
+    else g.classList.add('lmb-dim');
+  });
+}
+
+function showDetail(id) {
+  const c = components.find(x => x.id === id);
+  document.querySelectorAll('.lmb-component').forEach(g => g.classList.remove('lmb-active'));
+  document.getElementById('lmb-' + id).classList.add('lmb-active');
+  const colors = colorMap[c.cat];
+  document.getElementById('lmb-detail').innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span style="width:10px;height:10px;border-radius:2px;background:${colors.dot};display:inline-block"></span>
+      <span style="font-size:11px;color:var(--color-text-secondary);text-transform:lowercase">${catNames[c.cat]}</span>
+    </div>
+    <p class="lmb-detail-title">${c.name}</p>
+    <p class="lmb-detail-sub">${c.sub}</p>
+    <div class="lmb-detail-grid">
+      <div class="lmb-detail-key">individually</div><div class="lmb-detail-val">${c.individual}</div>
+      <div class="lmb-detail-key">for the whole</div><div class="lmb-detail-val">${c.forwhole}</div>
+      <div class="lmb-detail-key">idle / load / peak</div><div class="lmb-detail-val">${c.idle} → ${c.load} → ${c.peak}</div>
+      <div class="lmb-detail-key">clock</div><div class="lmb-detail-val">${c.clock}</div>
+      <div class="lmb-detail-key">duty cycle</div><div class="lmb-detail-val">${c.duty}% awake when system is on
+        <div class="duty-bar"><div class="duty-bar-fill" style="width:${c.duty}%"></div></div>
+      </div>
+    </div>
+  `;
+}
+
+showDetail('soc');
+</script>

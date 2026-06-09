@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROOT0 LAYER 1.14 — Toroid Pulsing Mechanics</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#1b4332;
+  --forest-600:#2d6a4f;
+  --forest-500:#40916c;
+  --bone:#f8f6f0;
+  --grid-major: rgba(27,67,50,0.15);
+  --grid-minor: rgba(27,67,50,0.07);
+}
+html,body{height:100%}
+body{font-family:'Inter',system-ui,-apple-system,segoe ui,Roboto,sans-serif;background:var(--bone);color:var(--forest);-webkit-font-smoothing:antialiased}
+.font-mono{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+.blueprint{
+  background-color:var(--bone);
+  background-image:
+    linear-gradient(var(--grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px);
+  background-size: 96px 96px,96px 96px,24px 24px,24px 24px;
+}
+.hairline{box-shadow:inset 0 0 0 1px rgba(27,67,50,0.18), inset 0 0 0 2px rgba(248,246,240,0.6)}
+.dash{stroke-dasharray:4 4}
+.glow{filter:drop-shadow(0 0 10px rgba(64,145,108,0.35))}
+.spin-slow{animation:spin 18s linear infinite;transform-origin:200px 200px}
+.spin-fast{animation:spin 3.2s linear infinite;transform-origin:200px 200px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pulse{animation:pulse2 1.6s ease-in-out infinite}
+@keyframes pulse2{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.08);opacity:1}}
+.flow-dot{animation:flow 4s linear infinite}
+@keyframes flow{0%{transform:translateX(-10px);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateX(calc(100% + 10px));opacity:0}}
+.marker{box-shadow:0 0 0 1px var(--forest),0 0 0 4px var(--bone),0 0 0 5px var(--forest)}
+</style>
+</head>
+<body>
+<div class="blueprint min-h-screen">
+  <!-- HEADER -->
+  <div class="sticky top-0 z-50 border-b-[3px] border-[#1b4332] bg-[#f8f6f0]/90 backdrop-blur-md">
+    <div class="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-[68px] flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="w-11 h-11 bg-[#1b4332] text-[#f8f6f0] grid place-items-center font-mono font-bold tracking-widest border-2 border-[#1b4332] shadow-[3px_3px_0_0_#2d6a4f]">R0</div>
+        <div>
+          <div class="font-mono text-[11px] tracking-[0.2em] text-[#2d6a4f] leading-none">ROOT0 / LAYER 1.14</div>
+          <div class="text-[20px] sm:text-[24px] font-semibold tracking-tight text-[#1b4332]">TOROID PULSING MECHANICS</div>
+        </div>
+      <div class="hidden lg:flex items-center gap-5 font-mono text-[11px]">
+        <div class="px-2.5 py-1 border border-[#1b4332] bg-[#1b4332] text-[#f8f6f0] tracking-widest">ENGINEERING BLUEPRINT</div>
+        <div class="text-[#2d6a4f]">REV 1.14.3</div>
+        <div class="text-[#2d6a4f]">CLASS: FOUNDATIONAL</div>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+    <!-- TOP BANNER -->
+    <section class="grid lg:grid-cols-12 gap-5 mb-6">
+      <div class="lg:col-span-8 hairline bg-[#f8f6f0]/80 p-5 md:p-7 relative overflow-hidden">
+        <div class="absolute right-0 top-0 bottom-0 w-24 opacity-[0.04] pointer-events-none" style="background:repeating-linear-gradient(-45deg, #1b4332 0 2px, transparent 2px 8px)"></div>
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div class="font-mono text-[12px] tracking-widest text-[#2d6a4f] mb-3">SYSTEM PRINCIPLE</div>
+            <div class="flex items-baseline gap-4">
+              <div class="text-[72px] md:text-[88px] font-[650] leading-none tracking-[-0.02em] text-[#1b4332]">132</div>
+              <div>
+                <div class="text-[22px] md:text-[28px] font-semibold text-[#1b4332] leading-tight">TOROIDS AS PULSE ENGINES</div>
+                <div class="font-mono text-[13px] text-[#d00000] mt-1 tracking-wide">NOT BITS • NOT SWITCHES • NOT MEMORY</div>
+              </div>
+            </div>
+          <button id="pulseBtn" class="group relative mt-2 inline-flex items-center gap-2.5 px-4 py-2.5 bg-[#1b4332] text-[#f8f6f0] font-mono text-[12px] tracking-widest hover:bg-[#2d6a4f] transition border-2 border-[#1b4332] shadow-[4px_4px_0_0_rgba(27,67,50,0.25)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[3px_3px_0_0_rgba(27,67,50,0.25)]">
+            <span class="w-2 h-2 rounded-full bg-[#95d5b2] group-[.active]:animate-ping"></span>
+            INITIATE PULSE
+          </button>
+        </div>
+        <p class="mt-5 max-w-3xl text-[15px] leading-relaxed text-[#1b4332]/85">Each toroid is a fluidic oscillator generating coherent pressure differentials through controlled systolic compression and diastolic expansion. Pulse timing follows 6/3/1 → 1+2=0 → 1/3/6 harmonic, producing standing gravity waves between opposed pairs.</p>
+        <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="border border-[#1b4332]/20 bg-white/40 p-3"><div class="font-mono text-[10px] text-[#2d6a4f] tracking-widest">BASE FREQUENCY</div><div class="font-mono text-[18px] text-[#1b4332] mt-1">6.33 Hz</div></div>
+          <div class="border border-[#1b4332]/20 bg-white/40 p-3"><div class="font-mono text-[10px] text-[#2d6a4f] tracking-widest">PHASE ANGLE</div><div class="font-mono text-[18px] text-[#1b4332] mt-1">120° ×3</div></div>
+          <div class="border border-[#1b4332]/20 bg-white/40 p-3"><div class="font-mono text-[10px] text-[#2d6a4f] tracking-widest">PAIR COUNT</div><div class="font-mono text-[18px] text-[#1b4332] mt-1">66 OPPOSING</div></div>
+          <div class="border border-[#1b4332]/20 bg-white/40 p-3"><div class="font-mono text-[10px] text-[#2d6a4f] tracking-widest">MODE</div><div class="font-mono text-[18px] text-[#1b4332] mt-1">PULSE ENGINE</div></div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-4 hairline bg-[#1b4332] text-[#f8f6f0] p-5 md:p-6 relative">
+        <div class="absolute inset-0 opacity-10" style="background-image:radial-gradient(#f8f6f0 1px, transparent 1px);background-size:12px 12px"></div>
+        <div class="relative">
+          <div class="font-mono text-[12px] tracking-widest opacity-80">CRITICAL SPEC</div>
+          <h3 class="text-[22px] font-semibold mt-1">1 + 2 = 0 Collapse Point</h3>
+          <p class="text-[14px] leading-relaxed mt-3 text-[#f8f6f0]/85">At the inversion between systole and diastole, opposing pressure vectors sum to null. This is not zero-energy but zero-resistance — the moment of maximum potential where field coherence is extracted.</p>
+          <div class="mt-5 font-mono text-[11px] grid grid-cols-2 gap-3">
+            <div class="border border-[#f8f6f0]/20 p-2.5">SYSTOLE<br><span class="text-[16px]">6 → 3 → 1</span></div>
+            <div class="border border-[#f8f6f0]/20 p-2.5">DIASTOLE<br><span class="text-[16px]">1 → 3 → 6</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN GRID -->
+    <section class="grid lg:grid-cols-12 gap-5">
+      <!-- TOROID CROSS SECTION -->
+      <div class="lg:col-span-7 hairline bg-[#f8f6f0]/90 p-5 md:p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-mono text-[13px] tracking-widest text-[#1b4332]">A. SINGLE TOROID — CROSS-SECTIONAL SCHEMATIC</h2>
+          <div class="font-mono text-[10px] px-2 py-1 border border-[#1b4332]/30 text-[#2d6a4f]">SCALE 10:1</div>
+        </div>
+
+        <div class="grid md:grid-cols-[1.1fr_0.9fr] gap-6 items-center">
+          <div class="relative">
+            <svg viewBox="0 0 400 400" class="w-full h-auto max-w-[480px] mx-auto">
+              <defs>
+                <radialGradient id="plasmaGrad" cx="50%" cy="50%">
+                  <stop offset="0%" stop-color="#40916c" stop-opacity="0.35"/>
+                  <stop offset="70%" stop-color="#40916c" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#40916c" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="techGlow"><feGaussianBlur stdDeviation="1.2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              
+              <!-- Grid -->
+              <g opacity="0.12">
+                <circle cx="200" cy="200" r="140" fill="none" stroke="#1b4332" stroke-width="0.5" class="dash"/>
+                <circle cx="200" cy="200" r="100" fill="none" stroke="#1b4332" stroke-width="0.5" class="dash"/>
+                <circle cx="200" cy="200" r="60" fill="none" stroke="#1b4332" stroke-width="0.5"/>
+              </g>
+
+              <!-- Outer Ring -->
+              <g id="outer-ring">
+                <circle cx="200" cy="200" r="140" fill="none" stroke="#1b4332" stroke-width="2.5"/>
+                <circle cx="200" cy="200" r="100" fill="none" stroke="#1b4332" stroke-width="2.5"/>
+                <path d="M200 60 A140 140 0 0 1 341 131" fill="none" stroke="#1b4332" stroke-width="1" opacity="0.3"/>
+              </g>
+
+              <!-- Inner Plasma Tube -->
+              <circle id="plasma" cx="200" cy="200" r="52" fill="url(#plasmaGrad)" stroke="#2d6a4f" stroke-width="1.5" class="glow"/>
+
+              <!-- Elliptical Rotor -->
+              <g id="rotor-group" class="spin-slow">
+                <ellipse cx="200" cy="200" rx="74" ry="56" fill="none" stroke="#1b4332" stroke-width="1.75" />
+                <ellipse cx="200" cy="200" rx="74" ry="56" fill="none" stroke="#1b4332" stroke-width="1.75" transform="rotate(60 200 200)"/>
+                <ellipse cx="200" cy="200" rx="74" ry="56" fill="none" stroke="#1b4332" stroke-width="1.75" transform="rotate(120 200 200)"/>
+                <circle cx="200" cy="200" r="8" fill="#f8f6f0" stroke="#1b4332" stroke-width="2"/>
+                <circle cx="200" cy="200" r="3" fill="#1b4332"/>
+              </g>
+
+              <!-- 3 Inputs @ 0°,120°,240° -->
+              <g id="inputs" font-family="IBM Plex Mono" font-size="10" fill="#1b4332">
+                <!-- IN-1 0° right -->
+                <g>
+                  <line x1="340" y1="200" x2="365" y2="200" stroke="#1b4332" stroke-width="1.5" marker-end="url(#arrowIn)"/>
+                  <rect x="348" y="192" width="26" height="16" fill="#f8f6f0" stroke="#1b4332"/>
+                  <text x="361" y="203" text-anchor="middle" font-weight="600">IN-1</text>
+                  <line x1="340" y1="200" x2="310" y2="200" stroke="#d00000" stroke-width="2" opacity="0.8"/>
+                  <polygon points="310,196 300,200 310,204" fill="#d00000"/>
+                </g>
+                <!-- IN-2 120° -->
+                <g transform="rotate(120 200 200)">
+                  <line x1="340" y1="200" x2="365" y2="200" stroke="#1b4332" stroke-width="1.5"/>
+                  <rect x="348" y="192" width="26" height="16" fill="#f8f6f0" stroke="#1b4332"/>
+                  <text x="361" y="203" text-anchor="middle" font-weight="600">IN-2</text>
+                  <line x1="340" y1="200" x2="310" y2="200" stroke="#d00000" stroke-width="2" opacity="0.8"/>
+                  <polygon points="310,196 300,200 310,204" fill="#d00000"/>
+                </g>
+                <!-- IN-3 240° -->
+                <g transform="rotate(240 200 200)">
+                  <line x1="340" y1="200" x2="365" y2="200" stroke="#1b4332" stroke-width="1.5"/>
+                  <rect x="348" y="192" width="26" height="16" fill="#f8f6f0" stroke="#1b4332"/>
+                  <text x="361" y="203" text-anchor="middle" font-weight="600">IN-3</text>
+                  <line x1="340" y1="200" x2="310" y2="200" stroke="#d00000" stroke-width="2" opacity="0.8"/>
+                  <polygon points="310,196 300,200 310,204" fill="#d00000"/>
+                </g>
+              </g>
+
+              <!-- 3 Exhausts @ 60°,180°,300° -->
+              <g id="exhausts" font-family="IBM Plex Mono" font-size="10" fill="#1b4332">
+                <g transform="rotate(60 200 200)">
+                  <line x1="340" y1="200" x2="368" y2="200" stroke="#1b4332" stroke-width="1.5"/>
+                  <rect x="348" y="192" width="28" height="16" fill="#f8f6f0" stroke="#1b4332"/>
+                  <text x="362" y="203" text-anchor="middle" font-weight="600">EX-1</text>
+                  <line x1="340" y1="200" x2="370" y2="200" stroke="#2d6a4f" stroke-width="2" opacity="0.9"/>
+                  <polygon points="370,196 380,200 370,204" fill="#2d6a4f"/>
+                </g>
+                <g transform="rotate(180 200 200)">
+                  <line x1="340" y1="200" x2="368" y2="200" stroke="#1b4332" stroke-width="1.5"/>
+                  <rect x="348" y="192" width="28" height="16" fill="#f8f6f0" stroke="#1b4332"/>
+                  <text x="362" y="203" text-anchor="middle" font-weight="600">EX-2</text>
+                  <line x1="340" y1="200" x2="370" y2="200" stroke="#2d6a4f" stroke-width="2" opacity="0.9"/>
+                  <polygon points="370,196 380,200 370,204" fill="#2d6a4f"/>
+                </g>
+                <g transform="rotate(300 200 200)">
+                  <line x1="340" y1="200" x2="368" y2="200" stroke="#1b4332" stroke-width="1.5"/>
+                  <rect x="348" y="192" width="28" height="16" fill="#f8f6f0" stroke="#1b4332"/>
+                  <text x="362" y="203" text-anchor="middle" font-weight="600">EX-3</text>
+                  <line x1="340" y1="200" x2="370" y2="200" stroke="#2d6a4f" stroke-width="2" opacity="0.9"/>
+                  <polygon points="370,196 380,200 370,204" fill="#2d6a4f"/>
+                </g>
+              </g>
+
+              <!-- Dimension callouts -->
+              <g font-family="IBM Plex Mono" font-size="9" fill="#2d6a4f">
+                <line x1="55" y1="60" x2="200" y2="60" stroke="#2d6a4f" stroke-width="0.75" class="dash"/>
+                <line x1="55" y1="60" x2="55" y2="200" stroke="#2d6a4f" stroke-width="0.75"/>
+                <text x="35" y="130" transform="rotate(-90 35 130)">Ø14.40 mm OUTER</text>
+                <line x1="200" y1="268" x2="268" y2="268" stroke="#2d6a4f" stroke-width="0.75" class="dash"/>
+                <text x="210" y="282">Ø4.80 PLASMA TUBE</text>
+              </g>
+
+              <defs>
+                <marker id="arrowIn" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <polygon points="0 0, 6 3, 0 6" fill="#1b4332"/>
+                </marker>
+              </defs>
+            </svg>
+
+            <!-- Center label -->
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+              <div class="w-[84px] h-[84px] rounded-full border border-[#1b4332]/20 grid place-items-center">
+                <div class="text-center">
+                  <div class="font-mono text-[10px] leading-none text-[#2d6a4f]">ROTOR</div>
+                  <div class="font-mono text-[9px] text-[#1b4332]/70 mt-0.5">9.6×7.2</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-mono text-[12px] tracking-widest text-[#2d6a4f] mb-2">CORE STRUCTURE</h3>
+              <ul class="space-y-2.5 text-[14px] leading-snug">
+                <li class="flex gap-3"><span class="mt-1 w-1.5 h-1.5 bg-[#1b4332] rotate-45"></span><div><strong class="font-medium">Outer Ring</strong> — toroidal containment vessel, high-permeability alloy. Maintains field topology.</div></li>
+                <li class="flex gap-3"><span class="mt-1 w-1.5 h-1.5 bg-[#1b4332] rotate-45"></span><div><strong class="font-medium">Inner Plasma Tube</strong> — ionized medium channel, Ø4.8mm. Conducts pressure wave.</div></li>
+                <li class="flex gap-3"><span class="mt-1 w-1.5 h-1.5 bg-[#1b4332] rotate-45"></span><div><strong class="font-medium">Elliptical Rotor</strong> — triple-lobed, 9.6×7.2mm, phased 120°. Creates vortex shear.</div></li>
+                <li class="flex gap-3"><span class="mt-1 w-1.5 h-1.5 bg-[#1b4332] rotate-45"></span><div><strong class="font-medium">3 Inputs / 3 Exhausts</strong> — offset 60°, ensures unidirectional pulse propagation. No backflow.</div></li>
+              </ul>
+            </div>
+            <div class="border-t border-[#1b4332]/15 pt-4">
+              <div class="grid grid-cols-3 gap-3 font-mono text-[11px]">
+                <div><div class="text-[#2d6a4f]">INPUT ANGLES</div><div class="text-[#1b4332] mt-1">0° / 120° / 240°</div></div>
+                <div><div class="text-[#2d6a4f]">EXHAUST</div><div class="text-[#1b4332] mt-1">60° / 180° / 300°</div></div>
+                <div><div class="text-[#2d6a4f]">PHASE SHIFT</div><div class="text-[#1b4332] mt-1">60° OFFSET</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PULSING CYCLE -->
+      <div class="lg:col-span-5 hairline bg-[#f8f6f0]/90 p-5 md:p-6">
+        <h2 class="font-mono text-[13px] tracking-widest text-[#1b4332] mb-4">B. PULSING CYCLE DIAGRAM — 6/3/1 ↔ 1/3/6</h2>
+        
+        <div class="relative aspect-[4/3] max-w-[420px] mx-auto">
+          <svg viewBox="0 0 320 280" class="w-full h-full">
+            <!-- background rings -->
+            <circle cx="160" cy="140" r="110" fill="none" stroke="#1b4332" opacity="0.08" stroke-width="24"/>
+            <circle cx="160" cy="140" r="85" fill="none" stroke="#1b4332" opacity="0.12" stroke-width="1.5" class="dash"/>
+            <circle cx="160" cy="140" r="60" fill="none" stroke="#1b4332" opacity="0.18" stroke-width="1"/>
+            
+            <!-- Systolic arc left -->
+            <path d="M160 30 A110 110 0 0 0 160 250" fill="none" stroke="#d00000" stroke-width="3" opacity="0.7"/>
+            <!-- Diastolic arc right -->
+            <path d="M160 30 A110 110 0 0 1 160 250" fill="none" stroke="#2d6a4f" stroke-width="3" opacity="0.7"/>
+
+            <!-- Pulse core -->
+            <g id="cycle-core">
+              <circle id="core-outer" cx="160" cy="140" r="42" fill="#40916c" fill-opacity="0.18" stroke="#2d6a4f" stroke-width="2"/>
+              <circle id="core-inner" cx="160" cy="140" r="18" fill="#1b4332"/>
+              <circle cx="160" cy="140" r="54" fill="none" stroke="#40916c" opacity="0.25" stroke-width="1" class="dash" id="core-halo"/>
+            </g>
+
+            <!-- Labels -->
+            <g font-family="IBM Plex Mono" font-size="13" font-weight="600">
+              <text x="52" y="70" fill="#d00000" text-anchor="middle">6</text>
+              <text x="32" y="144" fill="#d00000" text-anchor="middle">3</text>
+              <text x="52" y="216" fill="#d00000" text-anchor="middle">1</text>
+              <text x="268" y="70" fill="#2d6a4f" text-anchor="middle">6</text>
+              <text x="288" y="144" fill="#2d6a4f" text-anchor="middle">3</text>
+              <text x="268" y="216" fill="#2d6a4f" text-anchor="middle">1</text>
+            </g>
+            <g font-family="Inter" font-size="10">
+              <text x="85" y="50" fill="#d00000" opacity="0.8">SYSTOLIC</text>
+              <text x="85" y="62" fill="#d00000" opacity="0.6">(compression)</text>
+              <text x="205" y="50" fill="#2d6a4f" opacity="0.8" text-anchor="start">DIASTOLIC</text>
+              <text x="205" y="62" fill="#2d6a4f" opacity="0.6">(expansion)</text>
+            </g>
+          </svg>
+
+          <!-- Collapse indicator -->
+          <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[6px] text-center pointer-events-none">
+            <div class="font-mono text-[10px] tracking-widest text-[#1b4332]/70">COLLAPSE</div>
+            <div class="font-mono text-[15px] font-semibold text-[#1b4332] leading-none mt-0.5">1+2=0</div>
+          </div>
+        </div>
+
+        <div class="mt-4 border-t border-[#1b4332]/15 pt-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-mono text-[11px] text-[#2d6a4f]">CURRENT PHASE</div>
+              <div id="phase-label" class="text-[18px] font-medium text-[#1b4332] leading-tight">IDLE</div>
+            </div>
+            <div class="text-right">
+              <div class="font-mono text-[11px] text-[#2d6a4f]">VALUE</div>
+              <div id="phase-value" class="text-[28px] font-semibold text-[#1b4332] leading-none">—</div>
+            </div>
+          <div class="mt-3 h-[6px] w-full bg-[#1b4332]/10 relative overflow-hidden rounded-full">
+            <div id="phase-bar" class="absolute left-0 top-0 bottom-0 w-0 bg-[#2d6a4f] transition-all duration-500"></div>
+          </div>
+          <div class="mt-3 grid grid-cols-7 gap-1 font-mono text-[10px] text-center">
+            <div class="py-1 bg-[#d00000]/10 text-[#d00000]">6</div>
+            <div class="py-1 bg-[#d00000]/10 text-[#d00000]">3</div>
+            <div class="py-1 bg-[#d00000]/10 text-[#d00000]">1</div>
+            <div class="py-1 bg-[#1b4332] text-[#f8f6f0]">0</div>
+            <div class="py-1 bg-[#2d6a4f]/15 text-[#2d6a4f]">1</div>
+            <div class="py-1 bg-[#2d6a4f]/15 text-[#2d6a4f]">3</div>
+            <div class="py-1 bg-[#2d6a4f]/15 text-[#2d6a4f]">6</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOWER GRID -->
+    <section class="grid lg:grid-cols-12 gap-5 mt-5">
+      <!-- 66 PAIRS -->
+      <div class="lg:col-span-5 hairline bg-[#f8f6f0]/90 p-5 md:p-6">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="font-mono text-[13px] tracking-widest text-[#1b4332]">C. 66 OPPOSING PAIRS — STANDING GRAVITY WAVES</h2>
+          <div class="font-mono text-[10px] text-[#2d6a4f]">ARRAY Ø288mm</div>
+        </div>
+        
+        <div class="relative aspect-square max-w-[420px] mx-auto">
+          <svg id="pairs-svg" viewBox="0 0 500 500" class="w-full h-full"></svg>
+          <div class="absolute inset-0 grid place-items-center pointer-events-none">
+            <div class="text-center">
+              <div class="w-[120px] h-[120px] rounded-full border border-[#1b4332]/15 grid place-items-center bg-[#f8f6f0]/70 backdrop-blur-[1px]">
+                <div>
+                  <div class="font-mono text-[34px] font-semibold leading-none text-[#1b4332]">66</div>
+                  <div class="font-mono text-[10px] tracking-widest text-[#2d6a4f] mt-1">PAIRS</div>
+                  <div class="font-mono text-[10px] text-[#1b4332]/60">132 TOTAL</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="absolute bottom-2 left-2 right-2 flex justify-between font-mono text-[9px] text-[#2d6a4f]/80">
+            <span>PHASE-LOCKED</span>
+            <span id="pair-counter">PAIR 00-66</span>
+            <span>180° OPPOSITION</span>
+          </div>
+        </div>
+
+        <div class="mt-4 text-[13px] leading-relaxed text-[#1b4332]/80">
+          Toroids are arranged as diametrically opposed pairs. When Pair A compresses (6→1), Pair B expands (1→6) simultaneously, creating a standing wave node at the center. 66 concurrent nodes = coherent gravity field.
+        </div>
+      </div>
+
+      <!-- POWER FLOW -->
+      <div class="lg:col-span-7 hairline bg-[#f8f6f0]/90 p-5 md:p-6">
+        <h2 class="font-mono text-[13px] tracking-widest text-[#1b4332] mb-4">D. POWER GENERATION FLOW</h2>
+        
+        <div class="relative">
+          <!-- Flow track -->
+          <div class="hidden md:block absolute top-[52px] left-[56px] right-[56px] h-[2px] bg-[#1b4332]/15"></div>
+          <div id="flow-track" class="hidden md:block absolute top-[52px] left-[56px] h-[2px] w-0 bg-[#2d6a4f] transition-all duration-1000"></div>
+          
+          <div class="grid md:grid-cols-5 gap-4 md:gap-3">
+            <!-- Step 1 -->
+            <div class="relative">
+              <div class="w-12 h-12 rounded-full border-2 border-[#1b4332] bg-[#f8f6f0] grid place-items-center mx-auto md:mx-0 relative z-10">
+                <span class="font-mono text-[14px] font-semibold">1</span>
+                <div id="flow-dot-1" class="absolute -right-1 -top-1 w-2.5 h-2.5 bg-[#d00000] rounded-full opacity-0"></div>
+              </div>
+              <div class="mt-3 text-center md:text-left">
+                <div class="font-mono text-[11px] text-[#2d6a4f] tracking-wide">INTAKE</div>
+                <div class="text-[14px] font-medium leading-tight mt-0.5">Ambient Field</div>
+                <div class="text-[12px] text-[#1b4332]/70 mt-1">Triple input vortex at 120° creates differential pressure</div>
+              </div>
+            </div>
+            <!-- Step 2 -->
+            <div class="relative">
+              <div class="w-12 h-12 rounded-full border-2 border-[#1b4332] bg-[#f8f6f0] grid place-items-center mx-auto md:mx-0 relative z-10">
+                <span class="font-mono text-[14px] font-semibold">2</span>
+                <div id="flow-dot-2" class="absolute -right-1 -top-1 w-2.5 h-2.5 bg-[#d00000] rounded-full opacity-0"></div>
+              </div>
+              <div class="mt-3 text-center md:text-left">
+                <div class="font-mono text-[11px] text-[#d00000] tracking-wide">SYSTOLE</div>
+                <div class="text-[14px] font-medium leading-tight mt-0.5">6→3→1 Compression</div>
+                <div class="text-[12px] text-[#1b4332]/70 mt-1">Rotor shears plasma, volume decreases 6:1</div>
+              </div>
+            <!-- Step 3 -->
+            <div class="relative">
+              <div class="w-12 h-12 rounded-full border-2 border-[#1b4332] bg-[#1b4332] text-[#f8f6f0] grid place-items-center mx-auto md:mx-0 relative z-10 marker">
+                <span class="font-mono text-[14px] font-semibold">3</span>
+                <div id="flow-dot-3" class="absolute -right-1 -top-1 w-2.5 h-2.5 bg-[#95d5b2] rounded-full opacity-0 animate-ping"></div>
+              </div>
+              <div class="mt-3 text-center md:text-left">
+                <div class="font-mono text-[11px] text-[#1b4332] tracking-wide">COLLAPSE</div>
+                <div class="text-[14px] font-medium leading-tight mt-0.5">1+2=0 Zero-Point</div>
+                <div class="text-[12px] text-[#1b4332]/70 mt-1">Maximum potential, zero resistance. Energy extracted here.</div>
+              </div>
+            </div>
+            <!-- Step 4 -->
+            <div class="relative">
+              <div class="w-12 h-12 rounded-full border-2 border-[#1b4332] bg-[#f8f6f0] grid place-items-center mx-auto md:mx-0 relative z-10">
+                <span class="font-mono text-[14px] font-semibold">4</span>
+                <div id="flow-dot-4" class="absolute -right-1 -top-1 w-2.5 h-2.5 bg-[#2d6a4f] rounded-full opacity-0"></div>
+              </div>
+              <div class="mt-3 text-center md:text-left">
+                <div class="font-mono text-[11px] text-[#2d6a4f] tracking-wide">DIASTOLE</div>
+                <div class="text-[14px] font-medium leading-tight mt-0.5">1→3→6 Expansion</div>
+                <div class="text-[12px] text-[#1b4332]/70 mt-1">Coherent field rebounds, volume restores</div>
+              </div>
+            </div>
+            <!-- Step 5 -->
+            <div class="relative">
+              <div class="w-12 h-12 rounded-full border-2 border-[#1b4332] bg-[#f8f6f0] grid place-items-center mx-auto md:mx-0 relative z-10">
+                <span class="font-mono text-[14px] font-semibold">5</span>
+                <div id="flow-dot-5" class="absolute -right-1 -top-1 w-2.5 h-2.5 bg-[#2d6a4f] rounded-full opacity-0"></div>
+              </div>
+              <div class="mt-3 text-center md:text-left">
+                <div class="font-mono text-[11px] text-[#2d6a4f] tracking-wide">OUTPUT</div>
+                <div class="text-[14px] font-medium leading-tight mt-0.5">Power Tap</div>
+                <div class="text-[12px] text-[#1b4332]/70 mt-1">Triple exhaust at 60° offset, phased to next toroid</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-[#1b4332]/15 grid sm:grid-cols-3 gap-4 font-mono text-[11px]">
+          <div class="p-3 border border-[#1b4332]/15 bg-white/50">
+            <div class="text-[#2d6a4f] tracking-widest">EFFICIENCY</div>
+            <div class="text-[20px] text-[#1b4332] mt-1">>1.0 COP</div>
+            <div class="text-[10px] text-[#1b4332]/60 mt-0.5">Field-coupled, not closed</div>
+          </div>
+          <div class="p-3 border border-[#1b4332]/15 bg-white/50">
+            <div class="text-[#2d6a4f] tracking-widest">WAVEFORM</div>
+            <div class="text-[20px] text-[#1b4332] mt-1">SAWTOOTH</div>
+            <div class="text-[10px] text-[#1b4332]/60 mt-0.5">6/3/1 asymmetric</div>
+          </div>
+          <div class="p-3 border border-[#1b4332]/15 bg-white/50">
+            <div class="text-[#2d6a4f] tracking-widest">COUPLING</div>
+            <div class="text-[20px] text-[#1b4332] mt-1">PHASE-LOCK</div>
+            <div class="text-[10px] text-[#1b4332]/60 mt-0.5">66 pairs synchronized</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER NOTES -->
+    <section class="mt-6 hairline bg-[#f8f6f0]/70 p-4">
+      <div class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[10px] text-[#2d6a4f]">
+        <div>DOCUMENT: ROOT0-L1.14-TPM</div>
+        <div>DWG NO: 132-TE-0614</div>
+        <div>MATERIAL: FIELD-GRADE ALLOY / IONIZED XENON</div>
+        <div>TOLERANCE: ±0.001mm</div>
+        <div class="ml-auto text-[#1b4332]">FOREST GREEN #1b4332 • BONE WHITE #f8f6f0</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const pulseBtn = document.getElementById('pulseBtn');
+  const rotorGroup = document.getElementById('rotor-group');
+  const plasma = document.getElementById('plasma');
+  const coreOuter = document.getElementById('core-outer');
+  const coreInner = document.getElementById('core-inner');
+  const coreHalo = document.getElementById('core-halo');
+  const phaseLabel = document.getElementById('phase-label');
+  const phaseValue = document.getElementById('phase-value');
+  const phaseBar = document.getElementById('phase-bar');
+  const pairCounter = document.getElementById('pair-counter');
+  const flowTrack = document.getElementById('flow-track');
+
+  let isPulsing = false;
+  let step = 0;
+  let interval = null;
+
+  const sequence = [
+    {phase:'SYSTOLE • COMPRESSION', val:6, short:'6', pct:15, radius:46, plasma:58, color:'#d00000'},
+    {phase:'SYSTOLE • MID', val:3, short:'3', pct:32, radius:38, plasma:50, color:'#d00000'},
+    {phase:'SYSTOLE • PRE-COLLAPSE', val:1, short:'1', pct:48, radius:28, plasma:42, color:'#d00000'},
+    {phase:'COLLAPSE • 1+2=0', val:0, short:'0', pct:50, radius:18, plasma:32, color:'#1b4332'},
+    {phase:'DIASTOLE • EXPANSION', val:1, short:'1', pct:52, radius:28, plasma:42, color:'#2d6a4f'},
+    {phase:'DIASTOLE • MID', val:3, short:'3', pct:68, radius:38, plasma:50, color:'#2d6a4f'},
+    {phase:'DIASTOLE • FULL', val:6, short:'6', pct:85, radius:46, plasma:58, color:'#2d6a4f'},
+  ];
+
+  // Build 66 pairs
+  const svg = document.getElementById('pairs-svg');
+  const cx=250, cy=250, R=205, N=132;
+  const pairs = [];
+  for(let i=0;i<N;i++){
+    const a = (i/N)*Math.PI*2 - Math.PI/2;
+    const x = cx + R*Math.cos(a);
+    const y = cy + R*Math.sin(a);
+    const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('cx',x); dot.setAttribute('cy',y);
+    dot.setAttribute('r', i%11===0 ? 3.2 : 2.3);
+    dot.setAttribute('fill', '#1b4332');
+    dot.setAttribute('opacity', '0.85');
+    dot.setAttribute('data-i', i);
+    svg.appendChild(dot);
+    if(i<66){
+      const a2 = a + Math.PI;
+      const x2 = cx + R*Math.cos(a2);
+      const y2 = cy + R*Math.sin(a2);
+      const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1',x); line.setAttribute('y1',y);
+      line.setAttribute('x2',x2); line.setAttribute('y2',y2);
+      line.setAttribute('stroke', '#1b4332');
+      line.setAttribute('stroke-opacity','0.07');
+      line.setAttribute('stroke-width','1');
+      line.setAttribute('id',`pair-${i}`);
+      svg.insertBefore(line, svg.firstChild);
+      pairs.push({line, i});
+    }
+  }
+  // center rings
+  const center = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  center.setAttribute('cx',cx); center.setAttribute('cy',cy); center.setAttribute('r','78');
+  center.setAttribute('fill','none'); center.setAttribute('stroke','#1b4332'); center.setAttribute('stroke-opacity','0.1'); center.setAttribute('stroke-width','1');
+  svg.appendChild(center);
+
+  function updateVisuals(s){
+    phaseLabel.textContent = s.phase;
+    phaseValue.textContent = s.short;
+    phaseValue.style.color = s.color;
+    phaseBar.style.width = s.pct + '%';
+    phaseBar.style.background = s.color;
+    
+    coreOuter.setAttribute('r', s.radius);
+    coreOuter.setAttribute('stroke', s.color);
+    coreInner.setAttribute('fill', s.color);
+    coreInner.setAttribute('r', 14 + s.val*1.2);
+    coreHalo.setAttribute('r', s.radius + 10);
+    coreHalo.setAttribute('stroke', s.color);
+    
+    plasma.setAttribute('r', s.plasma);
+    plasma.setAttribute('stroke', s.color);
+
+    // flow dots
+    document.querySelectorAll('[id^="flow-dot-"]').forEach(d=>d.style.opacity='0');
+    const flowMap = {6:'1',3:'2',1:'3',0:'3'};
+    const active = flowMap[s.val] || '4';
+    const dot = document.getElementById(`flow-dot-${active}`);
+    if(dot) dot.style.opacity = '1';
+    if(s.val===0) document.getElementById('flow-dot-3').style.opacity='1';
+    if(s.val===6 && s.phase.includes('DIASTOLE')) document.getElementById('flow-dot-5').style.opacity='1';
+
+    flowTrack.style.width = s.pct + '%';
+
+    // pairs
+    const pairIdx = step % 66;
+    pairs.forEach((p,idx)=>{
+      const activePair = idx===pairIdx || idx===(pairIdx+33)%66;
+      p.line.setAttribute('stroke-opacity', activePair ? '0.65' : '0.07');
+      p.line.setAttribute('stroke', activePair ? s.color : '#1b4332');
+      p.line.setAttribute('stroke-width', activePair ? '1.6' : '1');
+    });
+    pairCounter.textContent = `PAIR ${String(pairIdx).padStart(2,'0')}-${String(pairIdx+66).padStart(2,'0')}`;
+  }
+
+  function tick(){
+    const s = sequence[step % sequence.length];
+    updateVisuals(s);
+    step++;
+  }
+
+  pulseBtn.addEventListener('click', ()=>{
+    isPulsing = !isPulsing;
+    pulseBtn.classList.toggle('active', isPulsing);
+    if(isPulsing){
+      pulseBtn.innerHTML = '<span class="w-2 h-2 rounded-full bg-[#95d5b2] animate-ping absolute"></span><span class="w-2 h-2 rounded-full bg-[#95d5b2] relative"></span>PULSING';
+      rotorGroup.classList.remove('spin-slow');
+      rotorGroup.classList.add('spin-fast');
+      plasma.classList.add('pulse');
+      tick();
+      interval = setInterval(tick, 720);
+    }else{
+      pulseBtn.innerHTML = '<span class="w-2 h-2 rounded-full bg-[#95d5b2]"></span>INITIATE PULSE';
+      rotorGroup.classList.add('spin-slow');
+      rotorGroup.classList.remove('spin-fast');
+      plasma.classList.remove('pulse');
+      clearInterval(interval);
+      phaseLabel.textContent = 'IDLE';
+      phaseValue.textContent = '—';
+      phaseValue.style.color = '#1b4332';
+      phaseBar.style.width = '0%';
+      flowTrack.style.width = '0%';
+      document.querySelectorAll('[id^="flow-dot-"]').forEach(d=>d.style.opacity='0');
+      pairs.forEach(p=>{p.line.setAttribute('stroke-opacity','0.07'); p.line.setAttribute('stroke-width','1');});
+      pairCounter.textContent = 'PAIR 00-66';
+    }
+  });
+
+  // Initial idle visual
+  updateVisuals(sequence[3]);
+  phaseLabel.textContent = 'IDLE';
+  phaseValue.textContent = '—';
+});
+</script>
+</body>
+</html>

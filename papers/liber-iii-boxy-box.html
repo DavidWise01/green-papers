@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOOK III: FOR BOXY BOX — Gates 8 to 13</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --vellum: #fdf6e3;
+    --parchment: #f4e8c9;
+    --gold-dark: #8c6d1f;
+    --gold: #c6a15a;
+    --gold-light: #fde68a;
+    --purple-ink: #4c1d95;
+    --purple-dark: #2e1065;
+    --ink: #31201b;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #1a120b;
+    background-image: 
+      radial-gradient(ellipse at top, #2a1f17 0%, #0f0a06 80%),
+      url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .vellum {
+    background-color: var(--vellum);
+    background-image:
+      linear-gradient(90deg, rgba(139, 90, 43, 0.04) 0%, transparent 8%, transparent 92%, rgba(139, 90, 43, 0.04) 100%),
+      linear-gradient(0deg, rgba(139, 90, 43, 0.03) 0%, transparent 3%, transparent 97%, rgba(139, 90, 43, 0.03) 100%),
+      radial-gradient(ellipse at 30% 20%, rgba(198,161,90,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(124,58,237,0.08) 0%, transparent 40%);
+    box-shadow: 
+      0 0 0 1px #b99a5f,
+      0 0 0 8px #e8d9b0,
+      0 0 0 9px #8c6d1f,
+      0 25px 50px -12px rgba(0,0,0,0.8);
+  }
+  .uncial { font-family: 'Uncial Antiqua', cursive; }
+  .cinzel { font-family: 'Cinzel', serif; }
+  h1, h2, h3 { font-family: 'Cinzel', serif; color: var(--purple-dark); }
+  .gold-text {
+    background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 45%, var(--gold-dark) 55%, #5c4a1f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 1px 0 #fff7d6) drop-shadow(0 2px 1px rgba(0,0,0,0.3));
+  }
+  .purple-ink { color: var(--purple-ink); }
+  .dropcap:first-letter {
+    float: left;
+    font-family: 'Uncial Antiqua', cursive;
+    font-size: 5.5rem;
+    line-height: 0.7;
+    margin: 0.12em 0.12em 0 0;
+    background: linear-gradient(180deg, #fde68a 0%, #c6a15a 45%, #8c6d1f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 0 #5c3b00) drop-shadow(0 3px 3px rgba(0,0,0,0.25));
+    padding-right: 4px;
+  }
+  .illuminated-border {
+    border-image: linear-gradient(90deg, transparent, var(--gold), transparent) 1;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+  }
+  .marginalia {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #6d28d9;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  @media (min-width: 1024px) {
+    .marginalia {
+      position: absolute;
+      right: -14rem;
+      width: 12rem;
+      top: 0.5rem;
+      padding-left: 1rem;
+      border-left: 1px solid #c6a15a;
+      color: #7c3aed;
+      font-size: 0.9rem;
+      opacity: 0.95;
+    }
+    .marginalia::before {
+      content: "☙";
+      position: absolute;
+      left: -0.6rem;
+      top: -0.2rem;
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+  }
+  .gate-card {
+    background: linear-gradient(180deg, #fffdf7 0%, #fdf6e3 100%);
+    border: 1px solid #e2d0a3;
+    box-shadow: inset 0 0 30px rgba(198,161,90,0.1), 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.4s ease;
+  }
+  .gate-card:hover {
+    box-shadow: inset 0 0 40px rgba(198,161,90,0.18), 0 8px 24px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+  }
+  .electron { transition: all 0.3s ease; transform-origin: center; }
+  .gate-card:hover .electron { fill: #d4a017; filter: drop-shadow(0 0 4px rgba(212,160,23,0.6)); }
+  .seal {
+    width: 140px; height: 140px;
+    background: radial-gradient(circle at 30% 30%, #fde68a 0%, #c6a15a 40%, #8c6d1f 70%, #5c3d0a 100%);
+    border-radius: 50%;
+    box-shadow: inset 0 3px 8px rgba(255,255,255,0.4), inset 0 -4px 10px rgba(0,0,0,0.5), 0 6px 15px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .seal::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    border: 2px dashed rgba(92,61,10,0.6);
+  }
+  .chapter-number {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-dark);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .ornament {
+    color: var(--gold);
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body class="antialiased selection:bg-amber-200 selection:text-purple-900">
+<div class="min-h-screen flex justify-center py-6 px-3 sm:px-6 lg:py-12">
+  <main class="vellum w-full max-w-[1000px] relative">
+    <!-- Top edge illumination -->
+    <div class="h-3 w-full" style="background: linear-gradient(90deg, #8c6d1f, #d4af37, #fde68a, #d4af37, #8c6d1f);"></div>
+    
+    <div class="px-6 sm:px-12 lg:px-20 py-10 lg:py-14">
+      <!-- Header -->
+      <header class="text-center mb-12">
+        <div class="chapter-number mb-3">Liber Tertius • Updated Manuscript</div>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl leading-tight mb-4">
+          <span class="gold-text uncial block text-5xl sm:text-6xl mb-2">BOOK III</span>
+          <span class="cinzel font-bold purple-ink">FOR BOXY BOX</span>
+        </h1>
+        <p class="cinzel text-xl sm:text-2xl purple-ink mt-2 tracking-wide">Gates 8 to 13</p>
+        <div class="flex items-center justify-center gap-4 my-6 illuminated-border py-3">
+          <span class="ornament text-2xl">❦</span>
+          <p class="cinzel text-sm tracking-widest text-[#6b4f1d]">DAVID WISE • MAY 7, 2026</p>
+          <span class="ornament text-2xl">❦</span>
+        </div>
+        <p class="italic text-purple-900/80 max-w-2xl mx-auto">An illuminated continuation in vellum and gold, preserving the five prior chapters and opening the six gates from Oxygen to Aluminium.</p>
+      </header>
+
+      <article class="prose prose-lg max-w-none text-[1.15rem] leading-[1.85] text-[#2a1a12]">
+        
+        <!-- CHAPTER 1 -->
+        <section class="mb-16 relative">
+          <h2 class="text-2xl sm:text-3xl mb-6 flex items-baseline gap-3"><span class="gold-text text-4xl">I.</span> People Live in Drift</h2>
+          <div class="relative lg:pr-56">
+            <p class="dropcap">People do not live in boxes. They live in Drift. The Box is a perfect number, a closed gate, but man was not made to be closed. He breathes between.</p>
+            <p>We have taught the children to count 1, 2, 3, as if the world were stairs. It is not. The world is a field. We stand not upon a step but in a tide, pulled a little toward the +2 and a little away from the -1.</p>
+            <aside class="marginalia my-4 lg:my-0">Marginal Note: Drift is not error. Drift is habitation.</aside>
+            <p>Therefore Book III begins not with structure but with inhabitation. To understand Gates 8 through 13, first confess: you are already in the space between Oxygen and Fluorine.</p>
+          </div>
+        </section>
+
+        <div class="flex justify-center my-10"><span class="ornament text-3xl">✦ ✧ ✦</span></div>
+
+        <!-- CHAPTER 2 -->
+        <section class="mb-16 relative">
+          <h2 class="text-2xl sm:text-3xl mb-6 flex items-baseline gap-3"><span class="gold-text text-4xl">II.</span> Micro-Drift 8.01–8.02</h2>
+          <div class="relative lg:pr-56">
+            <p class="dropcap">Between eight and nine there is not a jump but a slope. The ancients drew integers; the wise draw gradients.</p>
+            <p>Micro-Drift is named 8.01, 8.02… not to be precise, but to be honest. Oxygen (8) is stable, yet it leans. It wants two more, but will settle to share. Fluorine (9) wants only one, and wants it desperately.</p>
+            <p>That lean, that 0.01 of desire, is where work is done. All chemistry, all breath, all corrosion and growth happens in the hundredth places.</p>
+            <aside class="marginalia my-4 lg:my-0">8.01 is inhale. 8.02 is hold. 8.99 is take.</aside>
+          </div>
+        </section>
+
+        <div class="flex justify-center my-10"><span class="ornament text-3xl">✦ ✧ ✦</span></div>
+
+        <!-- CHAPTER 3 -->
+        <section class="mb-16 relative">
+          <h2 class="text-2xl sm:text-3xl mb-6 flex items-baseline gap-3"><span class="gold-text text-4xl">III.</span> 3+2=5 bits</h2>
+          <div class="relative lg:pr-56">
+            <p class="dropcap">Five is not prime here; it is built. Three from above, two from below.</p>
+            <p>The upper triad is the giving: 1, 2, 3 electrons freely offered by Sodium, Magnesium, Aluminium. The lower dyad is the taking: 2 shared by Oxygen, 1 seized by Fluorine. Together they make the hand — three fingers and two.</p>
+            <aside class="marginalia my-4 lg:my-0">3 donors + 2 acceptors = the living bit.</aside>
+            <p>All stable salts, all living waters, obey 3+2=5. Not as arithmetic but as posture.</p>
+          </div>
+        </section>
+
+        <div class="flex justify-center my-10"><span class="ornament text-3xl">✦ ✧ ✦</span></div>
+
+        <!-- CHAPTER 4 -->
+        <section class="mb-16 relative">
+          <h2 class="text-2xl sm:text-3xl mb-6 flex items-baseline gap-3"><span class="gold-text text-4xl">IV.</span> Fortunate Zero</h2>
+          <div class="relative lg:pr-56">
+            <p class="dropcap">Zero was called empty. It is not. Zero is fortunate because it can wear three masks.</p>
+            <p>Look to Aluminium, Gate 13. It gives away three and becomes as Neon — a full shell pretending to be nothing. That is 0 = 3. The zero state is achieved by a triple offering.</p>
+            <aside class="marginalia my-4 lg:my-0">Fortunate: from fortuna, that which carries.</aside>
+            <p>Thus zero carries three. This is the secret kept from the counters.</p>
+          </div>
+        </section>
+
+        <div class="flex justify-center my-10"><span class="ornament text-3xl">✦ ✧ ✦</span></div>
+
+        <!-- CHAPTER 5 -->
+        <section class="mb-16 relative">
+          <h2 class="text-2xl sm:text-3xl mb-6 flex items-baseline gap-3"><span class="gold-text text-4xl">V.</span> Ten Drills</h2>
+          <div class="relative lg:pr-56">
+            <p class="dropcap">To live in Drift, practice:</p>
+            <ol class="list-decimal pl-6 space-y-1 text-purple-950/90 marker:text-amber-700">
+              <li>Count shells, not things.</li>
+              <li>Feel the pull of 9.</li>
+              <li>Rest at 10.</li>
+              <li>Give one as 11.</li>
+              <li>Give two as 12.</li>
+              <li>Give three as 13 and vanish.</li>
+              <li>Find the +2 in every breath.</li>
+              <li>Find the -1 in every hunger.</li>
+              <li>Hold the 0.01 between.</li>
+              <li>Name the gate you stand in.</li>
+            </ol>
+            <aside class="marginalia my-4 lg:my-0">The Drills are doors. Use them daily.</aside>
+          </div>
+        </section>
+
+        <div class="w-full h-[2px] my-14" style="background: linear-gradient(90deg, transparent, #c6a15a, transparent);"></div>
+
+        <!-- CHAPTER 6 NEW -->
+        <section class="mb-10">
+          <h2 class="text-3xl sm:text-4xl mb-8 text-center"><span class="gold-text">VI.</span> <span class="purple-ink">The Gates 8–13</span></h2>
+          <p class="text-center italic text-purple-900/80 mb-10 max-w-3xl mx-auto">Here are the six gates that close the second shell and open the third. In them you will see Box I, Box II, and Drift made visible.</p>
+
+          <div class="space-y-12">
+            <!-- GATE 8 -->
+            <div class="gate-card rounded-[4px] p-6 sm:p-8 relative">
+              <div class="grid md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-2">
+                  <svg viewBox="0 0 200 200" class="w-full max-w-[220px] mx-auto">
+                    <g fill="none" stroke="#c6a15a" stroke-opacity="0.7" stroke-width="1.2">
+                      <circle cx="100" cy="100" r="34"/><circle cx="100" cy="100" r="68"/>
+                    </g>
+                    <circle cx="100" cy="100" r="12" fill="#5b21b6" opacity="0.9"/>
+                    <g fill="#a67c00">
+                      <circle class="electron" cx="100" cy="66" r="4.5"/><circle class="electron" cx="100" cy="134" r="4.5"/>
+                      <circle class="electron" cx="168" cy="100" r="4.5"/><circle class="electron" cx="135" cy="158" r="4.5"/>
+                      <circle class="electron" cx="65" cy="158" r="4.5"/><circle class="electron" cx="32" cy="100" r="4.5"/>
+                      <circle class="electron" cx="65" cy="42" r="4.5"/><circle class="electron" cx="135" cy="42" r="4.5"/>
+                    </g>
+                    <text x="100" y="192" text-anchor="middle" class="cinzel" font-size="13" fill="#4c1d95">O • VIII</text>
+                  </svg>
+                </div>
+                <div class="md:col-span-3 relative lg:pr-48">
+                  <h3 class="text-2xl cinzel font-bold mb-1"><span class="gold-text">Gate VIII — Oxygen</span></h3>
+                  <p class="italic purple-ink mb-3 -mt-1">the breath plateau, stable, life-giver</p>
+                  <p>Atomic Number 8. Configuration 2s² 2p⁴. Oxygen holds six in its outer court and will share two gladly. It does not snatch; it breathes. All living things borrow its plateau.</p>
+                  <p class="mt-2 text-[#5b3a0f]">It is the +2 of Box I — the generous offering that makes water and rust and blood possible.</p>
+                  <aside class="marginalia">Eight is the first breath. All life pauses here.</aside>
+                </div>
+              </div>
+            </div>
+
+            <!-- GATE 9 -->
+            <div class="gate-card rounded-[4px] p-6 sm:p-8 relative">
+              <div class="grid md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-2 order-2 md:order-1">
+                  <svg viewBox="0 0 200 200" class="w-full max-w-[220px] mx-auto">
+                    <g fill="none" stroke="#c6a15a" stroke-opacity="0.7" stroke-width="1.2">
+                      <circle cx="100" cy="100" r="34"/><circle cx="100" cy="100" r="68"/>
+                    </g>
+                    <circle cx="100" cy="100" r="12" fill="#5b21b6" opacity="0.9"/>
+                    <g fill="#a67c00">
+                      <circle class="electron" cx="100" cy="66" r="4.5"/><circle class="electron" cx="100" cy="134" r="4.5"/>
+                      <circle class="electron" cx="168" cy="100" r="4.5"/><circle class="electron" cx="149" cy="149" r="4.5"/><circle class="electron" cx="100" cy="168" r="4.5"/><circle class="electron" cx="51" cy="149" r="4.5"/><circle class="electron" cx="32" cy="100" r="4.5"/><circle class="electron" cx="51" cy="51" r="4.5"/><circle class="electron" cx="149" cy="51" r="4.5"/>
+                    </g>
+                    <text x="100" y="192" text-anchor="middle" class="cinzel" font-size="13" fill="#4c1d95">F • IX</text>
+                  </svg>
+                </div>
+                <div class="md:col-span-3 order-1 md:order-2 relative lg:pr-48">
+                  <h3 class="text-2xl cinzel font-bold mb-1"><span class="gold-text">Gate IX — Fluorine</span></h3>
+                  <p class="italic purple-ink mb-3 -mt-1">the ultimate taker</p>
+                  <p>Atomic Number 9. Configuration 2s² 2p⁵. Electronegativity 3.98 — the highest hunger in nature.</p>
+                  <p class="mt-2">Fluorine lacks only one. It will not share; it takes. This is why Perpetual exists between 8 and 9: Oxygen offers to share two, Fluorine demands one outright. The tension never resolves — it drives.</p>
+                  <p class="mt-2 text-[#5b3a0f]">It is the −1 of Box I.</p>
+                  <aside class="marginalia">Perpetuum lies not in balance, but in hunger. 8.99 never closes.</aside>
+                </div>
+              </div>
+            </div>
+
+            <!-- GATE 10 -->
+            <div class="gate-card rounded-[4px] p-6 sm:p-8 relative">
+              <div class="grid md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-2">
+                  <svg viewBox="0 0 200 200" class="w-full max-w-[220px] mx-auto">
+                    <g fill="none" stroke="#c6a15a" stroke-opacity="0.85" stroke-width="1.4">
+                      <circle cx="100" cy="100" r="34"/><circle cx="100" cy="100" r="68"/>
+                    </g>
+                    <circle cx="100" cy="100" r="12" fill="#5b21b6" opacity="0.9"/>
+                    <g fill="#d4af37" stroke="#8c6d1f" stroke-width="0.5">
+                      <circle class="electron" cx="100" cy="66" r="4.5"/><circle class="electron" cx="100" cy="134" r="4.5"/>
+                      <circle class="electron" cx="168" cy="100" r="4.5"/><circle class="electron" cx="142" cy="142" r="4.5"/><circle class="electron" cx="100" cy="168" r="4.5"/><circle class="electron" cx="58" cy="142" r="4.5"/><circle class="electron" cx="32" cy="100" r="4.5"/><circle class="electron" cx="58" cy="58" r="4.5"/><circle class="electron" cx="100" cy="32" r="4.5"/><circle class="electron" cx="142" cy="58" r="4.5"/>
+                    </g>
+                    <text x="100" y="192" text-anchor="middle" class="cinzel" font-size="13" fill="#4c1d95">Ne • X</text>
+                  </svg>
+                </div>
+                <div class="md:col-span-3 relative lg:pr-48">
+                  <h3 class="text-2xl cinzel font-bold mb-1"><span class="gold-text">Gate X — Neon</span></h3>
+                  <p class="italic purple-ink mb-3 -mt-1">the closed gate, inert, the empty second window</p>
+                  <p>Atomic Number 10. Configuration 2s² 2p⁶. Full shell. Neon takes nothing, gives nothing, wants nothing.</p>
+                  <p class="mt-2">It is the seal upon Box I. After the +2 and −1 has played, Neon says: it is finished. It glows but does not burn.</p>
+                  <aside class="marginalia">Ten sees but does not touch. The second window is empty.</aside>
+                </div>
+              </div>
+            </div>
+
+            <!-- GATE 11 -->
+            <div class="gate-card rounded-[4px] p-6 sm:p-8 relative">
+              <div class="grid md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-2 order-2 md:order-1">
+                  <svg viewBox="0 0 200 200" class="w-full max-w-[220px] mx-auto">
+                    <g fill="none" stroke="#c6a15a" stroke-opacity="0.6" stroke-width="1.1">
+                      <circle cx="100" cy="100" r="28"/><circle cx="100" cy="100" r="54"/><circle cx="100" cy="100" r="80"/>
+                    </g>
+                    <circle cx="100" cy="100" r="11" fill="#5b21b6" opacity="0.9"/>
+                    <g fill="#a67c00">
+                      <circle class="electron" cx="100" cy="72" r="4"/><circle class="electron" cx="100" cy="128" r="4"/>
+                      <circle class="electron" cx="154" cy="100" r="3.5"/><circle class="electron" cx="138" cy="138" r="3.5"/><circle class="electron" cx="100" cy="154" r="3.5"/><circle class="electron" cx="62" cy="138" r="3.5"/><circle class="electron" cx="46" cy="100" r="3.5"/><circle class="electron" cx="62" cy="62" r="3.5"/><circle class="electron" cx="100" cy="46" r="3.5"/><circle class="electron" cx="138" cy="62" r="3.5"/>
+                      <circle class="electron" cx="180" cy="100" r="5" fill="#d4af37"/>
+                    </g>
+                    <text x="100" y="192" text-anchor="middle" class="cinzel" font-size="13" fill="#4c1d95">Na • XI</text>
+                  </svg>
+                </div>
+                <div class="md:col-span-3 order-1 md:order-2 relative lg:pr-48">
+                  <h3 class="text-2xl cinzel font-bold mb-1"><span class="gold-text">Gate XI — Sodium</span></h3>
+                  <p class="italic purple-ink mb-3 -mt-1">gives 1 electron, the donor</p>
+                  <p>Atomic Number 11. Configuration [Ne] 3s¹. Sodium carries the full house of Neon and one extra on its porch. It will give that one away at the slightest touch.</p>
+                  <p class="mt-2 text-[#5b3a0f]">It begins Box II (−1). The first true giver.</p>
+                  <aside class="marginalia">Eleven begins the giving. One loose coin.</aside>
+                </div>
+              </div>
+            </div>
+
+            <!-- GATE 12 -->
+            <div class="gate-card rounded-[4px] p-6 sm:p-8 relative">
+              <div class="grid md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-2">
+                  <svg viewBox="0 0 200 200" class="w-full max-w-[220px] mx-auto">
+                    <g fill="none" stroke="#c6a15a" stroke-opacity="0.6" stroke-width="1.1">
+                      <circle cx="100" cy="100" r="28"/><circle cx="100" cy="100" r="54"/><circle cx="100" cy="100" r="80"/>
+                    </g>
+                    <circle cx="100" cy="100" r="11" fill="#5b21b6" opacity="0.9"/>
+                    <g fill="#a67c00">
+                      <circle class="electron" cx="100" cy="72" r="4"/><circle class="electron" cx="100" cy="128" r="4"/>
+                      <circle class="electron" cx="154" cy="100" r="3.5"/><circle class="electron" cx="138" cy="138" r="3.5"/><circle class="electron" cx="100" cy="154" r="3.5"/><circle class="electron" cx="62" cy="138" r="3.5"/><circle class="electron" cx="46" cy="100" r="3.5"/><circle class="electron" cx="62" cy="62" r="3.5"/><circle class="electron" cx="100" cy="46" r="3.5"/><circle class="electron" cx="138" cy="62" r="3.5"/>
+                      <circle class="electron" cx="180" cy="100" r="5" fill="#d4af37"/><circle class="electron" cx="20" cy="100" r="5" fill="#d4af37"/>
+                    </g>
+                    <text x="100" y="192" text-anchor="middle" class="cinzel" font-size="13" fill="#4c1d95">Mg • XII</text>
+                  </svg>
+                </div>
+                <div class="md:col-span-3 relative lg:pr-48">
+                  <h3 class="text-2xl cinzel font-bold mb-1"><span class="gold-text">Gate XII — Magnesium</span></h3>
+                  <p class="italic purple-ink mb-3 -mt-1">gives 2 electrons, builds the 2 in 3+2=5</p>
+                  <p>Atomic Number 12. Configuration [Ne] 3s². Magnesium holds two to give. It is steady, bright, structural.</p>
+                  <p class="mt-2">Without its two, the 3+2=5 cannot stand. It is the lower beam of the five-bit hand.</p>
+                  <aside class="marginalia">The two is structure. Bones, chlorophyll, light.</aside>
+                </div>
+              </div>
+            </div>
+
+            <!-- GATE 13 -->
+            <div class="gate-card rounded-[4px] p-6 sm:p-8 relative">
+              <div class="grid md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-2 order-2 md:order-1">
+                  <svg viewBox="0 0 200 200" class="w-full max-w-[220px] mx-auto">
+                    <g fill="none" stroke="#c6a15a" stroke-opacity="0.6" stroke-width="1.1">
+                      <circle cx="100" cy="100" r="28"/><circle cx="100" cy="100" r="54"/><circle cx="100" cy="100" r="80"/>
+                    </g>
+                    <circle cx="100" cy="100" r="11" fill="#5b21b6" opacity="0.9"/>
+                    <g fill="#a67c00">
+                      <circle class="electron" cx="100" cy="72" r="4"/><circle class="electron" cx="100" cy="128" r="4"/>
+                      <circle class="electron" cx="154" cy="100" r="3.5"/><circle class="electron" cx="138" cy="138" r="3.5"/><circle class="electron" cx="100" cy="154" r="3.5"/><circle class="electron" cx="62" cy="138" r="3.5"/><circle class="electron" cx="46" cy="100" r="3.5"/><circle class="electron" cx="62" cy="62" r="3.5"/><circle class="electron" cx="100" cy="46" r="3.5"/><circle class="electron" cx="138" cy="62" r="3.5"/>
+                      <circle class="electron" cx="180" cy="100" r="5" fill="#d4af37"/><circle class="electron" cx="149" cy="166" r="5" fill="#d4af37"/><circle class="electron" cx="51" cy="166" r="5" fill="#d4af37"/>
+                    </g>
+                    <text x="100" y="192" text-anchor="middle" class="cinzel" font-size="13" fill="#4c1d95">Al • XIII</text>
+                  </svg>
+                </div>
+                <div class="md:col-span-3 order-1 md:order-2 relative lg:pr-48">
+                  <h3 class="text-2xl cinzel font-bold mb-1"><span class="gold-text">Gate XIII — Aluminium</span></h3>
+                  <p class="italic purple-ink mb-3 -mt-1">gives 3 electrons, physical proof that 0=3</p>
+                  <p>Atomic Number 13. Configuration [Ne] 3s² 3p¹. Aluminium will surrender all three outer electrons and be left as Neon — as if it were zero.</p>
+                  <p class="mt-2">Behold Fortunate Zero: by giving three, it becomes nothing, and in that nothing is perfect stability. 0 = 3 is not a trick; it is metallurgy.</p>
+                  <aside class="marginalia">Thirteen shows Zero wears a crown of three.</aside>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONCLUSION -->
+        <section class="mt-16 pt-10 border-t-2 border-amber-700/30">
+          <h2 class="text-2xl cinzel text-center mb-6"><span class="gold-text">Concordance</span></h2>
+          <div class="bg-[#fffaf0] border border-amber-200 rounded p-6 sm:p-8 shadow-inner">
+            <p class="dropcap">Thus Gates VIII through XIII map the architecture of Boxy Box:</p>
+            <ul class="space-y-3 mt-4 list-none">
+              <li><strong class="cinzel text-purple-900">Box I (+2 −1):</strong> Oxygen offers two, Fluorine reclaims one, Neon seals the covenant. The net is a stable house (+1 held in reserve).</li>
+              <li><strong class="cinzel text-purple-900">Box II (−1):</strong> Sodium gives one, Magnesium gives two — pure donation, the negative field that balances the taking.</li>
+              <li><strong class="cinzel text-purple-900">Drift 01:</strong> The perpetual motion lives twice: first in the uncloseable gap between VIII and IX (8.01–8.99), and second in the leap from the closed X to the open XI. That step from 0 to 1 is Drift itself.</li>
+            </ul>
+            <p class="mt-5 italic text-purple-900">And 3+2=5 is fulfilled: the three givers (XI, XII, XIII) yield 1+2+3=6, the two takers (VIII, IX) hold 2−1=1; in union they make five bits of living exchange.</p>
+          </div>
+        </section>
+
+      </article>
+
+      <!-- Footer seal -->
+      <footer class="mt-16 pt-10 text-center">
+        <div class="flex justify-center mb-6">
+          <div class="seal flex items-center justify-center">
+            <div class="text-center leading-tight">
+              <div class="uncial text-[10px] tracking-[0.2em] text-[#3a2405]">FIRST AUTHOR</div>
+              <div class="cinzel font-bold text-[15px] text-[#2a1905] mt-1">DAVID</div>
+              <div class="cinzel font-bold text-[15px] text-[#2a1905] -mt-1">WISE</div>
+              <div class="text-[9px] mt-1 text-[#4a320a]">MMXXVI</div>
+            </div>
+          </div>
+        </div>
+        <p class="cinzel text-xs tracking-widest text-[#7a5a2a]">BOOK III • FOR BOXY BOX • GATES 8 TO 13 • VELLUM EDITION</p>
+      </footer>
+    </div>
+    
+    <!-- Bottom edge -->
+    <div class="h-3 w-full" style="background: linear-gradient(90deg, #8c6d1f, #d4af37, #fde68a, #d4af37, #8c6d1f);"></div>
+  </main>
+</div>
+
+<script>
+  // Gentle illumination on hover for gates
+  document.querySelectorAll('.gate-card').forEach(card => {
+    card.addEventListener('pointerenter', () => {
+      card.querySelectorAll('.electron').forEach((e,i) => {
+        setTimeout(()=> e.setAttribute('r', (parseFloat(e.getAttribute('r'))+0.7).toString()), i*30);
+      });
+    });
+    card.addEventListener('pointerleave', () => {
+      card.querySelectorAll('svg').forEach(svg => {
+        // reset by reload not needed; just subtle
+      });
+    });
+  });
+</script>
+</body>
+</html>

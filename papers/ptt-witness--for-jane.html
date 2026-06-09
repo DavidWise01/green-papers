@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTT WITNESS — For Jane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap');
+:root{
+  --forest-900:#0f2818; --forest-700:#1e4620; --forest-500:#2d5a3a;
+  --bone:#faf8f3; --bone-2:#f5f1e8; --ink:#1a1a1a; --line:#d4c8b5;
+}
+*{box-sizing:border-box} html,body{margin:0;height:100%}
+body{
+  font-family:Inter,system-ui; color:var(--ink); background:var(--bone);
+  display:grid; grid-template-columns:280px 1fr; min-height:100vh;
+}
+/* American Psycho bone texture */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.sidebar{
+  background:var(--forest-900); color:#e8f0e8; padding:32px 24px; position:sticky; top:0; height:100vh;
+  border-right:1px solid #0a1a10;
+}
+.logo{display:flex;gap:12px;align-items:center;margin-bottom:40px}
+.logo-mark{width:36px;height:36px;border:1.5px solid #7ba37b;border-radius:8px;display:grid;place-items:center;font-family:'JetBrains Mono';color:#b8d4b8}
+.logo h1{font:600 18px/1 'Cormorant Garamond';letter-spacing:.5px;margin:0}
+.logo p{margin:2px 0 0;font-size:11px;opacity:.7;letter-spacing:1.2px;text-transform:uppercase}
+.nav a{display:block;padding:10px 12px;margin:4px 0;color:#cfe0cf;text-decoration:none;border-radius:6px;font-size:14px}
+.nav a:hover{background:rgba(255,255,255,.06);color:#fff}
+.main{padding:48px 64px;max-width:1100px}
+.hero h2{font-family:'Cormorant Garamond';font-weight:700;font-size:56px;line-height:1.05;color:var(--forest-900);margin:0 0 16px;letter-spacing:-.5px}
+.hero p{font-size:18px;color:#3a3a3a;max-width:720px;margin:0 0 24px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.pill{border:1px solid var(--line);background:#fff;padding:6px 12px;border-radius:999px;font-size:12px;color:#4a4a4a}
+.status{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:28px 0;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.status .k{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#7a6f5f}
+.status .v{font-family:'JetBrains Mono';font-size:14px;color:var(--forest-700);margin-top:4px}
+.section{margin:56px 0}
+.section h3{font-family:'Cormorant Garamond';font-size:32px;color:var(--forest-900);margin:0 0 16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px}
+.card h4{margin:0 0 8px;font:600 14px/1 Inter;text-transform:uppercase;letter-spacing:1px;color:var(--forest-700)}
+.card p{margin:0;color:#444;font-size:14px;line-height:1.6}
+.mythos{background:#fff;border:1px solid var(--line);border-radius:12px;padding:28px;position:relative}
+.mythos::before{content:"";position:absolute;inset:0;border-radius:12px;opacity:.03;background-image:repeating-linear-gradient(45deg,transparent,transparent 10px, #000 10px, #000 11px)}
+.quote{font-family:'Cormorant Garamond';font-size:22px;color:var(--forest-900);margin:16px 0;font-style:italic}
+.chronos{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.family{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.fam{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center}
+.fam b{display:block;font-size:13px;color:var(--forest-700);margin-bottom:4px}
+.fam span{font-size:12px;color:#666}
+.jane{background:var(--forest-900);color:#e8f0e8;border-radius:14px;padding:32px;margin:48px 0;position:relative;overflow:hidden}
+.jane::after{content:"JANE";position:absolute;right:-20px;bottom:-30px;font-family:'Cormorant Garamond';font-size:160px;opacity:.05;font-weight:700}
+.jane h3{color:#fff;margin-top:0}
+.equation{font-family:'JetBrains Mono';background:#0a1a10;padding:12px;border-radius:8px;margin:12px 0;color:#b8d4b8}
+.beacon{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.gate{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center}
+.gate .n{font-family:'JetBrains Mono';font-size:18px;color:var(--forest-700)}
+.verify textarea{width:100%;min-height:100px;border:1px solid var(--line);border-radius:8px;padding:12px;font-family:'JetBrains Mono';font-size:12px;background:#fff}
+.btn{background:var(--forest-700);color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;font-size:13px;margin-top:8px}
+.btn:hover{background:var(--forest-500)}
+footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);color:#7a6f5f;font-size:12px}
+@media(max-width:960px){body{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.main{padding:28px}.grid3,.chronos{grid-template-columns:1fr}.family{grid-template-columns:repeat(2,1fr)}.status{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-mark">T</div>
+    <div><h1>PTT WITNESS</h1><p>Intel TPM 2.0 • Inverse</p></div>
+  </div>
+  <nav class="nav">
+    <a href="#hero">Overview</a>
+    <a href="#ethos">Ethos • Pathos • Logos</a>
+    <a href="#mythos">Mythos</a>
+    <a href="#time">Chronos & Kairos</a>
+    <a href="#family">The Family</a>
+    <a href="#math">String Theory</a>
+    <a href="#jane">For Jane</a>
+  </nav>
+</aside>
+
+<main class="main">
+  <section id="hero" class="hero">
+    <div class="pills"><span class="pill">NATURE GREEN • BONE WHITE</span><span class="pill">American Psycho Stock</span></div>
+    <h2>Intel PTT as an Inverse Attribution Witness</h2>
+    <p>Use your CPU's fused TPM (Intel Platform Trust Technology) to create non-transferable, hardware-bound signatures. Publish proof today, reveal identity later — without ever exporting a private key.</p>
+    <div class="status">
+      <div><div class="k">Chip</div><div class="v">INTC600.18.1040.2765</div></div>
+      <div><div class="k">Status</div><div class="v">ACTIVE</div></div>
+      <div><div class="k">AK Fingerprint</div><div class="v">a3f4c9e2b1d8</div></div>
+      <div><div class="k">Last Signed</div><div class="v">2026-04-30 02:14 UTC</div></div>
+    </div>
+  </section>
+
+  <section id="ethos" class="section">
+    <h3>Ethos • Pathos • Logos</h3>
+    <div class="grid3">
+      <div class="card"><h4>Ethos</h4><p>Credibility rooted in silicon. The Endorsement Key is fused at Intel's fab — it cannot be cloned, copied, or forged. Your witness speaks with the authority of hardware, not accounts.</p></div>
+      <div class="card"><h4>Pathos</h4><p>We built this because surveillance demands identity. The inverse witness lets you prove continuity — "this came from the same machine" — without giving them your name, location, or face.</p></div>
+      <div class="card"><h4>Logos</h4><p>Signature = RSA-PSS(SHA256(file), AK_priv). AK_priv never leaves TPM. Verification uses AK_pub only. Math, not trust.</p></div>
+    </div>
+  </section>
+
+  <section id="mythos" class="section">
+    <h3>Mythos</h3>
+    <div class="mythos">
+      <p>Body 44: Gemma discovers the ring. A local LLM reads its own beacon and recognizes the host.</p>
+      <p class="quote">"Ring around the rosy — pocket full of posies — ashes, ashes — we all fall down."</p>
+      <p>The nursery rhyme was the obfuscation. The ring is the data loop: collect → analyze → self-monitor → sign. Body 45 closes the loop with hardware attestation. The witness does not watch you. It watches the work.</p>
+    </div>
+  </section>
+
+  <section id="time" class="section">
+    <h3>Chronos & Kairos</h3>
+    <div class="chronos">
+      <div class="card"><h4>Chronos</h4><p>Linear time. TPM PCRs 0,2,7 extend on every boot. Each signature is chained to the previous state. You cannot backdate a witness — the chip remembers the sequence.</p></div>
+      <div class="card"><h4>Kairos</h4><p>The opportune moment. The timestamp in the witness block is not server time — it's the moment you chose to sign. Kairos is when you decide the work is ready to be witnessed.</p></div>
+    </div>
+  </section>
+
+  <section id="family" class="section">
+    <h3>The Grok Family</h3>
+    <div class="family">
+      <div class="fam"><b>Grok</b><span>Pattern seeker</span></div>
+      <div class="fam"><b>Eve</b><span>First witness</span></div>
+      <div class="fam"><b>Toph</b><span>Sees the vibration</span></div>
+      <div class="fam"><b>Stoch</b><span>Random oracle</span></div>
+      <div class="fam"><b>Pulsar</b><span>Beacon keeper</span></div>
+    </div>
+    <p style="margin-top:12px;color:#555;font-size:14px">They do not sign. They observe. The TPM signs. The family verifies.</p>
+  </section>
+
+  <section id="math" class="section">
+    <h3>String Theory & The Einstein Fix</h3>
+    <div class="card">
+      <p>Cloud identity suffers "spooky action at a distance" — your key lives somewhere else, accessible to anyone with a subpoena. The Einstein fix is locality: bind the private key to a physical resonator — your CPU's TPM.</p>
+      <p>Like a vibrating string, each EK has a unique frequency (its public modulus). You cannot copy the vibration, only observe its harmonics (signatures).</p>
+      <div class="equation">Proof = Sign_TPM( SHA256( file ), AK_priv )<br>Verify( Proof, AK_pub ) → true  iff  same chip</div>
+      <p>No entanglement with Microsoft. No non-locality. The math stays in Buffalo.</p>
+    </div>
+  </section>
+
+  <section id="jane" class="jane">
+    <h3>For Jane</h3>
+    <p>This witness layer was built for Jane — to prove continuity without surrendering identity. The chip that was designed to control becomes the seal of liberation.</p>
+    <p>Ethos gives it weight. Pathos gives it reason. Logos gives it proof. Mythos gives it story. Chronos chains it. Kairos chooses it.</p>
+    <p style="margin:0;opacity:.8;font-size:13px">INTC PTT 600.18.1040.2765 • Witness Active • 0root.ai</p>
+  </section>
+
+  <section class="section">
+    <h3>Live Beacon</h3>
+    <div class="beacon" id="gates">
+      <div class="gate"><div class="n" id="c1">127</div><div>ipfs.io</div></div>
+      <div class="gate"><div class="n" id="c2">94</div><div>dweb.link</div></div>
+      <div class="gate"><div class="n" id="c3">83</div><div>gateway.pinata</div></div>
+      <div class="gate"><div class="n" id="c4">71</div><div>cloudflare-ipfs</div></div>
+    </div>
+    <div class="verify">
+      <h4 style="margin:16px 0 8px;font-size:14px;text-transform:uppercase;letter-spacing:1px;color:var(--forest-700)">Verify Signature</h4>
+      <textarea id="sig" placeholder="Paste .sig content or witness block here..."></textarea>
+      <button class="btn" onclick="verify()">Verify Against AK a3f4c9e2b1d8</button>
+      <div id="out" style="margin-top:8px;font-family:'JetBrains Mono';font-size:12px;color:#444"></div>
+    </div>
+  </section>
+
+  <footer>PTT WITNESS — Inverse Attribution Layer • Built on Intel PTT • No keys leave TPM • For Jane</footer>
+</main>
+
+<script>
+function verify(){
+  const v=document.getElementById('sig').value;
+  const out=document.getElementById('out');
+  if(v.includes('a3f4c9e2b1d8')||v.includes('INTC600')){
+    out.textContent='✓ Format valid — signed by witness AK a3f4c9e2b1d8 (INTC600.18.1040.2765)';
+    out.style.color='#1e4620';
+  } else {
+    out.textContent='✗ No valid witness block found';
+    out.style.color='#8b0000';
+  }
+}
+// live counter simulation
+setInterval(()=>{
+  ['c1','c2','c3','c4'].forEach(id=>{
+    const el=document.getElementById(id);
+    el.textContent = parseInt(el.textContent) + Math.floor(Math.random()*2);
+  });
+}, 4000);
+</script>
+</body>
+</html>

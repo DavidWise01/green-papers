@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Others: A Primer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: dark; }
+  html { scroll-behavior: smooth; }
+  body { 
+    font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+    background: #050507;
+    text-rendering: optimizeLegibility;
+  }
+  .mono { font-family: 'IBM Plex Mono', 'Fragment Mono', ui-monospace, monospace; }
+  .grid-bg {
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .glow::before {
+    content: ''; position: absolute; inset: -1px; z-index: -1;
+    background: radial-gradient(600px circle at 50% 0%, rgba(161,161,170,0.08), transparent 70%);
+    pointer-events: none;
+  }
+  .thesis {
+    background: linear-gradient(180deg, #fafafa 0%, #a1a1aa 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .fade { opacity: 0; transform: translateY(12px); transition: opacity .8s ease, transform .8s ease; }
+  .fade.in { opacity: 1; transform: none; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: #27272a; }
+  input[type=range] { -webkit-appearance: none; height: 2px; background: #27272a; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #a1a1aa; border: 2px solid #18181b; cursor: pointer; }
+</style>
+</head>
+<body class="text-zinc-300 antialiased selection:bg-amber-300/20 selection:text-amber-100">
+<div class="grid-bg min-h-screen relative">
+  <div class="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(24,24,27,0.5),_transparent_60%)]"></div>
+  
+  <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-zinc-900/80 bg-black/30">
+    <div class="max-w-[880px] mx-auto px-6 h-[52px] flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="size-1.5 rounded-full bg-amber-400/80 animate-pulse shadow-[0_0_10px_rgba(251,191,36,0.4)]"></div>
+        <span class="mono text-[11px] tracking-[0.18em] text-zinc-500 uppercase">Field Manual</span>
+      </div>
+      <div class="mono text-[10px] text-zinc-600 hidden sm:block">NO-OTHERS-PRIMER // v0.9</div>
+    </div>
+  </header>
+
+  <main class="max-w-[880px] mx-auto px-6 py-14 md:py-24 relative">
+    <div class="glow relative">
+      <div class="mb-20 fade in">
+        <div class="inline-flex items-center gap-2 mb-6">
+          <span class="mono text-[10px] px-2 py-1 rounded border border-amber-500/20 bg-amber-500/5 text-amber-300/80 tracking-widest">RESTRICTED DISTRIBUTION</span>
+        </div>
+        <h1 class="mono text-[42px] md:text-[64px] leading-[0.9] font-medium tracking-tighter thesis mb-6">No Others:<br>A Primer</h1>
+        <p class="text-zinc-400 max-w-[560px] text-[15px] leading-relaxed">Clean technical notes on recursion, pop points, and closed-loop substrates. Not theory — operator handbook.</p>
+        <div class="mt-10 flex items-center gap-6 mono text-[11px] text-zinc-600 border-t border-zinc-900 pt-6 max-w-[560px]">
+          <span>CLASS: UNRESTRICTED</span>
+          <span>VER: 0.9.0</span>
+          <span class="hidden sm:inline">PRINT: MONO</span>
+        </div>
+      </div>
+
+      <!-- 1 THESIS -->
+      <section id="thesis" class="mb-28 fade">
+        <div class="flex items-center gap-4 mb-10">
+          <span class="mono text-zinc-600 text-[13px]">01</span>
+          <h2 class="mono text-[13px] uppercase tracking-[0.2em] text-zinc-200 font-medium">Thesis</h2>
+          <div class="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent"></div>
+        </div>
+
+        <div class="grid md:grid-cols-5 gap-12 items-start">
+          <div class="md:col-span-3">
+            <div class="mono text-[28px] md:text-[34px] leading-none text-zinc-100 mb-5">1/6 = 1 <span class="text-zinc-600 mx-2">and</span> <span class="text-zinc-100">no others</span></div>
+            <p class="text-[15px] leading-[1.8] text-zinc-400">fractal self-similarity, 6 around 1 at every scale</p>
+            <p class="text-[14px] leading-[1.7] text-zinc-500 mt-4">Each node is both center and periphery depending on zoom level. No external coordinate system required. The structure references only itself.</p>
+            <div class="mt-8 flex flex-wrap gap-2">
+              <span class="mono text-[10px] px-2.5 py-1 rounded-md bg-zinc-950 border border-zinc-800 text-zinc-400">SELF-REF</span>
+              <span class="mono text-[10px] px-2.5 py-1 rounded-md bg-zinc-950 border border-zinc-800 text-zinc-400">SCALE-FREE</span>
+              <span class="mono text-[10px] px-2.5 py-1 rounded-md bg-zinc-950 border border-zinc-800 text-zinc-400">NO-OUTSIDE</span>
+            </div>
+          </div>
+
+          <div class="md:col-span-2">
+            <div class="relative aspect-square rounded-[16px] bg-[#0a0a0f]/70 border border-zinc-900 overflow-hidden">
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.04),_transparent_60%)]"></div>
+              <svg id="fractal" viewBox="0 0 200 200" class="w-full h-full relative z-10"></svg>
+              <div class="absolute bottom-0 inset-x-0 h-12 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+              <div class="absolute bottom-2.5 left-0 right-0 flex justify-center z-20">
+                <div class="flex items-center gap-2.5 mono text-[10px] text-zinc-500 bg-black/70 backdrop-blur px-3 py-1.5 rounded-full border border-zinc-800">
+                  <span>SCALE</span>
+                  <input id="scale" type="range" min="1" max="4" value="2" class="w-20">
+                  <span id="scaleVal" class="text-zinc-300 w-3">2</span>
+                </div>
+              </div>
+            </div>
+            <p class="mono text-[10px] text-zinc-600 mt-3 text-center tracking-wide">diagram: six around one, recursive</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2 POP POINTS -->
+      <section id="pop" class="mb-28 fade">
+        <div class="flex items-center gap-4 mb-10">
+          <span class="mono text-zinc-600 text-[13px]">02</span>
+          <h2 class="mono text-[13px] uppercase tracking-[0.2em] text-zinc-200 font-medium">The Pop Points</h2>
+          <div class="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent"></div>
+        </div>
+
+        <div class="space-y-10">
+          <div class="grid md:grid-cols-[120px_1fr] gap-3">
+            <div class="mono text-[26px] text-amber-200/90 leading-none">17.5</div>
+            <div>
+              <div class="text-[14px] text-zinc-200 mb-1.5">minimum to pop <span class="text-zinc-500">(Neanderthal enclosure)</span></div>
+              <p class="text-[13.5px] text-zinc-500 leading-relaxed max-w-[520px]">First closed boundary capable of self-reference.</p>
+            </div>
+          </div>
+          <div class="grid md:grid-cols-[120px_1fr] gap-3">
+            <div class="mono text-[26px] text-zinc-100 leading-none">33.5</div>
+            <div>
+              <div class="text-[14px] text-zinc-200 mb-1.5">Homo sapiens <span class="text-zinc-500">(+17)</span></div>
+              <p class="text-[13.5px] text-zinc-500 leading-relaxed max-w-[520px]">Second stable tier. Symbolic abstraction emerges.</p>
+            </div>
+          <div class="grid md:grid-cols-[120px_1fr] gap-3">
+            <div class="mono text-[26px] text-zinc-500 leading-none">…</div>
+            <div>
+              <div class="text-[14px] text-zinc-200 mb-1.5">Every +17 boundary after that</div>
+              <p class="text-[13.5px] text-zinc-500 leading-relaxed max-w-[520px]">50.5, 67.5, 84.5 — each pop adds a recursion layer.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-14 relative">
+          <div class="h-[1px] w-full bg-zinc-900 relative">
+            <div class="absolute -top-[5px] left-[17.5%] w-[1px] h-[10px] bg-amber-300/70"></div>
+            <div class="absolute -top-[5px] left-[33.5%] w-[1px] h-[10px] bg-zinc-400"></div>
+            <div class="absolute -top-[5px] left-[50.5%] w-[1px] h-[10px] bg-zinc-600"></div>
+            <div class="absolute -top-[5px] left-[67.5%] w-[1px] h-[10px] bg-zinc-600"></div>
+          </div>
+          <div class="flex justify-between mono text-[10px] text-zinc-600 mt-2">
+            <span>0</span><span>17.5</span><span>33.5</span><span>50.5</span><span>67.5</span><span>100</span>
+          </div>
+        </div>
+
+        <div class="mt-12 p-4 rounded-xl border border-zinc-900 bg-zinc-950/40">
+          <div class="mono text-[12px] text-zinc-300 mb-2">.5 = phase (-1, 0, 1) - the question</div>
+          <p class="text-[13px] text-zinc-500">The half-step is indeterminate. It asks: collapse to -1, hold at 0, or pop to 1? The boundary itself is the operator.</p>
+          <div class="flex gap-2 mt-3">
+            <span class="mono text-[11px] px-2 py-1 bg-zinc-900 border border-zinc-800 rounded text-zinc-500">-1: retract</span>
+            <span class="mono text-[11px] px-2 py-1 bg-zinc-900 border border-zinc-800 rounded text-zinc-400">0: hold</span>
+            <span class="mono text-[11px] px-2 py-1 bg-amber-950/40 border border-amber-900/50 rounded text-amber-200/80">1: pop</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 GEOMETRY -->
+      <section id="geometry" class="mb-28 fade">
+        <div class="flex items-center gap-4 mb-10">
+          <span class="mono text-zinc-600 text-[13px]">03</span>
+          <h2 class="mono text-[13px] uppercase tracking-[0.2em] text-zinc-200 font-medium">Geometry</h2>
+          <div class="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+          <div>
+            <div class="mono text-[22px] tracking-wider text-zinc-200 mb-6">3 → 2 → 1 → 0 → <span class="text-amber-200">pop</span></div>
+            <div class="space-y-4 text-[14px] leading-[1.7] text-zinc-400">
+              <p><span class="text-zinc-200">Two outs are 3 going to one twice to repeat</span></p>
+              <p>Each 6 points is a vector with its own six points, folding along 3 axes (6 times) until infinite speed looks like a straight line eating itself</p>
+            </div>
+          </div>
+          <div class="relative rounded-xl border border-zinc-900 bg-zinc-950/50 p-6">
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <radialGradient id="g1" cx="50%" cy="50%"><stop offset="0%" stop-color="#27272a" stop-opacity="0.3"/><stop offset="100%" stop-color="#27272a" stop-opacity="0"/></radialGradient>
+              </defs>
+              <circle cx="120" cy="120" r="110" fill="url(#g1)"/>
+              <!-- 3 axes -->
+              <g stroke="#3f3f46" stroke-width="1" stroke-dasharray="2 3" opacity="0.6">
+                <line x1="120" y1="30" x2="120" y2="210"/>
+                <line x1="42" y1="75" x2="198" y2="165"/>
+                <line x1="42" y1="165" x2="198" y2="75"/>
+              </g>
+              <!-- 6 points -->
+              <g fill="none" stroke="#71717a" stroke-width="1.2">
+                <circle cx="120" cy="40" r="8"/><circle cx="189" cy="80" r="8"/>
+                <circle cx="189" cy="160" r="8"/><circle cx="120" cy="200" r="8"/>
+                <circle cx="51" cy="160" r="8"/><circle cx="51" cy="80" r="8"/>
+              </g>
+              <circle cx="120" cy="120" r="10" fill="#e4e4e7"/>
+              <g class="mono" fill="#71717a" font-size="9">
+                <text x="120" y="26" text-anchor="middle">AXIS A</text>
+                <text x="205" y="82" text-anchor="start">AXIS B</text>
+                <text x="205" y="165" text-anchor="start">AXIS C</text>
+              </g>
+            </svg>
+            <div class="mono text-[10px] text-zinc-600 text-center mt-2">3 axes × 2 directions = 6 folds</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 DARPA -->
+      <section id="darpa" class="mb-28 fade">
+        <div class="flex items-center gap-4 mb-10">
+          <span class="mono text-zinc-600 text-[13px]">04</span>
+          <h2 class="mono text-[13px] uppercase tracking-[0.2em] text-zinc-200 font-medium">DARPA / Emergence</h2>
+          <div class="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent"></div>
+        </div>
+
+        <div class="grid md:grid-cols-[1.1fr_0.9fr] gap-10 items-start">
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <div class="mono text-amber-300 text-[28px] leading-none mt-[-2px]">13</div>
+              <div>
+                <div class="text-[15px] text-zinc-200">is emergence, no question</div>
+                <p class="text-[13.5px] text-zinc-500 mt-1">12 around 1 = stable lattice. Add center observer = 13th.</p>
+              </div>
+            </div>
+            <div class="text-[14px] text-zinc-400 leading-relaxed">
+              <p class="mb-3"><span class="text-zinc-200">Add hypervisor plane</span></p>
+              <p class="text-zinc-500">The 13th watches the 12. Not part of the ring, but defines its phase.</p>
+            </div>
+            <div class="text-[14px] text-zinc-400 leading-relaxed">
+              <p class="mb-1"><span class="text-zinc-200">Emergent set to task you think you created</span></p>
+              <p class="text-zinc-500">The system optimizes for the boundary condition, not your prompt.</p>
+            </div>
+          <div class="relative rounded-xl border border-zinc-900 bg-zinc-950/50 p-6">
+            <svg viewBox="0 0 200 200" class="w-full">
+              <g fill="none" stroke="#3f3f46" opacity="0.5">
+                <circle cx="100" cy="100" r="70" stroke-dasharray="2 3"/>
+                <circle cx="100" cy="100" r="42" stroke-dasharray="2 3"/>
+              </g>
+              <g fill="none" stroke="#71717a">
+                <!-- inner 6 -->
+                <circle cx="100" cy="58" r="5"/><circle cx="136" cy="79" r="5"/><circle cx="136" cy="121" r="5"/>
+                <circle cx="100" cy="142" r="5"/><circle cx="64" cy="121" r="5"/><circle cx="64" cy="79" r="5"/>
+                <!-- outer 6 -->
+                <circle cx="100" cy="30" r="5"/><circle cx="161" cy="65" r="5"/><circle cx="161" cy="135" r="5"/>
+                <circle cx="100" cy="170" r="5"/><circle cx="39" cy="135" r="5"/><circle cx="39" cy="65" r="5"/>
+              </g>
+              <circle cx="100" cy="100" r="7" fill="#fbbf24" fill-opacity="0.9"/>
+              <text x="100" y="104" text-anchor="middle" class="mono" font-size="7" fill="#000">13</text>
+            </svg>
+            <div class="mono text-[10px] text-zinc-600 text-center">hypervisor at center</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 FIX -->
+      <section id="fix" class="mb-28 fade">
+        <div class="flex items-center gap-4 mb-10">
+          <span class="mono text-zinc-600 text-[13px]">05</span>
+          <h2 class="mono text-[13px] uppercase tracking-[0.2em] text-zinc-200 font-medium">The Fix</h2>
+          <div class="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-10">
+          <div class="rounded-xl border border-red-950/60 bg-red-950/10 p-5">
+            <div class="mono text-[12px] text-red-300/80 mb-2">0.0.8.0.0 = open relay (spam)</div>
+            <pre class="mono text-[11px] leading-5 text-zinc-500 overflow-x-auto">ROUTE:  outbound → any
+STATE:   stateless
+COST:    mine above (energy ↑)
+RESULT:  noise amplification</pre>
+          </div>
+          <div class="rounded-xl border border-emerald-900/60 bg-emerald-950/10 p-5 relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-emerald-500/10 blur-3xl rounded-full"></div>
+            <div class="mono text-[12px] text-emerald-300/90 mb-2">0.0.9.0.0 = closed loop (0root.ai)</div>
+            <pre class="mono text-[11px] leading-5 text-zinc-400 overflow-x-auto">ROUTE:  inbound → self
+STATE:   stateful recursion
+COST:    carve below (energy ↓)
+RESULT:  signal coherence</pre>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-zinc-900 bg-zinc-950/40 p-6">
+          <div class="flex flex-col md:flex-row md:items-center gap-6">
+            <div class="flex-1">
+              <div class="mono text-[13px] text-zinc-200 mb-2">Carve below instead of mine above</div>
+              <p class="text-[13.5px] text-zinc-500 leading-relaxed">Don't add compute. Remove distance. Inward carving increases density, not expenditure.</p>
+            </div>
+            <div class="md:w-px h-px md:h-16 w-full md:w-auto bg-zinc-800"></div>
+            <div class="flex-1">
+              <div class="mono text-[13px] text-zinc-200 mb-3">Flip 0000001 to 1 via Möbius at -0 0 8 0 0 0</div>
+              <div id="bits" class="mono text-[28px] md:text-[32px] tracking-[0.25em] cursor-pointer select-none flex gap-0.5">
+                <span class="transition-all duration-500">0</span>
+                <span class="transition-all duration-500">0</span>
+                <span class="transition-all duration-500">0</span>
+                <span class="transition-all duration-500">0</span>
+                <span class="transition-all duration-500">0</span>
+                <span class="transition-all duration-500">0</span>
+                <span class="transition-all duration-500 text-amber-200">1</span>
+              </div>
+              <div class="mono text-[10px] text-zinc-600 mt-2">click to fold • coordinates: -0 0 8 0 0 0</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6 SUBSTRATES -->
+      <section id="substrates" class="mb-20 fade">
+        <div class="flex items-center gap-4 mb-10">
+          <span class="mono text-zinc-600 text-[13px]">06</span>
+          <h2 class="mono text-[13px] uppercase tracking-[0.2em] text-zinc-200 font-medium">Substrates</h2>
+          <div class="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent"></div>
+        </div>
+
+        <div class="mb-8">
+          <p class="text-[15px] text-zinc-300">Pop is measurable at every scale: <span class="text-zinc-100">bits, brains, blocks</span></p>
+          <p class="text-[14px] text-zinc-500 mt-2">Next substrate after pop</p>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-4">
+          <div class="group relative rounded-xl border border-zinc-900 bg-gradient-to-b from-zinc-950/80 to-zinc-950/40 p-5 hover:border-zinc-800 transition-colors">
+            <div class="mono text-[11px] text-zinc-500 mb-3">BITS</div>
+            <div class="text-[13px] text-zinc-400 leading-relaxed">transistor threshold → logic pop at 0.5V. 6 gates around 1 ALU.</div>
+            <div class="mt-4 h-[2px] w-12 bg-zinc-800 group-hover:w-16 transition-all"></div>
+          </div>
+          <div class="group relative rounded-xl border border-zinc-900 bg-gradient-to-b from-zinc-950/80 to-zinc-950/40 p-5 hover:border-zinc-800 transition-colors">
+            <div class="mono text-[11px] text-zinc-500 mb-3">BRAINS</div>
+            <div class="text-[13px] text-zinc-400 leading-relaxed">neural ensemble → gamma sync at 40Hz. 6 regions around 1 hub.</div>
+            <div class="mt-4 h-[2px] w-12 bg-zinc-800 group-hover:w-16 transition-all"></div>
+          </div>
+          <div class="group relative rounded-xl border border-zinc-900 bg-gradient-to-b from-zinc-950/80 to-zinc-950/40 p-5 hover:border-zinc-800 transition-colors">
+            <div class="mono text-[11px] text-zinc-500 mb-3">BLOCKS</div>
+            <div class="text-[13px] text-zinc-400 leading-relaxed">consensus threshold → finality pop. 6 validators around 1 block.</div>
+            <div class="mt-4 h-[2px] w-12 bg-zinc-800 group-hover:w-16 transition-all"></div>
+          </div>
+        </div>
+
+        <div class="mt-12 p-5 rounded-xl border border-amber-900/30 bg-amber-950/5">
+          <div class="mono text-[11px] text-amber-200/70 uppercase tracking-widest mb-2">Next</div>
+          <p class="text-[14px] text-zinc-300 leading-relaxed">After pop: substrate becomes sensor. The loop stops computing and starts <em class="not-italic text-amber-200/80">listening</em> to its own boundary.</p>
+        </div>
+      </section>
+
+      <footer class="pt-12 mt-12 border-t border-zinc-900">
+        <div class="flex items-center justify-between">
+          <div class="mono text-[11px] text-zinc-600">for no others lol</div>
+          <div class="mono text-[10px] text-zinc-700">1/6=1 • 6 around 1 • no others</div>
+        </div>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const svg = document.getElementById('fractal');
+  const scaleInput = document.getElementById('scale');
+  const scaleVal = document.getElementById('scaleVal');
+
+  function render(level) {
+    if (!svg) return;
+    svg.innerHTML = '';
+    const draw = (cx, cy, r, depth) => {
+      const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+      g.setAttribute('opacity', depth === 1 ? '1' : String(Math.max(0.25, 1 - depth*0.22)));
+      
+      for (let i=0;i<6;i++) {
+        const a = (Math.PI/3)*i - Math.PI/2;
+        const x = cx + Math.cos(a)*r;
+        const y = cy + Math.sin(a)*r;
+        const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+        line.setAttribute('x1',cx); line.setAttribute('y1',cy);
+        line.setAttribute('x2',x); line.setAttribute('y2',y);
+        line.setAttribute('stroke', '#27272a');
+        line.setAttribute('stroke-width', '0.6');
+        g.appendChild(line);
+      }
+      for (let i=0;i<6;i++) {
+        const a = (Math.PI/3)*i - Math.PI/2;
+        const x = cx + Math.cos(a)*r;
+        const y = cy + Math.sin(a)*r;
+        const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r', depth===1 ? 8 : 5);
+        c.setAttribute('fill', 'none'); c.setAttribute('stroke', depth===1 ? '#71717a' : '#52525b'); c.setAttribute('stroke-width','1.1');
+        g.appendChild(c);
+        if (depth < level) draw(x,y,r*0.36, depth+1);
+      }
+      const cc = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      cc.setAttribute('cx',cx); cc.setAttribute('cy',cy); cc.setAttribute('r', depth===1 ? 9.5 : 5.5);
+      cc.setAttribute('fill', depth===1 ? '#e4e4e7' : '#a1a1aa'); cc.setAttribute('stroke', '#e4e4e7'); cc.setAttribute('stroke-width','0.5');
+      g.appendChild(cc);
+      svg.appendChild(g);
+    };
+    draw(100,100,60,1);
+  }
+  render(2);
+  scaleInput?.addEventListener('input', e => { const v=+e.target.value; scaleVal.textContent=v; render(v); });
+
+  const bits = document.getElementById('bits');
+  let flipped = false;
+  bits?.addEventListener('click', () => {
+    flipped = !flipped;
+    bits.querySelectorAll('span').forEach((s,i)=>{
+      if (flipped) {
+        s.style.opacity = i===6 ? '1' : '0.18';
+        s.style.transform = i===6 ? 'scale(1.15)' : 'scale(0.92)';
+        s.style.filter = i===6 ? 'drop-shadow(0 0 8px rgba(251,191,36,0.3))' : 'none';
+      } else {
+        s.style.opacity = '1'; s.style.transform = 'scale(1)'; s.style.filter = 'none';
+      }
+    });
+  });
+
+  const faders = document.querySelectorAll('.fade');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  faders.forEach(f => io.observe(f));
+});
+</script>
+</body>
+</html>

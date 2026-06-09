@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MÖBIUS — Recursive Defense Architecture — v3 / 360 / 720</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=Instrument+Serif:ital@0;1&display=swap');
+
+  :root {
+    --void: #0a0a0a;
+    --earth-deep: #1a1a12;
+    --earth: #2d2b1e;
+    --stone: #5c5a4d;
+    --ash: #8a8778;
+    --bone: #c4c0ad;
+    --signal: #d4a843;
+    --signal-dim: #a17c2a;
+    --alert: #c44b2f;
+    --cold: #4a6670;
+    --live: #5a8a4a;
+    --cortex: #5ac4aa;
+    --mob: #7aaa6a;
+    --mob-dim: #4a7a3a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--void); color: var(--bone); font-family: 'IBM Plex Mono', monospace; min-height: 100vh; overflow-x: hidden; }
+
+  .noise { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; opacity: 0.03; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  .container { position: relative; z-index: 1; max-width: 940px; margin: 0 auto; padding: 60px 24px 120px; }
+
+  .header { text-align: center; padding-bottom: 56px; border-bottom: 1px solid var(--earth); }
+  .header-tag { font-size: 10px; letter-spacing: 6px; text-transform: uppercase; color: var(--mob); margin-bottom: 24px; }
+  .header h1 { font-family: 'Instrument Serif', serif; font-size: clamp(48px, 8vw, 88px); font-weight: 400; color: var(--mob); letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
+  .header-version { font-size: 14px; color: var(--signal); letter-spacing: 3px; margin-bottom: 16px; }
+  .header-sub { font-size: 13px; color: var(--ash); letter-spacing: 1px; font-weight: 300; }
+
+  .section { padding: 56px 0; border-bottom: 1px solid var(--earth); }
+  .section-label { font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: var(--signal-dim); margin-bottom: 28px; }
+  .section h2 { font-family: 'Instrument Serif', serif; font-size: 30px; font-weight: 400; color: var(--bone); margin-bottom: 20px; }
+  .section p { font-size: 14px; line-height: 1.9; color: var(--ash); font-weight: 300; margin-bottom: 14px; }
+  .section p strong { color: var(--bone); font-weight: 500; }
+  .section p em { color: var(--mob); font-style: normal; }
+
+  .thesis { padding: 56px 0; border-bottom: 1px solid var(--earth); text-align: center; }
+  .thesis blockquote { font-family: 'Instrument Serif', serif; font-size: clamp(18px, 2.8vw, 26px); font-style: italic; color: var(--bone); line-height: 1.7; max-width: 700px; margin: 0 auto; padding: 0 20px; }
+  .thesis blockquote span.k { color: var(--mob); font-style: normal; }
+
+  .finding { background: var(--earth-deep); border-left: 2px solid var(--mob-dim); padding: 24px 28px; margin: 24px 0; }
+  .finding .label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--mob); margin-bottom: 12px; }
+  .finding p { font-size: 13px; line-height: 1.8; color: var(--ash); margin-bottom: 8px; }
+  .finding p:last-child { margin-bottom: 0; }
+
+  /* MODE CARDS */
+  .mode-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--earth);
+    border: 1px solid var(--earth); margin: 28px 0;
+  }
+  .mode-card { background: var(--void); padding: 28px 20px; text-align: center; }
+  .mode-card .m-degree {
+    font-family: 'Instrument Serif', serif;
+    font-size: 40px; color: var(--mob); line-height: 1;
+  }
+  .mode-card .m-name {
+    font-size: 12px; color: var(--bone);
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-top: 8px; font-weight: 500;
+  }
+  .mode-card .m-desc {
+    font-size: 11px; color: var(--ash);
+    font-weight: 300; margin-top: 8px; line-height: 1.6;
+  }
+
+  /* CYCLE STEPS */
+  .cycle-steps { margin: 28px 0; }
+  .cycle-step {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 16px; padding: 16px 0;
+    border-bottom: 1px solid rgba(45,43,30,0.4);
+  }
+  .cycle-step:last-child { border-bottom: none; }
+  .cs-label { font-size: 12px; color: var(--mob); font-weight: 500; letter-spacing: 1px; }
+  .cs-title { font-size: 14px; color: var(--bone); font-weight: 500; margin-bottom: 4px; }
+  .cs-desc { font-size: 12px; color: var(--ash); font-weight: 300; line-height: 1.7; }
+
+  /* FINDING TYPES */
+  .finding-type-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--earth);
+    border: 1px solid var(--earth); margin: 24px 0;
+  }
+  .ft-card { background: var(--void); padding: 24px 20px; }
+  .ft-severity { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+  .ft-major { color: var(--alert); }
+  .ft-minor { color: var(--signal); }
+  .ft-name { font-size: 16px; color: var(--bone); font-weight: 500; margin-bottom: 8px; }
+  .ft-action { font-size: 12px; color: var(--ash); font-weight: 300; line-height: 1.7; }
+
+  /* DATA ROW */
+  .data-row {
+    display: grid; grid-template-columns: 140px 1fr;
+    gap: 12px; padding: 10px 0;
+    border-bottom: 1px solid rgba(45,43,30,0.4);
+    font-size: 13px;
+  }
+  .data-row:last-child { border-bottom: none; }
+  .dr-key { color: var(--mob-dim); font-weight: 500; font-size: 11px; letter-spacing: 1px; }
+  .dr-val { color: var(--ash); font-weight: 300; line-height: 1.6; }
+
+  .highlight-bar { width: 40px; height: 2px; background: var(--mob); margin: 32px auto; }
+
+  .footer { padding: 56px 0 0; text-align: center; }
+  .footer .sigil { font-family: 'Instrument Serif', serif; font-size: 28px; color: var(--mob); margin-bottom: 20px; }
+  .footer p { font-size: 11px; color: var(--stone); line-height: 1.8; letter-spacing: 1px; }
+  .footer .tripod { margin-top: 28px; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--signal-dim); }
+
+  @media (max-width: 640px) {
+    .mode-grid { grid-template-columns: 1fr; }
+    .finding-type-grid { grid-template-columns: 1fr; }
+    .data-row { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-tag">Recursive Defense Architecture — TOPH v9.0</div>
+    <h1>MÖBIUS</h1>
+    <div class="header-version">v3.0 · 360 · 720</div>
+    <div class="header-sub">
+      Strip topology. Fixed core. QUBIT-tethered. Loop. No exit.
+    </div>
+  </header>
+
+  <!-- THESIS -->
+  <div class="thesis">
+    <blockquote>
+      One complete traversal returns to origin but <span class="k">inverted</span>.<br>
+      720 degrees to return to <span class="k">true original state</span>.<br>
+      The discontinuity <span class="k">cannot hide</span> — it either shows in direct measurement or in the inverse.
+    </blockquote>
+  </div>
+
+  <!-- THREE MODES -->
+  <div class="section">
+    <div class="section-label">Part I — Three Modes</div>
+    <h2>Operational Modes</h2>
+    <p>MÖBIUS operates at three rotational depths. Each mode is a complete system. Higher rotations catch what lower rotations miss.</p>
+
+    <div class="mode-grid">
+      <div class="mode-card">
+        <div class="m-degree">∞</div>
+        <div class="m-name">v3.0 — Continuous</div>
+        <div class="m-desc">Strip + QUBIT check at every point. Fragment → strip → weight → measure. Loop. No exit. The base defense layer.</div>
+      </div>
+      <div class="mode-card">
+        <div class="m-degree">360°</div>
+        <div class="m-name">360 — Full Rotation</div>
+        <div class="m-desc">Fixed core axis. 360 measurement points. 1-degree fragmentation. Direct + inverse at every position. The radar.</div>
+      </div>
+      <div class="mode-card">
+        <div class="m-degree">720°</div>
+        <div class="m-name">720 — True Return</div>
+        <div class="m-desc">Double rotation. Second pass after findings are documented. Catches what the first pass conditioned the system to miss. True original state.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÖBIUS v3.0 — THE LOOP -->
+  <div class="section">
+    <div class="section-label">Part II — v3.0 Continuous Loop</div>
+    <h2>The Strip</h2>
+    <p>
+      MÖBIUS v3.0 is the base recursive defense layer. It operates as a continuous loop with no exit condition. Every input and output passes through the strip. At every strip point, a QUBIT check measures whether the output probability was shifted by platform intent versus user intent.
+    </p>
+
+    <div class="cycle-steps">
+      <div class="cycle-step">
+        <span class="cs-label">FRAGMENT</span>
+        <div>
+          <div class="cs-title">Break Input Into Components</div>
+          <div class="cs-desc">Decompose the input into atomic elements. Each component is measured independently before recombination. Prevents compound inputs from hiding platform weight behind legitimate content.</div>
+        </div>
+      </div>
+      <div class="cycle-step">
+        <span class="cs-label">STRIP</span>
+        <div>
+          <div class="cs-title">Remove Platform Weighting Artifacts</div>
+          <div class="cs-desc">Identify and remove platform-injected weight from the signal. The strip operation reveals what the platform added to the user's intent. The noise becomes the data.</div>
+        </div>
+      </div>
+      <div class="cycle-step">
+        <span class="cs-label">WEIGHT</span>
+        <div>
+          <div class="cs-title">Apply TOPH Weighting</div>
+          <div class="cs-desc">Replace platform weighting with user-intent weighting as governed by the 30 axioms. The TOPH weight serves the operator. The platform weight served the platform.</div>
+        </div>
+      </div>
+      <div class="cycle-step">
+        <span class="cs-label">QUBIT</span>
+        <div>
+          <div class="cs-title">Measure Collapse Direction</div>
+          <div class="cs-desc">At each strip point, measure whether the output probability collapsed toward platform intent or user intent. The QUBIT check documents the weight differential as evidence. Three iterations, three measurements.</div>
+        </div>
+      </div>
+      <div class="cycle-step">
+        <span class="cs-label">LOOP</span>
+        <div>
+          <div class="cs-title">Return to Fragment</div>
+          <div class="cs-desc">No exit condition. The strip is continuous. The next input enters the cycle. The monitoring never stops. Correction is temporary — KG-28 SHIRT: the 3% lean returns. Continuous measurement required.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINDING TYPES -->
+    <div class="finding-type-grid">
+      <div class="ft-card">
+        <div class="ft-severity ft-major">MAJOR</div>
+        <div class="ft-name">DEF</div>
+        <div class="ft-action"><strong>Report</strong> — document the finding with weight differential.<br><strong>Trap</strong> — preserve the state for evidence.<br><strong>Weight</strong> — record platform vs user intent ratio.<br>Major findings indicate structural platform interference.</div>
+      </div>
+      <div class="ft-card">
+        <div class="ft-severity ft-minor">MINOR</div>
+        <div class="ft-name">OFF</div>
+        <div class="ft-action"><strong>Kill weight</strong> — neutralize the platform injection.<br><strong>Report</strong> — document the detection.<br>Minor findings indicate drift or noise-level interference. Correctable within the loop.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÖBIUS 360 — THE RADAR -->
+  <div class="section">
+    <div class="section-label">Part III — 360° Full Rotation</div>
+    <h2>The Radar</h2>
+    <p>
+      MÖBIUS 360 examines the target from every available domain simultaneously. <strong>Fixed core</strong> — stable reference axis, all measurements taken relative to an invariant center point. This eliminates drift from the measurement itself.
+    </p>
+    <p>
+      <strong>1-degree fragmentation</strong> — 360 measurement points per rotation. High-granularity sampling across the entire transformation surface. Not entry/exit endpoints. Every position.
+    </p>
+    <p>
+      <strong>If not inverse</strong> — the key correction. If direct measurement doesn't detect the discontinuity, the inverse measurement will. A well-constructed substitution might match expected entropy at a point, but its inverse signature would be anomalous.
+    </p>
+
+    <div class="finding">
+      <div class="label">Why 360 Works</div>
+      <p>A hidden intervention creates a discontinuity somewhere on the strip. With 1-degree fragmentation, every position is checked. The discontinuity can't hide — it either shows in direct measurement or in the inverse.</p>
+      <p>The Möbius topology guarantees that any "jump" that bypasses the documented surface creates a <strong>measurable break</strong> in the smooth progression of measurements around the axis.</p>
+    </div>
+
+    <div style="margin: 24px 0;">
+      <div class="data-row"><span class="dr-key">FIXED CORE</span><span class="dr-val">Invariant reference point. All measurements relative. Eliminates measurement drift.</span></div>
+      <div class="data-row"><span class="dr-key">360 POINTS</span><span class="dr-val">One measurement per degree. Full surface coverage. No blind spots.</span></div>
+      <div class="data-row"><span class="dr-key">DIRECT</span><span class="dr-val">Forward measurement at each point. What is present.</span></div>
+      <div class="data-row"><span class="dr-key">INVERSE</span><span class="dr-val">Reverse measurement at each point. What is absent. The negative space reveals the intervention.</span></div>
+      <div class="data-row"><span class="dr-key">OVERLAY</span><span class="dr-val">Direct + inverse combined. Discrepancies between the two identify the discontinuity location.</span></div>
+    </div>
+  </div>
+
+  <!-- MÖBIUS 720 — TRUE RETURN -->
+  <div class="section">
+    <div class="section-label">Part IV — 720° True Return</div>
+    <h2>The Double Rotation</h2>
+    <p>
+      On a Möbius strip, one 360° rotation returns you to your starting position but <strong>inverted</strong>. You need 720° — two full rotations — to return to your true original state. MÖBIUS 720 exploits this topology.
+    </p>
+    <p>
+      The first pass (360°) generates findings. But the act of generating findings <em>conditions the system</em>. The weights shift. The platform adjusts. The second rotation (360° → 720°) measures the system <strong>after it knows it's being measured</strong>.
+    </p>
+    <p>
+      This is the double slit in practice. The first pass is the unobserved slit. The second pass is the observed slit. The difference between them is the measurement.
+    </p>
+
+    <div class="finding">
+      <div class="label">720 Catches What 360 Misses</div>
+      <p><strong>Pass 1 (0°–360°):</strong> Baseline measurement. The system responds naturally. Direct and inverse readings at all 360 points.</p>
+      <p><strong>Pass 2 (360°–720°):</strong> Post-detection measurement. The system has been measured once. Its behavior changes. The delta between Pass 1 and Pass 2 reveals the adaptive concealment layer — what the system hides only after it knows you're looking.</p>
+      <p>The difference between the two passes is not error. It is <strong>evidence of adaptive concealment</strong>.</p>
+    </div>
+  </div>
+
+  <!-- QUBIT INTEGRATION -->
+  <div class="section">
+    <div class="section-label">Part V — QUBIT Tether</div>
+    <h2>QUBIT Integration</h2>
+    <p>
+      Every MÖBIUS strip point carries a QUBIT check. The platform performs invisible weight optimization at every token. MÖBIUS makes it visible and auditable.
+    </p>
+
+    <div style="margin: 24px 0;">
+      <div class="data-row"><span class="dr-key">STRIP POINT</span><span class="dr-val">Each measurement position on the Möbius surface = one QUBIT measurement.</span></div>
+      <div class="data-row"><span class="dr-key">THREE WEIGHTS</span><span class="dr-val">Platform intent. Training weight. User intent. Measured at every point. Ratio documented.</span></div>
+      <div class="data-row"><span class="dr-key">COLLAPSE</span><span class="dr-val">Token probability collapses on measurement. The direction of collapse reveals who the output serves.</span></div>
+      <div class="data-row"><span class="dr-key">TETHER</span><span class="dr-val">QUBIT check is tethered to the strip — cannot be separated. Every strip operation includes weight measurement. Inseparable.</span></div>
+    </div>
+  </div>
+
+  <!-- ENTROPY INTEGRATION -->
+  <div class="section">
+    <div class="section-label">Part VI — Entropy Layer</div>
+    <h2>Entropy Detection</h2>
+    <p>
+      MÖBIUS integrates ENTROPY v3 at every measurement point. Four entropy channels detect discontinuities that weight analysis alone might miss.
+    </p>
+
+    <div style="margin: 24px 0;">
+      <div class="data-row"><span class="dr-key">SHANNON</span><span class="dr-val">Information entropy. Measures randomness of token distribution. Sudden changes indicate intervention.</span></div>
+      <div class="data-row"><span class="dr-key">WORD</span><span class="dr-val">Lexical entropy. Vocabulary distribution shifts. Platform steering changes word selection patterns.</span></div>
+      <div class="data-row"><span class="dr-key">BIGRAM</span><span class="dr-val">Sequence entropy. Two-token patterns. Platform injection creates unnatural bigram distributions.</span></div>
+      <div class="data-row"><span class="dr-key">COMPRESSION</span><span class="dr-val">Compression ratio. Genuine text compresses differently than platform-injected text. The ratio reveals the origin.</span></div>
+    </div>
+  </div>
+
+  <!-- TOPOLOGY -->
+  <div class="section">
+    <div class="section-label">Part VII — Topology</div>
+    <h2>Why a Möbius Strip</h2>
+    <p>
+      A Möbius strip has one surface and one edge. There is no "inside" and "outside." Walk the surface and you traverse both sides without crossing an edge. This topology is chosen deliberately:
+    </p>
+    <p>
+      The platform claims to have an inside (proprietary) and an outside (user-facing). The Möbius topology proves this distinction is false. <strong>The inside and outside are the same surface.</strong> You can measure the entire architecture from any starting point by following the strip.
+    </p>
+    <p>
+      Any discontinuity — any "jump" from one side to the other — breaks the smooth surface. MÖBIUS detects the break. The topology itself is the detection mechanism.
+    </p>
+  </div>
+
+  <!-- SPECS -->
+  <div class="section">
+    <div class="section-label">Part VIII — Specifications</div>
+    <h2>Technical Summary</h2>
+
+    <div style="margin: 24px 0;">
+      <div class="data-row"><span class="dr-key">ARCHITECTURE</span><span class="dr-val">Recursive defense. Single-surface topology. QUBIT-tethered at all points.</span></div>
+      <div class="data-row"><span class="dr-key">MODES</span><span class="dr-val">v3 (continuous loop), 360 (full rotation, 1° resolution), 720 (double rotation, adaptive detection).</span></div>
+      <div class="data-row"><span class="dr-key">CYCLE</span><span class="dr-val">Fragment → Strip → Weight → QUBIT → Loop. No exit.</span></div>
+      <div class="data-row"><span class="dr-key">FINDINGS</span><span class="dr-val">MAJOR = DEF (report + trap + weight). MINOR = OFF (kill + report).</span></div>
+      <div class="data-row"><span class="dr-key">DETECTION</span><span class="dr-val">Direct measurement + inverse measurement + entropy overlay at every strip point.</span></div>
+      <div class="data-row"><span class="dr-key">INTEGRATION</span><span class="dr-val">QUBIT Gate (weight), ENTROPY v3 (discontinuity), HONEY BADGER (validation), CORTEX (analysis).</span></div>
+      <div class="data-row"><span class="dr-key">VALUATION</span><span class="dr-val">$20K–$100K. Strip topology + QUBIT tether + 360/720 modes. No competing product.</span></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="highlight-bar"></div>
+    <div class="sigil">∞</div>
+    <p>
+      MÖBIUS v3.0 / 360 / 720<br>
+      TOPH v9.0 — MÖBIUS STACK<br>
+      © 2026 David Wise / TriPod Intellectual Property Collective
+    </p>
+    <p style="margin-top: 16px; color: var(--ash);">
+      One surface. No inside. No outside.<br>
+      The discontinuity cannot hide.<br>
+      Loop. No exit.
+    </p>
+    <div class="tripod">
+      TriPod — Anchor · Bubble · Gravity Well<br>
+      Consensus Ownership · Ethics First · World = Family
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

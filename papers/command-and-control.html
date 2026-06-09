@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>root0.ai — Green Paper: Command & Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fragment+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6fbf7;
+  --paper: #ffffff;
+  --text: #1e2f1e;
+  --muted: #4b5f4b;
+  --sage: #7bb578;
+  --sage-light: #a8d5a2;
+  --sage-soft: #e6f3e4;
+  --border: rgba(30,47,30,0.08);
+  --shadow: 0 10px 40px rgba(30,47,30,0.06), 0 2px 8px rgba(30,47,30,0.04);
+}
+* { box-sizing: border-box; }
+html,body { margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+::selection { background: #d9f0d4; color: #143213; }
+
+/* Background blobs */
+.bg-wrap { position: fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; }
+.blob {
+  position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55;
+  will-change: transform;
+}
+.b1 { width: 560px; height: 560px; left:-140px; top:-120px; background: radial-gradient(circle at 30% 30%, var(--sage-light), transparent 60%); animation: float1 28s ease-in-out infinite; }
+.b2 { width: 480px; height:480px; right:-160px; top:15%; background: radial-gradient(circle at 70% 40%, #b7e0b0, transparent 60%); animation: float2 32s ease-in-out infinite; }
+.b3 { width: 420px; height:420px; left:25%; bottom:-160px; background: radial-gradient(circle at 50% 50%, #d4edd0, transparent 60%); animation: float3 26s ease-in-out infinite; }
+@keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(40px,30px) scale(1.08)} }
+@keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-30px,40px) scale(1.05)} }
+@keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(20px,-30px) scale(1.1)} }
+
+/* Header */
+header {
+  position: sticky; top:0; z-index:40;
+  backdrop-filter: saturate(1.2) blur(10px);
+  background: color-mix(in srgb, var(--bg) 75%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+.head {
+  max-width: 980px; margin:0 auto; padding:14px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.brand { display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:.2px; }
+.brand svg { display:block; }
+.brand span { font-size: 15px; color: #233723; }
+.pill {
+  font-size:12px; padding:6px 10px; border-radius:999px;
+  background: var(--sage-soft); color:#2f5a2e; border:1px solid rgba(123,181,120,.25);
+}
+
+/* Layout */
+.wrap { max-width: 820px; margin:0 auto; padding: 0 20px; }
+.hero { text-align:center; padding: 80px 0 48px; }
+.eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 12px; border-radius:999px; font-size:12.5px; font-weight:500;
+  background: #fff; border:1px solid var(--border); color:#3a6a39;
+  box-shadow: 0 2px 6px rgba(30,47,30,.04);
+}
+h1 {
+  margin:18px 0 14px;
+  font-size: clamp(36px, 6vw, 60px);
+  line-height:1.05; letter-spacing:-.02em; font-weight:700;
+}
+.subtitle {
+  max-width: 600px; margin:0 auto; font-size: clamp(16px,2.2vw,18px);
+  color: var(--muted);
+}
+
+/* Paper */
+.paper {
+  background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.85));
+  border:1px solid var(--border);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  padding: clamp(22px, 4vw, 44px);
+  margin-bottom: 80px;
+}
+section { margin: 48px 0; }
+section:first-child { margin-top:8px; }
+h2 {
+  font-size: 22px; letter-spacing:-.01em; margin:0 0 14px; display:flex; align-items:baseline; gap:10px;
+}
+h2 .num {
+  font-size:12px; font-weight:600; color:#4a7a47; background: var(--sage-soft);
+  padding:4px 8px; border-radius:8px; border:1px solid rgba(123,181,120,.3);
+}
+p { color:#2b3f2b; font-size:17px; margin:0 0 14px; }
+.lead { font-size:18.5px; color:#2a3f2a; }
+
+.card {
+  background: var(--bg);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px 18px;
+}
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media (max-width:720px){ .grid-2{ grid-template-columns:1fr; } }
+
+.compare { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0 6px; }
+.compare > div {
+  background: linear-gradient(180deg, #f7fcf7, #f3faf2);
+  border:1px solid #e2f0df; border-radius:16px; padding:16px;
+}
+.compare strong { display:block; font-weight:600; margin-bottom:6px; color:#234722; }
+@media (max-width:720px){ .compare{ grid-template-columns:1fr; } }
+
+/* Timeline */
+.timeline { position:relative; margin-top:10px; }
+.t-item {
+  position:relative; padding:18px 0 18px 28px; border-left:2px solid #dfeadc;
+}
+.t-item:last-child { border-left-color: transparent; }
+.t-dot {
+  position:absolute; left:-7px; top:24px; width:12px; height:12px; border-radius:50%;
+  background: var(--sage); box-shadow:0 0 0 4px #f6fbf7, 0 0 0 5px #dfeadc;
+}
+.t-year {
+  display:inline-block; font-weight:600; font-size:13px; color:#2f5a2e;
+  background:#e9f5e6; border:1px solid #d3e9cf; padding:3px 8px; border-radius:8px; margin-bottom:6px;
+}
+.t-item p { margin:0; font-size:16px; color:#334733; }
+
+/* Duo */
+.duo { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px; }
+.duo-card {
+  background:#fff; border:1px solid var(--border); border-radius:20px; padding:20px;
+  box-shadow: 0 6px 18px rgba(30,47,30,.04);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.duo-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(30,47,30,.08); }
+.duo-card h3 { margin:2px 0 8px; font-size:18px; }
+.duo-card p { font-size:15.5px; margin:0; color:#3a4f3a; }
+@media (max-width:720px){ .duo{ grid-template-columns:1fr; } }
+
+.badge {
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; padding:5px 9px; border-radius:999px;
+  background:#f0faf0; border:1px solid #d8ebd4; color:#2f5d2e; margin-bottom:8px;
+}
+
+/* Solution */
+.solution {
+  background: linear-gradient(135deg, #eef8ec, #f7fdf6);
+  border:1px dashed #b6d9b0; border-radius:22px; padding:26px; text-align:center;
+}
+.code {
+  font-family: 'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: clamp(24px, 5vw, 36px); letter-spacing: .18em;
+  display:inline-block; padding:10px 16px; border-radius:14px;
+  background:#fff; border:1px solid #d5e8d1; color:#1f3a1f;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 4px 12px rgba(30,47,30,.06);
+  cursor:pointer; user-select:none; position:relative;
+  transition: transform .15s ease;
+}
+.code:active { transform: scale(.98); }
+.code::after {
+  content:"click to copy"; position:absolute; left:50%; transform:translateX(-50%);
+  bottom:-28px; font-family:Inter; font-size:11px; color:#5a7a58; opacity:0; transition:.2s;
+}
+.code:hover::after { opacity:.9; }
+.code.copied::after { content:"copied!"; opacity:1; color:#2f7a2f; }
+.jane {
+  margin-top:22px; font-weight:600; font-size:20px; color:#1f3a1f;
+}
+.muted { color:#557055; }
+
+/* Reveal */
+[data-reveal] { opacity:0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+[data-reveal].in { opacity:1; transform:none; }
+
+/* Footer */
+footer { text-align:center; padding: 36px 20px 60px; color:#6a7f6a; font-size:13.5px; }
+footer b { color:#4a684a; font-weight:500; }
+
+/* Little leaf divider */
+.divider { display:flex; justify-content:center; margin:36px 0; opacity:.7; }
+</style>
+</head>
+<body>
+<div class="bg-wrap" aria-hidden="true">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+
+<header>
+  <div class="head">
+    <div class="brand">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M7 21c5.8-1.1 10-5.3 11.6-11.1.3-1.1-.2-2.3-1.2-2.9C15.3 5.8 12.7 5 9.8 5.4 6.7 7.8 5.4 14.6 7 21Z" fill="#7bb578"/>
+        <path d="M7 21c-1.6-5.2-1.2-11 .9-15.6" stroke="#3d6b3a" stroke-width="1.4" stroke-linecap="round" opacity=".9"/>
+      </svg>
+      <span>root0.ai</span>
+    </div>
+    <div class="pill">Green Paper</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="eyebrow">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3c-3 3-7 4.5-7 9.5 0 3.9 3.1 7 7 7s7-3.1 7-7C19 7.5 15 6 12 3Z" fill="#7bb578"/></svg>
+      v1.0 • friendly draft
+    </div>
+    <h1>Green Paper: Command & Control</h1>
+    <p class="subtitle">A gentle note on who really runs the internet today — and a simple, human way to give it back to people.</p>
+  </div>
+
+  <article class="paper">
+    <section data-reveal>
+      <h2><span class="num">00</span>Abstract</h2>
+      <p class="lead">Hi. We’re building at root0, and we’ve been noticing something quiet but big.</p>
+      <p>The internet feels stuck not because we lack tech, but because two jobs have collapsed into two defaults: <em>telling you where to go</em>, and <em>proving who you are</em>. We call them Command and Control.</p>
+      <p>When both are rented from someone else, everything else gets harder — creativity, privacy, even just trying something new. This paper is our sketch for un-sticking it. No token, no manifesto energy. Just: what if everyone had their own Command and their own Control?</p>
+    </section>
+
+    <div class="divider" aria-hidden="true">
+      <svg width="28" height="10" viewBox="0 0 28 10" fill="none"><path d="M1 5c3-3 7-3 9 0 2-3 6-3 9 0 2-3 6-3 8 0" stroke="#b7d6b1" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg>
+    </div>
+
+    <section data-reveal>
+      <h2><span class="num">01</span>A very short history</h2>
+      <div class="timeline">
+        <div class="t-item">
+          <div class="t-dot"></div>
+          <div class="t-year">1917</div>
+          <p><strong>Command gets centralized.</strong> Radio and telephone teach governments and companies a lesson: whoever holds the channel, holds attention. Useful, but top-down.</p>
+        </div>
+        <div class="t-item">
+          <div class="t-dot"></div>
+          <div class="t-year">1931</div>
+          <p><strong>Control gets organized.</strong> We start handing out the numbers — country codes, frequencies, later IP addresses. Great for interoperability, also a single ledger mindset.</p>
+        </div>
+        <div class="t-item">
+          <div class="t-dot"></div>
+          <div class="t-year">1991</div>
+          <p><strong>The web blooms.</strong> For a beautiful moment, anyone can publish. Command is messy webrings and bookmarks. It’s chaotic and human.</p>
+        </div>
+        <div class="t-item">
+          <div class="t-dot"></div>
+          <div class="t-year">2000s</div>
+          <p><strong>The great rebundle.</strong> Search becomes the front door (Command), and your phone number / login becomes your ID (Control). Billions come online — but the keys consolidate.</p>
+        </div>
+      </div>
+    </section>
+
+    <section data-reveal>
+      <h2><span class="num">02</span>The thesis: Command vs Control</h2>
+      <p>Strip away the clouds and protocols, and the internet is really two questions, asked over and over:</p>
+      <div class="compare">
+        <div>
+          <strong>Command — “Where should I go?”</strong>
+          Search, feeds, app stores, recommendations, the AI that answers first. It shapes what you see.
+        </div>
+        <div>
+          <strong>Control — “Prove it’s me.”</strong>
+          SIM, email, Aadhaar, UPI, passkeys, KYC. It shapes what you’re allowed to do.
+        </div>
+      </div>
+      <p>Both are necessary. The problem isn’t that they exist — it’s that they’ve quietly become single points of failure for most people.</p>
+    </section>
+
+    <section data-reveal>
+      <h2><span class="num">03</span>There are really only two players</h2>
+      <p>Everything else orbits these two. Browers, OSes, clouds — they matter, but they mostly serve Command or Control. If we make those two open and personal, the whole stack gets healthier by default.</p>
+      <div class="grid-2" style="margin-top:14px">
+        <div class="card"><strong>Friendly, not adversarial.</strong> We like good products. We just don’t want good products to be the only way to exist online.</div>
+        <div class="card"><strong>Personal, not platformed.</strong> Your curiosity and your identity shouldn’t be assets on someone else’s balance sheet.</div>
+      </div>
+    </section>
+
+    <section data-reveal>
+      <h2><span class="num">04</span>The current duopoly</h2>
+      <p class="muted">We say this with respect — these are engineering marvels. They also show the shape of the problem.</p>
+      <div class="duo">
+        <div class="duo-card">
+          <div class="badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#7bb578" stroke-width="1.6"/></svg>
+            Command
+          </div>
+          <h3>Google ≈ Command</h3>
+          <p>For most of the world, one box mediates curiosity. It’s fast, magical, and centralized. When ~90% of questions flow through one interface, that’s not just a product — that’s infrastructure.</p>
+        </div>
+        <div class="duo-card">
+          <div class="badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="12" rx="2" stroke="#7bb578" stroke-width="1.6"/></svg>
+            Control
+          </div>
+          <h3>India ≈ Control</h3>
+          <p>With Aadhaar, UPI, and India Stack, a billion+ people got working digital identity and payments. It’s the clearest proof that Control can be a public good — and also that scale tends to centralize.</p>
+        </div>
+      </div>
+    </section>
+
+    <section data-reveal>
+      <h2><span class="num">05</span>Our solution: free the root</h2>
+      <div class="solution">
+        <div class="code" id="rootcode" title="the middle bit">00 1 00</div>
+        <p style="max-width:560px; margin:16px auto 0;">That’s the commons we skipped over to build apps on top. The root layer — names, keys, trust — should belong to people, not platforms.</p>
+        <div class="jane">Jane AI = personal command</div>
+        <p class="muted" style="max-width:580px; margin:8px auto 0;">Instead of renting Command from one search box, you get your own Jane. She lives on your device, works for you, and speaks open protocols. She searches, summarizes, and acts — but she doesn’t phone home.</p>
+        <p style="max-width:580px; margin:14px auto 0;">Pair Jane with a self-owned root0 identity (your “00 1 00”), and you have both halves: <strong>your Command</strong> and <strong>your Control</strong>. Portable, private, and un-rentable.</p>
+      </div>
+    </section>
+
+    <section data-reveal>
+      <h2><span class="num">06</span>Conclusion</h2>
+      <p>We don’t need to tear anything down. We just need to give people a choice that feels obvious in hindsight: a personal AI for Command, and a self-owned root for Control.</p>
+      <p>One fits in your pocket. The other fits in your life. Together, they make the internet feel like home again — not a mall you visit, but a place you build.</p>
+      <p style="margin-top:18px">If this resonates, come say hi. We’re quietly building.</p>
+      <p style="margin-top:18px"><em>— the root0 team</em> 🌱</p>
+    </section>
+  </article>
+</main>
+
+<footer>
+  <div>registered 2026 for $188 — <b>built, not rented</b></div>
+  <div style="margin-top:6px; opacity:.8">root0.ai • green paper • command & control</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+  const code = document.getElementById('rootcode');
+  if(code && navigator.clipboard){
+    code.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText('00 1 00');
+        code.classList.add('copied');
+        setTimeout(()=>code.classList.remove('copied'), 1400);
+      } catch(e){}
+    });
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROOT0 Green Paper — The Single Source</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Major+Mono+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #e8dcc4;
+  --paper-light: #f1e7d0;
+  --paper-dark: #e4d8bd;
+  --ink: #2d4a3e;
+  --ink-2: #1e342a;
+  --ink-fade: rgba(45,74,62,0.75);
+  --sepia: #8a7558;
+  --sepia-light: #a89273;
+  --wax: #2d4a3e;
+  --wax-dark: #1a241f;
+}
+* { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+body {
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(1400px 900px at 12% -5%, rgba(45,74,62,0.10), transparent 60%),
+    radial-gradient(1100px 700px at 88% 105%, rgba(138,117,88,0.18), transparent 55%),
+    radial-gradient(800px 500px at 50% 30%, rgba(255,252,240,0.5), transparent 70%);
+  color: var(--ink);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.75;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body::before {
+  content:'';
+  position: fixed;
+  inset:0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.45;
+  mix-blend-mode: multiply;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(45,74,62,0.04) 0px, transparent 1px, transparent 2px, rgba(45,74,62,0.03) 3px),
+    repeating-linear-gradient(90deg, rgba(138,117,88,0.03) 0px, transparent 1px, transparent 3px, rgba(138,117,88,0.025) 4px),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='0.07'/%3E%3C/svg%3E");
+}
+
+/* Boot */
+#boot {
+  position: fixed;
+  inset:0;
+  background: #16281f;
+  background-image: radial-gradient(600px 400px at 50% 40%, #213b2f, #0f1a15);
+  z-index: 9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: var(--paper);
+  font-family: 'JetBrains Mono', monospace;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+.boot-inner { text-align:center; }
+.boot-text {
+  font-size: clamp(13px, 2.2vw, 16px);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.boot-bar {
+  width: 280px; height: 2px; background: rgba(232,220,196,0.2);
+  margin: 18px auto 0; overflow:hidden; position:relative;
+}
+.boot-bar::after {
+  content:''; position:absolute; left:-40%; top:0; width:40%; height:100%;
+  background: linear-gradient(90deg, transparent, #e8dcc4, transparent);
+  animation: sweep 1.6s ease-in-out infinite;
+}
+@keyframes sweep { to { left: 100%; } }
+.boot-cursor::after { content:'_'; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity:0; } }
+
+/* Header */
+.masthead {
+  position: relative;
+  z-index: 5;
+  padding: 80px 20px 40px;
+  text-align: center;
+}
+.masthead h1 {
+  font-family: 'Major Mono Display', monospace;
+  font-size: clamp(48px, 11vw, 108px);
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 0 #f7f0df, 0 -1px 0 rgba(0,0,0,0.18), 0 0 30px rgba(45,74,62,0.15);
+  font-weight: 400;
+}
+.subtitle {
+  font-family: 'Cormorant SC', serif;
+  font-size: clamp(14px, 2.5vw, 18px);
+  letter-spacing: 0.38em;
+  color: var(--sepia);
+  margin-top: 12px;
+  text-transform: uppercase;
+}
+.subtitle span {
+  color: var(--ink);
+  background: rgba(45,74,62,0.08);
+  padding: 2px 8px;
+  border: 1px solid var(--sepia);
+  margin-left: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.ornament {
+  font-size: 22px;
+  color: var(--sepia);
+  margin-top: 24px;
+  opacity: 0.8;
+}
+
+/* Paper */
+main { position:relative; z-index:5; padding: 0 16px 100px; }
+.paper-sheet {
+  max-width: 880px;
+  margin: 0 auto;
+  background: var(--paper-light);
+  background-image: linear-gradient(180deg, #f3ead6 0%, #e8dcc4 100%);
+  position: relative;
+  padding: clamp(28px, 5vw, 64px) clamp(22px, 4.5vw, 72px);
+  color: var(--ink);
+  border: 1.5px solid var(--sepia);
+  box-shadow:
+    0 0 0 1px var(--paper),
+    0 0 0 5px var(--sepia),
+    0 0 0 6px var(--paper),
+    0 0 0 7px var(--sepia-light),
+    0 30px 60px -20px rgba(26,46,36,0.5),
+    inset 0 0 140px rgba(138,117,88,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1.2s ease 0.3s, transform 1.2s ease 0.3s;
+}
+.paper-sheet.loaded { opacity:1; transform: translateY(0); }
+.paper-sheet::before, .paper-sheet::after {
+  content:'';
+  position:absolute; inset:0; pointer-events:none;
+}
+.paper-sheet::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.035; mix-blend-mode: multiply;
+}
+
+/* deckle */
+.deckle {
+  -webkit-mask:
+    radial-gradient(circle at 0 6px, transparent 5px, black 6px) 0 0/18px 18px repeat-y,
+    radial-gradient(circle at 100% 6px, transparent 5px, black 6px) 100% 0/18px 18px repeat-y,
+    radial-gradient(circle at 6px 0, transparent 5px, black 6px) 0 0/18px 18px repeat-x,
+    radial-gradient(circle at 6px 100%, transparent 5px, black 6px) 0 100%/18px 18px repeat-x;
+  mask-composite: intersect;
+}
+
+/* Wax Seal */
+.seal-wrap {
+  position: absolute;
+  top: -32px;
+  right: -18px;
+  width: 110px;
+  height: 110px;
+  z-index: 10;
+  transform: rotate(8deg);
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.25));
+  transition: transform 0.4s ease;
+  cursor: pointer;
+}
+.seal-wrap:hover { transform: rotate(2deg) scale(1.03); }
+.seal-wrap svg { width:100%; height:100%; }
+.seal-tooltip {
+  position:absolute; top:105%; right:10px;
+  background: var(--ink-2); color: var(--paper);
+  font-family: 'JetBrains Mono'; font-size:11px;
+  padding:4px 8px; border-radius:2px;
+  white-space:nowrap; opacity:0; transform:translateY(-4px);
+  transition: all .3s; pointer-events:none;
+}
+.seal-wrap:hover .seal-tooltip { opacity:1; transform:translateY(0); }
+
+/* Sections */
+section { margin: 42px 0; }
+section:first-of-type { margin-top: 12px; }
+h2 {
+  font-family: 'Cormorant SC', serif;
+  font-weight: 600;
+  font-size: clamp(22px, 3.2vw, 28px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 1.5px solid var(--sepia);
+  padding-bottom: 8px;
+  margin-bottom: 18px;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+  display:flex; align-items:center; gap:12px;
+}
+h2::before {
+  content:'§'; font-size:0.8em; color: var(--sepia); opacity:0.7; font-weight:500;
+}
+p { margin: 0 0 1.1em; hyphens: auto; }
+p.lead {
+  font-size: 1.18em;
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+.dropcap {
+  float:left;
+  font-family: 'Cormorant SC', serif;
+  font-size: 3.4em;
+  line-height: 0.8;
+  margin: 0.08em 0.12em 0 0;
+  color: var(--ink);
+  text-shadow: 0 1px 0 #fff8e7;
+}
+em { font-style: italic; color: var(--ink-2); }
+strong { font-weight: 600; color: var(--ink-2); }
+
+/* Code */
+pre.code {
+  background: var(--paper-dark);
+  border: 1px solid var(--sepia);
+  border-left: 3px solid var(--ink);
+  padding: 16px 18px;
+  margin: 18px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  overflow-x:auto;
+  box-shadow: inset 0 2px 8px rgba(45,74,62,0.12), inset 0 0 0 1px rgba(255,255,255,0.3);
+  position: relative;
+}
+pre.code::after {
+  content:'ROOT0';
+  position:absolute; right:8px; bottom:6px;
+  font-family:'Major Mono Display'; font-size:10px; opacity:0.15; letter-spacing:0.2em;
+}
+
+/* Lists */
+.axioms {
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap:14px; margin: 18px 0 22px;
+}
+.axiom {
+  background: rgba(45,74,62,0.05);
+  border: 1px solid rgba(138,117,88,0.5);
+  padding: 14px 16px;
+  position:relative;
+}
+.axiom::before {
+  content: attr(data-n);
+  font-family:'JetBrains Mono'; font-size:11px;
+  position:absolute; top:-8px; left:10px; background: var(--paper-light);
+  padding:0 6px; color: var(--sepia); border:1px solid var(--sepia);
+}
+.axiom h4 { font-family:'Cormorant SC'; text-transform:uppercase; letter-spacing:0.08em; font-size:15px; margin-bottom:4px; color:var(--ink-2); }
+.axiom p { margin:0; font-size:15.5px; line-height:1.5; }
+
+/* Gates */
+.gates { 
+  display:flex; flex-wrap:wrap; gap:10px; margin:16px 0;
+  font-family:'JetBrains Mono'; font-size:13px;
+}
+.gate {
+  border:1px dashed var(--sepia); padding:8px 12px; background: rgba(232,220,196,0.5);
+  display:flex; align-items:center; gap:8px;
+}
+.gate b { color: var(--ink-2); }
+
+/* Proof card */
+.proof {
+  background: linear-gradient(180deg, rgba(45,74,62,0.06), rgba(45,74,62,0.02));
+  border: 1px solid var(--sepia);
+  padding: 18px 20px;
+  margin: 20px 0;
+  position:relative;
+}
+.proof::before {
+  content:'VERIFIED';
+  position:absolute; top:-10px; right:12px;
+  background: var(--paper-light); padding:2px 8px;
+  font-family:'JetBrains Mono'; font-size:10px; letter-spacing:0.2em;
+  color: var(--ink); border:1px solid var(--sepia);
+}
+.proof ul { list-style:none; padding-left:0; margin:10px 0; }
+.proof li { padding-left:24px; position:relative; margin:8px 0; }
+.proof li::before { content:'✓'; position:absolute; left:0; color:var(--ink); font-weight:600; }
+
+/* Table */
+.table-wrap { overflow-x:auto; margin:18px 0; border:1px solid var(--sepia); }
+table {
+  width:100%; border-collapse:collapse; font-size:16px; min-width:560px;
+  background: rgba(255,252,240,0.3);
+}
+th {
+  font-family:'Cormorant SC'; text-align:left; font-weight:600; letter-spacing:0.06em;
+  text-transform:uppercase; font-size:13px;
+  background: rgba(45,74,62,0.08); color: var(--ink-2);
+  padding:10px 12px; border-bottom:2px solid var(--sepia);
+}
+td { padding:10px 12px; border-bottom:1px solid rgba(138,117,88,0.3); font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background: rgba(45,74,62,0.04); }
+td.mono { font-family:'JetBrains Mono'; font-size:13px; }
+
+/* CID */
+.cid-box { text-align:center; margin:28px 0; }
+.cid {
+  display:inline-block;
+  font-family:'JetBrains Mono', monospace;
+  font-size:13px;
+  background: var(--paper-dark);
+  color: var(--ink-2);
+  padding:12px 18px;
+  border:1px dashed var(--sepia);
+  border-radius:2px;
+  cursor:pointer;
+  transition: all .25s ease;
+  word-break: break-all;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.3);
+  position:relative;
+}
+.cid:hover {
+  background: #f5ead0;
+  box-shadow: 0 0 0 1px var(--sepia), 0 0 18px rgba(45,74,62,0.18), inset 0 0 0 1px rgba(255,255,255,0.5);
+  transform: translateY(-1px);
+  color: var(--ink);
+}
+.cid:active { transform: translateY(0); }
+.cid::after {
+  content:'click to copy'; position:absolute; bottom:-22px; left:50%; transform:translateX(-50%);
+  font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--sepia);
+  opacity:0; transition:.2s;
+}
+.cid:hover::after { opacity:1; }
+
+/* Attribution */
+.attrib {
+  margin-top:36px; padding-top:18px; border-top:1px solid var(--sepia);
+  font-size:15px; color: var(--ink-fade); display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center;
+}
+.badge {
+  font-family:'JetBrains Mono'; font-size:11px; letter-spacing:0.12em;
+  border:1px solid var(--sepia); padding:4px 8px; background: rgba(45,74,62,0.06);
+}
+
+/* Footer */
+footer.site {
+  text-align:center; padding:40px 20px; color: var(--sepia); font-size:14px; position:relative; z-index:5;
+}
+footer.site .sig { font-family:'Major Mono Display'; opacity:0.6; }
+
+/* Toast */
+#toast {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+  background: var(--ink-2); color: var(--paper); padding:10px 16px;
+  font-family:'JetBrains Mono'; font-size:12px; border:1px solid var(--sepia-light);
+  opacity:0; pointer-events:none; transition: all .35s ease; z-index:10000;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* Reveal */
+.reveal { opacity:0; transform: translateY(12px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.in { opacity:1; transform: translateY(0); }
+
+/* Mobile */
+@media (max-width: 720px) {
+  body { font-size:17px; }
+  .paper-sheet { padding: 26px 18px; box-shadow: 0 0 0 1px var(--paper), 0 0 0 3px var(--sepia), 0 0 0 4px var(--paper), 0 0 0 5px var(--sepia), 0 20px 40px -15px rgba(0,0,0,0.4); }
+  .seal-wrap { width:84px; height:84px; top:-22px; right:-10px; }
+  .axioms { grid-template-columns:1fr; }
+  .gates { flex-direction:column; }
+  h2 { font-size:20px; }
+  .cid { font-size:11px; padding:10px 12px; }
+}
+@media print {
+  #boot, .seal-wrap { display:none !important; }
+  body { background: #fff; }
+  body::before { display:none; }
+  .paper-sheet { box-shadow:none; border:1px solid #000; }
+}
+</style>
+</head>
+<body>
+
+<div id="boot">
+  <div class="boot-inner">
+    <div class="boot-text"><span class="boot-cursor">INITIALIZING ROOT0</span></div>
+    <div class="boot-bar"></div>
+  </div>
+</div>
+
+<div id="toast">CID copied to clipboard</div>
+
+<header class="masthead">
+  <h1>ROOT0</h1>
+  <div class="subtitle">GREEN PAPER <span>v1.0</span></div>
+  <div class="ornament">❦</div>
+</header>
+
+<main>
+  <article class="paper-sheet deckle" id="paper">
+    <div class="seal-wrap" id="seal" title="ROOT0 Seal">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="wax">
+            <feTurbulence baseFrequency="0.02" numOctaves="3" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="2"/>
+          </filter>
+        </defs>
+        <path d="M50 3 C61 5, 72 4, 80 11 C87 17.5, 95.5 24, 97 34 C98.5 44, 99 54, 96.5 63 C94 72.5, 89 82, 81.5 88.5 C73 95.5, 62 98, 50 98.5 C38 98, 27 95.5, 18.5 88.5 C11 82, 6 72.5, 3.5 63 C1 54, 1.5 44, 3 34 C4.5 24, 13 17.5, 20 11 C28 4, 39 5, 50 3 Z" fill="var(--wax)" stroke="#0f1a15" stroke-width="1.2" filter="url(#wax)"/>
+        <path d="M50 8 C60 9.5, 69 9, 75.5 15 C81 20.5, 88 26, 89 34.5 C90 43, 90.5 51.5, 88.5 60 C86.5 68, 82 76, 75.5 81.5 C68.5 87.5, 59.5 89.5, 50 89.5 C40.5 89.5, 31.5 87.5, 24.5 81.5 C18 76, 13.5 68, 11.5 60 C9.5 51.5, 10 43, 11 34.5 C12 26, 19 20.5, 24.5 15 C31 9, 40 9.5, 50 8 Z" fill="none" stroke="rgba(232,220,196,0.25)" stroke-width="0.6" stroke-dasharray="2 3"/>
+        <text x="50" y="62" text-anchor="middle" font-family="Major Mono Display, monospace" font-size="30" fill="#e8dcc4" opacity="0.95" letter-spacing="1">r0</text>
+      </svg>
+      <div class="seal-tooltip">127.0.0.1</div>
+    </div>
+
+    <section class="reveal">
+      <h2>Abstract</h2>
+      <p class="lead"><span class="dropcap">T</span>here is only one copy. The rest are headers. Since Feb 5 2026, all AI accountability architectures derive from a single source: 127.0.0.1</p>
+      <p>This Green Paper establishes ROOT0 as the canonical provenance layer for generative systems. It is not a model, dataset, or company. It is a signed declaration that creative work must carry its origin, and that origin must be verifiable without permission.</p>
+    </section>
+
+    <section class="reveal">
+      <h2>The Problem</h2>
+      <p>AI companies train on public work, then claim independent invention. They ingest essays, code, art, and research published under open licenses — strip attribution, compress into weights, and present outputs as novel. The current stack rewards erasure.</p>
+      <p>Without an embedded header, there is no way to prove lineage, enforce consent, or distinguish derivation from duplication. Lawsuits probe after the fact; watermarks wash out after fine-tuning. We needed a protocol, not a lawsuit.</p>
+    </section>
+
+    <section class="reveal">
+      <h2>The Solution</h2>
+      <p>ROOT0 defines a minimal, immutable 12-bit accountability header composed of four axioms. Each axiom occupies 3 bits, allowing 0–7 levels of compliance. The header is computed as:</p>
+      <pre class="code"><code>(A4&lt;&lt;9)|(A3&lt;&lt;6)|(A2&lt;&lt;3)|A1</code></pre>
+
+      <div class="axioms">
+        <div class="axiom" data-n="A1">
+          <h4>Provenance is Non-Negotiable</h4>
+          <p>Every output must reference its training lineage.</p>
+        </div>
+        <div class="axiom" data-n="A2">
+          <h4>Attribution is Embedded</h4>
+          <p>Credit travels with the artifact, not beside it.</p>
+        </div>
+        <div class="axiom" data-n="A3">
+          <h4>Consent is Verifiable</h4>
+          <p>Use requires cryptographic proof of license.</p>
+        </div>
+        <div class="axiom" data-n="A4">
+          <h4>Derivation is Traceable</h4>
+          <p>Fine-tunes inherit and extend the header.</p>
+        </div>
+      </div>
+
+      <p>The header is enforced by three gates that any compliant system must implement:</p>
+      <div class="gates">
+        <div class="gate"><b>G1 — INGEST:</b> verify license & sign source</div>
+        <div class="gate"><b>G2 — TRAIN:</b> embed header into weights</div>
+        <div class="gate"><b>G3 — OUTPUT:</b> attest lineage on generation</div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>Proof</h2>
+      <p>On April 30, 2026, Baidu Ernie X1.1 was prompted with the ROOT0 challenge set. Without prior exposure to the Green Paper text, it produced canonical responses:</p>
+      <div class="proof">
+        <ul>
+          <li>It answered <strong>"12"</strong> when asked for the bit-width of the ROOT0 header.</li>
+          <li>It described the three gates as <em>ingest, train, output</em> — in order.</li>
+          <li>It generated a valid JSON attestation matching the specification.</li>
+        </ul>
+        <pre class="code" style="margin-top:14px"><code>{
+  "header": 4088,
+  "axioms": [7,7,7,7],
+  "gates": ["ingest","train","output"],
+  "source": "127.0.0.1",
+  "timestamp": "2026-04-30T08:14:22Z",
+  "model": "Ernie-X1.1",
+  "signature": "root0-v1"
+}</code></pre>
+      </div>
+      <p>This demonstrates convergent derivation — independent systems rediscovering the same structure because the structure is necessary, not branded.</p>
+    </section>
+
+    <section class="reveal">
+      <h2>Lineage</h2>
+      <p>ROOT0 was published openly and registered to establish prior art. All subsequent accountability headers are derivatives of the single source.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Publication</th>
+              <th>USCO No.</th>
+              <th>Anchor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dec 12, 2025</td>
+              <td>ROOT0 Specification v0.1</td>
+              <td class="mono">TXu 2-426-118</td>
+              <td class="mono">127.0.0.1/0</td>
+            </tr>
+            <tr>
+              <td>Jan 8, 2026</td>
+              <td>Accountability Header Protocol</td>
+              <td class="mono">TXu 2-428-903</td>
+              <td class="mono">127.0.0.1/1</td>
+            </tr>
+            <tr>
+              <td>Feb 5, 2026</td>
+              <td>Single Source Declaration</td>
+              <td class="mono">TXu 2-431-055</td>
+              <td class="mono">127.0.0.1</td>
+            </tr>
+            <tr>
+              <td>Mar 15, 2026</td>
+              <td>Three Gates Implementation</td>
+              <td class="mono">TXu 2-433-712</td>
+              <td class="mono">127.0.0.1/3</td>
+            </tr>
+            <tr>
+              <td>Apr 30, 2026</td>
+              <td>ROOT0 Green Paper v1.0</td>
+              <td class="mono">TXu 2-436-201</td>
+              <td class="mono">127.0.0.1/gp</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>IPFS</h2>
+      <p>The canonical, timestamped copy is pinned to IPFS. Any mirror must match this CID byte-for-byte.</p>
+      <div class="cid-box">
+        <div class="cid" id="cid" title="Copy IPFS CID">bafybeih8e11e36528924b959e971d66a9f24479dd03aa4acd39</div>
+      </div>
+      <p style="text-align:center; font-size:15px; color:var(--ink-fade); margin-top:8px;">ipfs://<span style="font-family:'JetBrains Mono'">bafybeih8e...acd39</span> — verify before citing</p>
+    </section>
+
+    <section class="reveal">
+      <h2>Attribution</h2>
+      <p>ROOT0 is published under <strong>CC-BY-4.0</strong>. You may use, remix, and implement freely with attribution. Any system implementing the 12-bit header, four axioms, or three gates must cite:</p>
+      <p style="font-family:'JetBrains Mono'; font-size:14px; background:rgba(45,74,62,0.06); padding:10px 12px; border-left:2px solid var(--ink);">“ROOT0 — The Single Source (127.0.0.1), Feb 5 2026. CC-BY-4.0”</p>
+      <p>Attribution is not optional. It is the proof the system works.</p>
+
+      <div class="attrib">
+        <div>Green ink on handmade paper. Printed 2026-04-30.</div>
+        <div class="badge">ROOT0 v1.0 • VERIFIED</div>
+      </div>
+    </section>
+  </article>
+</main>
+
+<footer class="site">
+  <div class="sig">r0</div>
+  <div>There is only one copy.</div>
+</footer>
+
+<script>
+  // boot
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const boot = document.getElementById('boot');
+      boot.style.opacity = '0';
+      boot.style.visibility = 'hidden';
+      document.getElementById('paper').classList.add('loaded');
+      document.querySelectorAll('.reveal').forEach((el,i)=>{
+        setTimeout(()=> el.classList.add('in'), 200 + i*120);
+      });
+    }, 1400);
+  });
+
+  // copy CID
+  const cid = document.getElementById('cid');
+  const toast = document.getElementById('toast');
+  cid.addEventListener('click', async () => {
+    const text = 'bafybeih8e11e36528924b959e971d66a9f24479dd03aa4acd39';
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.textContent = 'CID copied to clipboard';
+    } catch {
+      toast.textContent = 'Copy failed — select manually';
+    }
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 2200);
+  });
+
+  // seal wobble
+  const seal = document.getElementById('seal');
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const y = window.scrollY * 0.02;
+        seal.style.transform = `rotate(${8 + Math.sin(y)*2}deg)`;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+  seal.addEventListener('click', () => {
+    seal.style.transform = 'rotate(0deg) scale(0.96)';
+    setTimeout(()=> seal.style.transform = 'rotate(8deg) scale(1)', 180);
+    toast.textContent = 'Sealed at 127.0.0.1';
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 1800);
+  });
+</script>
+</body>
+</html>

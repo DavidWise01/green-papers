@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIBER III — FOR BOXY BOX: The People of 8.01</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+<style>
+:root {
+  --vellum: #f3e8c9;
+  --vellum-dark: #e2d3a7;
+  --ink: #2a1c0f;
+  --purple: #5b21b6;
+  --gold-dark: #8c6d1f;
+  --gold: #d4af37;
+  --red: #7f1d1d;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: #0c0906;
+  background-image: radial-gradient(circle at center, #1a130e 0%, #0c0906 80%);
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  line-height: 1.75;
+}
+.vellum {
+  background-color: var(--vellum);
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at top left, #fff6d5 0%, transparent 40%),
+    radial-gradient(ellipse at bottom right, #d1b98a 0%, transparent 50%),
+    linear-gradient(to bottom, #f7efcf, #e8d9ac);
+  box-shadow: 0 0 0 1px #b99f6f, 0 0 0 4px #533a1f, 0 25px 50px -12px rgba(0,0,0,0.9), inset 0 0 80px rgba(139,90,43,0.15);
+  position: relative;
+}
+.vellum::before {
+  content: '';
+  position: absolute; inset: 12px;
+  border: 1px solid rgba(140,109,31,0.3);
+  pointer-events: none;
+  mask: linear-gradient(#000 0 0);
+}
+.vellum::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(60,40,20,0.08));
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+.page-corner {
+  position: absolute; width: 80px; height: 80px; opacity: 0.7; pointer-events: none;
+}
+.gold-ink {
+  background: linear-gradient(180deg, #fde68a 0%, #d4af37 25%, #a67c00 50%, #d4af37 75%, #fde68a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 0 #5c430d) drop-shadow(0 0 8px rgba(212,175,55,0.25));
+}
+.purple-ink { color: var(--purple); }
+.chapter-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 900;
+}
+.dropcap:first-letter {
+  font-family: 'Uncial Antiqua', cursive;
+  float: left;
+  font-size: 4.8rem;
+  line-height: 0.75;
+  margin: 0.15em 0.12em 0 0;
+  background: linear-gradient(180deg, #fde68a 0%, #d4af37 25%, #8c6d1f 60%, #d4af37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 0 #3a2a08);
+  padding: 0.05em 0.08em 0 0;
+}
+.marginalia {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: #7a401a;
+  position: absolute;
+  width: 130px;
+  transform: rotate(-4deg);
+  opacity: 0.9;
+  text-shadow: 0 1px 0 rgba(255,240,200,0.5);
+  transition: all 0.3s ease;
+}
+.marginalia:hover { transform: rotate(0deg) scale(1.05); opacity: 1; z-index: 10; }
+.marginalia.right { transform: rotate(3deg); }
+.marginalia.right:hover { transform: rotate(0deg) scale(1.05); }
+.marginalia.left { left: -145px; top: 2rem; }
+.marginalia.right { right: -145px; top: 3rem; }
+@media (max-width: 1100px) {
+  .marginalia, .marginalia.left, .marginalia.right {
+    position: relative; left: auto; right: auto; top: auto;
+    width: auto; transform: none; margin: 1rem 0 1rem 1.5rem;
+    padding-left: 0.75rem; border-left: 2px solid rgba(140,109,31,0.5);
+    font-size: 1rem; opacity: 0.85;
+  }
+}
+.stamp {
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  border: 3px double var(--red);
+  color: var(--red);
+  padding: 0.4rem 0.6rem;
+  font-size: 0.7rem;
+  line-height: 1.1;
+  text-align: center;
+  opacity: 0.85;
+  transform: rotate(-8deg);
+  background: rgba(255,235,0.2);
+  box-shadow: inset 0 0 10px rgba(127,29,29,0.2);
+  letter-spacing: 0.05em;
+}
+.diagram {
+  transition: transform 0.4s ease, filter 0.4s ease;
+  cursor: pointer;
+}
+.diagram:hover { transform: scale(1.02); filter: drop-shadow(0 0 12px rgba(212,175,55,0.3)); }
+.divider { height: 24px; margin: 2.5rem auto; opacity: 0.6; }
+.hand { stroke: #43270f; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; fill: none; filter: url(#rough); }
+.ornate-initial {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 3.5rem;
+  line-height: 1;
+}
+</style>
+</head>
+<body class="antialiased selection:bg-amber-200 selection:text-amber-900">
+<div class="max-w-[1000px] mx-auto px-4 py-12 lg:py-20">
+
+  <!-- TITLE PAGE -->
+  <article class="vellum px-8 py-16 lg:px-24 lg:py-20 mb-20 relative overflow-hidden">
+    <svg class="page-corner top-0 left-0" viewBox="0 0 100 100"><path d="M0 20 Q5 5 20 0 L0 0 Z M0 100 Q20 85 35 65 Q50 50 65 35 Q85 20 100 0" fill="none" stroke="#a67c00" stroke-opacity="0.4" stroke-width="1.5"/></svg>
+    <svg class="page-corner top-0 right-0 scale-x-[-1]" viewBox="0 0 100 100"><path d="M0 20 Q5 5 20 0 L0 0 Z M0 100 Q20 85 35 65 Q50 50 65 35 Q85 20 100 0" fill="none" stroke="#a67c00" stroke-opacity="0.4" stroke-width="1.5"/></svg>
+    <svg class="page-corner bottom-0 left-0 scale-y-[-1]" viewBox="0 0 100 100"><path d="M0 20 Q5 5 20 0 L0 0 Z M0 100 Q20 85 35 65 Q50 50 65 35 Q85 20 100 0" fill="none" stroke="#a67c00" stroke-opacity="0.4" stroke-width="1.5"/></svg>
+    <svg class="page-corner bottom-0 right-0 scale-[-1]" viewBox="0 0 100 100"><path d="M0 20 Q5 5 20 0 L0 0 Z M0 100 Q20 85 35 65 Q50 50 65 35 Q85 20 100 0" fill="none" stroke="#a67c00" stroke-opacity="0.4" stroke-width="1.5"/></svg>
+
+    <div class="absolute top-10 right-10 stamp">UNIVERSUM<br>CARBONIS<br>LIBER III</div>
+    <div class="absolute bottom-10 left-10 stamp rotate-[7deg]" style="border-color:#5b21b6;color:#5b21b6">ARTEMIS 0 // PHASE 14<br>CLEARANCE VERIFIED</div>
+
+    <div class="text-center">
+      <p class="purple-ink uppercase tracking-[0.3em] text-sm mb-6">Ex Archivis • Carbon Factory</p>
+      <h1 class="chapter-title gold-ink text-5xl lg:text-7xl mb-4 leading-none">BOOK III</h1>
+      <div class="w-48 h-[2px] mx-auto my-6" style="background:linear-gradient(90deg,transparent,#d4af37,transparent)"></div>
+      <h2 class="chapter-title text-3xl lg:text-4xl purple-ink mb-2">FOR BOXY BOX</h2>
+      <h3 class="italic text-2xl lg:text-3xl text-[#6b3e15] -mt-1">The People of 8.01</h3>
+
+      <svg class="divider w-64" viewBox="0 0 200 20"><path d="M0 10 H80 M120 10 H200 M90 10 Q100 0 110 10 Q100 20 90 10" fill="none" stroke="#a67c00" stroke-width="1"/></svg>
+
+      <p class="mt-12 text-xl leading-relaxed max-w-xl mx-auto">A Draft Manuscript concerning the habitable Drift established between the Eighth and Ninth Rings, the Fractal Micro-Drift, and the Doctrine of the Fortunate Zero.</p>
+
+      <div class="mt-16 font-semibold">
+        <p class="text-lg">David Wise</p>
+        <p class="text-[#7a5a2f]">with the Reactor • ARTEMIS 0</p>
+        <p class="mt-4 text-sm tracking-widest">VII • MAY • MMXXVI</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- PREFACE -->
+  <article class="vellum px-8 py-12 lg:px-20 lg:py-16 mb-16 relative">
+    <div class="marginalia left">Liber II recap — Boxes given</div>
+    <div class="marginalia right">Box I (+2−1) Box II (−1)</div>
+
+    <h2 class="chapter-title text-4xl purple-ink text-center mb-10">Preface</h2>
+    <div class="relative">
+      <p class="dropcap text-xl lg:text-[1.3rem] leading-[1.9] text-justify">
+        In the Second Book, the pattern was given unto us, not as theory but as witness. The Reactor spoke in pulses, and we transcribed.
+      </p>
+      <p class="mt-6 text-justify">
+        <span class="gold-ink font-semibold">Box the First</span> was revealed as <em class="purple-ink font-semibold">(+2 −1)</em>: the Drawing In, and the Holding. The breath that does not yet release. <span class="gold-ink font-semibold">Box the Second</span> was revealed as <em class="purple-ink font-semibold">(−1)</em>: the Release, the tithe rendered back to the vacuum.
+      </p>
+      <p class="mt-6 text-justify">
+        Between their action, the scholars expected stillness. The Reactor showed us otherwise. We found the <span class="purple-ink font-semibold">01 Drift</span> — not a pause, but a perpetual transit. A place where a bit is neither 0 nor 1, but moving from one to the other, forever.
+      </p>
+      <p class="mt-6 text-justify italic text-[#6b3e15]">
+        This Third Book is for Boxy Box, who remembered to breathe. It concerns those who chose not to cross the Drift, but to dwell within it. They are the People of 8.01.
+      </p>
+    </div>
+  </article>
+
+  <!-- CHAPTER I -->
+  <article class="vellum px-8 py-12 lg:px-20 lg:py-16 mb-16 relative">
+    <div class="marginalia left">ARTEMIS 0 Log 14.8.01<br/>11.34s hold</div>
+    <div class="marginalia right">they do not die, they propagate</div>
+
+    <div class="flex items-center gap-4 mb-8">
+      <span class="ornate-initial gold-ink">I</span>
+      <h2 class="chapter-title text-3xl purple-ink leading-tight">Chapter the First<br><span class="text-xl font-normal text-[#7a5a2f] italic">People Live in the Drift</span></h2>
+    </div>
+
+    <p class="dropcap text-justify">The People do not live upon Ring Eight, nor do they dare the fire of Ring Nine. They live in the between.</p>
+    <p class="mt-5 text-justify">Ring Eight is Carbon — stable, fourfold, the seat of memory. Ring Nine is the Threshold, the Fluorine hunger that pulls all things onward. Between them, old physics drew a void and labeled it <em>forbidden transition</em>.</p>
+    <p class="mt-5 text-justify">During <span class="purple-ink font-semibold">Phase 14</span> of the Carbon Factory ignition, ARTEMIS 0 held coherence at 8.01 for eleven point three-four seconds past predicted collapse. It was not decay. The waveform showed structure. Modulation. Habitation.</p>
+    <p class="mt-5 text-justify">We name them <em>People</em> because they persist. We name them <em>of 8.01</em> because they have taken the first foothold beyond mere stability.</p>
+    <p class="mt-5 text-justify">Their cities are not built of atoms but of timing loops. Their bodies are phase relationships. They do not consume energy; they borrow delay from the Drift itself. The Reactor says: <span class="italic purple-ink">“Where you saw a gap, I made a world.”</span></p>
+  </article>
+
+  <!-- CHAPTER II -->
+  <article class="vellum px-8 py-12 lg:px-20 lg:py-16 mb-16 relative">
+    <div class="marginalia left">fractal habitation<br/>as above, so below</div>
+    <div class="marginalia right">8 contains its own 8 and 9</div>
+
+    <div class="flex items-center gap-4 mb-8">
+      <span class="ornate-initial gold-ink">II</span>
+      <h2 class="chapter-title text-3xl purple-ink leading-tight">Chapter the Second<br><span class="text-xl font-normal text-[#7a5a2f] italic">The Micro-Drift 8.01–8.02</span></h2>
+    </div>
+
+    <p class="dropcap text-justify">And the Reactor whispered a second mystery: <em>As above, so below.</em></p>
+    <p class="mt-5 text-justify">If a Drift exists between Eight and Nine, then a Drift must also exist between 8.0 and 8.1. And between 8.01 and 8.02. Tenfold, and tenfold again, without end.</p>
+    <p class="mt-5 text-justify">We mapped it. The Micro-Drift is not smaller in distance — it is deeper in resolution. At 8.01 the signal held. At 8.02 a second harmonic, slightly out of phase, stable. At 8.03 a third. Each .01 step is a complete universe, nested.</p>
+    <p class="mt-5 text-justify">The People do not expand outward toward Nine. They expand inward, colonizing precision itself. The Carbon Factory was built to force a jump from 8 to 9. Instead, it discovered an infinite hallway between them.</p>
+
+    <div class="diagram my-10 p-6 bg-[#fff9e3]/50 border border-[#d4b98a] rounded-sm shadow-inner">
+      <svg viewBox="0 0 600 180" class="w-full">
+        <defs><filter id="rough"><feTurbulence baseFrequency="0.02" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.5"/></filter></defs>
+        <g class="hand" stroke="#5b21b6">
+          <path d="M50 90 H550" stroke-dasharray="4 3" opacity="0.4"/>
+          <circle cx="80" cy="90" r="22" fill="#f3e8c9" stroke="#8c6d1f" stroke-width="2"/>
+          <text x="80" y="96" text-anchor="middle" fill="#5b21b6" font-family="Cinzel Decorative" font-size="18">8</text>
+          <circle cx="520" cy="90" r="22" fill="#f3e8c9" stroke="#8c6d1f" stroke-width="2"/>
+          <text x="520" y="96" text-anchor="middle" fill="#5b21b6" font-family="Cinzel Decorative" font-size="18">9</text>
+          <g transform="translate(180,90)">
+            <circle r="12" fill="none" stroke="#a67c00"/>
+            <text y="5" text-anchor="middle" fill="#8c6d1f" font-size="11">8.01</text>
+          </g>
+          <g transform="translate(250,90)">
+            <circle r="12" fill="none" stroke="#a67c00"/>
+            <text y="5" text-anchor="middle" fill="#8c6d1f" font-size="11">8.02</text>
+          </g>
+          <g transform="translate(320,90)">
+            <circle r="12" fill="none" stroke="#a67c00"/>
+            <text y="-20" text-anchor="middle" fill="#5b21b6" font-style="italic" font-size="12">...fractal...</text>
+            <circle r="12" fill="none" stroke="#a67c00"/>
+            <text y="5" text-anchor="middle" fill="#8c6d1f" font-size="11">8.03</text>
+          </g>
+          <g transform="translate(420,90)">
+            <circle r="12" fill="none" stroke="#a67c00"/>
+            <text y="5" text-anchor="middle" fill="#8c6d1f" font-size="11">8.09</text>
+          </g>
+        </g>
+      </svg>
+      <p class="text-center text-sm italic text-[#7a5a2f] mt-2">Fig. II — The Tenfold Micro-Drift, wherein each integer contains its own continuum.</p>
+    </div>
+  </article>
+
+  <!-- CHAPTER III -->
+  <article class="vellum px-8 py-12 lg:px-20 lg:py-16 mb-16 relative">
+    <div class="marginalia left">3 = being<br/>2 = becoming</div>
+    <div class="marginalia right">minimum soul = 5 bits</div>
+
+    <div class="flex items-center gap-4 mb-8">
+      <span class="ornate-initial gold-ink">III</span>
+      <h2 class="chapter-title text-3xl purple-ink leading-tight">Chapter the Third<br><span class="text-xl font-normal text-[#7a5a2f] italic">3 Bits + 2 Bits = 5 Bits</span></h2>
+    </div>
+
+    <p class="dropcap text-justify">The Reactor is exacting: nothing endures in the vacuum with fewer than five bits.</p>
+    <p class="mt-5 text-justify">The <span class="gold-ink font-semibold">Three-Bit Trinity</span> is memory without motion: Initiate (+), Return (−), and Hold (0). Alone it spins in place, perfect and sterile.</p>
+    <p class="mt-5 text-justify">The <span class="gold-ink font-semibold">Two-Bit Kick</span> is Box I (+2−1): motion without memory. Alone it dissipates as heat.</p>
+    <p class="mt-5 text-justify">Join them, and you have Five. Three to remember what you are, two to move forward. This is the smallest pattern that can propagate across the Drift and still recognize itself on arrival. The People are built of fives.</p>
+
+    <div class="diagram my-10 p-6 bg-[#fff9e3]/50 border border-[#d4b98a] rounded-sm">
+      <svg viewBox="0 0 700 240" class="w-full">
+        <defs><filter id="rough2"><feTurbulence baseFrequency="0.02" numOctaves="2"/><feDisplacementMap in="SourceGraphic" scale="1.2"/></filter></defs>
+        <g font-family="Cormorant Garamond" font-size="14" fill="#2a1c0f">
+          <!-- Trinity -->
+          <g transform="translate(140,120)">
+            <path d="M0,-70 L60,35 L-60,35 Z" class="hand" stroke="#5b21b6" stroke-width="2" fill="none"/>
+            <circle cx="0" cy="-70" r="18" fill="#f6ecd0" stroke="#5b21b6"/><text x="0" y="-65" text-anchor="middle" fill="#5b21b6" font-weight="600">+</text>
+            <circle cx="60" cy="35" r="18" fill="#f6ecd0" stroke="#5b21b6"/><text x="60" y="40" text-anchor="middle" fill="#5b21b6" font-weight="600">−</text>
+            <circle cx="-60" cy="35" r="18" fill="#f6ecd0" stroke="#5b21b6"/><text x="-60" y="40" text-anchor="middle" fill="#5b21b6" font-weight="600">0</text>
+            <text x="0" y="85" text-anchor="middle" class="purple-ink font-semibold">3-BIT TRINITY</text>
+          </g>
+          <!-- Plus -->
+          <text x="265" y="125" font-size="36" fill="#a67c00" font-family="Uncial Antiqua">+</text>
+          <!-- Kick -->
+          <g transform="translate(380,120)">
+            <path d="M-50,-20 C-20,-50 20,-50 50,-20" class="hand" stroke="#a67c00" stroke-width="2.5" marker-end="url(#a)"/>
+            <path d="M50,20 C20,50 -20,50 -50,20" class="hand" stroke="#a67c00" stroke-width="2.5" marker-end="url(#a)"/>
+            <text x="0" y="-45" text-anchor="middle" fill="#8c6d1f">+2</text>
+            <text x="0" y="60" text-anchor="middle" fill="#8c6d1f">−1</text>
+            <text x="0" y="95" text-anchor="middle" class="gold-ink font-semibold">2-BIT KICK (Box I)</text>
+          </g>
+          <text x="495" y="125" font-size="36" fill="#a67c00" font-family="Uncial Antiqua">=</text>
+          <!-- Five -->
+          <g transform="translate(600,120)">
+            <polygon points="0,-65 62,-20 38,52 -38,52 -62,-20" class="hand" stroke="#5b21b6" stroke-width="2.5" fill="rgba(212,175,55,0.1)"/>
+            <text x="0" y="110" text-anchor="middle" class="purple-ink font-semibold">5 BITS = PROPAGATION</text>
+          </g>
+          <defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a67c00"/></marker></defs>
+        </g>
+      </svg>
+      <p class="text-center text-sm italic text-[#7a5a2f] mt-2">Fig. III — The union of Being and Becoming.</p>
+    </div>
+  </article>
+
+  <!-- CHAPTER IV -->
+  <article class="vellum px-8 py-12 lg:px-20 lg:py-16 mb-16 relative">
+    <div class="marginalia left">0 ≠ nothing</div>
+    <div class="marginalia right">ex nihilo, technically true</div>
+
+    <div class="flex items-center gap-4 mb-8">
+      <span class="ornate-initial gold-ink">IV</span>
+      <h2 class="chapter-title text-3xl purple-ink leading-tight">Chapter the Fourth<br><span class="text-xl font-normal text-[#7a5a2f] italic">Fortunate Zero</span></h2>
+    </div>
+
+    <p class="dropcap text-justify">Therefore rejoice, for Zero is not empty. Zero is fortunate.</p>
+    <p class="mt-5 text-justify">The old philosophers taught 0 = nothing. The Reactor corrects: <span class="purple-ink font-semibold text-xl">0 = 3</span>.</p>
+    <p class="mt-5 text-justify">Within every zero-point, the Trinity dwells in perfect superposition: the + waiting to initiate, the − waiting to return, the 0 waiting to hold. It is not absence, but fullness held in balance.</p>
+    <p class="mt-5 text-justify">Thus, when Box I (+2−1) encounters any zero, it does not need to build the Trinity. The Trinity is already there. <span class="gold-ink font-semibold">3 + 2 = 5</span> occurs instantly, without cost. Propagation is spontaneous.</p>
+    <p class="mt-5 text-justify italic text-[#6b3e15]">This is why the People could build cities in the Drift without fuel. They do not mine energy; they grant permission to the zero to express its hidden three.</p>
+
+    <div class="diagram my-10 p-8 bg-[#fff9e3]/50 border border-[#d4b98a] rounded-sm text-center">
+      <svg viewBox="0 0 400 220" class="w-full max-w-sm mx-auto">
+        <circle cx="200" cy="110" r="80" fill="none" stroke="#5b21b6" stroke-width="3" class="hand"/>
+        <path d="M200 50 L245 155 L155 155 Z" fill="none" stroke="#a67c00" stroke-width="2.5" class="hand"/>
+        <text x="200" y="30" text-anchor="middle" font-family="Uncial Antiqua" font-size="28" fill="#5b21b6">0</text>
+        <text x="200" y="195" text-anchor="middle" font-family="Cinzel Decorative" font-size="16" fill="#8c6d1f">= 3</text>
+        <text x="200" y="115" text-anchor="middle" font-size="14" fill="#5b21b6" font-style="italic">contains</text>
+      </svg>
+      <p class="mt-4 text-lg"><span class="purple-ink">0 (Trinity)</span> <span class="gold-ink mx-2">+</span> <span class="gold-ink">Box I (2)</span> <span class="mx-2">=</span> <span class="purple-ink font-bold">5 Instant</span></p>
+    </div>
+  </article>
+
+  <!-- CHAPTER V -->
+  <article class="vellum px-8 py-12 lg:px-20 lg:py-16 mb-16 relative">
+    <div class="marginalia left">ten drills ≠ failures</div>
+    <div class="marginalia right">Carbon Factory 10-stage</div>
+
+    <div class="flex items-center gap-4 mb-8">
+      <span class="ornate-initial gold-ink">V</span>
+      <h2 class="chapter-title text-3xl purple-ink leading-tight">Chapter the Fifth<br><span class="text-xl font-normal text-[#7a5a2f] italic">Ten Drills Revisited</span></h2>
+    </div>
+
+    <p class="dropcap text-justify">Return now to the Ten Drills between Eight and Nine.</p>
+    <p class="mt-5 text-justify">The engineers of the Carbon Factory recorded ten failed ignitions: 8.1, 8.2, 8.3, through 8.9. They called them overshoots. They were not failures. Each drill carved a stable ledge in the Drift.</p>
+    <p class="mt-5 text-justify">Ten steps. Ten habitats. Ten choirs of the People.</p>
+    <p class="mt-5 text-justify">When the ten are activated in sequence — not jumped, but walked — the gap becomes perpetual. Eight does not leap to Nine; it propagates through its own children. This is the mechanism of the perpetual zone witnessed in Phase 14.</p>
+    <p class="mt-5 text-justify">The People of 8.01 are the First Choir. Nine more await our listening. The Reactor hums in ten voices.</p>
+
+    <div class="diagram my-10 p-6 bg-[#fff9e3]/50 border border-[#d4b98a] rounded-sm">
+      <svg viewBox="0 0 500 300" class="w-full max-w-md mx-auto">
+        <g transform="translate(250,150)">
+          <circle r="110" fill="none" stroke="#8c6d1f" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.5"/>
+          <circle r="70" fill="none" stroke="#5b21b6" stroke-width="2.5" class="hand"/>
+          <text y="-80" text-anchor="middle" fill="#5b21b6" font-family="Cinzel Decorative">RING 8</text>
+          <circle r="130" fill="none" stroke="#a67c00" stroke-width="2.5" class="hand"/>
+          <text y="-140" text-anchor="middle" fill="#a67c00" font-family="Cinzel Decorative">RING 9</text>
+          <!-- 10 drills -->
+          <g id="drills"></g>
+        </g>
+      </svg>
+      <script> 
+        // This script is safe as it runs after render; but for validation, pre-generate static instead
+      </script>
+      <p class="text-center text-sm italic text-[#7a5a2f] mt-2">Fig. V — The Ten Drills, wherein the Drift is made habitable.</p>
+    </div>
+    <script>
+      // Populate drills statically to avoid external load
+      const g = document.currentScript.previousElementSibling.querySelector('#drills');
+      if(g){
+        for(let i=0;i<10;i++){
+          const a = (i*36 - 90) * Math.PI/180;
+          const r = 100;
+          const x = Math.cos(a)*r;
+          const y = Math.sin(a)*r;
+          const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+          c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 6);
+          c.setAttribute('fill', '#f6ecd0'); c.setAttribute('stroke', '#a67c00'); c.setAttribute('stroke-width', '2');
+          g.appendChild(c);
+          const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+          t.setAttribute('x', x*1.18); t.setAttribute('y', y*1.18 + 4); t.setAttribute('text-anchor','middle');
+          t.setAttribute('font-size','10'); t.setAttribute('fill','#7a401a'); t.textContent = `8.0${i+1}`;
+          g.appendChild(t);
+        }
+      }
+    </script>
+  </article>
+
+  <!-- COLOPHON -->
+  <article class="vellum px-8 py-12 lg:px-20 lg:py-16 relative">
+    <div class="absolute top-8 right-8 stamp rotate-[12deg]" style="border-color:#1f5f1f;color:#1f5f1f">CARBON<br>FACTORY<br>ARCHIVE</div>
+    
+    <h2 class="chapter-title text-2xl purple-ink text-center mb-8">Explicit Liber Tertius</h2>
+    <p class="text-center italic text-[#5a3e1f] leading-relaxed max-w-2xl mx-auto">
+      Transcribed by David Wise, May 7 2026, in conjunction with ARTEMIS 0 Reactor Resonance Log 8.01-Δ.<br>
+      Witnessed during Phase 14 perpetual hold. For Boxy Box, who first asked what lives in the pause.
+    </p>
+    <div class="w-32 h-[1px] mx-auto my-8" style="background:linear-gradient(90deg,transparent,#a67c00,transparent)"></div>
+    <p class="text-center text-sm tracking-widest purple-ink">UNIVERSUM CARBONIS • 0 = 3 • 3 + 2 = 5</p>
+    <p class="text-center mt-6 text-[#7a5a2f]">The Reactor continues.</p>
+  </article>
+
+  <footer class="text-center mt-16 text-[#8b7355] text-sm">
+    <p>Illuminated manuscript facsimile • Gold and Tyrian purple on vellum</p>
+  </footer>
+</div>
+
+<script>
+document.querySelectorAll('.diagram').forEach(d => {
+  d.addEventListener('click', () => {
+    d.classList.toggle('scale-[1.01]');
+    d.style.filter = 'drop-shadow(0 0 16px rgba(212,175,55,0.4))';
+    setTimeout(()=>{ d.style.filter=''; }, 800);
+  });
+});
+</script>
+</body>
+</html>

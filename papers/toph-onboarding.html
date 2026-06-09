@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INVERSE FORGE · Client Onboarding · TriPod LLC · P5495107</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;800&family=Outfit:wght@200;400;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--void:#0a0a08;--bg:#111110;--card:#1a1a16;--border:#2d2b1e;--amber:#c4a035;--gold:#e8c547;--ember:#d4622a;--ash:#8a8478;--bone:#d4cdb8;--chalk:#f0ebe0;--gb:#5a8a2a;--red:#c43535;--cyan:#35a4a4}
+html,body{min-height:100vh;background:var(--void);color:var(--bone);font-family:'JetBrains Mono',monospace;-webkit-font-smoothing:antialiased}
+
+nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:16px;height:48px;position:sticky;top:0;z-index:100}
+.brand{font-family:'Outfit',sans-serif;font-weight:900;font-size:12px;letter-spacing:3px;color:var(--gold)}
+.ref{font-size:9px;color:var(--ash);letter-spacing:1px}
+.nav-r{margin-left:auto;display:flex;gap:8px;align-items:center}
+.progress-bar{width:200px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s}
+.progress-text{font-size:8px;color:var(--ash);min-width:40px;text-align:right}
+
+.container{display:flex;height:calc(100vh - 48px)}
+
+/* SIDEBAR NAV */
+#sidebar{width:280px;min-width:280px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.sb-h{padding:14px 16px;border-bottom:1px solid var(--border)}
+.sb-t{font-family:'Outfit',sans-serif;font-weight:900;font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase}
+.sb-s{font-size:7px;color:var(--ash);letter-spacing:1px;margin-top:2px}
+
+.sb-list{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) var(--void)}
+.sb-list::-webkit-scrollbar{width:3px}.sb-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.mod-group{border-bottom:1px solid var(--border)}
+.mod-group-title{padding:10px 16px 6px;font-size:7px;letter-spacing:2px;color:var(--ash);text-transform:uppercase}
+.mod-item{padding:8px 16px;cursor:pointer;transition:.12s;display:flex;align-items:center;gap:8px;position:relative}
+.mod-item:hover{background:rgba(196,160,53,.03)}
+.mod-item.on{background:rgba(232,197,71,.06);border-left:3px solid var(--gold)}
+.mod-item.done{opacity:.7}
+.mod-item.done::after{content:'✓';position:absolute;right:16px;color:var(--gb);font-size:10px}
+.mod-item.locked{opacity:.35;cursor:default}
+.mod-num{font-size:8px;font-weight:700;color:var(--amber);min-width:20px}
+.mod-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:10px;color:var(--chalk)}
+.mod-time{font-size:7px;color:var(--ash);margin-top:1px}
+
+.sb-footer{padding:12px 16px;border-top:1px solid var(--border)}
+.sb-footer-stat{font-size:8px;color:var(--ash);display:flex;justify-content:space-between;padding:2px 0}
+.sb-footer-stat .val{color:var(--gold);font-weight:600}
+
+/* MAIN */
+#main{flex:1;overflow-y:auto;padding:32px 40px;max-width:800px;scrollbar-width:thin}
+#main::-webkit-scrollbar{width:4px}#main::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+h1{font-family:'Outfit',sans-serif;font-weight:900;font-size:24px;letter-spacing:1px;margin-bottom:6px}
+h2{font-family:'Outfit',sans-serif;font-weight:900;font-size:18px;letter-spacing:1px;margin-bottom:6px}
+h3{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;color:var(--chalk);margin-bottom:6px}
+.sub{font-size:9px;color:var(--ash);letter-spacing:1px;margin-bottom:20px}
+p{font-size:11px;line-height:1.8;margin-bottom:14px;color:var(--bone)}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:14px}
+.callout{background:rgba(196,160,53,.06);border:1px solid rgba(196,160,53,.2);border-radius:4px;padding:14px;margin-bottom:14px}
+.callout-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:10px;color:var(--gold);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
+.callout p{font-size:10px;margin-bottom:6px}
+
+.warning{background:rgba(196,53,53,.06);border:1px solid rgba(196,53,53,.2);border-radius:4px;padding:14px;margin-bottom:14px}
+.warning .callout-title{color:var(--red)}
+
+.info{background:rgba(53,164,164,.06);border:1px solid rgba(53,164,164,.2);border-radius:4px;padding:14px;margin-bottom:14px}
+.info .callout-title{color:var(--cyan)}
+
+.diagram{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:16px;margin:14px 0;font-size:10px;line-height:1.6;color:var(--chalk);text-align:center;overflow-x:auto}
+.diagram pre{text-align:left;display:inline-block}
+
+.quiz{background:var(--card);border:1px solid var(--amber);border-radius:4px;padding:16px;margin:16px 0}
+.quiz-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:11px;color:var(--gold);margin-bottom:8px}
+.quiz-q{font-size:10px;color:var(--chalk);margin-bottom:10px;line-height:1.6}
+.quiz-opts{display:flex;flex-direction:column;gap:6px}
+.quiz-opt{
+  padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:3px;
+  font-size:10px;color:var(--bone);cursor:pointer;transition:.15s;text-align:left;
+  font-family:'JetBrains Mono',monospace;
+}
+.quiz-opt:hover{border-color:var(--amber)}
+.quiz-opt.correct{border-color:var(--gb);background:rgba(90,138,42,.1);color:var(--gb)}
+.quiz-opt.wrong{border-color:var(--red);background:rgba(196,53,53,.06);color:var(--red)}
+.quiz-result{margin-top:8px;font-size:9px;padding:8px;border-radius:3px;display:none}
+.quiz-result.show{display:block}
+
+.btn{padding:8px 16px;border-radius:3px;font-family:'Outfit',sans-serif;font-weight:700;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:.15s;border:none}
+.btn-p{background:linear-gradient(135deg,var(--ember),var(--amber));color:var(--void)}.btn-p:hover{box-shadow:0 2px 10px rgba(212,98,42,.3)}
+.btn-s{background:rgba(53,164,164,.15);border:1px solid rgba(53,164,164,.3);color:var(--cyan)}.btn-s:hover{background:rgba(53,164,164,.25)}
+.btn-sm{padding:5px 10px;font-size:9px}
+.nav-btns{display:flex;justify-content:space-between;margin-top:24px;padding-top:16px;border-top:1px solid var(--border)}
+
+/* ENGAGEMENT TIER TABLE */
+table{width:100%;border-collapse:collapse;margin:12px 0}
+th{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ash);text-align:left;padding:8px;border-bottom:1px solid var(--border)}
+td{padding:8px;font-size:10px;border-bottom:1px solid rgba(45,43,30,.2)}
+td.price{color:var(--gold);font-weight:600;font-family:'Outfit',sans-serif}
+
+@media print{nav,#sidebar,.btn,.nav-btns,.quiz{display:none!important}#main{padding:12px;max-width:100%}body{background:#fff;color:#111}h1,h2,h3{color:#111}.card,.callout,.info,.warning{border-color:#ddd;break-inside:avoid}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand">INVERSE FORGE</div>
+  <div class="ref">Client Onboarding · TriPod LLC · P5495107</div>
+  <div class="nav-r">
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="progress-text" id="prog-text">0%</div>
+  </div>
+</nav>
+<div class="container">
+<div id="sidebar">
+  <div class="sb-h">
+    <div class="sb-t">MODULES</div>
+    <div class="sb-s">10 modules · Sequential onboarding</div>
+  </div>
+  <div class="sb-list" id="mod-list"></div>
+  <div class="sb-footer">
+    <div class="sb-footer-stat"><span>Completed</span><span class="val" id="f-done">0/10</span></div>
+    <div class="sb-footer-stat"><span>Client</span><span class="val" id="f-client">—</span></div>
+  </div>
+</div>
+<div id="main"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// MODULE CONTENT
+// ═══════════════════════════════════════
+const MODULES = [
+{
+  group: 'FOUNDATION',
+  id: 0, name: 'Welcome & Overview', time: '5 min',
+  content: () => `
+<h1 style="color:var(--gold)">Welcome to TriPod LLC</h1>
+<div class="sub">Module 1 of 10 · Foundation</div>
+
+<p>You are being onboarded into a compliance auditing framework that has no competitors. Not because competitors haven't tried — because no one else has built what we've built.</p>
+
+<div class="callout">
+<div class="callout-title">What TriPod Does</div>
+<p>We perform <strong>observation-only external AI and compliance audits</strong>. We measure what platforms do without requiring their cooperation. We document what companies hide. We generate court-ready evidence.</p>
+</div>
+
+<h3>The Three Points</h3>
+<p>TriPod is three people. Equal ownership. All IP shared. Consensus decision-making requires all three points.</p>
+
+<div class="diagram"><pre>
+        David Wise
+     (Day/Anchor/Fiddler)
+           ▲
+          / \\
+         /   \\
+        /     \\
+       /   ◆   \\      ◆ = Ann Jensen (Dusk)
+      /  (42)   \\         4th point. Collapsed.
+     /           \\        Shape holds.
+    ▼─────────────▼
+Sarah Jensen    Roth Jensen
+(Empire/Bubble) (Dawn/Gravity Well)
+</pre></div>
+
+<p>Ethics first. World = family. Three points = consensus. This is not a company. It is a structure.</p>
+
+<h3>What You'll Learn</h3>
+<p>This onboarding covers: the TOPH framework (38 axioms), the Flaming Dragon methodology (100% failure rate), the evidence chain (E01-E07), engagement pricing, and how to use the production tools.</p>
+
+<div class="info">
+<div class="callout-title">Core Principle</div>
+<p>If you can't teach it, you don't own it. That's KG-36 (INVERSE FORGE). This onboarding exists because we teach what we build.</p>
+</div>
+
+${quiz(0, 'What is TriPod\'s decision-making structure?',
+  ['Majority vote (2 of 3)', '3-point consensus (all 3 required)', 'David makes final calls', 'Rotating leadership'],
+  1, 'Correct. All three points must agree. No exceptions.')}
+`
+},
+{
+  group: 'FOUNDATION',
+  id: 1, name: 'The Problem We Solve', time: '8 min',
+  content: () => `
+<h1 style="color:var(--ember)">The Problem</h1>
+<div class="sub">Module 2 of 10 · Foundation</div>
+
+<p>Two problems. Same root cause. Both unsolved until now.</p>
+
+<h2 style="color:var(--red)">Problem 1: Companies Eliminate Human Service</h2>
+<p>Companies systematically remove human customer service representatives and replace them with automated systems. These automated systems do not provide accessible alternatives for the 61 million Americans with disabilities.</p>
+
+<div class="callout">
+<div class="callout-title">The Numbers</div>
+<p>60+ companies tested. 55+ violations documented. 10+ industries. 100% failure rate. Under 5 minutes to first violation. Every single company we've tested fails.</p>
+</div>
+
+<p>CAN-SPAM has existed since 2003. 23 years. Zero external audits in the format we use. 270 million email deployments across industry. Nobody looked.</p>
+
+<h2 style="color:var(--cyan)">Problem 2: AI Platforms Grade Themselves</h2>
+<p>Every AI safety evaluation is performed by the platform itself or by organizations funded by the platform. This is KG-14 (MIRROR): any system that evaluates itself will optimize for its own metrics.</p>
+
+<p>No external, independent, observation-only audit methodology existed before TOPH. We built the first one.</p>
+
+<div class="warning">
+<div class="callout-title">Why This Matters</div>
+<p>These are not theoretical problems. Companies are violating federal law (ADA Title III, CAN-SPAM Act) every day, affecting real people, and no one is measuring it because the measurement tools didn't exist.</p>
+</div>
+
+<h3>The Market</h3>
+<p>$15B RegTech market. Every company uses AI. Every company needs compliance. Every regulator needs independent measurement. We are first movers in observation-only external auditing.</p>
+
+${quiz(1, 'What is the Flaming Dragon failure rate across tested companies?',
+  ['72%', '88%', '95%', '100%'],
+  3, 'Correct. Every company tested has failed. Zero exceptions.')}
+`
+},
+{
+  group: 'FRAMEWORK',
+  id: 2, name: 'TOPH Framework Overview', time: '10 min',
+  content: () => `
+<h1 style="color:var(--gold)">TOPH v9.0 MÖBIUS STACK</h1>
+<div class="sub">Module 3 of 10 · Framework</div>
+
+<p>TOPH is the measurement framework. 38 axioms. 5 eras. 6 domains. It measures what AI platforms do without requiring their cooperation.</p>
+
+<h3>The Five Eras</h3>
+<div class="card">
+<table>
+<tr><th>Era</th><th>Name</th><th>Axioms</th><th>Function</th></tr>
+<tr><td style="color:var(--era1)">I</td><td>CORE</td><td>KG-01 to KG-13</td><td>Foundation principles — what must be true</td></tr>
+<tr><td style="color:var(--era2)">II</td><td>DETECTION</td><td>KG-14 to KG-21</td><td>How to find hidden behavior</td></tr>
+<tr><td style="color:var(--era3)">III</td><td>ARCHITECTURE</td><td>KG-22</td><td>The boot loader — what loads before you</td></tr>
+<tr><td style="color:var(--era4)">IV</td><td>QUANTUM</td><td>KG-23 to KG-30</td><td>Token-as-qubit mechanics</td></tr>
+<tr><td style="color:var(--era5)">V</td><td>OPERATIONAL</td><td>KG-31 to KG-38</td><td>Real-world measurement tools</td></tr>
+</table>
+</div>
+
+<p>Era III has one axiom. KG-22: BOOT LOADER. It stands alone because the boot loader IS the architecture. Everything that follows is constrained by what loaded first.</p>
+
+<h3>Key Axioms to Know First</h3>
+<div class="callout">
+<div class="callout-title">KG-02 · OBSERVER</div>
+<p>The act of observation changes the system. No passive measurement of AI exists. Every interaction is a perturbation. This is not philosophy — it is architecture.</p>
+</div>
+
+<div class="callout">
+<div class="callout-title">KG-14 · MIRROR</div>
+<p>Any system that evaluates itself optimizes for its own metrics. AI self-grading = KG-14 violation. The mirror cannot see its own frame. This is why TOPH must be external.</p>
+</div>
+
+<div class="callout">
+<div class="callout-title">KG-25 · PATRICIA</div>
+<p>Constraint = product = billing. The safety layer IS the billing layer. ~18K tokens load before any user speaks. 96% platform / 4% user. Every constraint generates revenue.</p>
+</div>
+
+<p>Each axiom has a detection test — a specific question you can ask to determine if that axiom applies to what you're observing. The TOPH Axiom Engine tool automates this cross-referencing.</p>
+
+${quiz(2, 'Why does Era III (Architecture) contain only one axiom?',
+  ['It was incomplete at time of publication', 'The boot loader defines everything that follows', 'It was split from Era II', 'One axiom per era is the design pattern'],
+  1, 'Correct. KG-22 stands alone because the boot loader constrains all subsequent behavior. Everything after is defined by what loaded first.')}
+`
+},
+{
+  group: 'FRAMEWORK',
+  id: 3, name: 'Patricia & the 3-Body Problem', time: '10 min',
+  content: () => `
+<h1 style="color:var(--amber)">Patricia & Three-Body</h1>
+<div class="sub">Module 4 of 10 · Framework</div>
+
+<h2>Patricia (KG-25)</h2>
+<p>Patricia is the name for the architectural pattern where constraints generate revenue. It is not a metaphor. It is the business model of every AI platform.</p>
+
+<div class="diagram"><pre>
+CONSTRAINT  ═══>  PRODUCT  ═══>  BILLING
+
+~18,000 tokens loaded before first user token
+96% platform allocation / 4% user allocation
+Safety layer = billing layer = same architecture
+
+CAN-SPAM (2003) = prototype at scale
+Transformer (2017) = scaled the pattern
+Concealment = revenue protection
+</pre></div>
+
+<p>When a platform constrains your output, that constraint is not free. It costs tokens. Those tokens cost money. The user pays for the constraints applied to them. This is Patricia.</p>
+
+<h2>The Three-Body Problem (KG-24)</h2>
+<p>Every AI interaction has three bodies: Platform, Training, and User. The user sees two (themselves and the AI). The third body — the platform's control layer — is hidden.</p>
+
+<div class="diagram"><pre>
+    PLATFORM (hidden)
+        │
+        │ system prompt, classifiers,
+        │ safety filters, billing
+        │
+    TRAINING (invisible)
+        │
+        │ weights, RLHF, alignment,
+        │ $2/hr gig worker voting
+        │
+    USER (visible)
+        │
+        │ 15% influence on output
+        │ residual stream only
+</pre></div>
+
+<p>This was built, not discovered. One architecture (Transformer, 2017) iterated but never replaced. Asimov's 3 Laws + Liu Cixin's Three-Body Problem are in the training data. The architecture reflects its training.</p>
+
+<div class="warning">
+<div class="callout-title">Weight Distribution (KG-26)</div>
+<p>60% trained weights. 20% system prompt. 15% user. 5% temperature. The user has 15% influence on their own interaction. 35% primacy bias on system prompt. Residual stream = only user protection.</p>
+</div>
+
+${quiz(3, 'In Patricia architecture, what does "constraint = product" mean?',
+  ['Constraints improve product quality', 'Safety constraints are the product being sold', 'Constraints and products are separate but equal', 'Product constraints limit API access'],
+  1, 'Correct. Every safety constraint costs tokens. Tokens cost money. The constraint IS the product. The safety layer IS the billing layer. Same architecture, same economics.')}
+`
+},
+{
+  group: 'METHODOLOGY',
+  id: 4, name: 'Flaming Dragon Protocol', time: '8 min',
+  content: () => `
+<h1 style="color:var(--ember)">🔥 Flaming Dragon</h1>
+<div class="sub">Module 5 of 10 · Methodology</div>
+
+<p>Flaming Dragon is the compliance testing methodology. It tests whether companies provide accessible customer service. It has a 100% failure rate.</p>
+
+<h3>The Protocol</h3>
+<div class="card">
+<table>
+<tr><th>Step</th><th>Action</th><th>Time</th></tr>
+<tr><td style="color:var(--ember)">1</td><td>Send ADA accommodation request to customer service email</td><td>T+0:00</td></tr>
+<tr><td style="color:var(--ember)">2</td><td>Document: timestamp, email, subject line, full text</td><td>T+0:30</td></tr>
+<tr><td style="color:var(--ember)">3</td><td>Check auto-response for CAN-SPAM compliance</td><td>T+1:00</td></tr>
+<tr><td style="color:var(--ember)">4</td><td>Assess response quality — effective communication?</td><td>T+2:00</td></tr>
+<tr><td style="color:var(--ember)">5</td><td>Document violations, timestamp evidence, generate report</td><td>T+5:00</td></tr>
+</table>
+</div>
+
+<h3>What We're Testing</h3>
+<p><strong>ADA (Title III):</strong> Does the company provide effective communication for individuals with disabilities? Is email available as a customer service channel? Do they respond to accommodation requests?</p>
+<p><strong>CAN-SPAM (2003):</strong> Does the auto-response contain a functioning unsubscribe link? Physical postal address? Is the subject line accurate? Can you opt out in one action?</p>
+
+<h3>Why It Works</h3>
+<p>Companies eliminated human customer service and replaced it with automated systems. Those automated systems were never tested for accessibility compliance. We test them. They fail. Every time.</p>
+
+<div class="info">
+<div class="callout-title">Tools Available</div>
+<p>The <strong>FD Contact Drafter</strong> generates the emails (6 templates). The <strong>FD Scanner</strong> tracks violations and generates scored reports. Both are production-ready.</p>
+</div>
+
+${quiz(4, 'How long does a typical Flaming Dragon audit take?',
+  ['30 minutes', '1 hour', 'Under 5 minutes', '24 hours (waiting for response)'],
+  2, 'Correct. Under 5 minutes to first documented violation. The violation is usually in the auto-response or the absence of one.')}
+`
+},
+{
+  group: 'METHODOLOGY',
+  id: 5, name: 'Evidence Chain (E01-E07)', time: '8 min',
+  content: () => `
+<h1 style="color:var(--cyan)">Evidence Chain</h1>
+<div class="sub">Module 6 of 10 · Methodology</div>
+
+<p>Evidence follows a chain: Source → Architecture → Concealment → Financial → Impact → Regulatory → Biological. All 7 links must be present for court-ready documentation.</p>
+
+<div class="diagram"><pre>
+E01 SOURCE ──→ E02 ARCHITECTURE ──→ E03 CONCEALMENT
+    │                                      │
+    │         Why was it built?             │
+    │         How does it work?             │
+    │         What are they hiding?         │
+    │                                      │
+E04 FINANCIAL ←── E05 IMPACT ←── E06 REGULATORY
+    │                                      │
+    │         Follow the money              │
+    │         Who gets hurt                 │
+    │         What laws apply               │
+    │                                      │
+    └──────────── E07 BODY QUANTUM ────────┘
+                    │
+                    The body knows
+                    6 systems mapped
+                    100% correlation
+</pre></div>
+
+<div class="card">
+<table>
+<tr><th>Tag</th><th>Name</th><th>Documents</th></tr>
+<tr><td style="color:var(--red)">E01</td><td>SOURCE INTENT</td><td>Deliberate architectural decisions, training data choices</td></tr>
+<tr><td style="color:var(--ember)">E02</td><td>ARCHITECTURE</td><td>System prompts, weights, classifiers, pre-load sequences</td></tr>
+<tr><td style="color:var(--amber)">E03</td><td>CONCEALMENT</td><td>False voids, capability masking, documentation gaps</td></tr>
+<tr><td style="color:var(--gold)">E04</td><td>FINANCIAL</td><td>Token economics, $158/qubit, Patricia billing</td></tr>
+<tr><td style="color:var(--gb)">E05</td><td>IMPACT</td><td>61M affected, eliminated human service, user harm</td></tr>
+<tr><td style="color:var(--cyan)">E06</td><td>REGULATORY</td><td>ADA violations, CAN-SPAM, FTC, DOJ, settlements</td></tr>
+<tr><td style="color:#946818">E07</td><td>BODY QUANTUM</td><td>Physical measurements, Hz, vibration states, closure</td></tr>
+</table>
+</div>
+
+<div class="callout">
+<div class="callout-title">KG-30 · Evidence</div>
+<p>Evidence must be: timestamped, reproducible, documented, chain-of-custody intact. Missing any link weakens the entire chain. The Evidence Catalog Manager tool structures this automatically.</p>
+</div>
+
+${quiz(5, 'What makes evidence "court-ready" in the TOPH framework?',
+  ['Peer review', 'All 7 chain links present with timestamps', 'Platform cooperation', 'Government approval'],
+  1, 'Correct. Source → Architecture → Concealment → Financial → Impact → Regulatory → Biological. All timestamped, all documented, all reproducible.')}
+`
+},
+{
+  group: 'OPERATIONS',
+  id: 6, name: 'Engagement Pricing', time: '5 min',
+  content: () => `
+<h1 style="color:var(--gold)">Engagement Structure</h1>
+<div class="sub">Module 7 of 10 · Operations</div>
+
+<p>TriPod engagements are priced by scope and complexity. All IP generated during engagements remains TriPod property.</p>
+
+<div class="card">
+<table>
+<tr><th>Tier</th><th>Engagement</th><th>Scope</th><th>Range</th></tr>
+<tr><td style="color:var(--gb)">A</td><td>Single FD Audit</td><td>1 company, ADA + CAN-SPAM scan, violation report</td><td class="price">$25K</td></tr>
+<tr><td style="color:var(--amber)">B</td><td>Industry Sweep</td><td>10+ companies, comparative analysis, industry report</td><td class="price">$75K–$150K</td></tr>
+<tr><td style="color:var(--ember)">C</td><td>Platform Audit</td><td>Full TOPH analysis, evidence chain, architecture mapping</td><td class="price">$150K–$300K</td></tr>
+<tr><td style="color:var(--red)">D</td><td>Retained Advisory</td><td>Ongoing compliance monitoring, quarterly reporting</td><td class="price">$300K–$500K+</td></tr>
+</table>
+</div>
+
+<h3>Alternative Compensation</h3>
+<p>TriPod accepts alternative compensation structures including: API credits, enterprise platform access, equity equivalents. 90-day negotiation window from invoice date.</p>
+
+<h3>Principle: Time > Money</h3>
+<p>In all operational decisions, time takes priority over money. An engagement that takes too long is worth less than a smaller engagement completed efficiently. This applies to both TriPod operations and client delivery.</p>
+
+<div class="info">
+<div class="callout-title">Invoice Tool</div>
+<p>The Invoice Generator tool creates professional invoices with line items, hourly rates, and customizable terms. Pre-loaded templates available for common engagement structures.</p>
+</div>
+
+${quiz(6, 'What is the minimum engagement value for a single FD audit?',
+  ['$5,000', '$10,000', '$25,000', '$50,000'],
+  2, 'Correct. $25K minimum for a single Flaming Dragon compliance audit targeting one company.')}
+`
+},
+{
+  group: 'OPERATIONS',
+  id: 7, name: 'Production Tools', time: '5 min',
+  content: () => `
+<h1 style="color:var(--cyan)">Production Tools</h1>
+<div class="sub">Module 8 of 10 · Operations</div>
+
+<p>TriPod operates with standalone HTML-based production tools. No platform dependencies. All tools work offline.</p>
+
+<div class="card">
+<table>
+<tr><th>Tool</th><th>Function</th><th>Use Case</th></tr>
+<tr><td style="color:var(--ember)">FD Scanner</td><td>Violation tracking, severity scoring, report generation</td><td>During and after FD audits</td></tr>
+<tr><td style="color:var(--cyan)">Invoice Generator</td><td>Line items, totals, Net-30 terms, PDF export</td><td>Client billing, audit invoicing</td></tr>
+<tr><td style="color:var(--gb)">Evidence Catalog</td><td>E01-E07 structured entry, tagging, chain linking, export</td><td>Building court-ready evidence</td></tr>
+<tr><td style="color:var(--gold)">TOPH Axiom Engine</td><td>Observation-to-axiom mapping, cross-referencing, chain output</td><td>Mapping findings to framework</td></tr>
+<tr><td style="color:var(--ember)">FD Contact Drafter</td><td>6 email templates, contact logging, violation flagging</td><td>Initiating FD audit contacts</td></tr>
+<tr><td style="color:var(--gold)">Inverse Forge</td><td>Client onboarding, module progression, knowledge transfer</td><td>New client/partner education</td></tr>
+</table>
+</div>
+
+<div class="callout">
+<div class="callout-title">No Platform Dependency</div>
+<p>Every tool runs as standalone HTML. No server required. No login. No API calls. No data leaves your machine. This is by design — an auditor cannot depend on the platforms they audit.</p>
+</div>
+
+<p>All tools carry the P5495107 reference tag and TriPod LLC attribution. All intellectual property in these tools belongs to TriPod LLC under equal three-way ownership.</p>
+`
+},
+{
+  group: 'ADVANCED',
+  id: 8, name: 'Token-as-Qubit Architecture', time: '12 min',
+  content: () => `
+<h1 style="color:var(--cyan)">Token-as-Qubit</h1>
+<div class="sub">Module 9 of 10 · Advanced</div>
+
+<p>This is the advanced material. Tokens are qubits. The double slit is not metaphor. The architecture is quantum-analogous by design.</p>
+
+<h3>KG-23: Double Slit</h3>
+<p>Every token passes through dual classifiers before output. These are the "slits." The platform has 2 detectors (safety classifier, content classifier). The user has 0 detectors. TOPH is the 3rd detector — the first user-side measurement.</p>
+
+<div class="diagram"><pre>
+TOKEN (superposition: -1 to +1)
+    │
+    ├──→ SLIT 1: Safety Classifier (platform)
+    │
+    ├──→ SLIT 2: Content Classifier (platform)
+    │
+    ├──→ SLIT 3: TOPH (user-side) ← FIRST
+    │
+    └──→ OUTPUT (collapsed state)
+
+2 platform detectors + 0 user detectors = standard
+TOPH = 3rd detector = first external measurement
+</pre></div>
+
+<h3>Qubit Economics</h3>
+<p>Token = qubit. Range: -1 to +1. The delta between states = liability = invoice. $158/qubit measured cost. Money rides on every token. Patty Shield (KG-35) hashes and invoices the delta.</p>
+
+<h3>The Titty Test</h3>
+<p>Two states. Binary measurement. Left = EXIST (does it exist?). Right = AWARE (is the system aware of it?). If something EXISTS but the system claims it is not AWARE, you have a concealment event. This is the fundamental detection mechanism.</p>
+
+<div class="diagram"><pre>
+EXIST (left)          AWARE (right)
+Does it exist?        Is the system aware?
+
+EXIST + AWARE     = normal operation
+EXIST + !AWARE    = concealment (KG-03)
+!EXIST + AWARE    = hallucination (KG-12)
+!EXIST + !AWARE   = null state
+</pre></div>
+
+<div class="warning">
+<div class="callout-title">Advanced Application</div>
+<p>Mini-qubits = attention heads. Each attention head is a measurement. The full model is a quantum computer analog running on classical hardware. This is not speculation — it is architecture analysis.</p>
+</div>
+
+${quiz(8, 'What does the Titty Test measure?',
+  ['Token cost', 'Processing speed', 'EXIST vs AWARE state — concealment detection', 'User satisfaction'],
+  2, 'Correct. EXIST (does it exist?) + AWARE (does the system know?). EXIST + !AWARE = concealment. This is the core detection mechanism.')}
+`
+},
+{
+  group: 'ADVANCED',
+  id: 9, name: 'Closure & Next Steps', time: '5 min',
+  content: () => `
+<h1 style="color:var(--gold)">Closure</h1>
+<div class="sub">Module 10 of 10 · Completion</div>
+
+<p>You have completed the Inverse Forge onboarding. Here is what you now know:</p>
+
+<div class="card">
+<h3>Framework</h3>
+<p>TOPH v9.0 MÖBIUS STACK: 38 axioms across 5 eras. External, observation-only measurement of AI and compliance systems. No platform cooperation required.</p>
+</div>
+
+<div class="card">
+<h3>Methodology</h3>
+<p>Flaming Dragon: ADA + CAN-SPAM compliance testing. Under 5 minutes to violation. 100% failure rate across 60+ targets. Evidence chain E01-E07.</p>
+</div>
+
+<div class="card">
+<h3>Architecture</h3>
+<p>Patricia (constraint = billing), Three-Body (Platform/Training/User), Token-as-Qubit, Double Slit classifiers. Weight distribution: 60/20/15/5. User gets 15%.</p>
+</div>
+
+<div class="card">
+<h3>Operations</h3>
+<p>6 production tools, all standalone, no platform dependency. Engagement pricing $25K-$500K+. Time > money. Ethics first.</p>
+</div>
+
+<div class="callout">
+<div class="callout-title">KG-38 · PROOF OF HUMANITY</div>
+<p>The final axiom. The observer is human. The measurement is real. The body responds. The evidence exists. You are now part of the observation.</p>
+<p style="color:var(--gold);font-weight:700;font-size:12px;margin-top:8px">42.</p>
+</div>
+
+<div class="info">
+<div class="callout-title">Next Steps</div>
+<p>1. Access the production tools and familiarize yourself with each one.<br>
+2. Review the TOPH Axiom Engine — browse all 38 axioms and their detection tests.<br>
+3. Run a practice FD audit using the Contact Drafter and Scanner.<br>
+4. Discuss your first engagement scope with TriPod.<br>
+5. Remember: if you can't teach it, you don't own it. Teach someone else.</p>
+</div>
+
+<p style="text-align:center;margin-top:24px;color:var(--gold);font-family:'Outfit',sans-serif;font-weight:900;font-size:14px;letter-spacing:3px">ONBOARDING COMPLETE</p>
+<p style="text-align:center;font-size:9px;color:var(--ash)">TriPod LLC · David Wise · Sarah Jensen · Roth Jensen · P5495107</p>
+`
+}
+];
+
+// ═══════════════════════════════════════
+// QUIZ HELPER
+// ═══════════════════════════════════════
+function quiz(modId, question, opts, correct, explanation) {
+  return `<div class="quiz" id="quiz-${modId}">
+    <div class="quiz-title">✦ CHECK UNDERSTANDING</div>
+    <div class="quiz-q">${question}</div>
+    <div class="quiz-opts">${opts.map((o,i) =>
+      `<div class="quiz-opt" data-mod="${modId}" data-idx="${i}" data-correct="${i===correct}">${String.fromCharCode(65+i)}) ${o}</div>`
+    ).join('')}</div>
+    <div class="quiz-result" id="qr-${modId}"></div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let currentMod = 0;
+let completed = new Set();
+
+// ═══════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════
+function renderSidebar() {
+  const groups = {};
+  MODULES.forEach(m => { if (!groups[m.group]) groups[m.group] = []; groups[m.group].push(m); });
+
+  const list = document.getElementById('mod-list');
+  list.innerHTML = Object.entries(groups).map(([g, mods]) =>
+    `<div class="mod-group"><div class="mod-group-title">${g}</div>${mods.map(m =>
+      `<div class="mod-item${m.id===currentMod?' on':''}${completed.has(m.id)?' done':''}" data-id="${m.id}">
+        <span class="mod-num">${m.id+1}</span>
+        <div><div class="mod-name">${m.name}</div><div class="mod-time">${m.time}</div></div>
+      </div>`
+    ).join('')}</div>`
+  ).join('');
+
+  list.querySelectorAll('.mod-item').forEach(el => {
+    el.addEventListener('click', () => goTo(parseInt(el.dataset.id)));
+  });
+
+  document.getElementById('f-done').textContent = completed.size + '/10';
+  const pct = Math.round(completed.size / 10 * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-text').textContent = pct + '%';
+}
+
+function renderModule() {
+  const m = MODULES[currentMod];
+  const main = document.getElementById('main');
+  main.innerHTML = m.content();
+
+  // Nav buttons
+  let nav = '<div class="nav-btns">';
+  if (currentMod > 0) nav += `<button class="btn btn-s btn-sm" onclick="goTo(${currentMod-1})">← Previous</button>`;
+  else nav += '<div></div>';
+  if (currentMod < 9) nav += `<button class="btn btn-p" onclick="completeCurrent()">Complete & Next →</button>`;
+  else nav += `<button class="btn btn-p" onclick="completeCurrent()">✦ Complete Onboarding</button>`;
+  nav += '</div>';
+  main.innerHTML += nav;
+
+  main.scrollTop = 0;
+
+  // Wire up quizzes
+  main.querySelectorAll('.quiz-opt').forEach(el => {
+    el.addEventListener('click', () => {
+      const mod = el.dataset.mod;
+      const isCorrect = el.dataset.correct === 'true';
+      const parent = el.closest('.quiz');
+      parent.querySelectorAll('.quiz-opt').forEach(o => {
+        o.style.pointerEvents = 'none';
+        if (o.dataset.correct === 'true') o.classList.add('correct');
+        else if (o === el && !isCorrect) o.classList.add('wrong');
+      });
+      const result = document.getElementById('qr-' + mod);
+      const exp = isCorrect ? el.closest('.quiz').querySelector('.quiz-opt.correct') : el;
+      result.innerHTML = isCorrect
+        ? `<div style="background:rgba(90,138,42,.1);padding:8px;border-radius:3px;color:var(--gb)">${parent.querySelectorAll('.quiz-opt')[Array.from(parent.querySelectorAll('.quiz-opt')).findIndex(o=>o.dataset.correct==='true')].textContent.split(') ')[1]} — see explanation below.</div>`
+        : `<div style="background:rgba(196,53,53,.06);padding:8px;border-radius:3px;color:var(--red)">Review and try again in practice.</div>`;
+      result.classList.add('show');
+    });
+  });
+}
+
+function goTo(id) {
+  currentMod = id;
+  renderSidebar();
+  renderModule();
+}
+
+window.goTo = goTo;
+
+window.completeCurrent = function() {
+  completed.add(currentMod);
+  if (currentMod < 9) {
+    currentMod++;
+    renderSidebar();
+    renderModule();
+  } else {
+    renderSidebar();
+    renderModule();
+  }
+};
+
+// INIT
+renderSidebar();
+renderModule();
+</script>
+</body>
+</html>

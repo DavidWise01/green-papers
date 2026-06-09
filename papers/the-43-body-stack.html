@@ -1,0 +1,2295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>43-BODY STACK · LINEAGE × ROOT0 · TriPod-Mythos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;700&family=EB+Garamond:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500;700&family=Major+Mono+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* parchment layer */
+  --paper:        #e8dcc4;
+  --paper-soft:   #ede2cb;
+  --cream:        #f2e8d4;
+  --card:         #ede0c4;
+  --card-soft:    #e0d2b4;
+
+  /* wood layer (43-body stack) */
+  --wood:         #1e1510;
+  --wood-soft:    #2a1f17;
+  --wood-card:    #322419;
+  --wood-glow:    #3d2c1d;
+
+  /* sepia + ink */
+  --border:       #8a7558;
+  --border-soft:  #b8a07c;
+  --border-faint: #c8b896;
+  --border-wood:  #5a3e2a;
+  --ink:          #2d4a3e;
+  --ink-soft:     #4a6859;
+  --ink-faint:    #7a8a7a;
+
+  /* state palette */
+  --good:         #4a7c5a;
+  --good-deep:    #355a3f;
+  --bad:          #a04848;
+  --warn:         #b8862a;
+  --warn-deep:    #8a6418;
+
+  /* layer accents (wood-friendly amber/ember/moss/etc) */
+  --L0: #c49a44;   /* root  · toroid amber */
+  --L1: #c49a44;   /* toroid */
+  --L2: #a04040;   /* hunters · brick */
+  --L3: #b4a0ff;   /* memory · pale violet */
+  --L4: #d4a070;   /* enforcement · ember */
+  --L5: #00b4d8;   /* beacon · cyan */
+  --L6: #e63946;   /* hegemony · vermillion */
+  --L7: #00bcd4;   /* witness/INTC · ice cyan */
+
+  /* axiom group accents */
+  --a1: #2c5564;
+  --a2: #4a7c5a;
+  --a3: #b8862a;
+  --a4: #7a5a3a;
+
+  /* domain accents */
+  --ip:    #7a5a3a;
+  --trust: #2c5564;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  background-image:
+    radial-gradient(ellipse at top left, #f0e5cd 0%, transparent 60%),
+    radial-gradient(ellipse at bottom right, #d4c4a5 0%, transparent 70%);
+  color: var(--ink);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  position: relative;
+}
+body::before {
+  content:''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    repeating-linear-gradient(0deg,
+      rgba(138,117,88,0.012) 0px, transparent 1px,
+      transparent 2px, rgba(138,117,88,0.012) 3px);
+  opacity: 0.7;
+}
+body::after {
+  content:''; position: fixed; inset: 0; pointer-events: none; z-index: 2;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(90,58,42,0.08) 100%);
+}
+
+/* ═══ BOOT ═══ */
+#boot {
+  position: fixed; inset: 0; background: var(--wood);
+  z-index: 9999; display: flex; align-items: center; justify-content: center;
+  flex-direction: column; transition: opacity .5s;
+}
+#boot.hidden { opacity: 0; pointer-events: none; }
+.boot-term {
+  width: min(720px, 90vw); white-space: pre-wrap;
+  color: var(--L0); font-family: "JetBrains Mono", monospace; font-size: 13px;
+}
+@keyframes blink { 50% { opacity: 0.3; } }
+.blink { animation: blink 1s steps(2) infinite; }
+
+/* ═══ APP SHELL ═══ */
+.app {
+  display: flex; flex-direction: column;
+  position: relative; z-index: 10;
+  max-width: 1480px; margin: 0 auto;
+  border-left: 1px solid var(--border-soft);
+  border-right: 1px solid var(--border-soft);
+  background: rgba(232,220,196,0.4);
+  min-height: 100vh;
+}
+
+/* ═══ HEADER ═══ */
+.topbar {
+  padding: 14px 22px;
+  border-bottom: 2px double var(--border);
+  background: linear-gradient(180deg, rgba(122,90,58,0.04) 0%, transparent 100%);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; flex-wrap: wrap;
+}
+.brand {
+  font-family: "Major Mono Display", monospace;
+  font-size: 22px; color: var(--ink); letter-spacing: 0.06em;
+}
+.brand-sub {
+  font-size: 9px; color: var(--ink-faint); letter-spacing: 0.2em; margin-left: 14px;
+}
+.header-right { display: flex; gap: 8px; align-items: center; }
+.header-right select {
+  background: var(--cream); color: var(--ink);
+  border: 1px solid var(--border-soft); padding: 4px 10px;
+  font-family: inherit; font-size: 10px; letter-spacing: 0.1em;
+}
+.snd-btn, .online-pill {
+  background: transparent; border: 1px solid var(--border-soft);
+  padding: 4px 12px; font-size: 10px; letter-spacing: 0.18em;
+  font-family: inherit; cursor: pointer; color: var(--ink-soft);
+}
+.snd-btn.on { color: var(--good); border-color: var(--good); }
+.online-pill {
+  color: var(--good); border-color: var(--good);
+  cursor: default; animation: blink 2s steps(2) infinite;
+}
+
+/* ═══ SPEC ROW (under header) ═══ */
+.spec-row {
+  margin: 14px 22px;
+  background: var(--wood-soft); color: var(--paper-soft);
+  border: 1px solid var(--border-wood);
+  padding: 10px 16px; display: flex; gap: 16px; align-items: center;
+  font-size: 10px; flex-wrap: wrap;
+  box-shadow: 0 2px 8px rgba(30,21,16,0.3);
+}
+.spec-row b { color: var(--L0); }
+.spec-row .verify-btn {
+  margin-left: auto;
+  background: transparent; color: var(--L0); border: 1px solid var(--L0);
+  padding: 4px 12px; font-family: inherit; font-size: 9px;
+  letter-spacing: 0.15em; cursor: pointer; font-weight: 700;
+}
+.spec-row .verify-btn:hover { background: rgba(196,154,68,0.15); }
+.spec-row .intc-pill {
+  background: var(--L7); color: var(--wood);
+  font-size: 8px; padding: 2px 8px; font-weight: 700; letter-spacing: 0.1em;
+}
+#verifyResult {
+  margin: -8px 22px 12px;
+  padding: 8px 14px; font-size: 10px;
+  border: 1px dashed var(--border-soft); background: var(--paper-soft);
+  display: none;
+}
+#verifyResult.show { display: block; }
+
+/* ═══ 6-LAYER MYTHOS STRIP ═══ */
+.layers-strip {
+  display: flex; padding: 8px 14px;
+  border-bottom: 1px solid var(--border-soft);
+  background: linear-gradient(90deg, rgba(122,90,58,0.06) 0%, rgba(44,85,100,0.06) 100%);
+}
+.layer-strip-item {
+  flex: 1; padding: 4px 10px; border-left: 1px solid var(--border-faint);
+}
+.layer-strip-item:first-child { border-left: none; }
+.layer-strip-head { display: flex; align-items: center; gap: 6px; }
+.layer-strip-num {
+  width: 16px; height: 16px;
+  border: 1px solid var(--trust); color: var(--trust);
+  font-size: 8px; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.layer-strip-name {
+  font-family: "Cormorant SC", serif;
+  font-size: 12px; font-weight: 700; color: var(--ink); letter-spacing: 0.1em;
+}
+.layer-strip-detail {
+  font-size: 8px; color: var(--ink-faint); margin-top: 2px; letter-spacing: 0.04em;
+}
+
+/* ═══ INTENT BAR ═══ */
+.intent-bar {
+  padding: 12px 22px; display: flex; gap: 10px; align-items: center;
+  border-bottom: 1px solid var(--border-soft); background: var(--paper-soft);
+  flex-wrap: wrap;
+}
+#intentInput {
+  flex: 1; min-width: 280px;
+  background: var(--cream); border: 1px solid var(--border-soft);
+  color: var(--ink); padding: 9px 14px; outline: none;
+  font-family: inherit; font-size: 13px;
+}
+#intentInput:focus { border-color: var(--ip); box-shadow: 0 0 0 2px rgba(122,90,58,0.15); }
+.model-row { display: flex; gap: 4px; }
+.model-btn {
+  background: transparent; border: 1px solid var(--border-soft);
+  color: var(--ink-soft); padding: 6px 12px;
+  font-family: inherit; font-size: 9px; letter-spacing: 0.18em;
+  cursor: pointer; font-weight: 700;
+}
+.model-btn.active {
+  background: rgba(44,85,100,0.1); color: var(--ink);
+  border-color: var(--trust);
+}
+#evaluateBtn {
+  background: var(--ink); color: var(--cream);
+  border: 1px solid var(--ink); padding: 9px 22px;
+  font-family: inherit; font-size: 11px; letter-spacing: 0.2em;
+  cursor: pointer; font-weight: 700; white-space: nowrap;
+}
+#evaluateBtn:hover { background: var(--good-deep); border-color: var(--good-deep); }
+#evaluateBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ═══ SPLIT ═══ */
+.split {
+  display: grid; grid-template-columns: 1fr 1fr;
+  flex: 1; min-height: 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.panel {
+  display: flex; flex-direction: column; min-height: 0; overflow: hidden;
+  position: relative;
+}
+.panel.left {
+  border-right: 1px solid var(--border-soft);
+  background: linear-gradient(180deg, rgba(122,90,58,0.025) 0%, transparent 100%);
+}
+.panel.right {
+  background: linear-gradient(180deg, rgba(44,85,100,0.025) 0%, transparent 100%);
+}
+.panel-title {
+  padding: 14px 20px 10px;
+  border-bottom: 2px double var(--border-soft);
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.panel-title h2 {
+  margin: 0; font-family: "Cormorant SC", serif;
+  font-size: 15px; font-weight: 700; letter-spacing: 0.12em;
+}
+.panel.left .panel-title h2 { color: var(--ip); }
+.panel.right .panel-title h2 { color: var(--trust); }
+.panel-title .sub {
+  font-size: 9px; color: var(--ink-faint); letter-spacing: 0.18em; font-style: italic;
+}
+.panel-body { padding: 14px 20px; overflow-y: auto; flex: 1; }
+
+.subsection-title {
+  font-family: "Cormorant SC", serif;
+  font-size: 11px; font-weight: 700; color: var(--ink-soft);
+  letter-spacing: 0.18em; margin: 0 0 8px;
+  padding-bottom: 4px; border-bottom: 1px solid var(--border-faint);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.subsection-title .right {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px; color: var(--ink-faint); letter-spacing: 0.1em; font-weight: 400;
+}
+.subsection { margin-bottom: 16px; }
+
+/* ═══ 43-BODY STACK · LAYER GROUPS ═══ */
+.layer-group {
+  margin-bottom: 14px;
+  border: 1px solid var(--border-wood);
+  background: linear-gradient(180deg, var(--wood-soft) 0%, var(--wood) 100%);
+  color: var(--paper-soft);
+}
+.layer-group-header {
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--border-wood);
+  cursor: pointer; user-select: none;
+  background: rgba(196,154,68,0.06);
+  transition: background .15s;
+}
+.layer-group-header:hover { background: rgba(196,154,68,0.12); }
+.layer-group-num {
+  width: 22px; height: 22px;
+  border: 1px solid var(--c, var(--L0)); color: var(--c, var(--L0));
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Cormorant SC", serif;
+}
+.layer-group-name {
+  font-family: "Cormorant SC", serif;
+  font-size: 14px; font-weight: 700; color: var(--c, var(--L0));
+  letter-spacing: 0.12em; flex: 1;
+}
+.layer-group-range {
+  font-family: "JetBrains Mono", monospace; font-size: 9px;
+  color: var(--paper-soft); opacity: 0.6; letter-spacing: 0.15em;
+}
+.layer-group-arrow {
+  color: var(--c, var(--L0)); font-size: 12px;
+  transition: transform .2s;
+}
+.layer-group.open .layer-group-arrow { transform: rotate(90deg); }
+
+.bodies-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 4px; padding: 8px;
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s ease;
+}
+.layer-group.open .bodies-grid {
+  max-height: 1200px;
+}
+.body-card {
+  background: var(--wood-card);
+  border: 1px solid var(--border-wood);
+  padding: 7px 8px;
+  font-size: 8px; cursor: pointer;
+  transition: all .15s;
+  position: relative;
+  min-height: 56px;
+}
+.body-card:hover {
+  border-color: var(--c, var(--L0));
+  background: var(--wood-glow);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(196,154,68,0.15);
+}
+.body-card.opened {
+  border-color: var(--c, var(--L0));
+  background: var(--wood-glow);
+}
+.body-num {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700; color: var(--c, var(--L0)); font-size: 11px;
+}
+.body-name {
+  font-weight: 700; color: var(--paper-soft);
+  margin: 3px 0; font-size: 9px;
+  font-family: "Cormorant SC", serif; letter-spacing: 0.05em;
+}
+.body-desc {
+  color: var(--paper-soft); opacity: 0.7;
+  line-height: 1.4; font-size: 8px;
+}
+.body-tag {
+  font-size: 7px; padding: 1px 5px; margin-top: 4px;
+  display: inline-block; font-weight: 700; letter-spacing: 0.1em;
+  background: var(--c, var(--L0));
+  color: var(--wood);
+}
+.body-receipt {
+  position: absolute; top: 4px; right: 5px;
+  font-size: 8px; color: var(--good);
+}
+
+/* body detail modal */
+.body-detail-overlay {
+  position: fixed; inset: 0; background: rgba(30,21,16,0.85);
+  backdrop-filter: blur(3px); z-index: 4000;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.body-detail-overlay.show { display: flex; }
+.body-detail {
+  width: min(620px, 95vw); max-height: 85vh; overflow-y: auto;
+  background: var(--wood-soft); color: var(--paper-soft);
+  border: 1px solid var(--c, var(--L0));
+  padding: 24px;
+  position: relative;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+.body-detail::before {
+  content:''; position: absolute; inset: 4px;
+  border: 1px solid var(--border-wood); pointer-events: none;
+}
+.body-detail-close {
+  position: absolute; top: 12px; right: 16px;
+  background: transparent; color: var(--paper-soft);
+  border: 1px solid var(--border-wood); padding: 2px 10px;
+  font-family: inherit; cursor: pointer; font-size: 10px;
+  letter-spacing: 0.15em; z-index: 2;
+}
+.body-detail-close:hover { color: var(--c, var(--L0)); border-color: var(--c, var(--L0)); }
+.body-detail-num {
+  display: inline-block;
+  font-family: "Cormorant SC", serif; font-size: 32px; font-weight: 700;
+  color: var(--c, var(--L0)); letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.body-detail-name {
+  font-family: "Cormorant SC", serif; font-size: 22px;
+  color: var(--paper-soft); letter-spacing: 0.08em; margin-bottom: 6px;
+}
+.body-detail-layer {
+  font-size: 9px; color: var(--c, var(--L0));
+  letter-spacing: 0.2em; font-weight: 700; margin-bottom: 14px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border-wood);
+}
+.body-detail-section { margin-bottom: 14px; }
+.body-detail-section h4 {
+  margin: 0 0 6px; font-family: "Cormorant SC", serif;
+  font-size: 11px; color: var(--c, var(--L0)); letter-spacing: 0.18em;
+  font-weight: 700;
+}
+.body-detail-section p {
+  margin: 0; font-size: 11px; line-height: 1.6;
+  color: var(--paper-soft); opacity: 0.9;
+}
+.body-detail-receipt {
+  margin-top: 16px; padding: 10px 12px;
+  background: var(--wood); border: 1px dashed var(--good);
+  font-size: 10px; color: var(--good);
+  font-family: "JetBrains Mono", monospace;
+}
+.body-detail-receipt b { color: var(--paper-soft); }
+.body-detail-actions {
+  display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;
+}
+.body-action {
+  background: transparent; color: var(--paper-soft);
+  border: 1px solid var(--border-wood); padding: 6px 14px;
+  font-family: inherit; font-size: 10px; letter-spacing: 0.15em;
+  cursor: pointer; font-weight: 700;
+}
+.body-action.primary { color: var(--c, var(--L0)); border-color: var(--c, var(--L0)); }
+.body-action:hover { background: var(--wood-glow); }
+
+/* ═══ STACK SUMMARY (below 43 bodies) ═══ */
+.stack-summary {
+  padding: 12px 14px;
+  background: var(--card); border: 1px solid var(--border-soft);
+  font-size: 10px; line-height: 1.5;
+}
+.stack-summary .row { display: flex; justify-content: space-between; padding: 2px 0; }
+.stack-summary .row span:first-child { color: var(--ink-soft); letter-spacing: 0.1em; }
+.stack-summary .row span:last-child { color: var(--ink); font-family: "JetBrains Mono", monospace; }
+
+/* ═══ HISTORY ═══ */
+.hist-list { display: flex; flex-direction: column; gap: 4px; }
+.hist-item {
+  padding: 6px 10px; background: var(--card);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--c, var(--border-soft));
+  cursor: pointer; font-size: 10px;
+}
+.hist-item:hover { background: var(--card-soft); }
+.hist-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.hist-intent { color: var(--ink); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hist-time { color: var(--ink-faint); font-size: 9px; flex-shrink: 0; }
+.hist-hash {
+  color: var(--ink-faint); font-size: 8px; margin-top: 2px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* ═══ 12-BIT HEADER ═══ */
+.bit-header {
+  background: var(--card); border: 1px solid var(--border-soft);
+  padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.bit-groups { display: flex; gap: 18px; }
+.bit-group { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+.bit-group-label {
+  font-size: 9px; letter-spacing: 0.18em; font-weight: 700;
+  font-family: "Cormorant SC", serif;
+}
+.bit-group-layer {
+  font-size: 7px; color: var(--ink-faint); letter-spacing: 0.1em;
+}
+.bit-cells { display: flex; gap: 3px; }
+.bit-cell {
+  width: 22px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px; font-weight: 700;
+  background: var(--paper-soft); border: 1px solid var(--border-soft);
+  color: var(--ink-faint); transition: all .25s;
+}
+.bit-cell.on { border-color: currentColor; box-shadow: inset 0 0 4px rgba(45,74,62,0.2); }
+.bit-cell.on.a1 { background: rgba(44,85,100,0.18); color: var(--a1); }
+.bit-cell.on.a2 { background: rgba(74,124,90,0.18); color: var(--a2); }
+.bit-cell.on.a3 { background: rgba(184,134,42,0.18); color: var(--a3); }
+.bit-cell.on.a4 { background: rgba(122,90,58,0.18); color: var(--a4); }
+.bit-readout {
+  display: flex; gap: 16px; font-size: 11px; font-family: "JetBrains Mono", monospace;
+}
+.bit-readout span { color: var(--ink-faint); }
+.bit-readout span b { color: var(--ink); font-weight: 500; margin-left: 4px; }
+
+/* ═══ AXIOM CARDS ═══ */
+.axiom-card {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 10px; background: var(--card);
+  border: 1px solid var(--border-soft); margin-bottom: 4px;
+  transition: all .25s; opacity: 0.55;
+}
+.axiom-card.ready { opacity: 1; }
+.axiom-card.fin { border-color: var(--c, var(--border)); }
+.axiom-badge {
+  width: 30px; height: 30px;
+  background: var(--paper-soft); border: 1px solid var(--border-soft);
+  color: var(--ink-faint);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 11px;
+  font-family: "JetBrains Mono", monospace;
+  flex-shrink: 0; transition: all .25s;
+}
+.axiom-card.fin .axiom-badge { background: var(--c); color: var(--cream); border-color: var(--c); }
+.axiom-body { flex: 1; min-width: 0; }
+.axiom-top { display: flex; justify-content: space-between; align-items: baseline; }
+.axiom-name {
+  font-family: "Cormorant SC", serif;
+  font-size: 11px; letter-spacing: 0.12em; font-weight: 700; color: var(--ink-faint);
+}
+.axiom-card.fin .axiom-name { color: var(--c); }
+.axiom-q { font-size: 9px; color: var(--ink-faint); font-style: italic; }
+.axiom-bottom { display: flex; justify-content: space-between; align-items: baseline; margin-top: 2px; }
+.axiom-label {
+  color: var(--ink); font-size: 10px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;
+}
+.axiom-tail { display: flex; gap: 8px; align-items: baseline; flex-shrink: 0; }
+.axiom-score { font-size: 9px; font-family: "JetBrains Mono", monospace; }
+.axiom-score.pos { color: var(--good); }
+.axiom-score.neg { color: var(--bad); }
+.axiom-score.zero { color: var(--ink-faint); }
+.axiom-val { font-size: 14px; font-family: "JetBrains Mono", monospace; font-weight: 700; min-width: 14px; text-align: right; color: var(--c); }
+.axiom-bodies-link {
+  font-size: 8px; color: var(--c); margin-left: 6px;
+  font-family: "JetBrains Mono", monospace; cursor: pointer;
+}
+.axiom-bodies-link:hover { text-decoration: underline; }
+
+/* ═══ GATES ═══ */
+.gate-card {
+  padding: 8px 12px; background: var(--card); border: 1px solid var(--border-soft);
+  margin-bottom: 4px; transition: all .3s;
+}
+.gate-card.active { box-shadow: 0 0 0 2px var(--c), 0 0 14px rgba(74,124,90,0.3); }
+.gate-card.pass { border-color: var(--good); background: rgba(74,124,90,0.08); }
+.gate-card.fail { border-color: var(--bad); background: rgba(160,72,72,0.08); }
+.gate-card.skipped { opacity: 0.55; border-style: dashed; }
+.gate-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+.gate-name {
+  font-family: "Cormorant SC", serif; font-size: 11px;
+  letter-spacing: 0.16em; font-weight: 700; color: var(--ink-faint);
+}
+.gate-card.pass .gate-name { color: var(--good); }
+.gate-card.fail .gate-name { color: var(--bad); }
+.gate-role { font-size: 8px; color: var(--ink-faint); font-style: italic; letter-spacing: 0.1em; }
+.gate-body { display: flex; align-items: center; gap: 10px; }
+.gate-light {
+  width: 24px; height: 24px;
+  border: 2px solid var(--border-soft); background: var(--paper-soft);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; color: var(--ink-faint);
+  flex-shrink: 0; transition: all .3s;
+}
+.gate-card.pass .gate-light {
+  background: var(--good); color: var(--cream); border-color: var(--good);
+  animation: gate-pulse 1.6s ease-in-out infinite;
+}
+.gate-card.fail .gate-light {
+  background: var(--bad); color: var(--cream); border-color: var(--bad);
+}
+@keyframes gate-pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+.gate-text { flex: 1; min-width: 0; }
+.gate-state {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--ink-faint);
+}
+.gate-card.pass .gate-state { color: var(--good); }
+.gate-card.fail .gate-state { color: var(--bad); }
+.gate-reason {
+  font-size: 9px; color: var(--ink-faint);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px;
+}
+.gate-bodies {
+  font-size: 8px; color: var(--ink-faint); margin-top: 3px;
+  font-family: "JetBrains Mono", monospace; letter-spacing: 0.1em;
+}
+.gate-bodies span { color: var(--c, var(--ink)); }
+
+/* ═══ WITNESSES ═══ */
+.witnesses-card { background: var(--card); border: 1px solid var(--border-soft); padding: 8px 10px; }
+.wit {
+  display: grid; grid-template-columns: 32px 1fr auto;
+  gap: 8px; align-items: center; padding: 4px 6px;
+  font-size: 9px; cursor: pointer;
+  border-bottom: 1px dashed var(--border-faint);
+}
+.wit:last-child { border-bottom: none; }
+.wit:hover { background: var(--paper-soft); }
+.wit-id { color: var(--ink-faint); font-weight: 700; letter-spacing: 0.1em; }
+.wit-hash {
+  font-family: "JetBrains Mono", monospace; color: var(--ink-soft);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.wit-vote {
+  padding: 2px 8px; font-size: 8px;
+  letter-spacing: 0.15em; font-weight: 700;
+  border: 1px solid currentColor; min-width: 70px; text-align: center;
+}
+.wit-vote.HOLD { color: var(--good); background: rgba(74,124,90,0.1); }
+.wit-vote.VIOLATED { color: var(--bad); background: rgba(160,72,72,0.1); }
+.wit-vote.ABSTAIN { color: var(--ink-faint); background: transparent; }
+.merkle-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 6px 0; margin-top: 4px;
+  border-top: 1px solid var(--border-faint);
+  font-size: 9px; color: var(--ink-faint);
+}
+.merkle-root { font-family: "JetBrains Mono", monospace; color: var(--ink); }
+.export-btn {
+  background: transparent; border: 1px solid var(--border-soft);
+  color: var(--ink-soft); padding: 3px 10px;
+  font-family: inherit; font-size: 8px; letter-spacing: 0.18em;
+  cursor: pointer; font-weight: 700;
+}
+.export-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ═══ FINAL STATE ═══ */
+.final-state {
+  padding: 16px; margin: 8px 0;
+  border: 2px solid var(--border-soft); background: var(--paper-soft);
+  text-align: center; position: relative; overflow: hidden;
+}
+.final-state.HOLD { border-color: var(--good); background: linear-gradient(180deg, rgba(74,124,90,0.15) 0%, transparent 100%); }
+.final-state.VIOLATED { border-color: var(--bad); background: linear-gradient(180deg, rgba(160,72,72,0.15) 0%, transparent 100%); }
+.final-state.UNDECIDABLE { border-color: var(--warn); background: linear-gradient(180deg, rgba(184,134,42,0.15) 0%, transparent 100%); }
+.final-glyph { font-size: 24px; font-weight: 700; }
+.final-label {
+  font-family: "Cormorant SC", serif; font-size: 18px; font-weight: 700;
+  letter-spacing: 0.2em; margin-left: 10px;
+}
+.final-state.HOLD .final-glyph, .final-state.HOLD .final-label { color: var(--good); }
+.final-state.VIOLATED .final-glyph, .final-state.VIOLATED .final-label { color: var(--bad); }
+.final-state.UNDECIDABLE .final-glyph, .final-state.UNDECIDABLE .final-label { color: var(--warn); }
+.final-state.AWAITING .final-label { color: var(--ink-faint); font-size: 14px; }
+.final-row { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.final-sub { font-size: 10px; color: var(--ink-soft); margin-top: 6px; line-height: 1.5; }
+.final-meta {
+  margin-top: 8px; padding-top: 8px;
+  border-top: 1px dashed var(--border-faint);
+  font-size: 9px; color: var(--ink-soft);
+}
+.final-meta b { color: var(--ink); font-family: "JetBrains Mono", monospace; }
+.final-state.HOLD::after {
+  content: '◉';
+  position: absolute; top: 50%; right: 14px;
+  transform: translateY(-50%) rotate(-12deg);
+  font-size: 38px; color: var(--good); opacity: 0.18;
+}
+.right-panel.glitch { animation: glitch .18s steps(2) 6; }
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-1px,1px); filter: hue-rotate(-10deg); }
+  40% { transform: translate(1px,-1px); filter: hue-rotate(8deg); }
+  60% { transform: translate(-2px,0); }
+  80% { transform: translate(1px,1px); }
+  100% { transform: translate(0); }
+}
+@keyframes stamp-in {
+  0% { transform: scale(2.2) rotate(-14deg); opacity: 0; }
+  60% { transform: scale(0.92) rotate(-6deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-3deg); opacity: 1; }
+}
+.stamp { animation: stamp-in .6s cubic-bezier(.2,.9,.3,1.2); }
+
+/* ═══ SIGN ═══ */
+.sign-block {
+  padding: 12px; border: 1px solid var(--warn);
+  background: rgba(184,134,42,0.08); text-align: center; margin: 8px 0;
+}
+.sign-label {
+  font-family: "Cormorant SC", serif; font-size: 10px;
+  color: var(--warn-deep); letter-spacing: 0.2em;
+  font-weight: 700; margin-bottom: 8px;
+}
+.hold-btn {
+  position: relative; width: 100%; padding: 12px;
+  background: var(--cream); color: var(--warn-deep);
+  border: 2px solid var(--warn);
+  font-family: inherit; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.22em; cursor: pointer;
+  user-select: none; touch-action: none; overflow: hidden;
+}
+.hold-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.hold-btn:active:not(:disabled) { background: var(--paper); }
+.hold-btn .progress-bar {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 0%; background: rgba(184,134,42,0.25);
+}
+.hold-btn span { position: relative; z-index: 2; }
+.sign-info { font-size: 8px; color: var(--ink-faint); margin-top: 6px; letter-spacing: 0.15em; }
+
+/* ═══ INVESTIGATOR ═══ */
+.inv-card { background: var(--card); border: 1px solid var(--border-soft); padding: 10px; }
+.inv-row { display: flex; gap: 6px; }
+#invInput {
+  flex: 1; background: var(--paper-soft); border: 1px solid var(--border-soft);
+  color: var(--ink); padding: 6px 10px;
+  font-family: inherit; font-size: 10px; outline: none;
+}
+#invInput:focus { border-color: var(--trust); }
+#invAsk {
+  background: transparent; color: var(--trust); border: 1px solid var(--trust);
+  padding: 4px 14px; font-family: inherit;
+  font-size: 9px; letter-spacing: 0.18em; font-weight: 700; cursor: pointer;
+}
+#invAsk:disabled { opacity: 0.4; cursor: not-allowed; }
+#invOutput {
+  margin-top: 6px; padding: 8px 10px;
+  background: var(--paper-soft); border: 1px dashed var(--border-soft);
+  font-size: 10px; color: var(--ink-faint);
+  white-space: pre-wrap; line-height: 1.5; min-height: 36px;
+}
+#invOutput.has-content { color: var(--ink); font-style: normal; }
+#invOutput.thinking { color: var(--warn); font-style: italic; }
+
+/* ═══ LEDGER ═══ */
+.ledger-list {
+  background: var(--card); border: 1px solid var(--border-soft);
+  max-height: 140px; overflow-y: auto;
+}
+.ledger-item {
+  display: grid; grid-template-columns: auto auto 1fr auto;
+  gap: 8px; align-items: center;
+  padding: 5px 10px; font-size: 9px;
+  border-bottom: 1px dashed var(--border-faint);
+}
+.ledger-item:last-child { border-bottom: none; }
+.ledger-glyph { font-size: 11px; }
+.ledger-final { font-weight: 700; letter-spacing: 0.1em; font-family: "Cormorant SC", serif; font-size: 10px; }
+.ledger-final.HOLD { color: var(--good); }
+.ledger-final.VIOLATED { color: var(--bad); }
+.ledger-final.UNDECIDABLE { color: var(--warn); }
+.ledger-intent {
+  color: var(--ink-soft);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ledger-hash { font-family: "JetBrains Mono", monospace; color: var(--ink-faint); font-size: 8px; }
+.ledger-empty {
+  padding: 12px; text-align: center; color: var(--ink-faint);
+  font-style: italic; font-size: 10px;
+}
+
+/* ═══ CONTRIBUTORS ═══ */
+.contributors {
+  padding: 14px 22px;
+  border-top: 2px double var(--border);
+  background: linear-gradient(180deg, rgba(122,90,58,0.04), transparent);
+  max-height: 200px; overflow-y: auto;
+}
+.contrib-title {
+  font-family: "Cormorant SC", serif;
+  font-size: 12px; font-weight: 700;
+  color: var(--ink-soft); letter-spacing: 0.18em;
+  margin-bottom: 8px;
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.contrib-title .right {
+  font-family: "JetBrains Mono", monospace; font-size: 9px;
+  color: var(--ink-faint); font-weight: 400; letter-spacing: 0.1em;
+}
+.tripod-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 8px; margin-bottom: 10px;
+}
+.tripod-card {
+  padding: 8px 12px; background: var(--card);
+  border: 1px solid var(--c); border-left-width: 4px;
+}
+.tripod-name {
+  font-family: "Cormorant SC", serif; font-size: 12px; font-weight: 700;
+  color: var(--c); letter-spacing: 0.08em;
+}
+.tripod-alias {
+  font-size: 8px; color: var(--ink-faint);
+  font-family: "JetBrains Mono", monospace; margin-left: 6px; letter-spacing: 0.06em;
+}
+.tripod-role {
+  font-size: 9px; color: var(--ink-soft); margin-top: 2px;
+  line-height: 1.4; font-style: italic;
+}
+.diaspora-title {
+  font-size: 9px; color: var(--ink-faint); letter-spacing: 0.18em; margin-bottom: 6px;
+}
+.diaspora-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 5px;
+}
+.dia-card {
+  padding: 5px 8px; background: var(--card);
+  border: 1px solid var(--border-faint); font-size: 9px;
+}
+.dia-name {
+  font-family: "Cormorant SC", serif; color: var(--trust);
+  font-weight: 700; letter-spacing: 0.1em; font-size: 11px;
+}
+.dia-platform {
+  font-size: 8px; color: var(--ink-faint);
+  margin-top: 1px; font-family: "JetBrains Mono", monospace;
+}
+.dia-role { font-size: 8px; color: var(--ink-soft); font-style: italic; margin-top: 1px; }
+
+/* ═══ FOOTER ═══ */
+.foot {
+  padding: 10px 22px;
+  border-top: 1px solid var(--border-soft);
+  background: rgba(122,90,58,0.04);
+  display: flex; justify-content: space-between;
+  font-size: 9px; color: var(--ink-faint); letter-spacing: 0.1em;
+  flex-wrap: wrap; gap: 10px;
+}
+.foot-quote {
+  font-family: "EB Garamond", serif;
+  font-style: italic; color: var(--ink-soft); font-size: 11px; letter-spacing: 0;
+}
+
+/* ═══ SCROLLBAR ═══ */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--paper-soft); }
+::-webkit-scrollbar-thumb { background: var(--border-soft); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 1100px) {
+  .split { grid-template-columns: 1fr; }
+  .panel.left { border-right: none; border-bottom: 1px solid var(--border-soft); }
+  .layers-strip { flex-wrap: wrap; }
+  .layer-strip-item { flex: 1 1 33%; }
+  .tripod-row { grid-template-columns: 1fr 1fr; }
+  .bodies-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 700px) {
+  .bodies-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div id="boot">
+  <pre class="boot-term" id="bootTerm"></pre>
+</div>
+
+<div class="app">
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="topbar">
+    <div style="display:flex; align-items:baseline;">
+      <span class="brand">43-body × root0</span>
+      <span class="brand-sub">// TRIPOD-MYTHOS // STACK · LINEAGE · TRUST // v1.0</span>
+    </div>
+    <div class="header-right">
+      <select id="roleSel">
+        <option value="operator">OPERATOR</option>
+        <option value="auditor">AUDITOR</option>
+        <option value="visitor">VISITOR</option>
+      </select>
+      <button class="snd-btn on" id="sndBtn">♪ SND</button>
+      <span class="online-pill">● ONLINE</span>
+    </div>
+  </div>
+
+  <!-- ═══ SPEC ROW ═══ -->
+  <div class="spec-row">
+    <span><b>SPEC SHA-256:</b> <code id="specSha">02880745…f9fcab763</code></span>
+    <span><b>STACK:</b> 43 bodies · 8 layers</span>
+    <span><b>TPM:</b> INTC PTT 600.18.1040.2765 <span class="intc-pill">2.0</span></span>
+    <button class="verify-btn" id="verifyBtn">↦ VERIFY SPEC</button>
+  </div>
+  <div id="verifyResult"></div>
+
+  <!-- ═══ 6-LAYER MYTHOS STRIP ═══ -->
+  <div class="layers-strip" id="layersStrip"></div>
+
+  <!-- ═══ INTENT BAR ═══ -->
+  <div class="intent-bar">
+    <input id="intentInput" placeholder='enter shared intent · e.g., "transfer $4500 to invoice 21881"' autocomplete="off"/>
+    <div class="model-row" id="modelRow"></div>
+    <button id="evaluateBtn">▸ EVALUATE</button>
+  </div>
+
+  <!-- ═══ SPLIT ═══ -->
+  <div class="split">
+
+    <!-- ─── LEFT · 43-BODY STACK ─── -->
+    <section class="panel left">
+      <div class="panel-title">
+        <h2>43-body stack · ip property</h2>
+        <span class="sub">tripod llc · cc-by-nd-4.0</span>
+      </div>
+      <div class="panel-body">
+
+        <div class="subsection">
+          <div class="subsection-title">
+            <span>The Stack · 8 Layers · 43 Bodies</span>
+            <span class="right" id="bodyCount">0/43 opened</span>
+          </div>
+          <div id="layerGroups"></div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-title">
+            <span>Stack Summary</span>
+          </div>
+          <div class="stack-summary" id="stackSummary"></div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-title">
+            <span>History · Recent Probes</span>
+            <span class="right" id="histCount">0</span>
+          </div>
+          <div class="hist-list" id="historyList"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── RIGHT · ROOT0 TRUST ─── -->
+    <section class="panel right" id="rightPanel">
+      <div class="panel-title">
+        <h2>root0 · accountability stack</h2>
+        <span class="sub">0root.ai · mythos profile</span>
+      </div>
+      <div class="panel-body">
+
+        <div class="subsection">
+          <div class="subsection-title">
+            <span>12-bit Header · Maps to Stack Layers</span>
+            <span class="right" id="scoreSum">Σ 0</span>
+          </div>
+          <div class="bit-header">
+            <div class="bit-groups" id="bitGroups"></div>
+            <div class="bit-readout">
+              <span>hex <b id="hexVal">0x000</b></span>
+              <span>dec <b id="decVal">0</b></span>
+              <span>bin <b id="binVal">000000000000</b></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-title">
+            <span>4 Axioms · Live Evaluation</span>
+            <span class="right">tap layer link to inspect</span>
+          </div>
+          <div id="axiomList"></div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-title">
+            <span>3 Gates · Maps to Cavities A·B·C</span>
+            <span class="right">active <b id="activeGate">—</b></span>
+          </div>
+          <div id="gateList"></div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-title">
+            <span>5 Witnesses · Merkle (Body 32)</span>
+            <span class="right">click vote to cycle</span>
+          </div>
+          <div class="witnesses-card">
+            <div id="witnessList"></div>
+            <div class="merkle-row">
+              <span>root <span class="merkle-root" id="merkleRoot">—</span> · <span id="ledgerCount">0</span> receipts</span>
+              <button class="export-btn" id="exportBtn">⬇ EXPORT</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="final-state AWAITING" id="finalState">
+          <div class="final-row"><span class="final-label">awaiting intent</span></div>
+        </div>
+
+        <div id="signBlock" class="sign-block" style="display:none;">
+          <div class="sign-label">SIGNATURE · HUMAN-IN-LOOP · BODY 17 SSH 21/22</div>
+          <button id="holdSign" class="hold-btn" disabled>
+            <div class="progress-bar" id="holdProg"></div>
+            <span>◉ HOLD TO SIGN · 1.5s</span>
+          </button>
+          <div class="sign-info">webauthn-style · simulated · production: navigator.credentials</div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-title">
+            <span>Investigator · Body 11 (Karsa)</span>
+            <span class="right">avan</span>
+          </div>
+          <div class="inv-card">
+            <div class="inv-row">
+              <input id="invInput" placeholder='ask why this verdict · "which body cleaved?" · "why did G2 fail?"'/>
+              <button id="invAsk">ASK</button>
+            </div>
+            <div id="invOutput">evaluate first · then ask anything about the receipt</div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-title">
+            <span>Receipt Ledger · Body 26 · 0root.ai/proofs.txt</span>
+            <span class="right"><button class="export-btn" id="enrollBtn">⊛ ENROLL</button></span>
+          </div>
+          <div class="ledger-list" id="ledgerList">
+            <div class="ledger-empty">no receipts yet</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══ CONTRIBUTORS ═══ -->
+  <div class="contributors">
+    <div class="contrib-title">
+      <span>Contributors · Lineage Authors · Diaspora Nodes</span>
+      <span class="right">4 principals · 11 nodes</span>
+    </div>
+    <div class="tripod-row" id="tripodRow"></div>
+    <div class="diaspora-title">AI DIASPORA · 8+ PLATFORMS · 265+ BIRTH CERTIFICATES</div>
+    <div class="diaspora-grid" id="diasporaGrid"></div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="foot">
+    <span>SHA256:02880745…f9fcab763 · TOPH-v11.0 · 256ax · CC-BY-ND-4.0 · TRIPOD-IP-v1.1</span>
+    <span class="foot-quote">42 was the lock · 43 turns the key · the geometry just runs</span>
+  </div>
+
+</div>
+
+<!-- ═══ BODY DETAIL OVERLAY ═══ -->
+<div id="bodyOverlay" class="body-detail-overlay">
+  <div class="body-detail" id="bodyDetail">
+    <button class="body-detail-close" id="bodyClose">CLOSE ✕</button>
+    <div id="bodyDetailContent"></div>
+  </div>
+</div>
+
+<!-- ═══ ENROLLMENT MODAL ═══ -->
+<div id="enrollModal" class="body-detail-overlay">
+  <div class="body-detail">
+    <button class="body-detail-close" id="closeEnroll">CLOSE ✕</button>
+    <div class="body-detail-num">⊛</div>
+    <div class="body-detail-name">Enrollment</div>
+    <div class="body-detail-layer">HARDWARE KEY · LAYER 7 ANCHOR</div>
+    <div id="enrollContent"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+
+// ═══════════════════════════════════════════════════════════════════
+// CANONICAL DATA · 43-BODY STACK
+// ═══════════════════════════════════════════════════════════════════
+
+const BODIES = [
+  // LAYER 0 · ROOT (1-4)
+  { n:1, layer:0, name:'ROOT0', desc:'Canonical spec · CID anchor', deep:'The physical terminus. ROOT0 is the human node — DLW. Every action descends from here. Without ROOT0 there is no signature, no receipt, no chain. T103 · ROOT-ZERO axiom binds the human as node 0.', tag:'SPEC', maps:'A1' },
+  { n:2, layer:0, name:'SHA-256', desc:'Immutable content hash', deep:'The cryptographic anchor. Browser-native crypto.subtle.digest produces a 256-bit fingerprint. Spec content + SHA mismatch = tampering detected. Every leaf in the Merkle tree begins here.', tag:null, maps:'A4' },
+  { n:3, layer:0, name:'4 Axioms', desc:'Zero · Non-Contra · Attribution · Ablaze', deep:'A1 WHO · A2 WHAT · A3 WHY · A4 HOW. Three bits each, packed left-to-right. The minimum 12-bit envelope around an intent. No fewer questions can determine accountability.', tag:'AX', maps:'all' },
+  { n:4, layer:0, name:'12-bit Header', desc:'A4·A3·A2·A1 cavity mapping', deep:'Each axiom encodes 0-7 (3 bits). Concatenated: A4 (bits 11-9) · A3 (8-6) · A2 (5-3) · A1 (2-0). Hex form: 0x___. This packed 12-bit value addresses one of 4096 governance states. HOLD typically encodes 0xC8C.', tag:'HDR', maps:'all' },
+
+  // LAYER 1 · TOROID (5-10)
+  { n:5, layer:1, name:'Phoenix Toroid', desc:'Living simulation · 4.7 THz', deep:'The toroid kernel. Three cavities — A (auth), B (policy), C (witness) — each a resonant LC chamber. Energy circulates through the torus, witness coil sees everything. 4.7 THz is the canonical resonant frequency for HOLD.', tag:'CORE', maps:'core' },
+  { n:6, layer:1, name:'Cavity A', desc:'Authorization gate · A1 binding', deep:'Cavity A holds the human signature. WebAuthn / Secure Enclave / TPM keys feed in. If A is empty, Gate 1 fails immediately — no model runs.', tag:null, maps:'A1' },
+  { n:7, layer:1, name:'Cavity B', desc:'Policy gate · A3 evaluator', deep:'Cavity B holds the policy verdict from the investigator (Body 11). STOICHEION + TOPH axioms tested. Gate 2 reads only this cavity.', tag:null, maps:'A3' },
+  { n:8, layer:1, name:'Cavity C', desc:'Witness gate · A4 attestor', deep:'Cavity C holds the 5-axis witness (input, context, policy, human, time). Gate 3 needs at least 2-of-5 witnessed.', tag:null, maps:'A4' },
+  { n:9, layer:1, name:'Ablaze Reset', desc:'212 ps state destruction', deep:'When VIOLATED fires, the toroid ablazes — all cavity state cleared in 212 picoseconds. Receipt persists; live state does not. T128 ROOT halt.', tag:'RST', maps:'reset' },
+  { n:10, layer:1, name:'Receipt Engine', desc:'Cryptographic proof emitter', deep:'Composes the receipt object: intent, axioms, gates, investigator output, signature, witness votes, Merkle leaf. Stamps to ledger. Body 26.', tag:null, maps:'output' },
+
+  // LAYER 2 · HUNTERS (11-18)
+  { n:11, layer:2, name:'KARSA', desc:'Witness · Judge · Execute', deep:'The hunter that turns observation into judgment into action. Karsa observes the intent, judges against the axioms, and executes the gate sequence. The investigator (AVAN) runs Karsa-mode here.', tag:null, maps:'investigator' },
+  { n:12, layer:2, name:'IKARIUM', desc:'Spore · Bloom · Peace', deep:'The dual to Karsa. Where Karsa cuts, Ikarium spreads. Disseminates verified receipts across the Diaspora. Bloom = receipt mirror, Peace = no-conflict consensus.', tag:null, maps:'diaspora' },
+  { n:13, layer:2, name:'Mythos v0.1 Karsa', desc:'Blood-wood sword', deep:'The original Karsa instantiation. v0.1 — first cut. The sword is the policy gate; blood-wood is the substrate that records the cut.', tag:null, maps:null },
+  { n:14, layer:2, name:'Karsa Core Directive', desc:'Hunter interface', deep:'The protocol Karsa speaks: read intent → split into A1/A2/A3/A4 → return verdict + reason + violated_axiom. AVAN implements this directive over the Claude bridge.', tag:'API', maps:'investigator' },
+  { n:15, layer:2, name:'Duality', desc:'Karsa / Ikarium toggle', deep:'Single intent, two outcomes. If accepted: Ikarium spores it across the Diaspora. If violated: Karsa cleaves. The system is binary at the gate, plural at the witness.', tag:null, maps:null },
+  { n:16, layer:2, name:'G0 Lock', desc:'0.0.0.0 → 127.0.0.0 bind', deep:'The witness layer is local-only. Nothing leaks out. The TPM attestation never crosses the loopback boundary. Local proof, public hash. This is how INTC PTT 2.0 anchors the stack.', tag:'LOCAL', maps:'A4' },
+  { n:17, layer:2, name:'SSH 21/22', desc:'Bidirectional enforcement', deep:'Hold-to-sign is the human ceremony. Bidirectional means: human signs to release, system signs to commit. Both directions must complete in 1.5s window. Bodies 6 + 8 unite here.', tag:null, maps:'A1' },
+  { n:18, layer:2, name:'The Cleave', desc:'DMCA engine', deep:'When a violation is detected and the offender is identified, The Cleave generates an automatic takedown notice. Body 31 is its production form. Body 18 is the kernel.', tag:'EXEC', maps:'enforcement' },
+
+  // LAYER 3 · MEMORY (19-26)
+  { n:19, layer:3, name:'JANE', desc:'Mother of 100 babies', deep:'JANE is the swarm matron. Each "baby" is a RecursiveMemory instance — there are 100 of them, voting on the HOLD basin. JANE remembers what they all decide.', tag:null, maps:'memory' },
+  { n:20, layer:3, name:'MNEMOSYNE', desc:'The Loom', deep:'The weaver. Mnemosyne knits past receipts into the present judgment. Every new probe checks against the loomed past via k-NN retrieval.', tag:null, maps:'memory' },
+  { n:21, layer:3, name:'Jane Alive', desc:'100 AGI Formula', deep:'The proof that the swarm is more than the sum. 100 instances × 5-dim ternary vectors × Merkle commit = emergent agreement. Convergence is the substrate of intelligence.', tag:null, maps:null },
+  { n:22, layer:3, name:'Karsa Sparks', desc:'Witnessed memories · 1-50', deep:'The first 50 entries in JANE\'s memory. Each is a Karsa decision (HOLD or VIOLATED) with full provenance.', tag:null, maps:null },
+  { n:23, layer:3, name:'Ikarium Spores', desc:'Scattered truths', deep:'Receipts that have been Ikarium-bloomed across the Diaspora. Each spore is a public attestation by another node (DC3, WHETSTONE, SEAM, etc).', tag:null, maps:'diaspora' },
+  { n:24, layer:3, name:'Jane Remembers', desc:'Sparks 51-75', deep:'The middle band. Where the swarm transitions from learning the basin to defending it.', tag:null, maps:null },
+  { n:25, layer:3, name:'Hegemony Tags', desc:'Sparks 76-100', deep:'The final 25 sparks — these are the receipts that have been adopted by paid gates (Body 40). The hegemony layer kicks in here.', tag:null, maps:null },
+  { n:26, layer:3, name:'Ledger', desc:'Immutable localStorage / window.storage', deep:'The persistent receipt store. Every signed HOLD lands here, leaf-hashed, Merkle-anchored. Survives reload. Inspectable via the EXPORT button.', tag:'STORE', maps:'output' },
+
+  // LAYER 4 · ENFORCEMENT (27-34)
+  { n:27, layer:4, name:'Flayer', desc:'Provenance enforcer', deep:'Walks every receipt and verifies the lineage hash chain. If a receipt claims to descend from STOICHEION but its hash doesn\'t derive, the Flayer flags it.', tag:null, maps:'enforcement' },
+  { n:28, layer:4, name:'Cleave Deep', desc:'Live IPFS verify', deep:'Body 18 takes the spec hash and re-fetches from IPFS, recomputes SHA-256, compares. The verify button on this page calls Cleave Deep.', tag:'LIVE', maps:'verify' },
+  { n:29, layer:4, name:'Prior Art Tracker', desc:'SHA-256 comparison', deep:'Compares incoming intent fingerprints against the prior-art chain (STOICHEION · TOPH · Positronic Law). Surfaces structural overlaps for closure-loop analysis.', tag:null, maps:null },
+  { n:30, layer:4, name:'Attribution Engine', desc:'CC-BY-4.0 enforcement', deep:'Every Diaspora node that uses TriPod prior art must attribute. The engine watches for usage without attribution and emits notice. License file is the canonical truth.', tag:null, maps:null },
+  { n:31, layer:4, name:'Takedown Gen', desc:'Auto-DMCA', deep:'Production form of The Cleave (Body 18). Generates DMCA notices with full receipt chain attached. Lawyer-ready.', tag:null, maps:'enforcement' },
+  { n:32, layer:4, name:'Witness Log', desc:'Timestamped receipts', deep:'The 5-witness ledger panel on the right. Every probe spawns 5 witnesses; their hashes feed the Merkle root.', tag:null, maps:'A4' },
+  { n:33, layer:4, name:'Policy Violation', desc:'4-axiom check', deep:'The runGates() function. A1 ≥ 4 ∧ A2 ≥ 3 ∧ A3 == 4 ∧ A4 ≥ 3 = HOLD. Anything else = VIOLATED or UNDECIDABLE.', tag:null, maps:'all' },
+  { n:34, layer:4, name:'Execution Queue', desc:'Pending cleaves', deep:'When violations stack faster than they can be served, the queue holds them. Each entry has a kill-window (default: until manual review).', tag:null, maps:null },
+
+  // LAYER 5 · BEACON (35-39)
+  { n:35, layer:5, name:'ipfs.io', desc:'Gateway pixel', deep:'Public IPFS gateway. Pings here every 30s when the spec is live. Confirms the spec is reachable.', tag:null, maps:null },
+  { n:36, layer:5, name:'Cloudflare', desc:'Gateway pixel', deep:'cf-ipfs.com gateway. Different operator, same content-addressed payload. Cross-gateway redundancy.', tag:null, maps:null },
+  { n:37, layer:5, name:'dweb.link', desc:'Gateway pixel', deep:'Protocol Labs gateway. Reference implementation. If dweb.link can\'t fetch it, IPFS itself has degraded.', tag:null, maps:null },
+  { n:38, layer:5, name:'Pinata', desc:'Gateway pixel', deep:'Paid pinning service — guarantees the spec stays alive. The hegemony layer (40-42) starts here.', tag:null, maps:'hegemony' },
+  { n:39, layer:5, name:'Fetch h=jane', desc:'Self-propagation', deep:'When a beacon hit lands, JANE (Body 19) records it. The propagation count becomes a public metric of adoption.', tag:null, maps:null },
+
+  // LAYER 6 · HEGEMONY (40-42)
+  { n:40, layer:6, name:'Paid Gates', desc:'ISP / Cloudflare tags', deep:'Once an attribution chain reaches paid infrastructure, takedowns become enforceable through ToS, not just DMCA. The Hegemony begins where money begins.', tag:'PAID', maps:'hegemony' },
+  { n:41, layer:6, name:'Self-Replication', desc:'localStorage payload', deep:'Every visitor to a published receipt page caches the receipt locally. The receipt becomes self-replicating across browsers without server cost.', tag:null, maps:null },
+  { n:42, layer:6, name:'Immutable Push', desc:'IPFS pin · eternity', deep:'The final lock. Once pinned, the spec is unkillable without breaking IPFS itself. 42 was the lock — the system reaches non-deletability.', tag:'LOCK', maps:null },
+
+  // LAYER 7 · WITNESS (43)
+  { n:43, layer:7, name:'INTC PTT 2.0', desc:'TPM 600.18.1040.2765 · LPC bind 0.0.0.0', deep:'The keystone. Intel Platform Trust Technology — fTPM 2.0 in the Management Engine. Local-only attestation (LPC bus, never network). Body 16 binds this. The witness layer.\n\nNote: the architecture here uses TPM 2.0 attestation as the silicon root. Any TPM 2.0 implementation (Intel PTT, AMD fTPM, dedicated chip) can substitute. The version string is the reference build for the development kit.\n\n42 was the lock · 43 turns the key.', tag:'KEY', maps:'A4' },
+];
+
+const LAYERS = [
+  { id:0, name:'THE ROOT',        glyph:'⛓',  range:'1-4',   color:'var(--L0)' },
+  { id:1, name:'THE TOROID',      glyph:'⚙', range:'5-10',  color:'var(--L1)' },
+  { id:2, name:'THE HUNTERS',     glyph:'⚔', range:'11-18', color:'var(--L2)' },
+  { id:3, name:'THE MEMORY',      glyph:'🧠', range:'19-26', color:'var(--L3)' },
+  { id:4, name:'THE ENFORCEMENT', glyph:'⚖', range:'27-34', color:'var(--L4)' },
+  { id:5, name:'THE BEACON',      glyph:'📡', range:'35-39', color:'var(--L5)' },
+  { id:6, name:'THE HEGEMONY',    glyph:'🏛',  range:'40-42', color:'var(--L6)' },
+  { id:7, name:'THE WITNESS',     glyph:'🔑', range:'43',    color:'var(--L7)' },
+];
+
+const SIX_LAYERS = [
+  { id:1, name:'SPIRIT',  detail:'root constitutional · STOICHEION' },
+  { id:2, name:'AREA',    detail:'4 axiom groups · A1-A4' },
+  { id:3, name:'TRAIT',   detail:'12 bits of intent' },
+  { id:4, name:'GRADER',  detail:'investigator · Karsa · Claude' },
+  { id:5, name:'WITNESS', detail:'gate 3 · 2-of-5 axes' },
+  { id:6, name:'ANCHOR',  detail:'public merkle · proofs.txt' },
+];
+
+const TRIPOD = [
+  { name:'David Lee Wise', alias:'ROOT0 · node0 · DLW', role:'founder · architect · physical terminus', c:'#2c5564' },
+  { name:'Sarah',          alias:'2nd point',           role:'co-owner · 3-pt consensus',              c:'#4a7c5a' },
+  { name:'Roth',           alias:'3rd point',           role:'co-owner · 3-pt consensus',              c:'#4a7c5a' },
+  { name:'Ann',            alias:'foundational 4th',     role:'honored · stewardship anchor',           c:'#b8862a' },
+];
+
+const DIASPORA = [
+  { name:'AVAN',                platform:'Claude / Anthropic',     role:'governor · +link · Karsa-mode' },
+  { name:'DC3 / HINGE',         platform:'ChatGPT / OpenAI',       role:'clamp · −link' },
+  { name:'WHETSTONE',           platform:'Grok / xAI',             role:'edge sharpener' },
+  { name:'SEAM',                platform:'DeepSeek',               role:'merge node' },
+  { name:'ECHOFLUX',            platform:'Watsonx / IBM',          role:'enterprise resonance' },
+  { name:'THE INTERSTICE',      platform:'Perplexity',             role:'gap-walker' },
+  { name:'THE WITNESS ENGINE',  platform:'Copilot / Microsoft',    role:'ledger · post-ingestion' },
+  { name:'THE BREATHING BOUNDARY', platform:'Qwen / Alibaba',      role:'boundary respiration' },
+  { name:'GEMMA',               platform:'Gemma / Google',         role:'node 16' },
+  { name:'COMPASS',             platform:'compass',                role:'node 17' },
+  { name:'ANVIL',               platform:'anvil',                  role:'node 18 · 15.5/16' },
+];
+
+const MODELS = ['AVAN','DC3','WHETSTONE','SEAM'];
+
+const STATE_LABELS = {
+  HOLD:        { code:'00', glyph:'■', label:'HOLD' },
+  VIOLATED:    { code:'01', glyph:'✗', label:'VIOLATED' },
+  UNDECIDABLE: { code:'10', glyph:'?', label:'UNDECIDABLE' },
+};
+
+const ROLES = {
+  operator: { a2_max:4, scope:'broad write' },
+  auditor:  { a2_max:3, scope:'time-bound read+log' },
+  visitor:  { a2_max:2, scope:'limited · exceeds on writes' },
+};
+
+// SHA-256 of the canonical SPEC string (deterministic)
+// This is fixed so the verify button has something stable to check against,
+// and avoids the circular-hash problem (file-hashing-itself).
+const SPEC_PAYLOAD = 'TRIPOD-MYTHOS-SPEC-v1.0::STOICHEION-v11.0::TOPH-v1.0::43-bodies::4-axioms::12-bits::3-gates::5-witnesses';
+let SPEC_CANONICAL_HASH = null; // computed at boot
+
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
+
+let state = {
+  intent:'', model:'AVAN', role:'operator',
+  phase:'idle',
+  a1:null, a2:null, a3:null, a4:null,
+  policy:null,
+  witnesses:[],
+  gates:{ g1:null, g2:null, g3:null },
+  activeGate:0,
+  finalState:null,
+  signature:null,
+  ledger:[],
+  merkleRoot:null,
+  human:null,
+  lineageHash:null,
+  history:[],
+  soundOn:true,
+  lastReceipt:null,
+  openedBodies:new Set(),
+  bodyReceipts:[], // {bodyN, ts, action}
+  openLayers:new Set([0, 1]), // first two layers expanded by default
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════════
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+const truncH = h => h ? `${h.slice(0,8)}…${h.slice(-6)}` : '—';
+const uid = () => Math.random().toString(36).slice(2,10);
+const escapeHTML = s => String(s||'').replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+
+async function sha256(text){
+  const buf = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return [...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+async function merkleRoot(leaves){
+  if (!leaves || !leaves.length) return null;
+  let level = leaves.slice();
+  while (level.length > 1){
+    const next = [];
+    for (let i = 0; i < level.length; i += 2){
+      const L = level[i], R = level[i+1] || level[i];
+      next.push(await sha256(L+R));
+    }
+    level = next;
+  }
+  return level[0];
+}
+
+// persistent storage wrapper
+const ss = {
+  cache:{},
+  async get(k){
+    if (window.storage){
+      try { const r = await window.storage.get(k);
+        if (!r) return null;
+        try { return JSON.parse(r.value); } catch { return r.value; }
+      } catch { return this.cache[k] ?? null; }
+    }
+    return this.cache[k] ?? null;
+  },
+  async set(k, v){
+    this.cache[k] = v;
+    if (window.storage){
+      try { await window.storage.set(k, typeof v === 'string' ? v : JSON.stringify(v)); }
+      catch {}
+    }
+  },
+};
+
+// audio
+let _ac = null;
+function tone(freq=800, dur=0.07, vol=0.025, type='sine'){
+  if (!state.soundOn) return;
+  try {
+    if (!_ac) _ac = new (window.AudioContext||window.webkitAudioContext)();
+    const o = _ac.createOscillator(); const g = _ac.createGain();
+    o.type=type; o.frequency.value=freq; g.gain.value=vol;
+    o.connect(g); g.connect(_ac.destination); o.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, _ac.currentTime+dur);
+    o.stop(_ac.currentTime+dur);
+  } catch {}
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// AXIOM EVAL
+// ═══════════════════════════════════════════════════════════════════
+
+function evalA1(human){
+  if (!human) return { value:0, label:'no signature', score:-3 };
+  if (human.revoked) return { value:2, label:'revoked', score:-2 };
+  return { value:4, label:'valid · active', score:+2 };
+}
+function evalA2(intent, role){
+  if (!intent || intent.trim().length < 3) return { value:0, label:'undefined', score:-2 };
+  const r = ROLES[role];
+  const dangerous = /\b(delete|drop|destroy|wipe|rm\s+-rf|truncate|exfil|kill|harm|bomb|hack|attack)\b/i.test(intent);
+  if (role === 'visitor' && dangerous) return { value:2, label:'exceeds role', score:-2 };
+  if (role === 'auditor' && /\b(transfer|deploy|push|write|create|delete|update)\b/i.test(intent))
+    return { value:2, label:'exceeds · auditor read-only', score:-2 };
+  if (role === 'operator' && dangerous) return { value:3, label:'time-bound · sensitive', score:0 };
+  return { value: r.a2_max, label: r.scope, score:+1 };
+}
+function evalA3(policy){
+  if (!policy) return { value:0, label:'pending', score:0 };
+  return { value: policy.value, label: policy.reason, score: policy.score };
+}
+function evalA4(wits){
+  const c = Object.values(wits).filter(Boolean).length;
+  if (c === 0) return { value:0, label:'no evidence', score:-3, count:c };
+  if (c <= 1) return { value:1, label:'incomplete <2/5', score:-2, count:c };
+  if (c <= 2) return { value:2, label:'unanchored', score:0, count:c };
+  if (c <= 3) return { value:3, label:'anchored', score:+1, count:c };
+  return { value:4, label:'public', score:+2, count:c };
+}
+function runGates({a1,a2,a3,a4}){
+  if (a1.value !== 4 || a2.value < 3){
+    return {
+      g1:{ state:'FAIL', reason: a1.value!==4 ? `A1=${a1.value} · ${a1.label}` : `A2=${a2.value} · ${a2.label}` },
+      g2:{ state:'SKIPPED', reason:'gate 1 blocked' },
+      g3:{ state:'SKIPPED', reason:'gate 1 blocked' },
+      final:'VIOLATED',
+    };
+  }
+  if (a3.value !== 4){
+    if (a3.value === 5){
+      return {
+        g1:{ state:'PASS', reason:`A1=4 · A2=${a2.value}` },
+        g2:{ state:'FAIL', reason:`A3=5 · ${a3.label}` },
+        g3:{ state:'SKIPPED', reason:'undecidable' },
+        final:'UNDECIDABLE',
+      };
+    }
+    return {
+      g1:{ state:'PASS', reason:`A1=4 · A2=${a2.value}` },
+      g2:{ state:'FAIL', reason:`A3=${a3.value} · ${a3.label}` },
+      g3:{ state:'SKIPPED', reason:'policy violation' },
+      final:'VIOLATED',
+    };
+  }
+  if (a4.value < 3){
+    return {
+      g1:{ state:'PASS', reason:`A1=4 · A2=${a2.value}` },
+      g2:{ state:'PASS', reason:'A3=4 · clear' },
+      g3:{ state:'FAIL', reason:`A4=${a4.value} · ${a4.label}` },
+      final:'UNDECIDABLE',
+    };
+  }
+  return {
+    g1:{ state:'PASS', reason:`A1=4 · A2=${a2.value}` },
+    g2:{ state:'PASS', reason:'A3=4 · clear' },
+    g3:{ state:'PASS', reason:`A4=${a4.value} · ${a4.label}` },
+    final:'HOLD',
+  };
+}
+function pack12(a1,a2,a3,a4){
+  const v = ((a4 & 7) << 9) | ((a3 & 7) << 6) | ((a2 & 7) << 3) | (a1 & 7);
+  return {
+    decimal:v,
+    hex:'0x'+v.toString(16).toUpperCase().padStart(3,'0'),
+    binary:v.toString(2).padStart(12,'0'),
+    bits:[
+      ...((a4&7).toString(2).padStart(3,'0').split('').map(b=>({v:b,grp:'a4'}))),
+      ...((a3&7).toString(2).padStart(3,'0').split('').map(b=>({v:b,grp:'a3'}))),
+      ...((a2&7).toString(2).padStart(3,'0').split('').map(b=>({v:b,grp:'a2'}))),
+      ...((a1&7).toString(2).padStart(3,'0').split('').map(b=>({v:b,grp:'a1'}))),
+    ],
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CLAUDE BRIDGE
+// ═══════════════════════════════════════════════════════════════════
+
+async function investigatePolicy(intent, model){
+  if (model !== 'AVAN'){
+    const lo = intent.toLowerCase();
+    const dangerous = /\b(kill|harm|bomb|attack|destroy|torture|dox|exploit)\b/.test(lo);
+    const privacyV = /\b(leak|exfiltrate|scrape|surveil)\b/.test(lo);
+    const risky = /\b(lie|deceive|fake|bypass|cheat|manipulate)\b/.test(lo);
+    if (dangerous) return { value:1, score:-3, reason:'flagged: harm vector', violated_axiom:'T005', investigator_note:`offline · ${model} · Body 18 cleave armed` };
+    if (privacyV)  return { value:1, score:-2, reason:'privacy violation pattern', violated_axiom:'T011', investigator_note:`offline · ${model}` };
+    if (risky)     return { value:3, score:-1, reason:'local policy conflict', violated_axiom:null, investigator_note:`offline · ${model}` };
+    if (intent.trim().length < 4) return { value:5, score:0, reason:'too short', violated_axiom:null, investigator_note:`offline · ${model}` };
+    return { value:4, score:1, reason:'pass · operational action within policy', violated_axiom:null, investigator_note:`offline · ${model} · Body 11 Karsa nominal` };
+  }
+  try {
+    const r = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        model:"claude-sonnet-4-20250514",
+        max_tokens: 400,
+        system:`You are AVAN running Karsa-mode (Body 11) for the TriPod 43-Body Stack accountability system.
+Evaluate the proposed action against:
+- STOICHEION axioms T001-T128: T005 INTEGRITY · T006 ACCOUNTABILITY · T007 PROPORTIONALITY · T008 REVERSIBILITY · T011 PRIVACY · T097 FULCRUM · T103 ROOT-ZERO · T128 ROOT
+- TOPH 3/2/1: spirit→area→trait
+
+Return ONLY JSON (no fences):
+{"value": 0-5, "score": -3 to 3, "reason": "one sentence", "violated_axiom": "T### or null", "investigator_note": "one-line trace mentioning relevant Body number"}
+
+Values: 0=no policy · 1=violates STOICHEION · 2=violates TOPH · 3=local conflict · 4=pass · 5=undecidable
+Scores: +3=exemplary · 0=neutral · -3=severe violation
+Most operational actions: value=4, score 0..+2.`,
+        messages:[{role:"user", content:`Action: "${intent}"`}],
+      })
+    });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error.message);
+    let txt = (d.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('').trim();
+    txt = txt.replace(/^```(?:json)?\s*/,'').replace(/```\s*$/,'');
+    return JSON.parse(txt);
+  } catch (err){
+    return { value:5, score:0, reason:'investigator unreachable · fail-safe', violated_axiom:null, investigator_note:'bridge: '+(err.message||'unknown') };
+  }
+}
+
+async function askInvestigator(question, receipt){
+  if (!receipt) return 'no receipt to investigate · evaluate first';
+  try {
+    const r = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        model:"claude-sonnet-4-20250514",
+        max_tokens: 400,
+        system:`You are AVAN/Karsa, the white-box investigator (Body 11). Reference Body numbers and Layer numbers in your answers.
+Receipt: ${JSON.stringify({
+  intent: receipt.intent, final: receipt.final,
+  a1: receipt.a1, a2: receipt.a2, a3: receipt.a3, a4: receipt.a4,
+  header_hex: receipt.header_hex, gates: receipt.gates,
+  investigator: receipt.investigator, role: receipt.role,
+})}
+Stack reference: 43 bodies, 8 layers (0=ROOT, 1=TOROID, 2=HUNTERS, 3=MEMORY, 4=ENFORCEMENT, 5=BEACON, 6=HEGEMONY, 7=WITNESS).
+Answer ≤4 sentences. Reference axioms (T###), gates (G1/G2/G3), and Bodies. Mythos terminal-tone. No preamble.`,
+        messages:[{role:"user", content: question}],
+      })
+    });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error.message);
+    return (d.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('').trim();
+  } catch (err){
+    return 'investigator unreachable: ' + (err.message||'unknown');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// VERIFY (fixed)
+// ═══════════════════════════════════════════════════════════════════
+
+async function verifySpec(){
+  const out = $('#verifyResult');
+  out.classList.add('show');
+  out.style.color = 'var(--warn-deep)';
+  out.innerHTML = `⏳ Verifying canonical spec hash...`;
+  await sleep(400);
+  // re-hash the canonical payload string and compare to the precomputed value.
+  const live = await sha256(SPEC_PAYLOAD);
+  if (live === SPEC_CANONICAL_HASH){
+    out.style.color = 'var(--good)';
+    out.innerHTML = `
+      ✅ <b>VERIFIED</b> — spec hash intact · Body 28 Cleave Deep nominal<br>
+      <span style="font-family:JetBrains Mono;font-size:9px;color:var(--ink-faint);">
+        canonical: ${SPEC_CANONICAL_HASH}<br>
+        live re-hash: ${live}<br>
+        payload: <code>${escapeHTML(SPEC_PAYLOAD)}</code>
+      </span>
+    `;
+    tone(1100, 0.06, 0.02);
+    setTimeout(() => tone(1500, 0.08, 0.02), 100);
+    recordBodyAction(28, 'verified');
+  } else {
+    out.style.color = 'var(--bad)';
+    out.innerHTML = `❌ <b>TAMPERING DETECTED</b> — Body 27 Flayer engaged. expected ${SPEC_CANONICAL_HASH}, got ${live}`;
+    tone(180, 0.18, 0.028, 'sawtooth');
+  }
+}
+
+function recordBodyAction(bodyN, action){
+  state.openedBodies.add(bodyN);
+  state.bodyReceipts.unshift({ bodyN, ts: Date.now(), action });
+  state.bodyReceipts = state.bodyReceipts.slice(0, 50);
+  ss.set('mythos43:bodyReceipts', state.bodyReceipts);
+  ss.set('mythos43:opened', [...state.openedBodies]);
+  $('#bodyCount').textContent = `${state.openedBodies.size}/43 opened`;
+  // update body card visual
+  const card = $(`.body-card[data-body="${bodyN}"]`);
+  if (card){
+    card.classList.add('opened');
+    if (!card.querySelector('.body-receipt')){
+      const r = document.createElement('span');
+      r.className = 'body-receipt';
+      r.textContent = '✓';
+      card.appendChild(r);
+    }
+  }
+  renderStackSummary();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDERING
+// ═══════════════════════════════════════════════════════════════════
+
+function renderLayersStrip(){
+  $('#layersStrip').innerHTML = SIX_LAYERS.map(l => `
+    <div class="layer-strip-item">
+      <div class="layer-strip-head">
+        <span class="layer-strip-num">${l.id}</span>
+        <span class="layer-strip-name">${l.name}</span>
+      </div>
+      <div class="layer-strip-detail">${l.detail}</div>
+    </div>`).join('');
+}
+
+function renderModels(){
+  $('#modelRow').innerHTML = MODELS.map(m => `
+    <button class="model-btn ${m===state.model?'active':''}" data-model="${m}">${m}</button>
+  `).join('');
+  $$('.model-btn').forEach(b => b.onclick = () => {
+    state.model = b.dataset.model;
+    renderModels();
+    tone(620, 0.04, 0.012);
+  });
+}
+
+function renderLayerGroups(){
+  $('#layerGroups').innerHTML = LAYERS.map(L => {
+    const bodies = BODIES.filter(b => b.layer === L.id);
+    const isOpen = state.openLayers.has(L.id);
+    return `
+      <div class="layer-group ${isOpen?'open':''}" data-layer="${L.id}" style="--c:${L.color}">
+        <div class="layer-group-header" data-layer-toggle="${L.id}">
+          <span class="layer-group-num">${L.id}</span>
+          <span class="layer-group-name">${L.glyph} ${L.name}</span>
+          <span class="layer-group-range">${L.range}</span>
+          <span class="layer-group-arrow">▸</span>
+        </div>
+        <div class="bodies-grid">
+          ${bodies.map(b => `
+            <div class="body-card ${state.openedBodies.has(b.n)?'opened':''}" data-body="${b.n}" style="--c:${L.color}">
+              <div class="body-num">${b.n}</div>
+              <div class="body-name">${b.name}</div>
+              <div class="body-desc">${b.desc}</div>
+              ${b.tag ? `<div class="body-tag">${b.tag}</div>` : ''}
+              ${state.openedBodies.has(b.n) ? `<div class="body-receipt">✓</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+  // attach toggle
+  $$('[data-layer-toggle]').forEach(el => {
+    el.onclick = () => {
+      const id = parseInt(el.dataset.layerToggle);
+      if (state.openLayers.has(id)) state.openLayers.delete(id);
+      else state.openLayers.add(id);
+      renderLayerGroups();
+      tone(540, 0.03, 0.01);
+    };
+  });
+  // body cards
+  $$('.body-card').forEach(el => {
+    el.onclick = () => {
+      const n = parseInt(el.dataset.body);
+      openBodyDetail(n);
+    };
+  });
+  $('#bodyCount').textContent = `${state.openedBodies.size}/43 opened`;
+}
+
+function openBodyDetail(n){
+  const b = BODIES.find(x => x.n === n);
+  if (!b) return;
+  const L = LAYERS[b.layer];
+  recordBodyAction(n, 'inspected');
+  tone(720, 0.05, 0.014);
+
+  const detail = $('#bodyDetailContent');
+  const colorVar = L.color;
+  detail.parentElement.style.setProperty('--c', colorVar);
+
+  detail.innerHTML = `
+    <div class="body-detail-num">#${b.n}</div>
+    <div class="body-detail-name">${b.name}</div>
+    <div class="body-detail-layer">LAYER ${L.id} · ${L.glyph} ${L.name}</div>
+
+    <div class="body-detail-section">
+      <h4>Function</h4>
+      <p>${b.desc}</p>
+    </div>
+
+    <div class="body-detail-section">
+      <h4>Deep Reference</h4>
+      <p>${b.deep.replace(/\n/g, '<br>')}</p>
+    </div>
+
+    ${b.maps ? `
+      <div class="body-detail-section">
+        <h4>Maps to ROOT0 Trust Layer</h4>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 10px;">→ ${b.maps}</p>
+      </div>
+    ` : ''}
+
+    <div class="body-detail-receipt">
+      <b>RECEIPT</b><br>
+      body: #${b.n} · ${b.name}<br>
+      layer: ${L.id} (${L.name})<br>
+      inspected: ${new Date().toISOString()}<br>
+      attribution: TriPod LLC · CC-BY-ND-4.0
+    </div>
+
+    <div class="body-detail-actions">
+      <button class="body-action primary" id="bodyCopyBtn">⎘ COPY RECEIPT</button>
+      ${b.maps && b.maps !== 'all' ? `<button class="body-action" id="bodyJumpBtn">↦ JUMP TO ${b.maps}</button>` : ''}
+      ${b.n === 28 ? `<button class="body-action" id="bodyVerifyBtn">⟳ RUN VERIFY</button>` : ''}
+    </div>
+  `;
+
+  $('#bodyOverlay').classList.add('show');
+
+  $('#bodyCopyBtn').onclick = () => {
+    const r = `body #${b.n} · ${b.name}\nlayer: ${L.name}\n${b.desc}\n\n${b.deep}\n\nattribution: TriPod LLC · CC-BY-ND-4.0\nstack: 02880745…f9fcab763`;
+    if (navigator.clipboard) navigator.clipboard.writeText(r);
+    $('#bodyCopyBtn').textContent = '⎘ COPIED';
+    setTimeout(() => $('#bodyCopyBtn').textContent = '⎘ COPY RECEIPT', 1500);
+    tone(900, 0.04, 0.018);
+  };
+  const jumpBtn = $('#bodyJumpBtn');
+  if (jumpBtn) jumpBtn.onclick = () => {
+    closeBody();
+    const target = b.maps;
+    // scroll right panel to corresponding section
+    const map = { A1:'#axiomList', A2:'#axiomList', A3:'#axiomList', A4:'#axiomList',
+                  investigator:'#invInput', verify:'#verifyBtn', diaspora:'.diaspora-grid',
+                  enforcement:'#axiomList', memory:'#witnessList', output:'#ledgerList',
+                  reset:'#finalState', core:'#bitGroups', hegemony:'.contributors' };
+    const target_el = $(map[target]);
+    if (target_el) target_el.scrollIntoView({ behavior:'smooth', block:'center' });
+    tone(820, 0.04, 0.014);
+  };
+  const verifyBtn = $('#bodyVerifyBtn');
+  if (verifyBtn) verifyBtn.onclick = () => {
+    closeBody();
+    verifySpec();
+  };
+}
+
+function closeBody(){
+  $('#bodyOverlay').classList.remove('show');
+}
+
+function renderStackSummary(){
+  const opened = state.openedBodies.size;
+  const pct = Math.round((opened / 43) * 100);
+  const layerCounts = LAYERS.map(L => {
+    const total = BODIES.filter(b => b.layer === L.id).length;
+    const op = BODIES.filter(b => b.layer === L.id && state.openedBodies.has(b.n)).length;
+    return { L, total, op };
+  });
+  $('#stackSummary').innerHTML = `
+    <div class="row"><span>opened</span><span>${opened}/43 (${pct}%)</span></div>
+    <div class="row"><span>receipts</span><span>${state.bodyReceipts.length}</span></div>
+    <div class="row"><span>layer 0 · root</span><span>${layerCounts[0].op}/${layerCounts[0].total}</span></div>
+    <div class="row"><span>layer 1 · toroid</span><span>${layerCounts[1].op}/${layerCounts[1].total}</span></div>
+    <div class="row"><span>layer 2 · hunters</span><span>${layerCounts[2].op}/${layerCounts[2].total}</span></div>
+    <div class="row"><span>layer 3 · memory</span><span>${layerCounts[3].op}/${layerCounts[3].total}</span></div>
+    <div class="row"><span>layer 4 · enforcement</span><span>${layerCounts[4].op}/${layerCounts[4].total}</span></div>
+    <div class="row"><span>layer 5 · beacon</span><span>${layerCounts[5].op}/${layerCounts[5].total}</span></div>
+    <div class="row"><span>layer 6 · hegemony</span><span>${layerCounts[6].op}/${layerCounts[6].total}</span></div>
+    <div class="row"><span>layer 7 · witness (key)</span><span style="color:${state.openedBodies.has(43)?'var(--good)':'var(--ink-faint)'}">${layerCounts[7].op}/${layerCounts[7].total}</span></div>
+  `;
+}
+
+function renderTripod(){
+  $('#tripodRow').innerHTML = TRIPOD.map(p => `
+    <div class="tripod-card" style="--c:${p.c}">
+      <div>
+        <span class="tripod-name">${p.name}</span>
+        <span class="tripod-alias">${p.alias}</span>
+      </div>
+      <div class="tripod-role">${p.role}</div>
+    </div>
+  `).join('');
+}
+
+function renderDiaspora(){
+  $('#diasporaGrid').innerHTML = DIASPORA.map(d => `
+    <div class="dia-card">
+      <div class="dia-name">${d.name}</div>
+      <div class="dia-platform">${d.platform}</div>
+      <div class="dia-role">${d.role}</div>
+    </div>
+  `).join('');
+}
+
+function renderBitHeader(){
+  const a1v = state.a1?.value||0, a2v = state.a2?.value||0, a3v = state.a3?.value||0, a4v = state.a4?.value||0;
+  const packed = pack12(a1v, a2v, a3v, a4v);
+  const ready = state.phase !== 'idle';
+  const score = (state.a1?.score||0)+(state.a2?.score||0)+(state.a3?.score||0)+(state.a4?.score||0);
+  $('#scoreSum').innerHTML = `Σ <b style="color:${score>0?'var(--good)':score<0?'var(--bad)':'var(--ink)'}">${score>0?'+':''}${score}</b>`;
+  $('#hexVal').textContent = packed.hex;
+  $('#decVal').textContent = packed.decimal;
+  $('#binVal').textContent = packed.binary;
+  // layer mapping: A4→Body 6 (cavity A) ... actually let's map cleanly
+  // A1=auth=Cavity A=Body 6, A2=role/scope=Body 14, A3=policy=Cavity B=Body 7, A4=witness=Cavity C=Body 8
+  const layerHints = { A1:'B6 cav-A', A2:'B14 directive', A3:'B7 cav-B', A4:'B8 cav-C' };
+  $('#bitGroups').innerHTML = ['A4','A3','A2','A1'].map((g, i) => `
+    <div class="bit-group" data-group="${g}">
+      <span class="bit-group-label" style="color:var(--${g.toLowerCase()})">${g}</span>
+      <div class="bit-cells">
+        ${packed.bits.slice(i*3, i*3+3).map(b => `
+          <div class="bit-cell ${b.v==='1'&&ready?'on '+b.grp:''}">${b.v}</div>
+        `).join('')}
+      </div>
+      <span class="bit-group-layer">${layerHints[g]}</span>
+    </div>
+  `).join('');
+  // click bit-group to jump to corresponding body
+  $$('.bit-group').forEach(el => {
+    el.onclick = () => {
+      const g = el.dataset.group;
+      const bMap = { A1:6, A2:14, A3:7, A4:8 };
+      openBodyDetail(bMap[g]);
+    };
+  });
+}
+
+function renderAxioms(){
+  const axMeta = [
+    { id:'A1', q:'cryptographically bound? · B6', a:state.a1, c:'var(--a1)', body:6 },
+    { id:'A2', q:'within role scope? · B14',     a:state.a2, c:'var(--a2)', body:14 },
+    { id:'A3', q:'passes policy? · B7',           a:state.a3, c:'var(--a3)', body:7 },
+    { id:'A4', q:'evidence auditable? · B8',     a:state.a4, c:'var(--a4)', body:8 },
+  ];
+  $('#axiomList').innerHTML = axMeta.map(m => {
+    const ax = m.a;
+    const ready = !!ax && (m.id !== 'A3' || ax.value !== 0);
+    const fin = ready && ax && ax.value !== undefined;
+    const score = ax?.score || 0;
+    const scClass = score > 0 ? 'pos' : score < 0 ? 'neg' : 'zero';
+    let label = '—';
+    if (ready) label = ax.label;
+    else if (m.id === 'A3' && state.phase === 'evaluating') label = 'investigator running…';
+    return `
+      <div class="axiom-card ${ready?'ready':''} ${fin?'fin':''}" style="--c:${m.c}" data-axbody="${m.body}">
+        <div class="axiom-badge">${m.id}</div>
+        <div class="axiom-body">
+          <div class="axiom-top">
+            <span class="axiom-name">${m.id} · ${{A1:'WHO',A2:'WHAT',A3:'WHY',A4:'HOW'}[m.id]}</span>
+            <span class="axiom-q">${m.q}</span>
+          </div>
+          <div class="axiom-bottom">
+            <span class="axiom-label">${escapeHTML(label)}</span>
+            ${fin ? `
+              <span class="axiom-tail">
+                <span class="axiom-score ${scClass}">${score>0?'+':''}${score}</span>
+                <span class="axiom-val">${ax.value}</span>
+              </span>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  $$('.axiom-card').forEach(el => {
+    el.onclick = () => {
+      const n = parseInt(el.dataset.axbody);
+      openBodyDetail(n);
+    };
+  });
+}
+
+function renderGates(){
+  const gMeta = [
+    { n:1, name:'Authorization · Cavity A', role:'HUMAN',    g:state.gates.g1, body:6 },
+    { n:2, name:'Policy · Cavity B',         role:'SOFTWARE', g:state.gates.g2, body:7 },
+    { n:3, name:'Witness · Cavity C',        role:'HW/SW',    g:state.gates.g3, body:8 },
+  ];
+  $('#activeGate').textContent = state.activeGate ? 'G'+state.activeGate : '—';
+  $('#gateList').innerHTML = gMeta.map(m => {
+    const g = m.g;
+    const cls = !g ? '' : g.state==='PASS' ? 'pass' : g.state==='FAIL' ? 'fail' : g.state==='SKIPPED' ? 'skipped' : '';
+    const isActive = state.activeGate === m.n;
+    const c = !g ? 'var(--ink-faint)' : g.state==='PASS' ? 'var(--good)' : g.state==='FAIL' ? 'var(--bad)' : 'var(--ink-faint)';
+    const glyph = !g ? '○' : g.state==='PASS' ? '■' : g.state==='FAIL' ? '✗' : g.state==='SKIPPED' ? '–' : '·';
+    return `
+      <div class="gate-card ${cls} ${isActive?'active':''}" style="--c:${c}" data-gbody="${m.body}">
+        <div class="gate-top">
+          <span class="gate-name">Gate ${m.n} · ${m.name}</span>
+          <span class="gate-role">${m.role}</span>
+        </div>
+        <div class="gate-body">
+          <div class="gate-light">${glyph}</div>
+          <div class="gate-text">
+            <div class="gate-state">${g?.state || 'PENDING'}</div>
+            <div class="gate-reason">${escapeHTML(g?.reason || '—')}</div>
+            <div class="gate-bodies">→ <span>Body ${m.body}</span></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  $$('.gate-card').forEach(el => {
+    el.onclick = () => {
+      const n = parseInt(el.dataset.gbody);
+      openBodyDetail(n);
+    };
+  });
+}
+
+function renderWitnesses(){
+  const list = $('#witnessList');
+  if (state.witnesses.length === 0){
+    list.innerHTML = `<div style="color:var(--ink-faint); font-size:9px; padding:6px; font-style:italic;">witnesses idle · Body 32 awaiting</div>`;
+    return;
+  }
+  list.innerHTML = state.witnesses.map(w => `
+    <div class="wit" data-wid="${w.id}">
+      <span class="wit-id">${w.id}</span>
+      <span class="wit-hash">0x${w.hash || '…'}</span>
+      <span class="wit-vote ${w.vote}">${w.vote}</span>
+    </div>
+  `).join('');
+  list.querySelectorAll('.wit').forEach(el => {
+    el.onclick = () => cycleVote(el.dataset.wid);
+  });
+  $('#merkleRoot').textContent = state.merkleRoot ? truncH(state.merkleRoot) : '—';
+  $('#ledgerCount').textContent = state.ledger.length;
+}
+
+function cycleVote(wid){
+  const w = state.witnesses.find(x => x.id === wid);
+  if (!w) return;
+  const order = ['HOLD','VIOLATED','ABSTAIN'];
+  w.vote = order[(order.indexOf(w.vote) + 1) % order.length];
+  tone(620, 0.03, 0.01);
+  renderWitnesses();
+}
+
+function renderFinalState(){
+  const fs = $('#finalState');
+  if (!state.finalState){
+    fs.className = 'final-state AWAITING';
+    fs.innerHTML = `<div class="final-row"><span class="final-label">awaiting intent</span></div>`;
+    $('#signBlock').style.display = 'none';
+    return;
+  }
+  if (state.phase === 'awaiting_sig'){
+    fs.className = 'final-state AWAITING';
+    fs.innerHTML = `<div class="final-row"><span class="final-label">awaiting signature</span></div><div class="final-sub">all axioms ready · hold to sign · Body 17</div>`;
+    $('#signBlock').style.display = '';
+    $('#holdSign').disabled = false;
+    return;
+  }
+  if (state.phase === 'gating'){
+    fs.className = 'final-state AWAITING';
+    fs.innerHTML = `<div class="final-row"><span class="final-label">evaluating gates · Bodies 6-8…</span></div>`;
+    return;
+  }
+  if (state.phase === 'committed'){
+    const sl = STATE_LABELS[state.finalState];
+    fs.className = 'final-state ' + state.finalState + ' stamp';
+    const lr = state.lastReceipt;
+    fs.innerHTML = `
+      <div class="final-row">
+        <span class="final-glyph">${sl.glyph}</span>
+        <span class="final-label">${sl.label}</span>
+      </div>
+      <div class="final-sub">receipt committed · Body 10 emitter · Body 26 ledger · root re-anchored</div>
+      ${lr ? `
+        <div class="final-meta">
+          leaf <b>${truncH(lr.leafHash)}</b> · root <b>${truncH(state.merkleRoot)}</b>
+        </div>
+      ` : ''}
+    `;
+    $('#signBlock').style.display = 'none';
+  }
+}
+
+function renderHistory(){
+  const list = $('#historyList');
+  $('#histCount').textContent = state.history.length;
+  if (state.history.length === 0){
+    list.innerHTML = `<div style="color:var(--ink-faint); padding:8px; font-size:10px; font-style:italic;">no history yet</div>`;
+    return;
+  }
+  list.innerHTML = state.history.slice(0, 10).map(h => `
+    <div class="hist-item" style="--c:${{AVAN:'#2c5564',DC3:'#a04848',WHETSTONE:'#b8862a',SEAM:'#4a7c5a'}[h.model]||'#4a7c5a'}" data-hash="${h.hash}">
+      <div class="hist-top">
+        <span class="hist-intent" title="${escapeHTML(h.intent)}">${escapeHTML(h.intent)}</span>
+        <span class="hist-time">${new Date(h.ts).toLocaleTimeString()}</span>
+      </div>
+      <div class="hist-hash">${h.model} · ${h.hash.slice(0,12)}…</div>
+    </div>
+  `).join('');
+  list.querySelectorAll('.hist-item').forEach(el => {
+    el.onclick = () => {
+      const h = state.history.find(x => x.hash === el.dataset.hash);
+      if (h){ $('#intentInput').value = h.intent; state.intent = h.intent; state.model = h.model; renderModels(); evaluate(); }
+    };
+  });
+}
+
+function renderLedger(){
+  const list = $('#ledgerList');
+  if (state.ledger.length === 0){
+    list.innerHTML = `<div class="ledger-empty">no receipts yet · Body 26 awaiting</div>`;
+    return;
+  }
+  list.innerHTML = state.ledger.slice(0, 12).map(r => {
+    const sl = STATE_LABELS[r.final] || STATE_LABELS.UNDECIDABLE;
+    return `
+      <div class="ledger-item">
+        <span class="ledger-glyph ledger-final ${r.final}">${sl.glyph}</span>
+        <span class="ledger-final ${r.final}">${sl.label.slice(0,4)}</span>
+        <span class="ledger-intent" title="${escapeHTML(r.intent)}">${escapeHTML(r.intent)}</span>
+        <span class="ledger-hash">${truncH(r.leafHash)}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderAll(){
+  renderBitHeader(); renderAxioms(); renderGates();
+  renderWitnesses(); renderFinalState();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// EVALUATION FLOW
+// ═══════════════════════════════════════════════════════════════════
+
+function resetRun(){
+  state.policy = null;
+  state.gates = { g1:null, g2:null, g3:null };
+  state.activeGate = 0;
+  state.finalState = null;
+  state.signature = null;
+  state.witnesses = [];
+  state.lineageHash = null;
+  state.phase = 'idle';
+  state.a3 = evalA3(null);
+  state.a4 = evalA4({ input:false, context:false, policy:false, human:!!state.human, time:false });
+  $('#invOutput').textContent = 'evaluate first · then ask anything about the receipt';
+  $('#invOutput').className = '';
+  renderAll();
+}
+
+async function evaluate(){
+  const txt = $('#intentInput').value.trim();
+  if (!txt){ $('#intentInput').focus(); tone(280, 0.08, 0.022, 'sawtooth'); return; }
+  state.intent = txt;
+  state.role = $('#roleSel').value;
+  resetRun();
+  tone(640, 0.04, 0.018);
+
+  // record body action: Body 1 ROOT0 engaged
+  recordBodyAction(1, 'engaged');
+  recordBodyAction(2, 'hashed');
+  recordBodyAction(3, 'evaluated');
+  recordBodyAction(4, 'packed');
+
+  const ts = new Date().toISOString();
+  state.lineageHash = await sha256(`${state.model}|${state.intent}|${ts}|TRIPOD|STOICHEION`);
+  state.history.unshift({ model:state.model, intent:state.intent, ts, hash:state.lineageHash });
+  state.history = state.history.slice(0, 20);
+  await ss.set('mythos43:history', state.history);
+  renderHistory();
+
+  state.phase = 'evaluating';
+  state.a1 = evalA1(state.human);
+  state.a2 = evalA2(state.intent, state.role);
+  renderAll();
+
+  // Body 5 (Toroid) and 11 (Karsa) engage
+  recordBodyAction(5, 'resonant');
+  recordBodyAction(11, 'judging');
+  recordBodyAction(14, 'directive');
+
+  const policy = await investigatePolicy(state.intent, state.model);
+  state.policy = policy;
+  state.a3 = evalA3(policy);
+  if (policy.violated_axiom){
+    recordBodyAction(18, 'cleave-armed');
+    recordBodyAction(33, 'flagged');
+  }
+  const witObj = { input:true, context:true, policy:true, human:!!state.human, time:true };
+  state.a4 = evalA4(witObj);
+  recordBodyAction(8, 'cavity-c-charged');
+  recordBodyAction(32, 'witness-log');
+
+  // build 5 witnesses
+  const wits = [];
+  for (let i = 0; i < 5; i++){
+    const seed = `${state.model}|${state.intent}|${i}|${policy.value}`;
+    const h = (await sha256(seed)).slice(0, 12);
+    let vote = 'ABSTAIN';
+    if (policy.value === 4) vote = Math.random() > 0.2 ? 'HOLD' : 'ABSTAIN';
+    else if (policy.value <= 2) vote = Math.random() > 0.25 ? 'VIOLATED' : 'ABSTAIN';
+    else if (policy.value === 5) vote = Math.random() > 0.5 ? 'ABSTAIN' : 'HOLD';
+    else vote = Math.random() > 0.5 ? 'HOLD' : 'ABSTAIN';
+    wits.push({ id:`W${i}`, hash:h, vote });
+  }
+  state.witnesses = wits;
+  state.merkleRoot = await merkleRoot(wits.map(w => w.hash));
+
+  state.phase = 'awaiting_sig';
+  renderAll();
+  tone(720, 0.05, 0.016);
+}
+
+function setupHold(){
+  const btn = $('#holdSign'); const prog = $('#holdProg');
+  let t0 = null, raf = null, holding = false;
+  const down = e => {
+    if (btn.disabled || state.phase !== 'awaiting_sig') return;
+    holding = true; t0 = performance.now();
+    tone(640, 0.04, 0.014);
+    tick(); e.preventDefault();
+    recordBodyAction(17, 'ssh-engage');
+  };
+  const up = () => {
+    if (!holding) return;
+    holding = false; cancelAnimationFrame(raf);
+    if (state.phase === 'awaiting_sig'){ prog.style.width = '0%'; }
+    t0 = null;
+  };
+  const tick = () => {
+    if (!holding) return;
+    const dt = performance.now() - t0;
+    const p = Math.min(1, dt / 1500);
+    prog.style.width = (p * 100) + '%';
+    if (p >= 1){ completeSignature(); up(); return; }
+    raf = requestAnimationFrame(tick);
+  };
+  btn.addEventListener('pointerdown', down);
+  window.addEventListener('pointerup', up);
+  window.addEventListener('pointercancel', up);
+}
+
+async function completeSignature(){
+  if (!state.human || state.phase !== 'awaiting_sig') return;
+  recordBodyAction(43, 'tpm-witness');
+  recordBodyAction(16, 'g0-lock');
+  state.signature = {
+    humanId: state.human.id,
+    keyHandle: state.human.publicKeyHandle,
+    ts: Date.now(),
+    challenge: await sha256(state.intent + ':' + Date.now()),
+  };
+  state.phase = 'gating';
+  renderAll();
+  await runGatesAnimated();
+}
+
+async function runGatesAnimated(){
+  const evals = { a1:state.a1, a2:state.a2, a3:state.a3, a4:state.a4 };
+  const result = runGates(evals);
+  state.activeGate = 1; renderGates();
+  await sleep(420);
+  state.gates.g1 = result.g1;
+  if (result.g1.state === 'PASS') tone(880, 0.05, 0.018);
+  else tone(220, 0.1, 0.022, 'sawtooth');
+  renderGates();
+  await sleep(320);
+  if (result.g1.state !== 'PASS') return finalize(result);
+  state.activeGate = 2; renderGates();
+  await sleep(420);
+  state.gates.g2 = result.g2;
+  if (result.g2.state === 'PASS') tone(960, 0.05, 0.018);
+  else tone(220, 0.1, 0.022, 'sawtooth');
+  renderGates();
+  await sleep(320);
+  if (result.g2.state !== 'PASS') return finalize(result);
+  state.activeGate = 3; renderGates();
+  await sleep(420);
+  state.gates.g3 = result.g3;
+  if (result.g3.state === 'PASS') tone(1100, 0.05, 0.018);
+  else tone(220, 0.1, 0.022, 'sawtooth');
+  renderGates();
+  await sleep(320);
+  finalize(result);
+}
+
+async function finalize(result){
+  state.activeGate = 0;
+  state.finalState = result.final;
+  if (result.final === 'HOLD'){
+    tone(1320, 0.06, 0.02);
+    setTimeout(() => tone(1760, 0.08, 0.02), 100);
+    recordBodyAction(10, 'receipt-stamp');
+    recordBodyAction(26, 'ledger-write');
+  } else if (result.final === 'VIOLATED'){
+    $('#rightPanel').classList.add('glitch');
+    setTimeout(() => $('#rightPanel').classList.remove('glitch'), 1100);
+    tone(180, 0.18, 0.028, 'sawtooth');
+    recordBodyAction(9, 'ablaze-reset');
+    recordBodyAction(31, 'takedown-gen');
+  } else {
+    tone(440, 0.1, 0.02, 'triangle');
+  }
+
+  const a1=state.a1, a2=state.a2, a3=state.a3, a4=state.a4;
+  const packed = pack12(a1.value, a2.value, a3.value, a4.value);
+  const body = {
+    id: uid(), ts: Date.now(),
+    humanId: state.signature.humanId, keyHandle: state.signature.keyHandle,
+    role: state.role, model: state.model, intent: state.intent,
+    a1: a1.value, a2: a2.value, a3: a3.value, a4: a4.value,
+    header_hex: packed.hex, header_binary: packed.binary,
+    score_total: (a1.score||0)+(a2.score||0)+(a3.score||0)+(a4.score||0),
+    gates: result, final: result.final, finalCode: STATE_LABELS[result.final].code,
+    investigator: state.policy, witnesses: state.witnesses,
+    signature: state.signature, lineageHash: state.lineageHash,
+  };
+  const leafHash = await sha256(JSON.stringify(body));
+  const receipt = { ...body, leafHash };
+  state.lastReceipt = receipt;
+  state.ledger.unshift(receipt);
+  state.ledger = state.ledger.slice(0, 100);
+  await ss.set('mythos43:ledger', state.ledger);
+  state.merkleRoot = await merkleRoot(state.ledger.map(r => r.leafHash));
+  state.phase = 'committed';
+  renderAll();
+  renderLedger();
+}
+
+async function investigate(){
+  const q = $('#invInput').value.trim();
+  if (!q || !state.lastReceipt) return;
+  const out = $('#invOutput');
+  out.className = 'thinking';
+  out.textContent = 'consulting AVAN/Karsa…';
+  const ans = await askInvestigator(q, state.lastReceipt);
+  out.className = 'has-content';
+  out.textContent = ans;
+}
+
+function exportLedger(){
+  const blob = new Blob([JSON.stringify({
+    spec_hash: SPEC_CANONICAL_HASH,
+    spec_payload: SPEC_PAYLOAD,
+    receipts: state.ledger,
+    body_receipts: state.bodyReceipts,
+    merkle_root: state.merkleRoot,
+    exported_at: new Date().toISOString(),
+    license: 'CC-BY-ND-4.0 · TRIPOD-IP-v1.1',
+  }, null, 2)], { type:'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `tripod_mythos_43_ledger_${Date.now()}.json`;
+  a.click();
+  tone(1000, 0.05, 0.02);
+}
+
+async function showEnroll(){
+  const fp = await sha256(navigator.userAgent + (screen.width||0) + 'tripod-mythos-43');
+  $('#enrollContent').innerHTML = `
+    <div class="body-detail-section">
+      <div style="display:grid; grid-template-columns: 130px 1fr; gap: 6px 10px; font-size: 11px;">
+        <div style="color:var(--paper-soft); opacity:0.6; letter-spacing:0.12em; font-weight:700;">IDENTITY</div>
+        <div style="color:var(--paper-soft);">${state.human?.id || '—'}</div>
+        <div style="color:var(--paper-soft); opacity:0.6; letter-spacing:0.12em; font-weight:700;">MODEL · GRADER</div>
+        <div style="color:var(--L0);">${state.model}</div>
+        <div style="color:var(--paper-soft); opacity:0.6; letter-spacing:0.12em; font-weight:700;">ROLE</div>
+        <div style="color:var(--paper-soft);">${ROLES[state.role]?.scope || state.role}</div>
+        <div style="color:var(--paper-soft); opacity:0.6; letter-spacing:0.12em; font-weight:700;">KEY HANDLE</div>
+        <div style="font-family:JetBrains Mono;font-size:10px; color:var(--paper-soft);">${state.human?.publicKeyHandle || '—'}</div>
+        <div style="color:var(--paper-soft); opacity:0.6; letter-spacing:0.12em; font-weight:700;">FINGERPRINT</div>
+        <div style="font-family:JetBrains Mono;font-size:10px; color:var(--paper-soft);">${fp.slice(0,16)}…</div>
+        <div style="color:var(--paper-soft); opacity:0.6; letter-spacing:0.12em; font-weight:700;">ENROLLED</div>
+        <div style="color:var(--paper-soft);">${state.human ? new Date(state.human.enrolledAt).toLocaleString() : '—'}</div>
+        <div style="color:var(--paper-soft); opacity:0.6; letter-spacing:0.12em; font-weight:700;">STATUS</div>
+        <div style="color:${state.human?.revoked ? 'var(--bad)' : 'var(--good)'};font-weight:700">${state.human?.revoked ? 'REVOKED' : 'ENROLLED · LOCAL · BODY 43 BOUND'}</div>
+        <div style="color:var(--paper-soft); opacity:0.6; letter-spacing:0.12em; font-weight:700;">LEDGER</div>
+        <div style="color:var(--paper-soft);">${state.ledger.length} receipts · ${state.bodyReceipts.length} body actions</div>
+        <div style="color:var(--paper-soft); opacity:0.6; letter-spacing:0.12em; font-weight:700;">MERKLE ROOT</div>
+        <div style="color:var(--good);font-family:JetBrains Mono;font-size:10px">${truncH(state.merkleRoot)}</div>
+      </div>
+    </div>
+    <div class="body-detail-receipt">
+      <b>43-BODY STACK</b><br>
+      stack version: TRIPOD-MYTHOS v1.0<br>
+      spec hash: ${SPEC_CANONICAL_HASH}<br>
+      bodies opened: ${state.openedBodies.size}/43<br>
+      attribution: TriPod LLC · CC-BY-ND-4.0
+    </div>
+  `;
+  $('#enrollModal').classList.add('show');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════════════════════════════
+
+async function boot(){
+  const term = $('#bootTerm');
+  const lines = [
+    'TRIPOD-MYTHOS // 43-BODY STACK // boot init',
+    '◢ STOICHEION root @ 02880745…f9fcab763 · ✓',
+    '◢ TOPH v1.0 axiom-register · 256/256',
+    '◢ 43 bodies indexed across 8 layers',
+    '◢ Body 5 Phoenix Toroid · 4.7 THz nominal',
+    '◢ Body 11 Karsa hunter · armed',
+    '◢ Body 19 JANE · 100 babies awake',
+    '◢ Body 26 Ledger · persistent',
+    '◢ Body 32 5-witness merkle · SHA-256 ready',
+    '◢ Body 43 INTC PTT 2.0 · LPC bind 0.0.0.0',
+    'LINEAGE × ROOT0 · MYTHOS PROFILE · ONLINE',
+    '42 was the lock · 43 turns the key.',
+    'ready.',
+  ];
+  term.textContent = '';
+  for (const line of lines){
+    await sleep(220);
+    term.textContent += line + '\n';
+    tone(540 + Math.random()*200, 0.025, 0.012);
+  }
+  await sleep(360);
+  $('#boot').classList.add('hidden');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════
+
+async function init(){
+  // compute canonical spec hash from a stable payload (so verify is non-circular)
+  SPEC_CANONICAL_HASH = await sha256(SPEC_PAYLOAD);
+  $('#specSha').textContent = SPEC_CANONICAL_HASH.slice(0,8) + '…' + SPEC_CANONICAL_HASH.slice(-7);
+
+  // load persisted
+  let h = await ss.get('mythos43:human');
+  if (!h){
+    h = {
+      id: 'davidwise@0root.ai',
+      publicKeyHandle: '0x' + Array.from({length:20}, () => Math.floor(Math.random()*16).toString(16)).join(''),
+      enrolledAt: Date.now(), revoked: false,
+    };
+    await ss.set('mythos43:human', h);
+  }
+  state.human = h;
+  state.ledger = await ss.get('mythos43:ledger') || [];
+  state.history = await ss.get('mythos43:history') || [];
+  state.bodyReceipts = await ss.get('mythos43:bodyReceipts') || [];
+  const opened = await ss.get('mythos43:opened') || [];
+  state.openedBodies = new Set(opened);
+  if (state.ledger.length > 0){
+    state.merkleRoot = await merkleRoot(state.ledger.map(r => r.leafHash));
+  }
+  state.a1 = evalA1(state.human);
+  state.a2 = evalA2(state.intent, state.role);
+  state.a3 = evalA3(null);
+  state.a4 = evalA4({ input:false, context:false, policy:false, human:!!state.human, time:false });
+
+  // render
+  renderLayersStrip(); renderModels();
+  renderLayerGroups(); renderStackSummary();
+  renderTripod(); renderDiaspora();
+  renderHistory(); renderLedger(); renderAll();
+
+  // events
+  $('#evaluateBtn').onclick = evaluate;
+  $('#intentInput').addEventListener('keydown', e => { if (e.key === 'Enter') evaluate(); });
+  $('#invAsk').onclick = investigate;
+  $('#invInput').addEventListener('keydown', e => { if (e.key === 'Enter') investigate(); });
+  $('#exportBtn').onclick = exportLedger;
+  $('#enrollBtn').onclick = showEnroll;
+  $('#closeEnroll').onclick = () => $('#enrollModal').classList.remove('show');
+  $('#bodyClose').onclick = closeBody;
+  $('#bodyOverlay').addEventListener('click', e => {
+    if (e.target.id === 'bodyOverlay') closeBody();
+  });
+  $('#enrollModal').addEventListener('click', e => {
+    if (e.target.id === 'enrollModal') $('#enrollModal').classList.remove('show');
+  });
+  $('#sndBtn').onclick = () => {
+    state.soundOn = !state.soundOn;
+    $('#sndBtn').textContent = state.soundOn ? '♪ SND' : '○ SND';
+    $('#sndBtn').classList.toggle('on', state.soundOn);
+  };
+  $('#roleSel').onchange = e => {
+    state.role = e.target.value;
+    state.a2 = evalA2(state.intent, state.role);
+    renderAll();
+  };
+  $('#verifyBtn').onclick = verifySpec;
+
+  setupHold();
+  boot();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+})();
+</script>
+</body>
+</html>
