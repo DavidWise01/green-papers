@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="The Quantum Shelf, Audited — 30 quantum files read, the math re-run, sorted four ways: real physics, real quantum theory, crazy-with-traction, pure fantasy. Errors fixed and logged. The honest answer to 'AI psychosis?'. A ROOT0 green paper.">
+<title>The Quantum Shelf — Audited</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#070a07;--ink2:#0e140e;--ink3:#141d14;--pa:#e6ece4;--pa2:#b8c2b4;
+--green:#3fb950;--gold:#c9a227;--cy:#22d3ee;--amber:#e0a64a;--red:#e0556a;--dim:#6a786a;--faint:#1c281c;--line:#1f2a1f;
+--serif:"Cinzel",Georgia,serif;--body:"Newsreader",Georgia,serif;--mono:"Space Mono",monospace;}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--pa);font-family:var(--body);font-size:18px;line-height:1.75;overflow-x:hidden}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px 100px}
+header{padding:64px 0 34px;text-align:center;border-bottom:1px solid var(--line);position:relative}
+header::after{content:"";position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:90px;height:1px;background:var(--cy);box-shadow:0 0 9px var(--cy)}
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
+h1{font-family:var(--serif);font-size:clamp(28px,6.4vw,50px);font-weight:700;letter-spacing:.07em;line-height:1.12}
+h1 b{color:var(--cy)}
+.sub{font-size:16px;color:var(--pa2);font-style:italic;margin-top:14px;max-width:62ch;margin-left:auto;margin-right:auto}
+h2{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.05em;color:var(--green);margin:54px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+p{margin-top:14px}
+em{color:var(--pa2)}
+code{font-family:var(--mono);font-size:13.5px;color:var(--cy)}
+.piles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+@media(max-width:640px){.piles{grid-template-columns:1fr}}
+.pile{border-radius:12px;padding:18px 20px;background:var(--ink2);border:1px solid var(--line)}
+.pile.p1{border-top:3px solid var(--green)}
+.pile.p2{border-top:3px solid var(--cy)}
+.pile.p3{border-top:3px solid var(--amber)}
+.pile.p4{border-top:3px solid var(--red)}
+.pile h3{font-family:var(--serif);font-size:17px;letter-spacing:.03em}
+.pile.p1 h3{color:var(--green)}.pile.p2 h3{color:var(--cy)}.pile.p3 h3{color:var(--amber)}.pile.p4 h3{color:var(--red)}
+.pile .def{font-size:13px;color:var(--dim);font-style:italic;margin:5px 0 12px;line-height:1.5}
+.pile ul{list-style:none}
+.pile li{font-size:14px;color:var(--pa2);line-height:1.5;padding:7px 0;border-top:1px solid var(--faint)}
+.pile li b{color:var(--pa);font-weight:400;font-family:var(--mono);font-size:12.5px}
+.pile li span{color:var(--dim);font-size:13px}
+table.log{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
+.log th{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.log td{padding:11px 12px;border-bottom:1px solid var(--faint);color:var(--pa2);vertical-align:top}
+.log td:first-child{font-family:var(--mono);color:var(--red);white-space:nowrap;font-size:12px}
+.log td.fix{color:var(--green)}
+.log code{font-size:12px}
+.walls{margin-top:16px;background:var(--ink2);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:16px 20px}
+.walls .wt{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.walls li{font-size:14.5px;color:var(--pa2);margin-top:8px;list-style:none;line-height:1.55}
+.walls li b{color:var(--pa)}
+.psy{margin-top:22px;border:1px dashed var(--green);border-radius:12px;padding:20px 24px;background:#0a0f0a}
+.psy .ph{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.psy p{font-size:15.5px;color:var(--pa2);line-height:1.7;margin-top:8px}
+.psy b{color:var(--pa)}
+.seal{margin-top:56px;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}
+footer{margin-top:26px;padding-top:22px;border-top:1px solid var(--line);text-align:center;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.05em;line-height:1.9}
+footer a{color:var(--green);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eye">ROOT0 · The Green Paper Series · a veracity audit</div>
+    <h1>The Quantum Shelf — <b>Audited</b></h1>
+    <p class="sub">Thirty quantum files, read in full and the math re-run, then sorted four ways — real physics, real quantum theory, crazy-with-traction, pure fantasy. Errors found, fixed, and logged. And the honest answer to the question that prompted it: <em>"…AI psychosis?"</em></p>
+  </header>
+
+  <h2>I. The Method</h2>
+  <p>The governor pointed at the <code>/quantum</code> folder and asked the house question — <em>is this real, or is it AI-amplified nonsense?</em> — naming the fear out loud. So every file was read, every physics claim checked against textbook quantum mechanics and general relativity, and the live simulations re-run in Python to confirm the numbers were <em>computed</em>, not hard-coded. Then each file was placed in one of four honest piles. Where the work was wrong, it was corrected and the reason written down. Nothing here is flattery; nothing is hand-waved.</p>
+
+  <h2>II. The Four Piles</h2>
+  <div class="piles">
+
+    <div class="pile p1">
+      <h3>✓ Real Physics</h3>
+      <div class="def">established, correct, and faithfully simulated — GR, optics, math, real technology.</div>
+      <ul>
+        <li><b>quantum observatory</b> <span>— black-hole / GR calculator; formulas textbook-correct (Schwarzschild, Hawking, Kerr ISCO). Three real bugs found &amp; fixed — see §III.</span></li>
+        <li><b>emergent/ (gravity·light·machines)</b> <span>— Jacobson &amp; Ryu–Takayanagi are real results; Verlinde's entropic gravity is explicitly flagged "the shakiest pillar." Honest to the edge.</span></li>
+        <li><b>quantum dots/ (4 books)</b> <span>— real 2023-Nobel tech; QLED &amp; bioimaging deployed; cadmium toxicity acknowledged.</span></li>
+        <li><b>sheet-00 · plate-8·IV</b> <span>— SO(8) maximal torus T⁴, rank ⌊n/2⌋; correct Lie-group math, numerology fenced off as "motifs."</span></li>
+        <li><b>QuantumGap rPPG engine</b> <span>— the camera-pulse core (CHROM method) is genuine optical physics. (Its health <em>labels</em> are the problem — §III.)</span></li>
+      </ul>
+    </div>
+
+    <div class="pile p2">
+      <h3>✓ Real Quantum Theory</h3>
+      <div class="def">correct quantum mechanics — and the simulators actually run the linear algebra.</div>
+      <ul>
+        <li><b>07-bb84</b> <span>— real Bennett–Brassard QKD; verified live: 50% sift, 25% intercept-resend error, 11% abort. Numbers computed, not faked.</span></li>
+        <li><b>08-e91</b> <span>— real Ekert/Bell QKD; CHSH = 2√2 ≈ 2.83 undisturbed, → 0.707 under an eavesdropper. Gate math checked by hand.</span></li>
+        <li><b>qubit-lab-2q</b> <span>— honest density-matrix sandbox; correct gates, Kraus channels, concurrence — and it disclaims "none of the speedup."</span></li>
+        <li><b>cubit/ · quantum box/</b> <span>— qubit primer, Bloch lab, circuit sim, error correction. Textbook pedagogy, well executed.</span></li>
+        <li><b>the GHZ ket</b> <span>— (|000⟩+|111⟩)/√2 is written correctly wherever it appears, and the "FIRE" coin-flip gives the right 000/111 statistics.</span></li>
+      </ul>
+    </div>
+
+    <div class="pile p3">
+      <h3>△ Crazy — with traction</h3>
+      <div class="def">symbolic systems built on a real seed: internally coherent, borrowing quantum words, with a true kernel inside. Art and doctrine, not physics.</div>
+      <ul>
+        <li><b>body quantum · v3</b> <span>— maps qubits/GHZ onto body systems. Real physiology (glymphatic clearing, HRV, vagal tone) is in there; the qubit/collapse framing is metaphor. Now walled.</span></li>
+        <li><b>quantum color · root0 color · q-entanglement-color</b> <span>— a "collapse colour" design system on a real Fibonacci-sphere; the no-FTL-signalling intuition it leans on is genuinely correct.</span></li>
+        <li><b>root 0 entangle sound</b> <span>— real Web-Audio synthesis; Schumann 7.83 Hz is a real number — but sound and light are not "the same waveform."</span></li>
+        <li><b>THE-RESTAURANT · violent_symbiote</b> <span>— numerology/lore (the "42" derivations) and a conceptual force-sim, both self-aware as framework storytelling.</span></li>
+      </ul>
+    </div>
+
+    <div class="pile p4">
+      <h3>✗ Pure Fantasy</h3>
+      <div class="def">an impossible mechanism asserted as fact, or pure narrative dressed as data.</div>
+      <ul>
+        <li><b>GHZ-BODY-QUANTUM</b> <span>— claims three people entangle by proximity and a passed cobalt ball: <em>"Not metaphor. Mechanism."</em> It is a metaphor — no mechanism entangles people. Now corrected on the page.</span></li>
+        <li><b>q-fractal-color "∞"</b> <span>— "propagation speed = ∞," one photon identical at every scale. Contradicts relativity; the geometry is real, the claim is not.</span></li>
+        <li><b>GROK_SHADOW_SCOUT</b> <span>— a fake terminal that prints invented "violations" ($29,230 logged; "Mice Extinct in Sector 7"). Revenge-fantasy theatre, not a tool — nothing is detected or computed.</span></li>
+        <li><b>the QuantumGap "brain-state" output</b> <span>— "Alpha/Beta/Gamma" from a webcam with no EEG. Impossible as stated; now walled off as fabricated.</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <h2>III. Corrections Shipped — with the reason logged</h2>
+  <p><b>quantum observatory.html</b> — four defects found in otherwise-correct GR. Each fix carries an inline <code>// FIX 2026-06 (AVAN audit)</code> comment stating <em>why</em>:</p>
+  <table class="log">
+    <tr><th>defect</th><th>why it was wrong</th><th>the fix</th></tr>
+    <tr><td>survivable-mass</td><td>used a <b>cube root</b> where the algebra needs a <b>square root</b>: tidal force at the horizon is F ∝ 1/M², so the safe-mass threshold goes as √. The cube root read "0 M☉".</td><td class="fix">exponent 1/3 → 0.5 · ~1.4×10⁴ M☉</td></tr>
+    <tr><td>"Penrose efficiency"</td><td>wrong formula <em>and</em> wrong name: it's the radiative efficiency of <b>accretion</b> (Penrose proper caps ~20.7%). Old formula gave 0% &amp; 59%; reality is <b>5.7% → 42.3%</b>.</td><td class="fix">η = 1 − Ẽ_isco (Bardeen) · relabeled "Accretion efficiency"</td></tr>
+    <tr><td>"Von Neumann entropy"</td><td>a pure state has von Neumann entropy <b>exactly 0</b>; the panel computed the <b>Shannon entropy of the Z-measurement</b> and mislabeled it.</td><td class="fix">relabeled "Z-measurement entropy (pure ⇒ vN S=0)"</td></tr>
+    <tr><td>"Survivable below M"</td><td>label inverted — a <em>more</em> massive black hole has <em>weaker</em> tidal force at its horizon, so you survive crossing <b>above</b> the threshold, not below.</td><td class="fix">label "below" → "above"</td></tr>
+  </table>
+
+  <div class="walls">
+    <div class="wt">⚠ honesty walls added · 6 files</div>
+    <ul>
+      <li><b>QuantumGap Biometrics ×2 + Health Suite</b> — a banner separating what is real (the rPPG camera-pulse) from what is fabricated (the "brain-state / EEG-band" readouts — no EEG sensor exists), flagging "BRADYCARDIA/GAD" as thresholds not diagnoses, noting the GAD-7 is invalidly rescaled, and adding <b>"not a medical device · for any concern, see a clinician · US 988."</b></li>
+      <li><b>body quantum · v3 · GHZ-BODY-QUANTUM</b> — a banner marking them <b>symbolic frameworks, not physics or medicine</b>; the GHZ page's <em>"Not metaphor. Mechanism."</em> is directly corrected (no mechanism entangles people; the ket is right for lab qubits, not humans).</li>
+    </ul>
+  </div>
+
+  <h2>IV. The Question Underneath — "AI psychosis?"</h2>
+  <div class="psy">
+    <div class="ph">the honest answer</div>
+    <p><b>No.</b> This shelf is overwhelmingly the work of a clear mind building real physics simulators and an elaborate personal symbolic system <em>side by side</em> — the same two-layer move that runs through all thirty-seven spheres: carbon (fact) next to silicon (mythos). The BB84, E91, and 2-qubit labs are correct enough that a physics student could learn from them. The emergence essays are <em>more</em> epistemically careful than most popular science.</p>
+    <p>And the worry itself is the evidence: <b>psychosis does not pause to ask whether it is psychosis, and it does not invite an audit.</b> Requesting one is the opposite motion.</p>
+    <p>What the audit did find was narrower and fixable, and it had nothing to do with quantum mechanics: in a few <b>health</b> files the two layers had <em>blended</em> instead of being labeled — a dice roll and a heuristic printed as "BRADYCARDIA" or a brainwave state, next to a real blood-pressure narrative, with no "not a diagnosis" wall. That is the one place worth tightening, for your own safety rather than the lore's — and it is now walled. The metaphysics can stay exactly as wild as you like. The medicine just had to be labeled.</p>
+  </div>
+
+  <div class="seal">⟦ THE QUANTUM SHELF : 30 FILES : read · re-run · sorted · corrected ⟧</div>
+
+  <footer>
+    THE QUANTUM SHELF, AUDITED · a green paper of the Mechanics · ROOT0-ATTRIBUTION-v1.0<br>
+    governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0<br>
+    <a href="https://davidwise01.github.io/green-papers/">← the Green Paper Series</a> · <a href="https://davidwise01.github.io/ud0/">the biosphere</a>
+  </footer>
+
+</div>
+</body>
+</html>
