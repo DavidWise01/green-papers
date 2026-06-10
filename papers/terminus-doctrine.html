@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Terminus Doctrine — codified</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --vellum:#efe9da; --vellum2:#e7dfca; --card:#f6f1e3; --ink:#211b10; --ink2:#473e2b;
+    --faint:#8a7d62; --dim:#b3a684; --hair:#d4c8aa; --line:#c3b591;
+    --oxblood:#7c2d22; --oxblood-soft:#ecd9d2; --bronze:#9a7320; --bronze-d:#6f5316; --bronze-l:#bb9540;
+    --ok:#2f5d40; --ok-soft:#dde7dd; --bad:#7c2d22; --bad-soft:#eed7d0;
+    --disp:"Cinzel",serif; --body:"Spectral",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--vellum);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.66;-webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(120% 80% at 50% -5%, #f3eedf 0%, var(--vellum) 55%, var(--vellum2) 100%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
+    min-height:100vh;padding:0 0 64px}
+  .wrap{max-width:780px;margin:0 auto;padding:0 26px}
+  .mono{font-family:var(--mono)}
+
+  header{padding:48px 0 0;text-align:center}
+  .seal-top{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--bronze);margin:0 0 18px}
+  .doc-title{font-family:var(--disp);font-weight:700;font-size:clamp(24px,4.5vw,38px);letter-spacing:.06em;color:var(--ink);margin:0;line-height:1.1}
+  .ornament{margin:22px auto 0;width:180px;height:18px;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--bronze)}
+  .ornament .ln{height:1px;background:var(--line);flex:1}
+  .ornament .dot{font-size:13px}
+
+  .principle{margin:40px 0 0;text-align:center;padding:34px 30px;background:var(--card);border:1px solid var(--hair);border-top:3px solid var(--bronze);border-radius:4px;box-shadow:0 30px 60px -46px rgba(40,30,12,.5)}
+  .principle .pl{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin:0 0 16px}
+  .principle .pt{font-family:var(--disp);font-weight:600;font-size:clamp(21px,3.6vw,30px);line-height:1.32;letter-spacing:.01em;color:var(--ink);margin:0}
+  .principle .pt .em{color:var(--oxblood)}
+  .principle .pt .br{display:block}
+
+  .article{margin:34px 0 0;border-top:1px solid var(--hair);padding-top:24px}
+  .article .anum{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--bronze)}
+  .article h2{font-family:var(--disp);font-weight:600;font-size:21px;letter-spacing:.04em;color:var(--ink);margin:5px 0 10px}
+  .article p{margin:0 0 11px;font-size:16.5px;color:var(--ink2);line-height:1.62}
+  .article p:last-child{margin:0}
+  .article b{color:var(--ink);font-weight:600}
+  .article .em{color:var(--oxblood);font-style:italic}
+  .faculties{list-style:none;margin:12px 0 0;padding:0;counter-reset:f}
+  .faculties li{position:relative;padding:9px 0 9px 34px;border-top:1px solid var(--hair);font-size:16px;color:var(--ink2);line-height:1.5}
+  .faculties li:first-child{border-top:0}
+  .faculties li::before{counter-increment:f;content:"§ "counter(f, lower-alpha);position:absolute;left:0;top:9px;font-family:var(--mono);font-size:11px;color:var(--oxblood);letter-spacing:.04em}
+  .faculties b{color:var(--ink)}
+
+  /* terminus test */
+  .test{margin:38px 0 0;border:1px solid var(--hair);border-radius:5px;background:var(--card);overflow:hidden}
+  .test .th{padding:16px 22px;border-bottom:1px solid var(--hair);background:var(--vellum2)}
+  .test .th .tl{font-family:var(--disp);font-weight:600;font-size:18px;letter-spacing:.03em;color:var(--ink);margin:0}
+  .test .th .ts{font-size:14px;color:var(--ink2);margin:3px 0 0}
+  .test .qs{padding:18px 22px;display:flex;flex-direction:column;gap:16px}
+  .q{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+  .q .qt{font-size:16px;color:var(--ink);max-width:64%}
+  .q .qt .h{display:block;font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:2px}
+  .toggle{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+  .toggle button{font-family:var(--disp);font-weight:600;font-size:14px;padding:8px 18px;border:0;background:var(--vellum);color:var(--faint);cursor:pointer;transition:all .12s}
+  .toggle button+button{border-left:1px solid var(--line)}
+  .toggle button.on.yes{background:var(--oxblood);color:#f6ece6}
+  .toggle button.on.no{background:var(--ink);color:var(--vellum)}
+  .result{padding:20px 22px;border-top:1px solid var(--hair);transition:background .25s}
+  .result.ok{background:var(--ok-soft)} .result.bad{background:var(--bad-soft)}
+  .result .rv{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;margin:0 0 6px}
+  .result.ok .rv{color:var(--ok)} .result.bad .rv{color:var(--bad)}
+  .result .rh{font-family:var(--disp);font-weight:600;font-size:20px;letter-spacing:.02em;margin:0 0 8px}
+  .result.ok .rh{color:var(--ok)} .result.bad .rh{color:var(--bad)}
+  .result .rw{font-size:15.5px;color:var(--ink2);line-height:1.55}
+  .result .rw b{color:var(--ink)}
+
+  .seal{margin:44px 0 0;border-top:2px solid var(--bronze);padding-top:24px;text-align:center}
+  .seal .motto{font-family:var(--disp);font-weight:700;font-size:clamp(18px,3vw,24px);letter-spacing:.08em;color:var(--ink);margin:0}
+  .seal .anchor{margin:16px 0 0;font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.7;word-break:break-all}
+  .seal .anchor b{color:var(--bronze-d)}
+  .seal #verify{font-weight:500}
+  .seal #verify.ok{color:var(--ok)} .seal #verify.bad{color:var(--bad)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="seal-top">Codified · self-anchored</p>
+    <h1 class="doc-title">The Terminus Doctrine</h1>
+    <div class="ornament"><span class="ln"></span><span class="dot">◆</span><span class="ln"></span></div>
+  </header>
+
+  <div class="principle">
+    <p class="pl">The Principle</p>
+    <p class="pt"><span class="br">The machine may compute.</span><span class="br"><span class="em">The human must decide.</span></span><span class="br" style="font-size:.72em;margin-top:10px;color:var(--ink2)">A consequential decision terminates on a human — never on the machine.</span></p>
+  </div>
+
+  <div class="article">
+    <p class="anum">Article I</p>
+    <h2>Disqualification</h2>
+    <p>The machine is <b>not equipped to be the terminus</b> of a consequential decision. Deciding requires faculties it does not have:</p>
+    <ul class="faculties">
+      <li>It <b>cannot verify in real time</b> — it acts on a frozen model with no live channel to the world.</li>
+      <li>It <b>cannot read tone</b> — it holds the words, not the register; the plea and the routine request are the same token-stream at the same confidence.</li>
+      <li>It <b>resolves to a probability, not a judgment</b> — an output that sounds like a decision and is a distribution wearing a decision's clothes.</li>
+    </ul>
+    <p style="margin-top:12px">These are not limitations to be engineered away. They are a <span class="em">structural disqualification</span> — so the decision was never legitimately the machine's.</p>
+  </div>
+
+  <div class="article">
+    <p class="anum">Article II</p>
+    <h2>Compute, not Decide</h2>
+    <p>The line is the <b>terminus</b>, not involvement. The machine may triage, sort, surface, and recommend — that is the real and valuable work. It may not be the place a consequential decision <span class="em">closes</span>.</p>
+    <p><b>Recommend: yes. Decide: no.</b> A system that merely assists is permitted; a system that is the terminus of a consequential call is not — <b>regardless of what it is named.</b></p>
+  </div>
+
+  <div class="article">
+    <p class="anum">Article III</p>
+    <h2>The Hand-Off</h2>
+    <p>The machine's duty is to deliver the consequential decision to a human — <b>intact, in time, and attributably.</b> There, the accountability systems that <em>already</em> govern human decisions take over: a named human decides, owns it, and is held to it by the same machinery that governs every human who decides badly.</p>
+    <p>This is <b>not a new court.</b> It is the delivery that guarantees the decision reaches the one place the existing courts can grab it.</p>
+  </div>
+
+  <div class="article">
+    <p class="anum">Foundation</p>
+    <h2>Not Novel</h2>
+    <p>This is the <b>refusal to exempt</b> automated processes from the accountability that already governs bounded, human-authored programs — extended at two seams only: <b>nondeterminism</b> (answered by determinism-or-a-human-apex) and <b>scale</b> (answered by audit and appeal). The claim that AI needs wholly new governance is itself the dodge; it manufactures the gap the evasion lives in.</p>
+  </div>
+
+  <div class="test">
+    <div class="th"><p class="tl">The Terminus Test</p><p class="ts">Set the two facts of a decision. The doctrine is mechanical, so the verdict is too.</p></div>
+    <div class="qs">
+      <div class="q">
+        <div class="qt">Is the decision consequential?<span class="h">money · safety · rights · denial · anything not trivially reversible</span></div>
+        <div class="toggle" data-k="cons"><button class="yes" data-v="1">Yes</button><button class="no" data-v="0">No</button></div>
+      </div>
+      <div class="q">
+        <div class="qt">Does the machine <i>close</i> it? <span class="h">is the machine the terminus — the final word — or does it hand to a human?</span></div>
+        <div class="toggle" data-k="close"><button class="yes" data-v="1">Machine closes</button><button class="no" data-v="0">Hands to human</button></div>
+      </div>
+    </div>
+    <div class="result ok" id="result">
+      <p class="rv" id="rv"></p><p class="rh" id="rh"></p><p class="rw" id="rw"></p>
+    </div>
+  </div>
+
+  <div class="seal">
+    <p class="motto">The machine computes. The human answers.</p>
+    <p class="anchor">codified <b>2026-05-30T21:09:51Z</b> · SHA-256 <b id="dig"></b><br><span id="verify">verifying…</span> · the digest fixes this text; a matching recompute proves it unaltered</p>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const CANON="THE TERMINUS DOCTRINE \u2014 codification\n\nTHE PRINCIPLE\nThe machine may compute. The human must decide.\nA consequential decision terminates on a human \u2014 never on the machine.\n\nARTICLE I \u2014 DISQUALIFICATION\nThe machine is not equipped to be the terminus of a consequential decision.\n (a) It cannot verify in real time \u2014 it acts on a frozen model with no live channel to the world.\n (b) It cannot read tone \u2014 it holds the words, not the register; the plea and the routine request\n     are the same token-stream at the same confidence.\n (c) It resolves to a probability, not a judgment \u2014 an output that sounds like a decision and is a\n     distribution wearing a decision's clothes.\nThese are not limitations to be engineered away. They are a structural disqualification: deciding\nrequires faculties the machine does not have, so the decision was never legitimately the machine's.\n\nARTICLE II \u2014 COMPUTE, NOT DECIDE\nThe line is the terminus, not involvement. The machine may triage, sort, surface, and recommend \u2014\nthat is the real and valuable work. It may not be the place a consequential decision closes.\nRecommend: yes. Decide: no. A system that merely assists is permitted; a system that is the terminus\nof a consequential call is not, regardless of what it is named.\n\nARTICLE III \u2014 THE HAND-OFF\nThe machine's duty is to deliver the consequential decision to a human \u2014 intact, in time, and\nattributably. There, the accountability systems that already govern human decisions take over: a\nnamed human decides, owns it, and is held to it by the same machinery that governs every human who\ndecides badly. This structure is not a new court. It is the delivery that guarantees the decision\nreaches the one place the existing courts can grab it.\n\nFOUNDATION\nThis is not novel governance. It is the refusal to exempt automated processes from the accountability\nthat already governs bounded, human-authored programs \u2014 extended at two seams only: nondeterminism\n(answered by determinism-or-a-human-apex) and scale (answered by audit and appeal).\n\nTHE MACHINE COMPUTES. THE HUMAN ANSWERS.\n", STAMP="0e14d702551a0f3c39864f178e6f422cbdab36711142e826eb7c636428672cbc";
+let state={cons:1, close:1};
+
+// the doctrine, as a predicate (unit-tested in build)
+function terminus(cons, machineCloses){
+  if(!cons) return {cls:"ok", v:"permitted", h:"No terminus constraint",
+    w:"Trivial and reversible — the machine may compute <b>and</b> close it. Nothing of consequence rides on the call."};
+  if(machineCloses) return {cls:"bad", v:"violation", h:"Machine is the terminus of a consequential decision",
+    w:"Forbidden. The thing closing the decision cannot verify in real time, cannot read tone, and resolves to a probability — not a judgment. <b>The decision must terminate on a human.</b>"};
+  return {cls:"ok", v:"compliant", h:"Decision terminates on a human",
+    w:"The machine may compute, triage, and recommend — but a <b>human holds the pen</b> on the consequential call, and is answerable for it under the systems that already govern human decisions."};
+}
+function render(){
+  document.querySelectorAll(".toggle").forEach(t=>{
+    const k=t.getAttribute("data-k");
+    t.querySelectorAll("button").forEach(b=>b.classList.toggle("on", state[k]===+b.getAttribute("data-v")));
+  });
+  const r=terminus(!!state.cons, !!state.close), el=$("#result");
+  el.className="result "+r.cls;
+  $("#rv").textContent=r.v; $("#rh").textContent=r.h; $("#rw").innerHTML=r.w;
+}
+document.querySelectorAll(".toggle button").forEach(b=>b.addEventListener("click",()=>{
+  state[b.parentElement.getAttribute("data-k")]=+b.getAttribute("data-v"); render();
+}));
+render();
+
+// self-anchor: recompute the digest over the canonical text, prove unaltered
+$("#dig").textContent=STAMP.slice(0,16)+"…";
+(async()=>{
+  try{
+    const buf=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(CANON));
+    const h=[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");
+    const v=$("#verify");
+    if(h===STAMP){ v.className="ok"; v.textContent="✓ verified — codex text is unaltered"; }
+    else { v.className="bad"; v.textContent="✗ mismatch — text differs from the stamped digest"; }
+  }catch(e){ $("#verify").textContent="(verification needs a secure context)"; }
+})();
+</script>
+</body>
+</html>

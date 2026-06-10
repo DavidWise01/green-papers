@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wabi-Sabi — the beauty of the imperfect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#100e0b; --paper:#e3ddcf; --mute:#9c937f; --faint:#5f5849;
+    --clay:#b06a43; --moss:#7c845f; --stone:#8c8579; --indigo:#5d6b78;
+    --line:rgba(227,221,207,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink); color:var(--paper);
+    font-family:"Cormorant Garamond",Georgia,serif; font-size:20px; line-height:1.7; overflow-x:hidden;}
+  .grain{position:fixed; inset:0; width:100%; height:100%; opacity:0.05; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(130% 90% at 38% -10%, rgba(176,106,67,0.07), transparent 60%),
+               radial-gradient(150% 130% at 60% 120%, rgba(8,7,5,0.94), transparent 55%);}
+  .thread{position:fixed; top:0; left:0; height:1px; width:0%; z-index:20; background:var(--clay); opacity:.5;}
+
+  header.hero{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem 1.5rem;}
+  .enso{width:min(330px,76vw); height:min(330px,76vw); margin-bottom:2.6rem;}
+  .hero .tag{font-family:"Cinzel",serif; letter-spacing:.4em; font-size:11px; color:var(--mute); text-transform:uppercase; margin-bottom:1.4rem; padding-left:.4em;}
+  .hero .kanji{font-family:"Shippori Mincho",serif; font-size:clamp(46px,11vw,108px); font-weight:500; color:var(--paper); letter-spacing:.16em; line-height:1; margin-bottom:.8rem; opacity:.92;}
+  .hero h1{font-family:"Cormorant Garamond",serif; font-weight:500; font-style:italic; font-size:clamp(34px,7vw,68px); letter-spacing:.02em; color:var(--paper); margin-bottom:1.2rem;}
+  .hero p.sub{font-size:clamp(18px,2.6vw,25px); color:var(--mute); max-width:26ch; line-height:1.5;}
+  .hero .scroll{margin-top:3rem; font-family:"Cinzel",serif; font-size:11px; letter-spacing:.3em; color:var(--faint); text-transform:uppercase;}
+
+  .wrap{max-width:840px; margin:0 auto; padding:0 1.6rem;}
+  section.band{padding:14vh 0; border-top:1px solid var(--line); position:relative;}
+  .band .idx{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--clay); margin-bottom:1.1rem;}
+  .band h2{font-family:"Cormorant Garamond",serif; font-weight:500; font-size:clamp(26px,4.6vw,40px); letter-spacing:.02em; color:var(--paper); margin-bottom:1.5rem; max-width:18ch;}
+  .band p{color:#cbc4b2; max-width:58ch; margin-bottom:1.2rem; font-size:19px;}
+  .band p b{color:var(--paper); font-weight:500;}
+  .pull{font-style:italic; font-size:clamp(22px,3.4vw,30px); line-height:1.4; color:var(--paper); max-width:24ch; margin:0 0 2rem auto; text-align:right; color:#d7cfba;}
+  .indent{margin-left:auto; max-width:60ch;}
+
+  .pair{display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; margin-top:1rem;}
+  .half{border:1px solid var(--line); border-radius:3px; padding:2rem 1.6rem; background:rgba(227,221,207,0.015);}
+  .half .hjp{font-family:"Shippori Mincho",serif; font-size:64px; line-height:1; margin-bottom:.6rem;}
+  .half.w .hjp{color:var(--moss);} .half.s .hjp{color:var(--clay);}
+  .half .hnm{font-family:"Cinzel",serif; font-size:13px; letter-spacing:.18em; text-transform:uppercase; color:var(--paper); margin-bottom:.9rem;}
+  .half p{font-size:17px; color:var(--mute); margin:0; max-width:none;}
+
+  .seven{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1.6rem 1.4rem; margin-top:1.4rem;}
+  .pr .pjp{font-family:"Shippori Mincho",serif; font-size:30px; color:var(--stone); margin-bottom:.2rem;}
+  .pr .pnm{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--clay); margin-bottom:.4rem;}
+  .pr p{font-size:16px; color:var(--mute); margin:0; line-height:1.45; max-width:none;}
+
+  .loves{list-style:none; margin-top:1rem; max-width:60ch;}
+  .loves li{padding:.85rem 0; border-bottom:1px solid var(--line); color:#cbc4b2; font-size:18px;}
+  .loves li::before{content:"—"; color:var(--clay); margin-right:.9rem;}
+
+  .colophon{padding:14vh 0 18vh; border-top:1px solid var(--line);}
+  .colophon .kanji{font-family:"Shippori Mincho",serif; font-size:40px; color:var(--faint); margin-bottom:1.1rem;}
+  .colophon h3{font-family:"Cormorant Garamond",serif; font-style:italic; font-size:24px; margin-bottom:1rem; color:var(--paper);}
+  .colophon p{color:var(--mute); font-size:17px; margin-bottom:1rem; max-width:62ch;}
+  .colophon p b{color:#cbc4b2; font-weight:500;}
+  .endmark{font-family:"Cinzel",serif; letter-spacing:.36em; font-size:11px; color:var(--faint); text-transform:uppercase; margin-top:2.2rem;}
+
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity 1.4s ease, transform 1.4s cubic-bezier(.22,.7,.2,1);}
+  .reveal.in{opacity:1; transform:none;}
+  @media(max-width:560px){ .pair{grid-template-columns:1fr;} .pull{text-align:left; margin-left:0;} }
+</style>
+</head>
+<body>
+<div class="thread" id="thread"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header class="hero">
+  <svg class="enso" id="enso" viewBox="0 0 360 360" aria-label="A hand-drawn ensō, an imperfect open circle"></svg>
+  <div class="tag">pamphlet · the aesthetic of impermanence</div>
+  <div class="kanji">侘寂</div>
+  <h1>Wabi-Sabi</h1>
+  <p class="sub">the beauty of the imperfect, the impermanent, the incomplete</p>
+  <div class="scroll">stay a while</div>
+</header>
+
+<div class="wrap">
+
+  <section class="band reveal">
+    <div class="idx">what it is</div>
+    <h2>A way of finding beauty in what is passing</h2>
+    <p class="pull">It does not ask the world to be perfect. It asks you to see why it never was.</p>
+    <p><b>Wabi-sabi</b> is the Japanese aesthetic that locates beauty in the imperfect, the impermanent, and the incomplete. A chipped bowl, weathered wood, moss on old stone, a moon half-lost in cloud — things marked by use, age, and time, rather than things flawless and new.</p>
+    <p>Underneath it is the Buddhist truth of <b>mujō</b> (無常) — impermanence. Everything arises, weathers, and passes. Wabi-sabi is what happens when you stop resisting that and start finding it lovely. It is famously hard to define; the Japanese have long treated it as something felt rather than fixed.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">two words</div>
+    <h2>Wabi within, sabi without</h2>
+    <p>The term braids two older words, one turned inward, one turned outward.</p>
+    <div class="pair">
+      <div class="half w">
+        <div class="hjp">侘</div>
+        <div class="hnm">wabi · the inner</div>
+        <p>Once meant the loneliness of living apart from the world. It ripened into something serene: rustic simplicity, humility, the quiet richness of having little and needing less.</p>
+      </div>
+      <div class="half s">
+        <div class="hjp">寂</div>
+        <div class="hnm">sabi · the outer</div>
+        <p>Once meant lean, withered, chill. It became the beauty that only age can give — patina, wear, the bloom of time. It even shares its sound with 錆, the word for rust.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">where it comes from</div>
+    <h2>Born in a small dim room, over tea</h2>
+    <p class="indent">Wabi-sabi grew up inside <b>Zen Buddhism</b> and the <b>tea ceremony</b>. Against an age that prized Chinese luxury and display, tea masters turned toward the humble: <b>Murata Jukō</b> began it, <b>Takeno Jōō</b> deepened it, and <b>Sen no Rikyū</b> (1522–1591) perfected <i>wabi-cha</i> — tea in a tiny grass hut, with rough, asymmetric, locally-made bowls.</p>
+    <p class="indent">The deliberately imperfect <b>Raku</b> bowl — uneven, hand-shaped, glazed by accident as much as design — became the emblem of the whole sensibility. Restraint as luxury; the plain thing, truly seen.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">how to recognize it</div>
+    <h2>Seven principles, drawn from Zen</h2>
+    <p>One useful grammar comes from Zen aesthetics (after Hisamatsu Shin'ichi) — seven qualities a wabi-sabi object or scene tends to hold:</p>
+    <div class="seven">
+      <div class="pr"><div class="pjp">不均整</div><div class="pnm">fukinsei</div><p>Asymmetry. The off-balance, the irregular, the un-machined.</p></div>
+      <div class="pr"><div class="pjp">簡素</div><div class="pnm">kanso</div><p>Simplicity. Nothing extra; clarity by subtraction.</p></div>
+      <div class="pr"><div class="pjp">枯高</div><div class="pnm">koko</div><p>Austere grace. The weathered, spare, and bare-essential.</p></div>
+      <div class="pr"><div class="pjp">自然</div><div class="pnm">shizen</div><p>Naturalness. Without pretense or forced effort.</p></div>
+      <div class="pr"><div class="pjp">幽玄</div><div class="pnm">yūgen</div><p>Subtle profundity. The suggested, the half-hidden, the deep.</p></div>
+      <div class="pr"><div class="pjp">脱俗</div><div class="pnm">datsuzoku</div><p>Freedom. Released from convention and the worldly.</p></div>
+      <div class="pr"><div class="pjp">静寂</div><div class="pnm">seijaku</div><p>Stillness. Tranquillity, silence, energetic calm.</p></div>
+    </div>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">what it loves</div>
+    <h2>The worn, the faded, the falling</h2>
+    <ul class="loves">
+      <li>weathered wood and the grey of old timber</li>
+      <li>moss creeping over stone that has stood too long</li>
+      <li>the cracked bowl mended in gold — kintsugi, this same idea you can hold</li>
+      <li>cherry blossoms, loved precisely <i>because</i> they fall</li>
+      <li>the moon behind cloud, the room left half-empty, the rust left to bloom</li>
+    </ul>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the idea under it</div>
+    <h2>The opposite of the marble ideal</h2>
+    <p>Set it against the classical Western dream of beauty — the flawless, the symmetrical, the monumental, the built-to-outlast-time. Wabi-sabi turns the other way: toward the modest, the momentary, the visibly mortal. It is impermanence made beautiful, and underneath the calm there is a real seriousness about decay and death.</p>
+    <p class="pull">Nothing lasts. Nothing is finished. Nothing is perfect.</p>
+    <p>That distilled line is the version most often quoted — and it points true, even if, as the note below admits, it's a tidy modern phrasing of something the tea masters never wrote down so plainly.</p>
+  </section>
+
+  <section class="colophon reveal">
+    <div class="kanji">了</div>
+    <h3>A note, kept honest</h3>
+    <p>Wabi-sabi genuinely <b>resists definition</b> — what's above is a synthesis, not a verdict. The crisp triad "nothing lasts, nothing is finished, nothing is perfect" is a <b>modern Western distillation</b>; the concept was carried to Western design largely by Leonard Koren's 1994 book, and that neat formula came later. It's a good compass, not an ancient sutra.</p>
+    <p>Worth flagging too: in the West wabi-sabi often gets flattened into <b>rustic-chic décor</b> — beige linen and artful clutter — which quietly drops the Zen seriousness about transience and mortality that gave it weight. The tea-and-Zen lineage (Jukō → Jōō → Rikyū) and the seven principles are solid ground; the throw-pillow version is not.</p>
+    <p>And the ensō above is an original brushstroke, drawn fresh each time the page loads — uneven on purpose, and left open. A closed perfect circle would have been the wrong picture for this one.</p>
+    <div class="endmark">割れて、移ろい、未完 · cracked, passing, unfinished</div>
+  </section>
+
+</div>
+
+<script>
+const NS="http://www.w3.org/2000/svg";
+const enso=document.getElementById('enso');
+const cx=180, cy=182, R=112;
+const start=130*Math.PI/180, end=(130+298)*Math.PI/180;
+const steps=90;
+let d="";
+for(let i=0;i<=steps;i++){
+  const a=start+(end-start)*i/steps;
+  const wobble=Math.sin(i*0.7)*3 + (Math.random()-0.5)*3.2;
+  const taper=Math.sin(Math.PI*i/steps);
+  const r=R+wobble - (1-taper)*10;
+  const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+  d+=(i===0?"M":"L")+x.toFixed(1)+" "+y.toFixed(1)+" ";
+}
+function brush(width,opacity,color){
+  const p=document.createElementNS(NS,"path");
+  p.setAttribute("d",d); p.setAttribute("fill","none"); p.setAttribute("stroke",color);
+  p.setAttribute("stroke-width",width); p.setAttribute("stroke-linecap","round"); p.setAttribute("stroke-linejoin","round");
+  p.setAttribute("opacity",opacity); enso.appendChild(p); return p;
+}
+const body=brush(20,0.10,"#e3ddcf");
+const main=brush(8.5,0.9,"#e3ddcf");
+[body,main].forEach((s,k)=>{ const L=s.getTotalLength(); s.style.strokeDasharray=L; s.style.strokeDashoffset=L;
+  s.animate([{strokeDashoffset:L},{strokeDashoffset:0}],{duration:2200,delay:400+k*60,fill:"forwards",easing:"cubic-bezier(.3,.6,.2,1)"}); });
+for(let i=0;i<3;i++){
+  const sp=document.createElementNS(NS,"circle");
+  const a=end+0.06*i, r=R+(Math.random()*10);
+  sp.setAttribute("cx",(cx+r*Math.cos(a)).toFixed(1)); sp.setAttribute("cy",(cy+r*Math.sin(a)).toFixed(1));
+  sp.setAttribute("r",(2.4-i*0.6).toFixed(1)); sp.setAttribute("fill","#e3ddcf"); sp.setAttribute("opacity","0");
+  enso.appendChild(sp);
+  sp.animate([{opacity:0},{opacity:0.5}],{duration:500,delay:2300+i*90,fill:"forwards"});
+}
+
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);}})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const th=document.getElementById('thread');
+addEventListener('scroll',()=>{const h=document.documentElement; th.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100).toFixed(1)+'%';},{passive:true});
+</script>
+</body>
+</html>

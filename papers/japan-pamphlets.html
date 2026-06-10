@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Current, Many Names — eleven pamphlets on Japan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#0a0a0d; --paper:#e9e3d5; --mute:#9a9182; --faint:#5c564a; --gold:#c9a24b; --gold-lt:#ecc56a; --line:rgba(233,227,213,0.10); }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink); color:var(--paper); font-family:"Cormorant Garamond",Georgia,serif; font-size:19px; line-height:1.6; overflow-x:hidden;}
+  .grain{position:fixed; inset:0; opacity:0.05; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(130% 90% at 50% -5%, rgba(201,162,75,0.10), transparent 58%), radial-gradient(150% 130% at 50% 120%, rgba(5,5,8,0.93), transparent 55%);}
+
+  header{min-height:62vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:5rem 1.5rem 2rem;}
+  .kanji{font-family:"Shippori Mincho",serif; font-size:clamp(48px,11vw,104px); font-weight:700; color:transparent; -webkit-text-stroke:1px rgba(201,162,75,0.5); letter-spacing:.16em; line-height:1; margin-bottom:1rem;}
+  h1{font-family:"Cinzel",serif; font-weight:700; font-size:clamp(30px,6.5vw,64px); letter-spacing:.05em; line-height:1.05; margin-bottom:1.2rem;
+    background:linear-gradient(180deg,#f5e6b4,#c9a24b 70%,#8a6d28); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+  header p{font-style:italic; color:var(--mute); font-size:clamp(17px,2.5vw,23px); max-width:34ch; margin-bottom:2rem;}
+  .pdfbtn{display:inline-block; font-family:"Cinzel",serif; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink);
+    background:linear-gradient(180deg,var(--gold-lt),var(--gold)); padding:13px 26px; border-radius:3px; text-decoration:none; transition:.3s; box-shadow:0 0 24px rgba(201,162,75,0.18);}
+  .pdfbtn:hover{filter:brightness(1.08); box-shadow:0 0 32px rgba(201,162,75,0.3);}
+
+  main{max-width:920px; margin:0 auto; padding:0 1.4rem 8rem;}
+  .group{margin-top:4.5rem;}
+  .grouphead{font-family:"Cinzel",serif; font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); border-bottom:1px solid var(--line); padding-bottom:.8rem; margin-bottom:1.6rem;}
+  .cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1rem;}
+  a.card{display:block; text-decoration:none; border:1px solid var(--line); border-left:2px solid var(--accent); border-radius:3px;
+    padding:1.5rem 1.4rem; background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent); transition:.3s; position:relative;}
+  a.card:hover{border-color:var(--accent); background:linear-gradient(180deg,rgba(255,255,255,0.05),transparent); transform:translateY(-2px);}
+  a.card .cjp{font-family:"Shippori Mincho",serif; font-size:32px; color:var(--accent); line-height:1; margin-bottom:.5rem;}
+  a.card .cnm{font-family:"Cinzel",serif; font-size:15px; letter-spacing:.04em; color:var(--paper); margin-bottom:.35rem;}
+  a.card .cds{font-size:15px; color:var(--mute); line-height:1.4; font-style:italic;}
+  a.card .cno{position:absolute; top:1.1rem; right:1.2rem; font-family:"Cinzel",serif; font-size:11px; color:var(--faint); letter-spacing:.1em;}
+
+  footer{max-width:760px; margin:0 auto; padding:3rem 1.4rem 7rem; border-top:1px solid var(--line); color:var(--mute); font-size:16px;}
+  footer b{color:var(--paper); font-weight:500;}
+  .endmark{font-family:"Cinzel",serif; letter-spacing:.34em; font-size:11px; color:var(--faint); text-transform:uppercase; margin-top:1.8rem;}
+</style>
+</head>
+<body>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header>
+  <div class="kanji">無常</div>
+  <h1>One Current,<br>Many Names</h1>
+  <p>eleven pamphlets on Japan — myth, lineage, the sense of beauty, and a borrowed Greek frame — all flowing from one idea: that everything passes</p>
+  <a class="pdfbtn" href="japan_eleven_pamphlets.pdf">⤓ download all eleven, bound (PDF)</a>
+</header>
+
+<main>
+  <section class="group">
+    <div class="grouphead">I · origins &amp; lineage</div>
+    <div class="cards">
+      <a class="card" href="the_mythos.html" style="--accent:#c9a24b"><div class="cno">01</div><div class="cjp">神話</div><div class="cnm">The Mythos</div><div class="cds">the age of the gods — the story under it all</div></a>
+      <a class="card" href="japan_unbroken_line.html" style="--accent:#b9b09a"><div class="cno">02</div><div class="cjp">日本の系譜</div><div class="cnm">The Unbroken Line</div><div class="cds">sixteen eras, the gods to Reiwa</div></a>
+      <a class="card" href="japan_gold_line.html" style="--accent:#c9a24b"><div class="cno">03</div><div class="cjp">皇統</div><div class="cnm">The Gold Line</div><div class="cds">the Chrysanthemum Throne, one bloodline</div></a>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="grouphead">II · the sense of beauty</div>
+    <div class="cards">
+      <a class="card" href="mono_no_aware.html" style="--accent:#d39db0"><div class="cno">04</div><div class="cjp">物の哀れ</div><div class="cnm">Mono no Aware</div><div class="cds">the tender ache of things passing</div></a>
+      <a class="card" href="wabi_sabi.html" style="--accent:#9c8f63"><div class="cno">05</div><div class="cjp">侘寂</div><div class="cnm">Wabi-Sabi</div><div class="cds">beauty of the imperfect and impermanent</div></a>
+      <a class="card" href="enso.html" style="--accent:#d8cda8"><div class="cno">06</div><div class="cjp">円相</div><div class="cnm">Ensō</div><div class="cds">the circle drawn in a single breath</div></a>
+      <a class="card" href="kintsugi.html" style="--accent:#c9a24b"><div class="cno">07</div><div class="cjp">金継ぎ</div><div class="cnm">Kintsugi</div><div class="cds">the break mended in gold</div></a>
+      <a class="card" href="sen_no_rikyu_tea.html" style="--accent:#7e9a55"><div class="cno">08</div><div class="cjp">茶道</div><div class="cnm">The Way of Tea</div><div class="cds">Sen no Rikyū and the wabi spirit</div></a>
+      <a class="card" href="three_fundamentals_lineage.html" style="--accent:#6f86b0"><div class="cno">09</div><div class="cjp">美の系譜</div><div class="cnm">One River, Three Names</div><div class="cds">mono no aware · yūgen · wabi-sabi, one current</div></a>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="grouphead">III · the greek frame · ethos · pathos · logos</div>
+    <div class="cards">
+      <a class="card" href="the_way_ethos.html" style="--accent:#bb4636"><div class="cno">10</div><div class="cjp">道</div><div class="cnm">The Way <span style="color:var(--faint)">· ethos</span></div><div class="cds">character walked into being</div></a>
+      <a class="card" href="logos.html" style="--accent:#6f93a8"><div class="cno">11</div><div class="cjp">言・理</div><div class="cnm">Logos</div><div class="cds">the word, the reason, and its limit</div></a>
+      <a class="card" href="mono_no_aware.html" style="--accent:#d39db0"><div class="cno">·</div><div class="cjp">物の哀れ</div><div class="cnm">Mono no Aware <span style="color:var(--faint)">· pathos</span></div><div class="cds">(the third of the triad — see 04)</div></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Eleven pamphlets, built one conversation at a time. Each carries its own honest colophon — flagging where myth is myth, where a "code" is a modern invention, where a tidy phrase came later than it pretends, and where a borrowed frame doesn't quite fit. The through-line is <b>impermanence</b>: the gold line that never breaks, the bowl whose break is gilded, the blossom loved because it falls, the circle left open, and the myth where light keeps returning to the cave.</p>
+  <div class="endmark">無常 · one current, many names</div>
+</footer>
+</body>
+</html>

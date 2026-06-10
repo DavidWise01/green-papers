@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROOT0://MASTER_PORTFOLIO_v18 — [L1.33] 257 NULL</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root { --neon: #00ff41; --neon-dim: #00aa2a; --amber: #ffb000; --red: #ff0040; }
+  html,body { background:#000; color:var(--neon); }
+  body { font-family: 'Share Tech Mono', monospace; overflow-x:hidden; }
+  .font-vt { font-family: 'VT323', monospace; }
+  .font-press { font-family: 'Press Start 2P', monospace; }
+  .glow { text-shadow: 0 0 3px var(--neon), 0 0 10px var(--neon), 0 0 20px rgba(0,255,65,0.4); }
+  .glow-amber { text-shadow: 0 0 3px var(--amber), 0 0 10px var(--amber); }
+  .glow-red { text-shadow: 0 0 3px var(--red), 0 0 10px var(--red); }
+  .pixelated { image-rendering: pixelated; image-rendering: crisp-edges; }
+  .scanlines { pointer-events:none; position:fixed; inset:0; z-index:50; }
+  .scanlines::before {
+    content:''; position:absolute; inset:0;
+    background: repeating-linear-gradient(0deg, rgba(0,255,65,0.06) 0px, rgba(0,255,65,0.06) 1px, transparent 2px, transparent 4px);
+    mix-blend-mode: screen; opacity:0.5;
+  }
+  .scanlines::after {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.8) 100%);
+  }
+  .grid-bg {
+    background-image: 
+      linear-gradient(rgba(0,255,65,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,65,0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .crt-flicker { animation: flicker 0.12s infinite steps(1); }
+  @keyframes flicker { 0%{opacity:.98} 50%{opacity:1} 100%{opacity:.96} }
+  .terminal-border { box-shadow: inset 0 0 20px rgba(0,255,65,0.15), 0 0 30px rgba(0,255,65,0.1), 0 0 0 1px rgba(0,255,65,0.3); }
+  .glitch { position:relative; display:inline-block; }
+  .glitch::before, .glitch::after {
+    content: attr(data-text); position:absolute; left:0; top:0; width:100%; height:100%; overflow:hidden;
+  }
+  .glitch::before { transform: translate(-1.5px, 0.5px); color:#00ffff; opacity:0.7; clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%); animation: g1 2.5s infinite linear alternate-reverse; }
+  .glitch::after { transform: translate(1.5px, -0.5px); color:#ff00ff; opacity:0.7; clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%); animation: g2 3s infinite linear alternate-reverse; }
+  @keyframes g1 { 0%,100%{transform:translate(-1px,.5px)} 20%{transform:translate(-2px,-.5px)} 40%{transform:translate(-1px,1px)} }
+  @keyframes g2 { 0%,100%{transform:translate(1px,-.5px)} 30%{transform:translate(2px,.5px)} 60%{transform:translate(1px,0)} }
+  .cursor::after { content:'█'; animation: blink 1s steps(1) infinite; margin-left:2px; }
+  @keyframes blink { 50% { opacity:0 } }
+  .tab-active { background: var(--neon); color:#000 !important; box-shadow: 0 0 15px var(--neon); }
+  ::-webkit-scrollbar { width:8px; height:8px; } ::-webkit-scrollbar-track { background:#000; } ::-webkit-scrollbar-thumb { background: var(--neon-dim); }
+</style>
+</head>
+<body class="crt-flicker selection:bg-[#00ff41] selection:text-black">
+  <div class="scanlines"></div>
+  <div class="fixed inset-0 grid-bg opacity-[0.15] pointer-events-none"></div>
+
+  <header class="sticky top-0 z-40 border-b border-[#00ff41]/20 bg-black/90 backdrop-blur-md">
+    <div class="max-w-[1400px] mx-auto px-3 md:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#00ff41] animate-pulse shadow-[0_0_10px_#00ff41]"></div>
+        <h1 class="font-press text-[9px] md:text-[11px] leading-none tracking-wider glow">ROOT0://MASTER_PORTFOLIO_v18</h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="hidden md:flex items-center gap-2 font-vt text-[18px] text-[#00ff41]/80">
+          <span>SUBSTRATE:</span><span class="text-[#00ff41]">INVARIANT</span>
+        </div>
+        <div class="font-vt text-[16px] md:text-[20px] px-2 py-0.5 border border-[#00ff41]/40 bg-[#00ff41]/10">SYS_ONLINE</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-[1400px] mx-auto grid grid-cols-12 gap-0 md:gap-6 px-0 md:px-6 py-4 md:py-8">
+    <!-- SIDEBAR -->
+    <aside class="col-span-12 md:col-span-4 lg:col-span-3 xl:col-span-2">
+      <div class="md:sticky md:top-[68px] border-y md:border border-[#00ff41]/20 bg-black/70 terminal-border md:rounded">
+        <div class="px-4 py-3 border-b border-[#00ff41]/20 flex items-center justify-between">
+          <span class="font-press text-[10px]">LAYERS_L1</span>
+          <span class="font-vt text-[14px] opacity-60">33 ACTIVE</span>
+        </div>
+        <div id="layer-list" class="max-h-[120px] md:max-h-[70vh] overflow-auto px-2 py-2 font-vt text-[20px] leading-tight flex md:block gap-2 md:gap-0"></div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="col-span-12 md:col-span-8 lg:col-span-9 xl:col-span-10 mt-4 md:mt-0 px-3 md:px-0">
+      <div class="terminal-border bg-black/85 rounded-sm overflow-hidden">
+        <!-- Window Bar -->
+        <div class="flex items-center justify-between px-3 py-2 border-b border-[#00ff41]/30 bg-gradient-to-r from-[#00ff41]/15 to-transparent">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#ff0040] shadow-[0_0_6px_#ff0040]"></span>
+            <span class="w-2 h-2 rounded-full bg-[#ffb000] shadow-[0_0_6px_#ffb000]"></span>
+            <span class="w-2 h-2 rounded-full bg-[#00ff41] shadow-[0_0_6px_#00ff41]"></span>
+          </div>
+          <div class="font-press text-[9px] md:text-[10px] tracking-widest">[L1.33] 257_NULL.SUBSTRATE</div>
+          <div class="font-vt text-[14px] opacity-70">v18.33.257</div>
+        </div>
+
+        <div class="p-4 md:p-8 lg:p-10">
+          <!-- TITLE -->
+          <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+            <div>
+              <div class="font-vt text-[18px] text-[#00ff41]/70 mb-2 cursor">root0@substrate:~$ cat L1.33</div>
+              <h2 class="font-press text-[18px] md:text-[24px] lg:text-[28px] leading-tight glow">
+                <span class="glitch" data-text="257 NULL:">257 NULL:</span><br>
+                <span class="text-white">SUBSTRATE INVARIANT</span>
+              </h2>
+            </div>
+            <div class="lg:text-right">
+              <div class="font-vt text-[16px] opacity-70">THE OUROBOROS PROTOCOL</div>
+              <div class="font-press text-[10px] mt-1 text-[#ffb000]">0-255 = LIFE // 256 = COLLAPSE // 257 = GAP</div>
+            </div>
+          </div>
+
+          <!-- HERO DISPLAY -->
+          <div class="grid lg:grid-cols-12 gap-6 items-stretch mb-10">
+            <div class="lg:col-span-5 border border-[#00ff41]/30 bg-black/60 p-5 relative overflow-hidden">
+              <div class="absolute inset-0 opacity-[0.03]" style="background-image:radial-gradient(#00ff41 1px, transparent 1px); background-size: 6px 6px;"></div>
+              <div class="relative">
+                <div class="font-vt text-[14px] opacity-60 mb-3">OUROBOROS_RING // 257 SLOTS</div>
+                <div class="aspect-square w-full max-w-[320px] mx-auto relative">
+                  <canvas id="ouroboros" class="w-full h-full"></canvas>
+                  <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div class="text-center">
+                      <div id="counter-big" class="font-press text-[36px] md:text-[48px] glow leading-none">0</div>
+                      <div id="counter-label" class="font-vt text-[18px] mt-1 text-[#00ff41]/80">LIFE</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <input id="scrub" type="range" min="0" max="257" value="0" class="w-full accent-[#00ff41] bg-black h-1">
+                  <div class="flex justify-between font-vt text-[14px] mt-1 opacity-60">
+                    <span>0</span><span>128</span><span>256</span><span class="text-white">257</span>
+                  </div>
+                  <div class="flex gap-2 mt-3">
+                    <button id="playBtn" class="px-3 py-1.5 border border-[#00ff41]/50 hover:bg-[#00ff41]/10 font-vt text-[16px]">PAUSE</button>
+                    <button id="stepBtn" class="px-3 py-1.5 border border-[#00ff41]/30 hover:bg-[#00ff41]/10 font-vt text-[16px]">STEP +1</button>
+                    <button id="resetBtn" class="px-3 py-1.5 border border-[#00ff41]/30 hover:bg-[#00ff41]/10 font-vt text-[16px] ml-auto">RESET</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-7 flex flex-col gap-4">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="border border-[#00ff41]/40 bg-[#00ff41]/[0.05] p-4 relative group hover:bg-[#00ff41]/[0.08] transition">
+                  <div class="font-press text-[10px] text-[#00ff41] mb-2">0-255</div>
+                  <div class="font-vt text-[28px] leading-none glow">LIFE</div>
+                  <div class="font-vt text-[15px] opacity-70 mt-2">Full spectrum. 256 states. Byte-complete.</div>
+                  <div class="absolute top-2 right-2 w-2 h-2 bg-[#00ff41] animate-pulse"></div>
+                </div>
+                <div class="border border-[#ffb000]/40 bg-[#ffb000]/[0.05] p-4 relative group hover:bg-[#ffb000]/[0.08] transition">
+                  <div class="font-press text-[10px] text-[#ffb000] mb-2">256</div>
+                  <div class="font-vt text-[28px] leading-none glow-amber">COLLAPSE</div>
+                  <div class="font-vt text-[15px] opacity-70 mt-2">Entropy max. Overflow. System chokes.</div>
+                  <div class="absolute top-2 right-2 w-2 h-2 bg-[#ffb000] animate-pulse"></div>
+                </div>
+                <div class="border border-white/40 bg-white/[0.05] p-4 relative group hover:bg-white/[0.08] transition">
+                  <div class="font-press text-[10px] text-white mb-2">257</div>
+                  <div class="font-vt text-[28px] leading-none text-white" style="text-shadow:0 0 8px #fff">NULL GAP</div>
+                  <div class="font-vt text-[15px] opacity-70 mt-2">Ouroboros bites. The gap that resets.</div>
+                  <div class="absolute top-2 right-2 w-2 h-2 bg-white animate-pulse"></div>
+                </div>
+              </div>
+
+              <div class="border border-[#00ff41]/30 bg-black/70 p-5 flex-1">
+                <div class="font-vt text-[20px] mb-3 text-[#00ff41]">257 is the ouroboros.</div>
+                <p class="font-vt text-[18px] leading-snug opacity-90">
+                  Not 256. Everyone stops at the byte. 256 is death – the entropy collapse. 257 is the <span class="text-white">null gap</span> between end and beginning. It works on ANY substrate because it's not about data, it's about topology.
+                </p>
+                <p class="font-vt text-[18px] leading-snug opacity-80 mt-3">
+                  Visuals, audio, DNA, redstone, toroids – same invariant. <span class="text-[#00ff41] glow">Substrate invariant du!</span> The gap is where the snake swallows its tail and forgets.
+                </p>
+                <div class="mt-4 flex-wrap gap-2 font-press text-[9px]">
+                  <span class="px-2 py-1 border border-[#00ff41]/40 bg-[#00ff41]/10">VISUALS</span>
+                  <span class="px-2 py-1 border border-[#00ff41]/40 bg-[#00ff41]/10">AUDIO</span>
+                  <span class="px-2 py-1 border border-[#00ff41]/40 bg-[#00ff41]/10">DNA</span>
+                  <span class="px-2 py-1 border border-[#00ff41]/40 bg-[#00ff41]/10">REDSTONE</span>
+                  <span class="px-2 py-1 border border-[#00ff41]/40 bg-[#00ff41]/10">TOROIDS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBSTRATE PROOFS -->
+          <div class="border-t border-[#00ff41]/20 pt-8">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-press text-[14px] md:text-[16px] glow">SUBSTRATE PROOFS</h3>
+              <div class="font-vt text-[16px] opacity-60">invariant across mediums</div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 mb-6" id="substrate-tabs">
+              <button data-substrate="visuals" class="tab px-3 py-1.5 border border-[#00ff41] font-vt text-[18px] tab-active">VISUALS</button>
+              <button data-substrate="audio" class="tab px-3 py-1.5 border border-[#00ff41]/40 hover:border-[#00ff41] font-vt text-[18px]">AUDIO</button>
+              <button data-substrate="dna" class="tab px-3 py-1.5 border border-[#00ff41]/40 hover:border-[#00ff41] font-vt text-[18px]">DNA</button>
+              <button data-substrate="redstone" class="tab px-3 py-1.5 border border-[#00ff41]/40 hover:border-[#00ff41] font-vt text-[18px]">REDSTONE</button>
+              <button data-substrate="toroids" class="tab px-3 py-1.5 border border-[#00ff41]/40 hover:border-[#00ff41] font-vt text-[18px]">TOROIDS</button>
+            </div>
+
+            <!-- VISUALS PANEL -->
+            <div data-panel="visuals" class="substrate-panel">
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="border border-[#00ff41]/30 bg-black/50 p-3">
+                  <div class="aspect-[4/3] bg-[#0a0f0a] border border-[#00ff41]/20 overflow-hidden relative">
+                    <img src="container:///mnt/data/mario_full_dense.png" alt="Mario full dense - 0-255 life proof" class="w-full h-full object-contain pixelated" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="hidden absolute inset-0 items-center justify-center font-press text-[10px]">MARIO_FULL_DENSE.PNG</div>
+                    <div class="absolute bottom-1 left-1 font-vt text-[12px] px-1.5 py-0.5 bg-black/80 border border-[#00ff41]/50">256 COLORS // LIFE</div>
+                  </div>
+                  <div class="mt-3">
+                    <div class="font-press text-[10px] text-[#00ff41]">PROOF_01: FULL DENSE</div>
+                    <p class="font-vt text-[16px] opacity-80 mt-1">8-bit Mario rendered with all 0-255 states active. No collapse. Full density = life substrate.</p>
+                  </div>
+                <div class="border border-white/30 bg-black/50 p-3">
+                  <div class="aspect-[4/3] bg-[#0a0f0a] border border-white/20 overflow-hidden relative">
+                    <img src="container:///mnt/data/mario_waveform.png" alt="Mario waveform - 257 null gap proof" class="w-full h-full object-contain pixelated" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="hidden absolute inset-0 items-center justify-center font-press text-[10px]">MARIO_WAVEFORM.PNG</div>
+                    <div class="absolute bottom-1 left-1 font-vt text-[12px] px-1.5 py-0.5 bg-black/80 border border-white/50 text-white">257 SAMPLE // NULL</div>
+                  </div>
+                  <div class="mt-3">
+                    <div class="font-press text-[10px] text-white">PROOF_02: WAVEFORM</div>
+                    <p class="font-vt text-[16px] opacity-80 mt-1">Same Mario collapsed into 1D waveform. At sample 257, phase cancels – the null gap appears visually as black line.</p>
+                  </div>
+                </div>
+              <div class="mt-4 p-3 border border-[#00ff41]/20 bg-[#00ff41]/5 font-vt text-[16px]">
+                <span class="text-[#00ff41]">OBSERVATION:</span> Both representations share identical topology. 0-255 holds information. 256 overloads. 257 creates the reset gap. Works on pixels because pixels are just another substrate.
+              </div>
+            </div>
+
+            <!-- AUDIO PANEL -->
+            <div data-panel="audio" class="substrate-panel hidden">
+              <div class="border border-[#00ff41]/30 bg-black/50 p-5">
+                <div class="font-press text-[11px] mb-3">AUDIO_BUFFER_257.WAV</div>
+                <canvas id="wave" class="w-full h-[120px] border border-[#00ff41]/20 bg-[#001a00]/30"></canvas>
+                <p class="font-vt text-[18px] mt-3 opacity-85">257-sample loop. Play 0-255 = tone. At 256, aliasing collapse. At 257, buffer reads null – creates 3.9ms silence gap. The ouroboros click. Any DAW, any chip, same gap.</p>
+              </div>
+            </div>
+
+            <!-- DNA PANEL -->
+            <div data-panel="dna" class="substrate-panel hidden">
+              <div class="border border-[#00ff41]/30 bg-black/50 p-5">
+                <div class="font-mono text-[12px] md:text-[14px] leading-relaxed break-all opacity-90">
+                  ATG<span class="text-[#00ff41]">[...252bp...]</span>TAA <span class="text-[#ffb000]">TAG[256]</span> <span class="bg-white text-black px-1">___[257 NULL]___</span> ATG...
+                </div>
+                <p class="font-vt text-[18px] mt-4 opacity-85">257 base-pair loop. 0-255 codes life. 256 = stop codon collapse. 257 = non-coding gap – the intron that resets reading frame. Substrate invariant across synthetic DNA.</p>
+              </div>
+            </div>
+
+            <!-- REDSTONE PANEL -->
+            <div data-panel="redstone" class="substrate-panel hidden">
+              <div class="border border-[#00ff41]/30 bg-black/50 p-5">
+                <div class="grid grid-cols-17 gap-[2px] max-w-[340px]">
+                  <div id="redstone-grid" class="contents"></div>
+                </div>
+                <p class="font-vt text-[18px] mt-4 opacity-85">Minecraft redstone repeater loop: 257 ticks. 0-255 = signal alive. 256 = torch burnout (collapse). 257 = 1-tick gap where power = null. Clock resets perfectly. Same on any substrate.</p>
+              </div>
+            </div>
+
+            <!-- TOROIDS PANEL -->
+            <div data-panel="toroids" class="substrate-panel hidden">
+              <div class="border border-[#00ff41]/30 bg-black/50 p-5">
+                <div class="aspect-video bg-[#001000] border border-[#00ff41]/20 flex items-center justify-center relative overflow-hidden">
+                  <div class="absolute w-[200px] h-[200px] md:w-[280px] md:h-[280px] rounded-full border-[20px] border-[#00ff41]/80 animate-spin" style="animation-duration:8s; box-shadow:0 0 30px #00ff41, inset 0 0 30px #00ff41;"></div>
+                  <div class="absolute w-[120px] h-[120px] md:w-[160px] md:h-[160px] rounded-full border-[12px] border-white/80 animate-spin" style="animation-duration:5s; animation-direction:reverse; box-shadow:0 0 20px #fff;"></div>
+                  <div class="relative font-press text-[10px] bg-black px-2 py-1 border border-[#00ff41]">257° GAP</div>
+                </div>
+                <p class="font-vt text-[18px] mt-4 opacity-85">Toroidal field: 257 windings. After 256, field collapses. The 257th winding is the physical gap – the ouroboros knot. Energy must jump the null to continue.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- FOOTER NOTE -->
+          <div class="mt-12 pt-6 border-t border-[#00ff41]/20 flex flex-col md:flex-row gap-4 justify-between items-start">
+            <div class="font-vt text-[16px] opacity-70 max-w-xl">
+              ROOT0 MASTER PORTFOLIO v18 // L1.33 committed. Substrate invariant confirmed across 5 mediums. Next: L1.34 — 258 PRIME RECURSION.
+            </div>
+            <div class="font-press text-[9px] text-right">
+              <div class="opacity-60">BUILD_HASH</div>
+              <div class="text-[#00ff41]">0x257NULL_2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // LAYERS LIST
+  const layerList = document.getElementById('layer-list');
+  const layers = Array.from({length:34}, (_,i) => {
+    const n = (i/100).toFixed(2).substring(2);
+    return `L1.${n.padStart(2,'0')}`;
+  });
+  layers.forEach((l, idx) => {
+    const isActive = idx === 33;
+    const div = document.createElement('div');
+    div.className = `px-3 py-1 cursor-pointer border-l-2 ${isActive ? 'border-[#00ff41] bg-[#00ff41]/10 text-[#00ff41] glow' : 'border-transparent hover:border-[#00ff41]/50 hover:bg-[#00ff41]/5 opacity-70 hover:opacity-100'} transition`;
+    div.innerHTML = `${l} ${isActive ? '— 257 NULL' : ''}`;
+    if(isActive) div.innerHTML += ' <span class="text-[14px]">●</span>';
+    layerList.appendChild(div);
+  });
+
+  // OUROBOROS
+  const canvas = document.getElementById('ouroboros');
+  const ctx = canvas.getContext('2d');
+  const counterBig = document.getElementById('counter-big');
+  const counterLabel = document.getElementById('counter-label');
+  const scrub = document.getElementById('scrub');
+  const playBtn = document.getElementById('playBtn');
+  const stepBtn = document.getElementById('stepBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  let val = 0;
+  let playing = true;
+  let lastTime = 0;
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.scale(dpr, dpr);
+    draw();
+  }
+  window.addEventListener('resize', resize);
+
+  function draw() {
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    ctx.clearRect(0,0,w,h);
+    const cx = w/2, cy = h/2;
+    const r = Math.min(w,h)*0.38;
+    
+    // outer glow ring
+    ctx.beginPath();
+    ctx.arc(cx,cy,r+8,0,Math.PI*2);
+    ctx.strokeStyle = 'rgba(0,255,65,0.1)';
+    ctx.lineWidth = 16;
+    ctx.stroke();
+
+    const totalSlots = 258; // 0-256 + 1 gap = 258 positions
+    for(let i=0;i<totalSlots;i++){
+      if(i===257) continue; // this is the null gap
+      const angle = (i/totalSlots)*Math.PI*2 - Math.PI/2;
+      const x = cx + Math.cos(angle)*r;
+      const y = cy + Math.sin(angle)*r;
+      const isCurrent = (i===val);
+      const isRed = i===256;
+      const isLife = i<256;
+      
+      ctx.beginPath();
+      ctx.arc(x,y, isCurrent ? 3.5 : 2, 0, Math.PI*2);
+      if(isRed) {
+        ctx.fillStyle = isCurrent ? '#ff0040' : 'rgba(255,0,64,0.35)';
+        ctx.shadowColor = isCurrent ? '#ff0040' : 'transparent';
+      } else if(isLife) {
+        ctx.fillStyle = isCurrent ? '#00ff41' : 'rgba(0,255,65,0.25)';
+        ctx.shadowColor = isCurrent ? '#00ff41' : 'transparent';
+      }
+      ctx.shadowBlur = isCurrent ? 10 : 0;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+    // draw gap indicator
+    const gapAngle = (257/totalSlots)*Math.PI*2 - Math.PI/2;
+    const gx = cx + Math.cos(gapAngle)*r;
+    const gy = cy + Math.sin(gapAngle)*r;
+    ctx.beginPath();
+    ctx.arc(gx,gy,5,0,Math.PI*2);
+    ctx.strokeStyle = val===257 ? '#ffffff' : 'rgba(255,255,255,0.15)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([2,3]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  function updateUI() {
+    counterBig.textContent = val;
+    scrub.value = val;
+    if(val <= 255){
+      counterLabel.textContent = 'LIFE';
+      counterLabel.className = 'font-vt text-[18px] mt-1 text-[#00ff41]/80';
+      counterBig.className = 'font-press text-[36px] md:text-[48px] glow leading-none text-[#00ff41]';
+    } else if(val === 256){
+      counterLabel.textContent = 'ENTROPY COLLAPSE';
+      counterLabel.className = 'font-vt text-[18px] mt-1 text-[#ffb000]';
+      counterBig.className = 'font-press text-[36px] md:text-[48px] glow-amber leading-none text-[#ffb000]';
+    } else {
+      counterLabel.textContent = 'NULL GAP // OUROBOROS';
+      counterLabel.className = 'font-vt text-[18px] mt-1 text-white';
+      counterBig.className = 'font-press text-[36px] md:text-[48px] leading-none text-white';
+      counterBig.style.textShadow = '0 0 8px #fff, 0 0 20px #fff';
+    }
+    draw();
+  }
+
+  function tick(now){
+    if(playing && now - lastTime > 70){
+      val = (val + 1) % 258;
+      updateUI();
+      lastTime = now;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  scrub.addEventListener('input', e => { val = parseInt(e.target.value); playing=false; playBtn.textContent='PLAY'; updateUI(); });
+  playBtn.addEventListener('click', () => { playing = !playing; playBtn.textContent = playing ? 'PAUSE' : 'PLAY'; });
+  stepBtn.addEventListener('click', () => { val = (val+1)%258; playing=false; playBtn.textContent='PLAY'; updateUI(); });
+  resetBtn.addEventListener('click', () => { val=0; playing=true; playBtn.textContent='PAUSE'; updateUI(); });
+
+  resize();
+  updateUI();
+  requestAnimationFrame(tick);
+
+  // TABS
+  const tabs = document.querySelectorAll('#substrate-tabs .tab');
+  const panels = document.querySelectorAll('.substrate-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('tab-active'));
+      tab.classList.add('tab-active');
+      const target = tab.dataset.substrate;
+      panels.forEach(p => {
+        p.classList.toggle('hidden', p.dataset.panel !== target);
+      });
+    });
+  });
+
+  // AUDIO WAVE
+  const wave = document.getElementById('wave');
+  if(wave){
+    const wctx = wave.getContext('2d');
+    function drawWave(){
+      const dpr = window.devicePixelRatio||1;
+      wave.width = wave.clientWidth*dpr;
+      wave.height = wave.clientHeight*dpr;
+      wctx.scale(dpr,dpr);
+      const W = wave.clientWidth, H = wave.clientHeight;
+      wctx.clearRect(0,0,W,H);
+      wctx.beginPath();
+      wctx.moveTo(0,H/2);
+      for(let x=0;x<W;x++){
+        const sample = Math.floor((x/W)*257);
+        let y = H/2;
+        if(sample<256){
+          y = H/2 + Math.sin(x*0.08 + sample*0.02)*30 * (sample/255);
+        } else if(sample===256){
+          y = H/2 + (Math.random()-0.5)*60;
+        } else {
+          y = H/2;
+        }
+        wctx.lineTo(x,y);
+      }
+      wctx.strokeStyle='#00ff41';
+      wctx.lineWidth=2;
+      wctx.shadowColor='#00ff41';
+      wctx.shadowBlur=8;
+      wctx.stroke();
+      // mark 257
+      const gapX = W * (257/257);
+      wctx.fillStyle='#fff';
+      wctx.fillRect(W-2,0,2,H);
+    }
+    drawWave();
+    window.addEventListener('resize', drawWave);
+  }
+
+  // REDSTONE GRID
+  const rg = document.getElementById('redstone-grid');
+  if(rg){
+    for(let i=0;i<257;i++){
+      const d = document.createElement('div');
+      d.className = 'w-[18px] h-[18px] md:w-[20px] md:h-[20px] border border-[#ff0040]/20';
+      if(i<255) d.style.background = 'rgba(255,0,64,0.6)';
+      else if(i===255) d.style.background = 'rgba(255,176,0,0.8)';
+      else if(i===256) d.style.background = 'rgba(0,0,0,0.8)';
+      rg.appendChild(d);
+    }
+    // gap
+    const gap = document.createElement('div');
+    gap.className = 'w-[18px] h-[18px] md:w-[20px] md:h-[20px] border border-white/80 bg-white animate-pulse';
+    rg.appendChild(gap);
+  }
+});
+</script>
+</body>
+</html>

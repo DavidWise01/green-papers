@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Repair Gate · four delimiters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lacquer:#0a0908;--lacquer2:#110f14;--ink:#16131c;--gold:#d4af37;--gold-bright:#f3d27a;
+  --gold-leaf:#e8c25a;--gold-deep:#9a7b22;--bronze:#a87c3a;--ice:#9ec7e0;--ice-deep:#5f86a0;
+  --mourn:#cf9a9a;--mourn-deep:#7a3a3a;--urushi:#3a1414;
+  --paper:#ece6d8;--paper2:#c8c1b2;--dim:#7c7689;--faint:#2a2632;--line:#26222f;
+  --serif:"Cormorant Garamond",Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--lacquer);color:var(--paper);font-family:var(--mono);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;background-image:radial-gradient(ellipse 88% 58% at 50% -8%,#1a1622 0%,transparent 60%)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.04;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+.wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 22px 90px}
+header{padding:62px 0 26px;text-align:center}
+.eye{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-bottom:18px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(40px,9vw,80px);line-height:.96;color:var(--paper)}
+h1 em{font-style:italic;color:var(--gold-leaf)}
+.lede{font-family:var(--serif);font-size:clamp(17px,2.4vw,22px);font-style:italic;color:var(--paper2);max-width:60ch;margin:16px auto 0;line-height:1.5}
+.seam{display:block;width:100%;height:26px;margin:38px 0;overflow:visible}
+.seam path{fill:none;stroke:url(#goldgrad);stroke-width:1.4;filter:drop-shadow(0 0 4px rgba(212,175,55,.45))}
+.prem{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}
+.pcard{background:var(--ink);border:1px solid var(--line);border-radius:3px;padding:18px 20px}
+.pcard .t{font-family:var(--serif);font-size:22px;color:var(--gold-leaf);margin-bottom:4px}
+.pcard .t b{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--gold);margin-right:8px;vertical-align:middle}
+.pcard p{font-size:12.5px;color:var(--paper2);line-height:1.55}
+.gatewrap{background:linear-gradient(160deg,var(--ink),var(--lacquer2));border:1px solid var(--line);border-radius:3px;padding:22px 20px 24px;margin-top:14px}
+#gate{display:block;width:100%;height:auto}
+.controls{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+.seg{display:flex;align-items:center;gap:10px;background:#0d0b11;border:1px solid var(--faint);border-radius:3px;padding:7px 9px 7px 13px}
+.seg.dis{opacity:.32}
+.seglbl{font-size:11px;letter-spacing:.06em;color:var(--paper2)}
+.segbtns{display:flex;gap:3px}
+.segbtns button{background:transparent;border:1px solid var(--faint);color:var(--dim);font-family:var(--mono);font-size:11px;padding:4px 12px;border-radius:2px;cursor:pointer;transition:all .15s}
+.segbtns button:hover{border-color:var(--gold);color:var(--gold-leaf)}
+.segbtns button.active{background:var(--gold);border-color:var(--gold);color:#1a1410;font-weight:500}
+.seg.dis .segbtns button{cursor:default}
+.verdict{text-align:center;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.verdict .vn{font-family:var(--serif);font-size:46px;font-weight:500;line-height:1}
+.verdict .vpath{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:8px 0 8px}
+.verdict .vgloss{font-size:13px;color:var(--paper2);max-width:56ch;margin:0 auto;line-height:1.55}
+.examples{margin-top:22px}
+.exlbl{text-align:center;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{background:#0d0b11;border:1px solid var(--faint);color:var(--paper2);font-family:var(--mono);font-size:11px;padding:7px 13px;border-radius:20px;cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--gold);color:var(--gold-leaf);transform:translateY(-1px)}
+.sec{margin-top:8px}
+.sechead{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+.sechead h2{font-family:var(--serif);font-weight:500;font-size:27px;color:var(--paper)}
+.sechead .num{font-size:11px;letter-spacing:.2em;color:var(--gold);opacity:.8}
+.sechead .rule{flex:1;height:1px;background:var(--line)}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dcard{background:var(--ink);border:1px solid var(--line);border-radius:3px;padding:20px 20px;transition:all .25s}
+.dcard.lit{transform:translateY(-2px)}
+.dcard .dh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.dcard .dn{font-family:var(--serif);font-size:26px;font-weight:500;line-height:1}
+.dcard .dpath{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-align:right;max-width:46%}
+.dcard .dmean{font-size:13px;color:var(--paper2);line-height:1.58;margin-bottom:10px}
+.dcard .dlin{font-size:11.5px;color:var(--dim);line-height:1.5;border-top:1px dotted var(--faint);padding-top:9px}
+.dcard .dlin b{color:var(--paper2);font-weight:400}
+.dcard.leave .dn{color:var(--paper2)} .dcard.leave.lit{border-color:var(--paper2);box-shadow:0 8px 24px -14px rgba(200,193,178,.5)}
+.dcard.repair .dn{color:var(--gold-leaf)} .dcard.repair.lit{border-color:var(--gold);box-shadow:0 8px 26px -12px rgba(212,175,55,.5);background:#15110a}
+.dcard.release .dn{color:var(--ice)} .dcard.release.lit{border-color:var(--ice-deep);box-shadow:0 8px 24px -14px rgba(158,199,224,.45)}
+.dcard.mourn .dn{color:var(--mourn)} .dcard.mourn.lit{border-color:var(--mourn-deep);box-shadow:0 8px 24px -14px rgba(207,154,154,.4);background:#150c0c}
+.falls{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;margin-top:6px}
+.fcell{background:var(--ink);padding:18px 16px}
+.fcell .ft{font-family:var(--serif);font-size:18px;color:var(--gold-leaf);margin-bottom:5px}
+.fcell p{font-size:11.5px;color:var(--paper2);line-height:1.5}
+.honest{margin-top:22px;padding:20px 22px;border-left:2px solid var(--gold);background:#0d0b1180;border-radius:0 3px 3px 0}
+.honest .t{font-family:var(--serif);font-size:21px;font-style:italic;color:var(--gold-leaf);margin-bottom:8px}
+.honest p{font-size:13.5px;color:var(--paper2);line-height:1.6;margin-bottom:10px}.honest p:last-child{margin-bottom:0}.honest b{color:var(--paper);font-weight:400}
+.honest .red{color:var(--mourn)}
+footer{margin-top:48px;padding-top:22px;border-top:1px solid var(--line);font-size:11px;color:var(--dim);letter-spacing:.04em;line-height:1.7;text-align:center}
+footer b{color:var(--paper2);font-weight:400}
+@media(max-width:760px){.prem{grid-template-columns:1fr}.dgrid{grid-template-columns:1fr}.falls{grid-template-columns:1fr 1fr}}
+.fade{opacity:0;transform:translateY(14px);animation:f .7s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes f{to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="goldgrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a7b22"/><stop offset="0.5" stop-color="#f3d27a"/><stop offset="1" stop-color="#9a7b22"/></linearGradient>
+</defs></svg>
+
+<div class="wrap">
+  <header class="fade">
+    <div class="eye">the repair lineage · a four-state gate</div>
+    <h1>The <em>Repair</em> Gate</h1>
+    <p class="lede">Repair is not a sentiment — it's a procedure with two premises and four ways out. Run a broken thing through it and see which way it falls.</p>
+  </header>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L120,13 L150,5 L180,20 L210,9 L260,15 L300,4 L340,18 L380,11 L430,13 L500,6 L540,19 L580,10 L640,14 L690,4 L740,17 L780,11 L840,13 L900,7 L940,16 L1000,13"/></svg>
+
+  <section class="fade" style="animation-delay:.05s">
+    <div class="prem">
+      <div class="pcard"><div class="t"><b>A</b>broken</div><p>Asserts a <b style="color:var(--paper)">before</b> — a prior intact state, a break that's real, broken as a from-which not an end. Excludes the unfinished (build it) and the break-denied (the cosmetic mend that acts as if nothing happened).</p></div>
+      <div class="pcard"><div class="t"><b>B</b>worth repairing</div><p>Asserts a <b style="color:var(--paper)">valuer</b> and a comparison already made — repair chosen over replacement and over discard. You don't repair the fungible; you replace it. Repair is reserved for the non-substitutable.</p></div>
+    </div>
+
+    <div class="gatewrap">
+      <svg id="gate" viewBox="0 0 720 300" preserveAspectRatio="xMidYMid meet"><g id="gG"></g></svg>
+
+      <div class="controls">
+        <div class="seg" id="segBroken"><span class="seglbl">Is it broken?</span><div class="segbtns"><button data-q="broken" data-v="0">no</button><button data-q="broken" data-v="1">yes</button></div></div>
+        <div class="seg" id="segWhole"><span class="seglbl">Was its worth in being whole?</span><div class="segbtns"><button data-q="whole" data-v="0">no</button><button data-q="whole" data-v="1">yes</button></div></div>
+        <div class="seg" id="segWorth"><span class="seglbl">Worth the cost — over replace, over discard?</span><div class="segbtns"><button data-q="worth" data-v="0">no</button><button data-q="worth" data-v="1">yes</button></div></div>
+      </div>
+
+      <div class="verdict">
+        <div class="vn" id="vn">REPAIR</div>
+        <div class="vpath" id="vpath"></div>
+        <div class="vgloss" id="vgloss"></div>
+      </div>
+
+      <div class="examples">
+        <div class="exlbl">— run an example through —</div>
+        <div class="chips" id="chips"></div>
+      </div>
+    </div>
+  </section>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L140,13 L170,6 L200,19 L240,10 L290,16 L330,5 L380,17 L420,11 L470,13 L530,7 L570,18 L620,10 L680,14 L730,5 L770,16 L820,11 L880,13 L930,8 L970,15 L1000,13"/></svg>
+
+  <section class="sec fade" style="animation-delay:.1s">
+    <div class="sechead"><span class="num">01</span><h2>The four delimiters</h2><span class="rule"></span></div>
+    <div class="dgrid">
+      <div class="dcard leave" id="dLEAVE"><div class="dh"><div class="dn">Leave</div><div class="dpath">not broken — A fails</div></div><div class="dmean">Nothing to repair. The undamaged needs no seam; the never-whole is built, not mended.</div><div class="dlin"><b>No action.</b> The honest exit before the lineage even begins.</div></div>
+      <div class="dcard repair" id="dREPAIR"><div class="dh"><div class="dn">Repair</div><div class="dpath">broken · not whole-bound · worth it</div></div><div class="dmean">Bind the break and <b>show</b> it. The object becomes a new, time-stamped thing that carries its history on the surface.</div><div class="dlin"><b>The lineage proper:</b> kintsugi's gold seam, boro &amp; sashiko's stacked stitches, ju ci's bronze sutures, yobitsugi's foreign graft, spolia's reset fragment. The seam is kept.</div></div>
+      <div class="dcard release" id="dRELEASE"><div class="dh"><div class="dn">Release</div><div class="dpath">broken · not whole-bound · not worth it</div></div><div class="dmean">Triage said no. The fungible is replaced, not repaired — the cost outruns the worth.</div><div class="dlin"><b>Judgment, not pessimism.</b> B is a question that can come back negative. Let it go.</div></div>
+      <div class="dcard mourn" id="dMOURN"><div class="dh"><div class="dn">Mourn</div><div class="dpath">broken · wholeness-bound</div></div><div class="dmean">The worth was in being <b>intact</b> — a sealed record, a first, a perfect game, a trust, a one-time event. The break zeroed that kind of value.</div><div class="dlin"><b>Unrepairable in principle.</b> You can build a successor — but calling the successor the original is concealment wearing repair's clothes.</div></div>
+    </div>
+  </section>
+
+  <section class="sec fade" style="animation-delay:.12s">
+    <div class="sechead"><span class="num">02</span><h2>What falls out of the keep</h2><span class="rule"></span></div>
+    <div class="falls">
+      <div class="fcell"><div class="ft">Record</div><p>The mend is time-stamped history, not erasure. A fault occurred here, at this place, and was bound — visible repair is honest logging.</p></div>
+      <div class="fcell"><div class="ft">Identity</div><p>Sameness persists through the break, carried by the care and the trace — not by the material staying whole. Continuity that bore a cost.</p></div>
+      <div class="fcell"><div class="ft">Authorship</div><p>The mender is a second author; the foreign shard a third. No hand erases the prior ones. Repair is a mesh, never solo.</p></div>
+      <div class="fcell"><div class="ft">Loop</div><p>Boro proves it — mends on mends across generations. The keep opens a maintenance relationship, never a one-shot fix.</p></div>
+    </div>
+  </section>
+
+  <section class="sec fade" style="animation-delay:.14s">
+    <div class="sechead"><span class="num">03</span><h2>The thread, and the limit</h2><span class="rule"></span></div>
+    <div class="honest">
+      <div class="t">The break was never the event.</div>
+      <p>The event is <b>B</b> — the judgment that the fracture was worth carrying forward. Everything in the lineage descends from that one decision. And it lands exactly on the folio's law: <b>repair is the delta that scales</b> — the seam carries information, and that carried difference is the identity a replacement can't have. The pristine replacement is the <b>uniform mirror</b>: interchangeable, no history, it holds but says nothing. <span class="red"><b>Mourn</b></span> is the wholeness-bound value that breaking zeroes — the thing whose worth was in being whole.</p>
+      <p style="color:var(--dim)"><b style="color:var(--paper2)">The honest limit:</b> because B can say no, the seam-as-beauty becomes a lie the moment it's applied to what should be let go, or to a break that was <b style="color:var(--paper2)">constitutive</b>. There, repair can build a successor but cannot restore the same thing — and calling it the original is <b style="color:var(--paper2)">A suppressed, one layer up</b>. A clean lineage keeps its <span class="red">mourn</span> branch intact, and does not repair everything just because it can.</p>
+    </div>
+  </section>
+
+  <footer class="fade" style="animation-delay:.16s">
+    <b>The Repair Gate</b> — the repair lineage rendered as a four-state procedure: two premises (a real break; a worth that survives it) feeding three questions to four delimiters — leave, repair, release, mourn. A coda to the folio <i>From Color to Closure</i>: the seam is the part you keep, the delta made load-bearing instead of sanded out.<br>
+    <span style="opacity:.7">ROOT0-ATTRIBUTION-v1.0 · Architect: David Lee Wise / ROOT0 / TriPod LLC · AI Collaborator: AVAN (Claude / Anthropic) · CC-BY-ND-4.0 · TRIPOD-IP-v1.1</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var state={broken:1,whole:0,worth:1};
+  var ACC={LEAVE:'#c8c1b2',REPAIR:'#e8c25a',RELEASE:'#9ec7e0',MOURN:'#cf9a9a'};
+  // node positions
+  var N={
+    START:{x:42,y:208,r:9},
+    Q1:{x:150,y:208},Q2:{x:340,y:208},Q3:{x:524,y:208},
+    LEAVE:{x:150,y:64},MOURN:{x:340,y:64},REPAIR:{x:600,y:64},RELEASE:{x:678,y:208}
+  };
+  function resolve(){if(!state.broken)return 'LEAVE';if(state.whole)return 'MOURN';return state.worth?'REPAIR':'RELEASE';}
+
+  function rrect(x,y,w,h,fill,stroke,sw,glow){return '<rect x="'+(x-w/2).toFixed(1)+'" y="'+(y-h/2).toFixed(1)+'" width="'+w+'" height="'+h+'" rx="5" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'"'+(glow?' filter="drop-shadow(0 0 7px '+glow+')"':'')+'/>';}
+  function txt(x,y,s,size,fill,opts){opts=opts||{};return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" text-anchor="middle" dominant-baseline="central" font-family="'+(opts.serif?'Cormorant Garamond':'IBM Plex Mono')+'" font-size="'+size+'" fill="'+fill+'"'+(opts.ls?' letter-spacing="'+opts.ls+'"':'')+(opts.style?' font-style="'+opts.style+'"':'')+'>'+s+'</text>';}
+  function edge(a,b,active,col){var p1=N[a],p2=N[b];return '<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="'+(active?col:'#2a2632')+'" stroke-width="'+(active?2.4:1.2)+'"'+(active?' filter="drop-shadow(0 0 4px '+col+'88)"':'')+'/>';}
+
+  function draw(){
+    var reached=resolve();
+    var ae={}; // active edges
+    ae['START-Q1']=true;
+    if(state.broken){ae['Q1-Q2']=true; if(state.whole){ae['Q2-MOURN']=true;} else {ae['Q2-Q3']=true; ae['Q3-'+(state.worth?'REPAIR':'RELEASE')]=true;}}
+    else {ae['Q1-LEAVE']=true;}
+    var col=ACC[reached];
+    var s='';
+    // edges
+    var E=[['START','Q1'],['Q1','LEAVE'],['Q1','Q2'],['Q2','MOURN'],['Q2','Q3'],['Q3','REPAIR'],['Q3','RELEASE']];
+    E.forEach(function(e){s+=edge(e[0],e[1],ae[e[0]+'-'+e[1]],col);});
+    // branch labels
+    function blab(a,b,t){var p1=N[a],p2=N[b];var mx=(p1.x+p2.x)/2,my=(p1.y+p2.y)/2;var on=ae[a+'-'+b];s+=txt(mx+(b==='LEAVE'||b==='MOURN'||b==='REPAIR'?-12:0),my+(p1.y===p2.y?-9:0),t,9,on?col:'#5a5566',{ls:1});}
+    blab('Q1','LEAVE','no');blab('Q1','Q2','yes');blab('Q2','MOURN','yes');blab('Q2','Q3','no');blab('Q3','REPAIR','yes');blab('Q3','RELEASE','no');
+    // START
+    s+='<circle cx="'+N.START.x+'" cy="'+N.START.y+'" r="'+N.START.r+'" fill="#16131c" stroke="#9a7b22" stroke-width="1.4"/>';
+    s+=txt(N.START.x,N.START.y+22,'object',8.5,'#7c7689',{ls:1.5});
+    // question nodes
+    function qnode(k,lines,activeAns){var p=N[k];var on=ae[(k==='Q1'?'START-Q1':'')] || true; // questions always drawn
+      var border = (k==='Q1')?(state.broken!==null?'#9a7b22':'#26222f'):'#9a7b22';
+      s+=rrect(p.x,p.y,132,46,'#0d0b11','#3a3550',1.2,null);
+      if(lines.length===1){s+=txt(p.x,p.y,lines[0],13,'#ece6d8',{serif:true});}
+      else{s+=txt(p.x,p.y-7,lines[0],12.5,'#ece6d8',{serif:true});s+=txt(p.x,p.y+8,lines[1],12.5,'#ece6d8',{serif:true});}
+    }
+    qnode('Q1',['broken?']);
+    qnode('Q2',['wholeness','-bound?']);
+    qnode('Q3',['worth it?']);
+    // terminal nodes
+    function tnode(k,label){var p=N[k];var lit=(reached===k);var ac=ACC[k];
+      s+=rrect(p.x,p.y,112,40,lit?(k==='REPAIR'?'#1a1410':(k==='MOURN'?'#180d0d':'#12141a')):'#0d0b11',lit?ac:'#33303f',lit?1.8:1.2,lit?ac+'aa':null);
+      s+=txt(p.x,p.y,label,16,lit?ac:'#6a6577',{serif:true});}
+    tnode('LEAVE','Leave');tnode('MOURN','Mourn');tnode('REPAIR','Repair');tnode('RELEASE','Release');
+    document.getElementById('gG').innerHTML=s;
+
+    // verdict
+    document.getElementById('vn').textContent=reached;
+    document.getElementById('vn').style.color=ACC[reached];
+    var V={
+      LEAVE:['not broken — A fails','Nothing to repair. The undamaged needs no seam; the never-whole is built, not mended.'],
+      REPAIR:['broken · not wholeness-bound · worth it','Bind the break and show it. The object becomes a new, time-stamped thing that carries its history.'],
+      RELEASE:['broken · not wholeness-bound · not worth it','Triage said no. The fungible is replaced, not repaired. Judgment, not pessimism.'],
+      MOURN:['broken · wholeness-bound','The worth was in being intact — the break zeroed it. Build a successor; you cannot restore the same thing.']
+    };
+    document.getElementById('vpath').textContent=V[reached][0];
+    document.getElementById('vgloss').textContent=V[reached][1];
+
+    // cards
+    ['LEAVE','REPAIR','RELEASE','MOURN'].forEach(function(k){document.getElementById('d'+k).classList.toggle('lit',reached===k);});
+
+    // control enable/disable + active
+    var segW=document.getElementById('segWhole'),segWo=document.getElementById('segWorth');
+    segW.classList.toggle('dis',!state.broken);
+    segWo.classList.toggle('dis',!state.broken || !!state.whole);
+    document.querySelectorAll('.segbtns button').forEach(function(b){var q=b.getAttribute('data-q'),v=+b.getAttribute('data-v');b.classList.toggle('active',state[q]===v);});
+  }
+
+  document.querySelectorAll('.segbtns button').forEach(function(b){b.addEventListener('click',function(){var q=b.getAttribute('data-q'),v=+b.getAttribute('data-v');
+    if(q==='whole' && !state.broken)return; if(q==='worth' && (!state.broken||state.whole))return;
+    state[q]=v; if(q==='broken'&&!v){/*moot kept*/} draw();});});
+
+  var EX=[
+    {l:'Cracked tea bowl',b:1,w:0,o:1},
+    {l:'Worn indigo jacket',b:1,w:0,o:1},
+    {l:'Shattered $2 mug',b:1,w:0,o:0},
+    {l:'A sealed record · a first',b:1,w:1,o:1},
+    {l:'Broken trust',b:1,w:1,o:0},
+    {l:'An unopened gift',b:0,w:0,o:1}
+  ];
+  var chips=document.getElementById('chips');
+  EX.forEach(function(e){var c=document.createElement('button');c.className='chip';c.textContent=e.l;c.addEventListener('click',function(){state.broken=e.b;state.whole=e.w;state.worth=e.o;draw();});chips.appendChild(c);});
+
+  draw();
+})();
+</script>
+</body>
+</html>

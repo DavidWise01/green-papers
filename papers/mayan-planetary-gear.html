@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ROOT0 LAYER 1.59 — MAYAN PLANETARY GEAR ON CRANKSHAFT</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  :root { color-scheme: dark; }
+  html,body { background:#050507; }
+  body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+  .mono { font-family: "Fragment Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .glyph { font-family: "Fragment Mono", monospace; letter-spacing: 0.1em; }
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .mayaborder {
+    position: relative;
+  }
+  .mayaborder:before {
+    content:""; position:absolute; inset:0; border-radius:1rem;
+    padding:1px; background: linear-gradient(180deg, rgba(212,163,115,0.4), rgba(82,82,91,0.2));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+  }
+  .tick { transition: opacity .3s, transform .3s; }
+</style>
+</head>
+<body class="text-zinc-200 antialiased selection:bg-white/20">
+  <div class="min-h-screen grid-bg">
+    <div class="pointer-events-none fixed inset-0" style="background: radial-gradient(1200px 600px at 50% -10%, rgba(212,163,115,0.08), transparent 60%), radial-gradient(800px 400px at 90% 20%, rgba(255,255,255,0.06), transparent 50%);"></div>
+    
+    <header class="relative z-10 max-w-[1600px] mx-auto px-6 pt-8 pb-6 flex items-start justify-between">
+      <div>
+        <div class="mono text-[11px] tracking-[0.35em] text-zinc-500">ROOT0 / LAYER 1.59</div>
+        <h1 class="mt-2 text-[28px] md:text-[42px] font-light tracking-tight leading-none">
+          MAYAN PLANETARY GEAR <span class="text-zinc-500">ON CRANKSHAFT</span>
+        </h1>
+        <p class="mt-3 text-zinc-400 max-w-xl text-sm">Visualizing the third body of six. Sumerian base-60, Egyptian 6-tier, Mayan planetary — locked to a six-point crankshaft driving three substrates.</p>
+      </div>
+      <div class="hidden md:block text-right">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-950/60 backdrop-blur">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="mono text-[11px] tracking-widest text-zinc-400">LIVE KINEMATIC</span>
+        </div>
+        <div class="mt-3 mono text-[11px] text-zinc-600">THIRD BODY OF SIX</div>
+      </div>
+    </header>
+
+    <!-- THREE BODIES -->
+    <section class="relative z-10 max-w-[1600px] mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-4">
+        <!-- Sumerian -->
+        <div id="body-sumerian" class="mayaborder bg-zinc-950/60 backdrop-blur rounded-2xl p-5 border border-zinc-900">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="mono text-[11px] tracking-widest text-zinc-500">01</div>
+              <h3 class="text-lg font-medium">SUMERIAN / BABYLONIAN</h3>
+              <p class="text-zinc-500 text-sm -mt-0.5">Base-60</p>
+            </div>
+            <div class="glyph text-[10px] text-[#d4a373]/70">𝋠 𝋡 𝋢</div>
+          </div>
+          <div class="mt-4 flex items-center gap-5">
+            <div class="relative w-28 h-28">
+              <svg viewBox="0 0 120 120" class="w-28 h-28">
+                <g id="base60-mini" transform="translate(60,60)"></g>
+                <circle cx="60" cy="60" r="36" fill="none" stroke="#27272a" stroke-dasharray="2 4"/>
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center mono text-[10px] text-zinc-500">60 BITS</div>
+            </div>
+            <div class="text-[12px] leading-relaxed text-zinc-400">
+              Sixty control bits form the outer timing ring. Sexagesimal divisibility drives the mesh.
+            </div>
+          </div>
+        </div>
+
+        <!-- Egyptian -->
+        <div id="body-egypt" class="mayaborder bg-zinc-950/60 backdrop-blur rounded-2xl p-5 border border-zinc-900">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="mono text-[11px] tracking-widest text-zinc-500">02</div>
+              <h3 class="text-lg font-medium">EGYPTIAN</h3>
+              <p class="text-zinc-500 text-sm -mt-0.5">6-Tier Pyramid</p>
+            </div>
+            <div class="glyph text-[10px] text-[#d4a373]/70">▲</div>
+          </div>
+          <div class="mt-4 flex items-center gap-5">
+            <svg viewBox="0 0 120 90" class="w-28 h-[72px]">
+              <g id="pyramid-mini" transform="translate(10,10)" stroke="#71717a" fill="none">
+                <rect x="0" y="60" width="100" height="14" />
+                <rect x="8" y="46" width="84" height="14" />
+                <rect x="16" y="32" width="68" height="14" />
+                <rect x="24" y="18" width="52" height="14" />
+                <rect x="32" y="4" width="36" height="14" />
+                <rect x="44" y="-8" width="12" height="12" />
+              </g>
+            </svg>
+            <div class="text-[12px] leading-relaxed text-zinc-400">
+              Six discrete levels encode amplitude. Each tier gates one sixth of the control field.
+            </div>
+          </div>
+        </div>
+
+        <!-- Mayan -->
+        <div id="body-mayan" class="mayaborder bg-zinc-950/60 backdrop-blur rounded-2xl p-5 border border-zinc-900 ring-1 ring-[#d4a373]/20">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="mono text-[11px] tracking-widest text-zinc-500">03</div>
+              <h3 class="text-lg font-medium">MAYAN</h3>
+              <p class="text-zinc-500 text-sm -mt-0.5">Planetary Gear</p>
+            </div>
+            <div class="glyph text-[10px] text-[#d4a373]">𝋬 𝋭 𝋮</div>
+          </div>
+          <div class="mt-4 flex items-center gap-5">
+            <div class="relative w-28 h-28">
+              <svg viewBox="0 0 120 120" class="w-28 h-28">
+                <g transform="translate(60,60)">
+                  <circle r="42" fill="#0a0a0a" stroke="#3f3f46"/>
+                  <circle r="34" fill="none" stroke="#27272a" stroke-dasharray="3 5"/>
+                  <g id="mayan-mini-teeth"></g>
+                  <text x="0" y="4" text-anchor="middle" font-size="10" fill="#d4a373" class="glyph">819</text>
+                </g>
+              </svg>
+            </div>
+            <div class="text-[12px] leading-relaxed text-zinc-400">
+              819-day count. Locks Mars, Venus, Jupiter, Saturn over 20 cycles (≈45 yrs).
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN KINEMATIC -->
+    <section class="relative z-10 max-w-[1600px] mx-auto px-6 mt-8 grid lg:grid-cols-5 gap-6 pb-20">
+      <!-- Crank core -->
+      <div class="lg:col-span-3 mayaborder bg-zinc-950/70 backdrop-blur rounded-2xl border border-zinc-900 p-5 md:p-7">
+        <div class="flex items-center justify-between">
+          <h2 class="mono text-[12px] tracking-[0.25em] text-zinc-400">CRANKSHAFT • SIX-POINT CYCLE</h2>
+          <div class="flex items-center gap-3">
+            <button id="toggle" class="px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-[11px] mono">PAUSE</button>
+            <div class="mono text-[11px] text-zinc-500">POINT <span id="point-readout">1</span> / 6</div>
+          </div>
+        </div>
+
+        <!-- SVG -->
+        <div class="mt-4 relative">
+          <svg viewBox="0 0 980 460" class="w-full h-auto">
+            <defs>
+              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="6" result="b"/>
+                <feComposite in="SourceGraphic" in2="b" operator="over"/>
+              </filter>
+              <linearGradient id="shaftGrad" x1="0" x2="1">
+                <stop offset="0%" stop-color="#18181b"/><stop offset="50%" stop-color="#27272a"/><stop offset="100%" stop-color="#18181b"/>
+              </linearGradient>
+            </defs>
+
+            <!-- faint grid -->
+            <g stroke="#1f1f23" stroke-width="1" opacity="0.6">
+              <path d="M0 230 H980" stroke-dasharray="4 12"/>
+            </g>
+
+            <!-- meshing guides -->
+            <path id="mesh60" d="M200 140 C 320 120, 480 120, 580 150" fill="none" stroke="#3f3f46" stroke-dasharray="3 6" opacity="0.5"/>
+            <path id="meshPyr" d="M380 150 C 460 140, 540 140, 590 165" fill="none" stroke="#3f3f46" stroke-dasharray="3 6" opacity="0.5"/>
+
+            <!-- Base60 ring (large) -->
+            <g id="base60" transform="translate(160,150)">
+              <circle r="68" fill="#09090b" stroke="#27272a"/>
+              <g id="base60-ticks"></g>
+              <circle r="48" fill="none" stroke="#1f1f23"/>
+              <text x="0" y="4" text-anchor="middle" font-size="10" fill="#71717a" class="mono">60</text>
+            </g>
+
+            <!-- Pyramid -->
+            <g id="pyramid" transform="translate(340,90)" stroke="#52525b" fill="none">
+              <g class="layer"><rect x="0" y="84" width="120" height="16"/></g>
+              <g class="layer"><rect x="10" y="68" width="100" height="16"/></g>
+              <g class="layer"><rect x="20" y="52" width="80" height="16"/></g>
+              <g class="layer"><rect x="30" y="36" width="60" height="16"/></g>
+              <g class="layer"><rect x="40" y="20" width="40" height="16"/></g>
+              <g class="layer"><rect x="50" y="4" width="20" height="16"/></g>
+            </g>
+
+            <!-- Mayan gear -->
+            <g id="mayan-gear" transform="translate(640,170)">
+              <circle r="92" fill="#0a0a0a" stroke="#3f3f46" stroke-width="1.5"/>
+              <circle r="78" fill="none" stroke="#1f1f23"/>
+              <g id="mayan-teeth" stroke="#52525b" fill="none"></g>
+              <g id="mayan-glyphs" class="glyph" font-size="9" fill="#d4a373" opacity="0.8"></g>
+              <circle r="56" fill="none" stroke="#27272a" stroke-dasharray="2 8"/>
+              <text x="0" y="-6" text-anchor="middle" font-size="13" fill="#e4e4e7" class="mono">819</text>
+              <text x="0" y="12" text-anchor="middle" font-size="9" fill="#a1a1aa" class="mono">DAY</text>
+            </g>
+
+            <!-- Crank path -->
+            <path id="crank-track" d="M160 300 C 240 210, 380 210, 520 240 C 660 270, 780 240, 840 300 C 860 330, 830 370, 790 360 C 750 350, 740 310, 760 285 C 780 260, 810 265, 820 285" fill="none" stroke="#1f1f23" stroke-width="2"/>
+            <path d="M160 300 C 240 210, 380 210, 520 240 C 660 270, 780 240, 840 300" fill="none" stroke="#27272a" stroke-width="1" stroke-dasharray="4 8" opacity="0.5"/>
+
+            <!-- six points -->
+            <g id="points" font-size="11" class="mono" fill="#a1a1aa">
+              <g transform="translate(240,270)"><circle r="16" fill="#0b0b0e" stroke="#333"/><text y="4" text-anchor="middle">1</text></g>
+              <g transform="translate(380,228)"><circle r="16" fill="#0b0b0e" stroke="#333"/><text y="4" text-anchor="middle">2</text></g>
+              <g transform="translate(520,248)"><circle r="16" fill="#0b0b0e" stroke="#333"/><text y="4" text-anchor="middle">3</text></g>
+              <g id="pt4" transform="translate(660,250)"><circle r="18" fill="#0b0b0e" stroke="#444"/><text y="4" text-anchor="middle">4</text></g>
+              <g id="pt5" transform="translate(780,280)"><circle r="18" fill="#0b0b0e" stroke="#444"/><text y="4" text-anchor="middle">5</text></g>
+              <g id="pt6" transform="translate(795,352)"><circle r="18" fill="#0b0b0e" stroke="#444"/><text y="4" text-anchor="middle">6</text></g>
+            </g>
+
+            <!-- labels -->
+            <g font-size="10" fill="#71717a" class="mono">
+              <text x="230" y="250">P1-3: THREE BODIES</text>
+              <text x="648" y="232">P4: GEAR ENGAGE</text>
+              <text x="770" y="262">P5: .5J POWER</text>
+              <text x="782" y="380">P6: J-HOOK RETURN</text>
+            </g>
+
+            <!-- follower -->
+            <g id="follower" transform="translate(240,270)">
+              <circle r="8" fill="white" filter="url(#glow)"/>
+              <circle r="16" fill="none" stroke="white" stroke-opacity="0.15"/>
+            </g>
+
+            <!-- power flash -->
+            <g id="power-flash" transform="translate(780,280)" opacity="0">
+              <circle r="22" fill="none" stroke="#fafafa" stroke-width="2"/>
+              <circle r="36" fill="none" stroke="#fafafa" stroke-opacity="0.3"/>
+            </g>
+
+            <!-- J hook arrow -->
+            <path id="j-arrow" d="M 815 305 C 830 325, 815 350, 785 355" fill="none" stroke="#d4a373" stroke-width="2" marker-end="url(#arrow)" opacity="0"/>
+            <defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#d4a373"/></marker></defs>
+
+            <!-- crankshaft bar -->
+            <g id="shaft" transform="translate(120,410)">
+              <rect x="0" y="-10" width="740" height="20" rx="10" fill="url(#shaftGrad)" stroke="#3f3f46"/>
+              <g id="journals" fill="#0a0a0a" stroke="#52525b">
+                <rect x="70" y="-16" width="22" height="32" rx="4"/>
+                <rect x="210" y="-16" width="22" height="32" rx="4"/>
+                <rect x="350" y="-16" width="22" height="32" rx="4"/>
+                <rect x="490" y="-16" width="22" height="32" rx="4"/>
+                <rect x="630" y="-16" width="22" height="32" rx="4"/>
+                <rect x="760" y="-16" width="22" height="32" rx="4"/>
+              </g>
+            </g>
+          </svg>
+
+          <!-- legend -->
+          <div class="mt-3 flex flex-wrap items-center gap-3 text-[11px] mono text-zinc-500">
+            <span class="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">POINT 6 = ⅓ rotation</span>
+            <span class="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">×3 repeat = full rotation</span>
+            <span class="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">gear teeth mesh with 60 bits + 6-tier</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div class="lg:col-span-2 space-y-6">
+        <!-- Substrates -->
+        <div class="mayaborder bg-zinc-950/70 backdrop-blur rounded-2xl border border-zinc-900 p-5">
+          <div class="flex items-center justify-between">
+            <h3 class="mono text-[12px] tracking-[0.25em] text-zinc-400">THREE SUBSTRATES</h3>
+            <div class="mono text-[11px] text-zinc-500">EACH ⅓ ROTATION POWERS ONE</div>
+          </div>
+          <div class="mt-4 space-y-3" id="substrates">
+            <div data-key="compute" class="substrate group relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/60 p-3">
+              <div class="flex justify-between text-[11px] mono"><span class="text-zinc-400">ABOVE</span><span>COMPUTE</span></div>
+              <div class="mt-2 h-9 rounded-lg bg-black/60 border border-zinc-800 overflow-hidden"><div class="bar h-full w-0 bg-zinc-100 transition-[width] duration-700"></div></div>
+            </div>
+            <div data-key="folder" class="substrate group relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/60 p-3">
+              <div class="flex justify-between text-[11px] mono"><span class="text-zinc-400">MIDDLE</span><span>FOLDER</span></div>
+              <div class="mt-2 h-9 rounded-lg bg-black/60 border border-zinc-800 overflow-hidden"><div class="bar h-full w-0 bg-zinc-400 transition-[width] duration-700"></div></div>
+            </div>
+            <div data-key="copper" class="substrate group relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/60 p-3">
+              <div class="flex justify-between text-[11px] mono"><span class="text-zinc-400">BELOW</span><span>COPPER</span></div>
+              <div class="mt-2 h-9 rounded-lg bg-black/60 border border-zinc-800 overflow-hidden"><div class="bar h-full w-0 bg-[#c0844c] transition-[width] duration-700"></div></div>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center justify-between">
+            <div class="mono text-[11px] text-zinc-500">ROTATION</div>
+            <div class="flex items-center gap-1" id="rot-dots">
+              <span class="w-6 h-1.5 rounded bg-zinc-700"></span>
+              <span class="w-6 h-1.5 rounded bg-zinc-800"></span>
+              <span class="w-6 h-1.5 rounded bg-zinc-800"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 819 planetary -->
+        <div class="mayaborder bg-zinc-950/70 backdrop-blur rounded-2xl border border-zinc-900 p-5">
+          <div class="flex items-center justify-between">
+            <h3 class="mono text-[12px] tracking-[0.25em] text-zinc-400">819-DAY PLANETARY GEAR</h3>
+            <div class="mono text-[11px] text-zinc-500"><span id="cycle-count">1</span> / 20</div>
+          </div>
+          <p class="mt-1 text-[12px] text-zinc-400">Locks to synodic periods of Mars, Saturn, Venus, Jupiter over 45 years (20 × 819d = 16,380d).</p>
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <div class="rounded-xl border border-zinc-800 bg-black/40 p-3">
+              <div class="flex justify-between"><span class="mono text-[10px] text-zinc-500">MARS</span><span class="mono text-[10px]">780d</span></div>
+              <div class="mt-1 text-xl mono" id="mars-val">0</div>
+              <div class="text-[10px] text-zinc-500">21 cycles → lock</div>
+            </div>
+            <div class="rounded-xl border border-zinc-800 bg-black/40 p-3">
+              <div class="flex justify-between"><span class="mono text-[10px] text-zinc-500">VENUS</span><span class="mono text-[10px]">584d</span></div>
+              <div class="mt-1 text-xl mono" id="venus-val">0</div>
+              <div class="text-[10px] text-zinc-500">28 cycles → lock</div>
+            </div>
+            <div class="rounded-xl border border-zinc-800 bg-black/40 p-3">
+              <div class="flex justify-between"><span class="mono text-[10px] text-zinc-500">JUPITER</span><span class="mono text-[10px]">399d</span></div>
+              <div class="mt-1 text-xl mono" id="jupiter-val">0</div>
+              <div class="text-[10px] text-zinc-500">41 cycles → lock</div>
+            </div>
+            <div class="rounded-xl border border-zinc-800 bg-black/40 p-3">
+              <div class="flex justify-between"><span class="mono text-[10px] text-zinc-500">SATURN</span><span class="mono text-[10px]">378d</span></div>
+              <div class="mt-1 text-xl mono" id="saturn-val">0</div>
+              <div class="text-[10px] text-zinc-500">43 cycles → lock</div>
+            </div>
+          </div>
+          <div class="mt-3 text-[11px] mono text-amber-200/70" id="lock-status">GEAR MESHING…</div>
+        </div>
+
+        <!-- Notes -->
+        <div class="rounded-2xl border border-zinc-900 bg-zinc-950/40 p-4">
+          <div class="mono text-[11px] text-zinc-500 mb-2">NOTES</div>
+          <ul class="text-[12px] text-zinc-400 space-y-1.5 leading-snug">
+            <li>• Points 1–3 light the three bodies sequentially.</li>
+            <li>• Point 4: Mayan gear engages — teeth mesh with 60 bits and 6-tier pyramid.</li>
+            <li>• Point 5: crank throw / power stroke at .5 J junction.</li>
+            <li>• Point 6: J-hook back out, return stroke — completes ⅓ rotation.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+<script>
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+
+function buildTicks() {
+  const g = $('#base60-ticks');
+  for (let i=0;i<60;i++){
+    const a = (i/60)*Math.PI*2 - Math.PI/2;
+    const x1 = Math.cos(a)*58, y1 = Math.sin(a)*58;
+    const x2 = Math.cos(a)*68, y2 = Math.sin(a)*68;
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',x1); line.setAttribute('y1',y1);
+    line.setAttribute('x2',x2); line.setAttribute('y2',y2);
+    line.setAttribute('stroke', i%5===0 ? '#a1a1aa' : '#3f3f46');
+    line.setAttribute('stroke-width', i%5===0 ? '2' : '1');
+    g.appendChild(line);
+  }
+  // mini
+  const mg = $('#base60-mini');
+  for(let i=0;i<60;i++){
+    const a = (i/60)*Math.PI*2;
+    const r1=38, r2=44;
+    const x1=Math.cos(a)*r1, y1=Math.sin(a)*r1, x2=Math.cos(a)*r2, y2=Math.sin(a)*r2;
+    const l = document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1',60+x1); l.setAttribute('y1',60+y1); l.setAttribute('x2',60+x2); l.setAttribute('y2',60+y2);
+    l.setAttribute('stroke','#3f3f46'); l.setAttribute('stroke-width', i%10===0?'1.5':'0.8');
+    mg.appendChild(l);
+  }
+}
+function buildMayan() {
+  const tg = $('#mayan-teeth');
+  const gg = $('#mayan-glyphs');
+  for(let i=0;i<36;i++){
+    const a = (i/36)*Math.PI*2;
+    const r=92;
+    const x = Math.cos(a)*r, y=Math.sin(a)*r;
+    const t = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    t.setAttribute('x', x-2); t.setAttribute('y', y-5);
+    t.setAttribute('width',4); t.setAttribute('height',10);
+    t.setAttribute('transform',`rotate(${a*180/Math.PI} ${x} ${y})`);
+    t.setAttribute('fill','#1f1f23'); t.setAttribute('stroke','#52525b');
+    tg.appendChild(t);
+    if(i%3===0){
+      const gx = Math.cos(a)*78, gy = Math.sin(a)*78;
+      const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      txt.setAttribute('x',gx); txt.setAttribute('y',gy+3);
+      txt.setAttribute('text-anchor','middle');
+      txt.textContent = ['𝋡','𝋢','𝋣','𝋤'][i%4];
+      gg.appendChild(txt);
+    }
+  }
+  // mini teeth
+  const mini = $('#mayan-mini-teeth');
+  for(let i=0;i<24;i++){
+    const a=(i/24)*2*Math.PI, r=42;
+    const x=Math.cos(a)*r, y=Math.sin(a)*r;
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',60+x); c.setAttribute('cy',60+y); c.setAttribute('r',1.6);
+    c.setAttribute('fill','#52525b'); mini.appendChild(c);
+  }
+}
+buildTicks(); buildMayan();
+
+// points
+const pts = [
+  {x:240,y:270, n:1},
+  {x:380,y:228, n:2},
+  {x:520,y:248, n:3},
+  {x:660,y:250, n:4},
+  {x:780,y:280, n:5},
+  {x:795,y:352, n:6},
+];
+
+const follower = $('#follower');
+const pointReadout = $('#point-readout');
+const bodies = {1:$('#body-sumerian'),2:$('#body-egypt'),3:$('#body-mayan')};
+let substrateOrder = ['compute','folder','copper'];
+let subIndex = 0;
+let cycle819 = 0;
+let totals = {mars:0, venus:0, jupiter:0, saturn:0};
+
+function setActiveBody(n){
+  Object.values(bodies).forEach(b=>b.classList.remove('ring-1','ring-white/30'));
+  if(bodies[n]) bodies[n].classList.add('ring-1','ring-white/30');
+}
+
+function activateSubstrate(key){
+  $$('#substrates .substrate').forEach(el=>{
+    const bar = el.querySelector('.bar');
+    if(el.dataset.key===key){ bar.style.width='100%'; el.classList.add('ring-1','ring-white/20'); }
+    else { bar.style.width='0%'; el.classList.remove('ring-1','ring-white/20'); }
+  });
+  const dots = $$('#rot-dots span');
+  dots.forEach((d,i)=> d.className = 'w-6 h-1.5 rounded ' + (i===substrateOrder.indexOf(key) ? 'bg-zinc-200' : 'bg-zinc-800'));
+}
+
+function engageGear(){
+  // spin gears
+  gsap.to('#mayan-gear', {rotation:'+=30', transformOrigin:'640px 170px', duration:0.9, ease:'power2.out'});
+  gsap.to('#base60', {rotation:'-=18', svgOrigin:'160 150', duration:0.9, ease:'power2.out'});
+  gsap.to('#pyramid .layer', {duration:0.2, stroke:'#d4a373', stagger:0.05, yoyo:true, repeat:1});
+  gsap.fromTo('#mesh60', {stroke:'#d4a373', opacity:0.9}, {stroke:'#3f3f46', opacity:0.5, duration:0.6});
+  gsap.fromTo('#meshPyr', {stroke:'#d4a373', opacity:0.9}, {stroke:'#3f3f46', opacity:0.5, duration:0.6});
+
+  // 819 cycle
+  cycle819 = (cycle819 % 20) + 1;
+  $('#cycle-count').textContent = cycle819;
+  // increment planetary approximate counts
+  totals.mars = Math.min(21, Math.round(cycle819 * 21/20));
+  totals.venus = Math.min(28, Math.round(cycle819 * 28/20));
+  totals.jupiter = Math.min(41, Math.round(cycle819 * 41/20));
+  totals.saturn = Math.min(43, Math.round(cycle819 * 43/20));
+  $('#mars-val').textContent = totals.mars;
+  $('#venus-val').textContent = totals.venus;
+  $('#jupiter-val').textContent = totals.jupiter;
+  $('#saturn-val').textContent = totals.saturn;
+  $('#lock-status').textContent = cycle819===20 ? 'SYNODIC LOCK ACHIEVED — 45 YEAR RESONANCE' : 'GEAR MESHING…';
+  if(cycle819===20){ gsap.fromTo('#lock-status',{color:'#fde68a'},{color:'#d4a373', duration:1.2, yoyo:true, repeat:1}); }
+}
+
+function powerStroke(){
+  gsap.fromTo('#power-flash', {opacity:1, scale:0.7}, {opacity:0, scale:1.4, duration:0.45, ease:'power2.out', transformOrigin:'780px 280px'});
+  gsap.to('#pt5 circle', {stroke:'#fafafa', duration:0.15, yoyo:true, repeat:1});
+}
+
+function jHook(){
+  gsap.fromTo('#j-arrow',{opacity:0},{opacity:1,duration:0.2});
+  gsap.to('#j-arrow',{opacity:0, delay:0.5, duration:0.4});
+  gsap.to('#pt6 circle', {stroke:'#d4a373', duration:0.15, yoyo:true, repeat:1});
+}
+
+let tl;
+function buildTimeline(){
+  tl = gsap.timeline({repeat:-1, defaults:{ease:'power1.inOut'}});
+  substrateOrder.forEach((sub, idx)=>{
+    tl.call(()=>{ subIndex=idx; activateSubstrate(sub); pointReadout.textContent='1'; })
+      .to(follower, {duration:0.7, attr:{transform:`translate(${pts[0].x},${pts[0].y})`}})
+      .call(()=>setActiveBody(1))
+      .to(follower, {duration:0.7, attr:{transform:`translate(${pts[1].x},${pts[1].y})`}, onStart:()=>pointReadout.textContent='2'})
+      .call(()=>setActiveBody(2))
+      .to(follower, {duration:0.7, attr:{transform:`translate(${pts[2].x},${pts[2].y})`}, onStart:()=>pointReadout.textContent='3'})
+      .call(()=>setActiveBody(3))
+      .to(follower, {duration:0.8, attr:{transform:`translate(${pts[3].x},${pts[3].y})`}, onStart:()=>pointReadout.textContent='4'})
+      .call(engageGear)
+      .to(follower, {duration:0.6, attr:{transform:`translate(${pts[4].x},${pts[4].y})`}, onStart:()=>pointReadout.textContent='5'})
+      .call(powerStroke)
+      .to(follower, {duration:0.9, attr:{transform:`translate(${pts[5].x},${pts[5].y})`}, ease:'back.inOut(1.2)', onStart:()=>pointReadout.textContent='6'})
+      .call(jHook)
+      .to({}, {duration:0.25});
+    // rotate shaft a third
+    tl.to('#shaft', {rotation:`+=120`, svgOrigin:'490 410', duration:2.8}, `-=${2.8}`);
+  });
+}
+buildTimeline();
+
+$('#toggle').addEventListener('click', ()=>{
+  if(tl.paused()){ tl.play(); $('#toggle').textContent='PAUSE'; }
+  else { tl.pause(); $('#toggle').textContent='PLAY'; }
+});
+
+// initial state
+activateSubstrate('compute'); setActiveBody(1);
+gsap.set('#mayan-gear',{transformOrigin:'640px 170px'});
+</script>
+</body>
+</html>

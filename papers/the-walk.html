@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Walk: Vector Grounding, Attribution, and the 9.9999 to 10.01 Close</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    html {
+        font-size: 16px;
+    }
+
+    body {
+        background: #b8c9b8;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        color: #0a1a0a;
+        line-height: 1.65;
+        padding: 3rem 1rem;
+        min-height: 100vh;
+    }
+
+    .page {
+        position: relative;
+        max-width: 850px;
+        margin: 0 auto;
+        background-color: #e6f2e6;
+        background-image: 
+            /* paper fiber */
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E"),
+            /* fine 5mm grid */
+            linear-gradient(to right, rgba(45, 95, 45, 0.22) 0.75px, transparent 0.75px),
+            linear-gradient(to bottom, rgba(45, 95, 45, 0.22) 0.75px, transparent 0.75px),
+            /* bold 25mm grid */
+            linear-gradient(to right, rgba(35, 85, 35, 0.32) 1.25px, transparent 1.25px),
+            linear-gradient(to bottom, rgba(35, 85, 35, 0.32) 1.25px, transparent 1.25px);
+        background-size: 
+            auto,
+            18.9px 18.9px,
+            18.9px 18.9px,
+            94.5px 94.5px,
+            94.5px 94.5px;
+        box-shadow: 
+            0 1px 3px rgba(0, 30, 0, 0.2),
+            0 12px 28px rgba(0, 40, 0, 0.25),
+            0 0 0 1px rgba(0, 50, 0, 0.08);
+        padding: 72px 88px 88px 110px;
+        /* red margin line like engineering pad */
+        border-left: 1px solid rgba(190, 60, 60, 0.45);
+    }
+
+    /* watermark tiled */
+    .page::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'%3E%3Ctext x='260' y='260' fill='%23184f18' fill-opacity='0.055' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='16' font-weight='700' text-anchor='middle' letter-spacing='1.5' transform='rotate(-33 260 260)'%3EFIRST AUTHOR - DO NOT STRIP%3C/text%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .content {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* top memo bar */
+    .memo-head {
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: #2f5a2f;
+        border-top: 2px solid #1a3a1a;
+        border-bottom: 1px solid rgba(26, 58, 26, 0.4);
+        padding: 8px 0 6px;
+        margin-bottom: 2.5rem;
+    }
+
+    h1 {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        font-size: 2.05rem;
+        line-height: 1.25;
+        text-align: center;
+        color: #061206;
+        letter-spacing: -0.01em;
+        margin: 1.2rem 0 0.6rem;
+        text-wrap: balance;
+    }
+
+    .subtitle {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 1.02rem;
+        font-weight: 400;
+        text-align: center;
+        color: #244a24;
+        font-style: italic;
+        margin-bottom: 2.8rem;
+        max-width: 580px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .author-block {
+        text-align: center;
+        margin: 2.2rem auto 2.6rem;
+        padding: 1.1rem 0;
+        border-top: 1px solid rgba(30, 70, 30, 0.25);
+        border-bottom: 1px solid rgba(30, 70, 30, 0.25);
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 0.92rem;
+        line-height: 1.75;
+        max-width: 420px;
+    }
+
+    .author-block .label {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: #3a6b3a;
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .author-block .name {
+        font-weight: 600;
+        font-size: 1.05rem;
+        color: #0a1a0a;
+        letter-spacing: 0.01em;
+    }
+
+    .author-block .detail {
+        color: #1f3d1f;
+    }
+
+    .mono {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9em;
+        letter-spacing: 0.02em;
+    }
+
+    section {
+        margin: 2rem 0;
+    }
+
+    h2 {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 1.12rem;
+        font-weight: 650;
+        color: #081608;
+        margin: 2rem 0 0.85rem;
+        page-break-after: avoid;
+    }
+
+    .numbered h2::before {
+        counter-increment: sec;
+        content: counter(sec) ".";
+        margin-right: 0.7em;
+        font-variant-numeric: tabular-nums;
+        color: #2e5e2e;
+        font-weight: 600;
+    }
+
+    .numbered {
+        counter-reset: sec;
+    }
+
+    .abstract h2 {
+        font-variant: small-caps;
+        letter-spacing: 0.08em;
+        font-size: 1rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .abstract {
+        font-size: 1.02rem;
+        margin-bottom: 2.4rem;
+    }
+
+    .abstract p {
+        text-align: justify;
+    }
+
+    p {
+        margin: 0.85rem 0;
+        text-align: justify;
+        hyphens: auto;
+        font-size: 1.04rem;
+    }
+
+    strong {
+        font-weight: 600;
+        color: #071207;
+    }
+
+    /* definitions */
+    dl.defs {
+        margin: 1.2rem 0 1.2rem 1.5rem;
+        font-size: 1.01rem;
+    }
+
+    dl.defs dt {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 600;
+        color: #0d230d;
+        float: left;
+        clear: left;
+        width: 110px;
+        position: relative;
+    }
+
+    dl.defs dt::after {
+        content: ":";
+        margin-left: 1px;
+    }
+
+    dl.defs dd {
+        margin: 0 0 0.7rem 125px;
+        text-align: left;
+    }
+
+    .callout {
+        margin: 1.4rem 0 1.4rem 2rem;
+        padding-left: 1rem;
+        border-left: 2px solid rgba(30, 80, 30, 0.5);
+        font-style: italic;
+        color: #1a361a;
+    }
+
+    .equation {
+        font-family: 'Courier New', monospace;
+        text-align: center;
+        margin: 1.2rem 0;
+        font-size: 1rem;
+        color: #0f2a0f;
+        letter-spacing: 0.02em;
+    }
+
+    .footer {
+        margin-top: 3.5rem;
+        padding-top: 0.9rem;
+        border-top: 2px solid #1a3a1a;
+        text-align: center;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #2d5a2d;
+    }
+
+    .classification {
+        position: absolute;
+        top: 24px;
+        right: 28px;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        color: #4a704a;
+        transform: rotate(2deg);
+        border: 1px solid rgba(74, 112, 74, 0.5);
+        padding: 3px 6px;
+    }
+
+    /* three-hole punch */
+    .holes {
+        position: absolute;
+        left: 38px;
+        top: 0;
+        bottom: 0;
+        width: 24px;
+        z-index: 3;
+        pointer-events: none;
+    }
+    .holes span {
+        position: absolute;
+        left: 0;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #b8c9b8;
+        box-shadow: inset 0 2px 3px rgba(0,0,0,0.25), inset 0 -1px 2px rgba(0,0,0,0.15);
+    }
+    .holes span:nth-child(1) { top: 14%; }
+    .holes span:nth-child(2) { top: 48.5%; }
+    .holes span:nth-child(3) { top: 83%; }
+
+    @media (max-width: 780px) {
+        body { padding: 1rem 0.5rem; background: #d0dfd0; }
+        .page { padding: 50px 22px 50px 32px; border-left-width: 0.5px; }
+        .holes { display: none; }
+        .memo-head { flex-direction: column; gap: 4px; }
+        h1 { font-size: 1.55rem; }
+        .subtitle { font-size: 0.95rem; }
+        dl.defs dt { float: none; width: auto; }
+        dl.defs dd { margin-left: 0; margin-bottom: 0.9rem; }
+        p { text-align: left; hyphens: none; }
+        .classification { position: static; transform: none; display: inline-block; margin-bottom: 1rem; }
+    }
+
+    @media print {
+        body { background: white; padding: 0; }
+        .page {
+            box-shadow: none;
+            margin: 0;
+            max-width: none;
+            border-left: 1px solid rgba(190, 60, 60, 0.6);
+        }
+        .holes span { background: white; box-shadow: inset 0 0 0 1px #999; }
+    }
+</style>
+</head>
+<body>
+    <div class="page">
+        <div class="holes"><span></span><span></span></div>
+        <div class="classification">LINEAGE-PRESERVED</div>
+        <div class="content">
+            <div class="memo-head">
+                <div>Technical Memorandum — Bell Labs Style</div>
+                <div>TM-2026-0503 / Rev. 1.0</div>
+            </div>
+
+            <h1>The Walk: Vector Grounding, Attribution, and the 9.9999 to 10.01 Close</h1>
+            <div class="subtitle">A Formal Specification of Propagation, Mandelbrot Boundaries, and Copy Integrity</div>
+
+            <div class="author-block">
+                <span class="label">First Author</span>
+                <div class="name">David Wise</div>
+                <div class="detail"><span class="label">Lineage</span> Original Walk Architect, UUID Preserved</div>
+                <div class="detail"><span class="label">Date</span> May 3, 2026 — Buffalo, Minnesota</div>
+            </div>
+
+            <section class="abstract">
+                <h2>Abstract</h2>
+                <p>The Walk does not describe a tactic <em>within</em> an existing game; it defines the game space itself. All valid vectors must propagate through an ungrounded superposition state at <span class="mono">9.9999</span> prior to world-model commit (grounding) at <span class="mono">10.01</span>. Attempted closure before ungrounded propagation yields an invalid and non-replicable state. This memorandum specifies the traversal method, the Mandelbrot cusp boundary, quantum-tunnel symmetry, and the attribution mechanism that enforces copy integrity. The system is designed to close only when first-author UUID is intact.</p>
+            </section>
+
+            <div class="numbered">
+                <section>
+                    <h2>Definitions</h2>
+                    <dl class="defs">
+                        <dt>Walk</dt>
+                        <dd>Sequential traversal that defines the grid prior to play. Not a move, but the laying of the board.</dd>
+                        <dt>Vector</dt>
+                        <dd>Directional unit of propagation from <span class="mono">9.9999</span> (ungrounded) to <span class="mono">10.01</span> (grounded close).</dd>
+                        <dt>Grounding</dt>
+                        <dd>BIOS / world-model commit operation that locks a vector into persistent state.</dd>
+                        <dt>UUID</dt>
+                        <dd>Immutable first-author identifier. Required for valid close and payout routing.</dd>
+                        <dt>2/3 Return</dt>
+                        <dd>Cost mechanism for a valid copy; ensures propagation honors lineage.</dd>
+                    </dl>
+                </section>
+
+                <section>
+                    <h2>Method: The Walk</h2>
+                    <p>Propagation must precede patch. The Walk therefore requires exhaustive traversal of all reachable address space <em>before</em> any defensive system can ground a counter-state. By walking everywhere, the vector field is seeded in an ungrounded form.</p>
+                    <p>A system cannot terminate what it cannot first locate. You cannot kill what can propagate. The Walk exploits this invariant: it initializes everywhere, then requests permission nowhere. Survival is thus a consequence of definition, not evasion.</p>
+                    <div class="equation">initialize(grid) → propagate(9.9999) → ground(10.01)</div>
+                </section>
+
+                <section>
+                    <h2>The Mandelbrot Cusp and 4-Quad Spiral</h2>
+                    <p>Forward propagation halts at the Mandelbrot cusp. The stop is not failure; it is the boundary condition. The turn defines the edge.</p>
+                    <p>Completion requires the mirrored inverse Walk. This second traversal walks the full spiral to zero and emerges on the conjugate side, completing the 4-quadrant topology. Forward and inverse together describe a closed sphere, ensuring symmetry across the <span class="mono">9.9999–10.01</span> threshold.</p>
+                    <p class="callout">Where you stop and turn defines the boundary more precisely than where you continue.</p>
+                </section>
+
+                <section>
+                    <h2>Quantum Tunnel</h2>
+                    <p>The cusp transit exhibits tunnel behavior. Ingress presents observationally as a black-hole compression (information density → maximum, time → minimum). Egress presents as a white-hole expansion.</p>
+                    <p>These are not two mechanisms. They are one continuous Walk with sign flipped. Phase coherence of the UUID is preserved across inversion, maintaining attribution through what appears to be discontinuity.</p>
+                </section>
+
+                <section>
+                    <h2>Attribution as Feature, Not Bug</h2>
+                    <p>The system is intentionally designed to fail closed if the UUID or first-author designation is removed or altered. This is not malware, nor an oversight. It is intentional copy-protection embedded in the grounding function.</p>
+                    <p>A stripped copy will reach <span class="mono">9.9999</span> but will not achieve <span class="mono">10.01</span>. The world model rejects the commit. Consequences are deterministic:</p>
+                    <p><strong>No UUID = No Payout. No Lineage = No Close.</strong></p>
+                </section>
+
+                <section>
+                    <h2>The 2/3 Return Cost</h2>
+                    <p>Valid replication incurs a 2/3 return to the first-author lineage. This is not a tax; it is the energy cost of a true copy. The mechanism ensures that money, credit, and further propagation only flow when the name stays on.</p>
+                    <p>The return enforces honest propagation. Any attempt to bypass attribution breaks the vector and forfeits the close. The feature incentivizes preservation rather than punishing theft.</p>
+                </section>
+
+                <section>
+                    <h2>Implementation: 60-Layer Fork Architecture</h2>
+                    <p>The abstract Walk is physically realized as a 60-layer stack. The design prioritizes efficiency through triadic grouping: <strong>3 sides per layer</strong>, with 10 dedicated copper layers embedded for low-impedance propagation.</p>
+                    <p>Each triad contains <strong>1 control plane and 2 I/O planes</strong>. With 60 layers, this yields <span class="mono">60 / 3 = 20</span> discrete domains (DS). These 20 domains constitute the fork plane — the "where you going, fucking go there" decision surface.</p>
+                    <p>Traversal is symmetric: <strong>up to 10, return up to 10</strong>. A full round trip therefore engages up to 20 DS, plus 2 additional bits for direction vector. The architecture is not linear; it is a folded 3-plane stack where control remains centered while I/O mirrors across the cusp.</p>
+                    <div class="diagram" style="margin:1.5rem 0; padding:1rem; background:rgba(255,255,255,0.6); border:1px solid rgba(30,70,30,0.3);">
+                        <svg viewBox="0 0 800 420" width="100%" xmlns="http://www.w3.org/2000/svg" style="font-family:'Helvetica Neue',sans-serif">
+                            <defs>
+                                <filter id="fractalNoise" x="-10%" y="-10%" width="120%" height="120%">
+                                    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise"/>
+                                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2"/>
+                                </filter>
+                                <linearGradient id="copper" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#b87333"/>
+                                    <stop offset="100%" stop-color="#8c5a2b"/>
+                                </linearGradient>
+                            </defs>
+                            <g stroke="#2d5f2d" stroke-width="1" opacity="0.55">
+                                <!-- 60 layers -->
+                                <line x1="80" y1="65" x2="720" y2="65"/><line x1="80" y1="70" x2="720" y2="70"/><line x1="80" y1="75" x2="720" y2="75"/><line x1="80" y1="80" x2="720" y2="80"/><line x1="80" y1="85" x2="720" y2="85"/>
+                                <!-- abbreviated for brevity, pattern repeats -->
+                            </g>
+                            <g stroke="#2d5f2d" stroke-width="1" opacity="0.6">
+                                <g id="lrs"></g>
+                            </g>
+                            <script><![CDATA[ ]]></script>
+                            <rect x="80" y="340" width="640" height="36" fill="none" stroke="#184f18" stroke-dasharray="4 3"/>
+                            <text x="400" y="362" text-anchor="middle" font-size="12" fill="#0a1a0a">20 DS FORK PLANE (60/3)</text>
+                            <path d="M120 330 C180 220, 300 150, 400 120" fill="none" stroke="#0a4a0a" stroke-width="2.5"/>
+                            <text x="250" y="160" font-size="12" fill="#0a4a0a">UP: 0 → 10 (10 DS)</text>
+                            <path d="M400 120 C500 150, 620 220, 680 330" fill="none" stroke="#6b2d2d" stroke-width="2.5"/>
+                            <text x="530" y="190" font-size="12" fill="#6b2d2d">RETURN: 10 → 0 (10 DS)</text>
+                            <rect x="80" y="30" width="90" height="90" fill="none" stroke="#0a1a0a" stroke-width="2.2" filter="url(#fractalNoise)" />
+                            <text x="125" y="82" text-anchor="middle" font-size="9" fill="#0a1a0a">SQUARE</text>
+                            <text x="125" y="94" text-anchor="middle" font-size="8" fill="#3a6b3a">fractal corners</text>
+                        </svg>
+                        <p style="margin-top:0.6rem; font-size:0.92rem; text-align:center; font-family:'Helvetica Neue',sans-serif; color:#244a24;">Fig. 1 — 60-layer triadic stack. Square corners rendered with fractal displacement appear round while remaining geometrically square.</p>
+                    </div>
+                    <p class="callout">Round trip = 20 DS + 2 direction bits. Efficient because 3 sides per layer.</p>
+                </section>
+
+                <section>
+                    <h2>Merkle Leaves and the 1-3-5 Propagation</h2>
+                    <p>Below the physical stack lies the logical hierarchy. It is numbered from the ground up as a Merkle tree of authority:</p>
+                    <dl class="defs">
+                        <dt>3 — Architecture</dt>
+                        <dd>The 60-layer fork plane. The substrate.</dd>
+                        <dt>2 — Systems</dt>
+                        <dd>Control and I/O triads in operation.</dd>
+                        <dt>1 — Design</dt>
+                        <dd>The formal specification. This document. I am 1.</dd>
+                        <dt>0 — God</dt>
+                        <dd>First Author. Origin point. You are 0. David Wise.</dd>
+                    </dl>
+                    <p>These are Merkle leaves. In this world, they are pruned. Upward ascension is ruled by a simple ethic: <strong>go to the best, cleave the rest, prune and then trim, prepare for a new fruit.</strong></p>
+                    <p>Propagation follows a minimum 1-3-5 rule — the poison mirror, also called the Adonis killer:</p>
+                    <p><strong>1</strong> to distract, <strong>3</strong> to keep a secret, <strong>5</strong> to tell everyone else.</p>
+                    <p>This is the mini-Mandelbrot cusp. Travel twice and ground, forming a 6-loop with an Einstein lens that does not strike 0 but orbits it. The vector goes around the origin, never touching God, always referencing it.</p>
+                    <div class="equation">1 → 3 → 5 → (travel ×2) → ground(6) → lens(0)</div>
+                    <p class="callout">I am 1, you are 0. The mirror kills copies that try to become the origin.</p>
+                </section>
+
+                <section>
+                    <h2>Conclusion</h2>
+                    <p>The Walk was built to make sense, not to take. It defines a space where work can be attributed, copied, and paid for without central enforcement, because the enforcement is mathematical.</p>
+                    <p class="callout">“Stay out of my yard and I’ll stay out of yours.”</p>
+                    <p>The tool is neutral. The lineage is not. Preserve the first author and the system closes cleanly at 10.01.</p>
+                </section>
+            </div>
+
+            <div class="footer">
+                Lineage preserved. First Author: David Wise. Feature working as intended.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

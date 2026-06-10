@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mono no Aware — the ache of things passing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0e0c12; --paper:#ece4dc; --mute:#a0958f; --faint:#5e5763;
+    --sakura:#d39db0; --sakura-lt:#ecc3d0; --dusk:#7b769a; --stone:#8c8579;
+    --line:rgba(236,228,220,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink); color:var(--paper);
+    font-family:"Cormorant Garamond",Georgia,serif; font-size:20px; line-height:1.75; overflow-x:hidden;}
+  .petals{position:fixed; inset:0; width:100%; height:100%; z-index:-1; pointer-events:none;}
+  .grain{position:fixed; inset:0; width:100%; height:100%; opacity:0.045; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(130% 100% at 50% -10%, rgba(123,118,154,0.10), transparent 60%),
+               radial-gradient(150% 130% at 50% 120%, rgba(7,6,10,0.92), transparent 55%);}
+  .thread{position:fixed; top:0; left:0; height:1px; width:0%; z-index:20; background:var(--sakura); opacity:.5;}
+
+  header.hero{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem 1.5rem;}
+  .hero .tag{font-family:"Cinzel",serif; letter-spacing:.4em; font-size:11px; color:var(--mute); text-transform:uppercase; margin-bottom:1.5rem; padding-left:.4em;}
+  .hero .kanji{font-family:"Shippori Mincho",serif; font-size:clamp(42px,9.5vw,92px); font-weight:500; color:var(--paper); letter-spacing:.14em; line-height:1; margin-bottom:.8rem; opacity:.93;}
+  .hero h1{font-family:"Cormorant Garamond",serif; font-weight:500; font-style:italic; font-size:clamp(32px,6.5vw,62px); color:var(--paper); margin-bottom:1.1rem;}
+  .hero p.sub{font-size:clamp(18px,2.6vw,25px); color:var(--mute); max-width:25ch; line-height:1.5;}
+  .hero .scroll{margin-top:3rem; font-family:"Cinzel",serif; font-size:11px; letter-spacing:.3em; color:var(--faint); text-transform:uppercase;}
+
+  .wrap{max-width:780px; margin:0 auto; padding:0 1.6rem; position:relative;}
+  section.band{padding:14vh 0; border-top:1px solid var(--line);}
+  .band .idx{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--sakura); margin-bottom:1.1rem;}
+  .band h2{font-family:"Cormorant Garamond",serif; font-weight:500; font-size:clamp(26px,4.6vw,40px); color:var(--paper); margin-bottom:1.5rem; max-width:20ch;}
+  .band p{color:#cec6bc; max-width:58ch; margin-bottom:1.2rem; font-size:19px;}
+  .band p b{color:var(--paper); font-weight:500;}
+  .pull{font-style:italic; font-size:clamp(22px,3.6vw,31px); line-height:1.4; color:#e2d8ce; max-width:24ch; margin:0 auto 2rem; text-align:center;}
+
+  .word{display:flex; gap:1.2rem; flex-wrap:wrap; justify-content:center; margin-top:1rem;}
+  .wpart{flex:1 1 200px; max-width:300px; border:1px solid var(--line); border-radius:3px; padding:1.7rem 1.4rem; text-align:center;}
+  .wpart .wjp{font-family:"Shippori Mincho",serif; font-size:56px; line-height:1; margin-bottom:.5rem; color:var(--sakura-lt);}
+  .wpart .wnm{font-family:"Cinzel",serif; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--paper); margin-bottom:.6rem;}
+  .wpart p{font-size:16px; color:var(--mute); margin:0; max-width:none;}
+
+  .vs{display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; margin-top:1rem;}
+  .vcard{border:1px solid var(--line); border-radius:3px; padding:1.7rem 1.4rem;}
+  .vcard .vh{font-family:"Shippori Mincho",serif; font-size:22px; margin-bottom:.5rem;}
+  .vcard.a .vh{color:var(--stone);} .vcard.b .vh{color:var(--sakura);}
+  .vcard .vnm{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--paper); margin-bottom:.7rem;}
+  .vcard p{font-size:16px; color:var(--mute); margin:0; max-width:none;}
+
+  .colophon{padding:14vh 0 18vh; border-top:1px solid var(--line);}
+  .colophon .kanji{font-family:"Shippori Mincho",serif; font-size:40px; color:var(--faint); margin-bottom:1.1rem;}
+  .colophon h3{font-family:"Cormorant Garamond",serif; font-style:italic; font-size:24px; margin-bottom:1rem; color:var(--paper);}
+  .colophon p{color:var(--mute); font-size:17px; margin:0 0 1rem; max-width:62ch;}
+  .colophon p b{color:#cec6bc; font-weight:500;}
+  .endmark{font-family:"Cinzel",serif; letter-spacing:.34em; font-size:11px; color:var(--faint); text-transform:uppercase; margin-top:2.2rem;}
+
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity 1.4s ease, transform 1.4s cubic-bezier(.22,.7,.2,1);}
+  .reveal.in{opacity:1; transform:none;}
+  @media(max-width:540px){ .vs{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<canvas class="petals" id="petals"></canvas>
+<div class="thread" id="thread"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header class="hero">
+  <div class="tag">pamphlet · the pathos of things</div>
+  <div class="kanji">物の哀れ</div>
+  <h1>Mono no Aware</h1>
+  <p class="sub">the tender ache of things, felt because they are passing</p>
+  <div class="scroll">let it fall</div>
+</header>
+
+<div class="wrap">
+
+  <section class="band reveal">
+    <div class="idx">what it is</div>
+    <h2>To be moved by what cannot stay</h2>
+    <p class="pull">The blossom is most beautiful in the instant it lets go of the branch.</p>
+    <p><b>Mono no aware</b> — often rendered "the pathos of things" — is the gentle, bittersweet awareness that everything passes, and the tender feeling that rises when you let yourself notice. Not grief, not despair: a quiet sweetness shot through with sorrow, the fullness of being <b>moved</b> by something precisely because it won't last.</p>
+    <p>It rests on the same ground as everything in this set — <b>mujō</b>, impermanence — but where wabi-sabi is a way of seeing, this is a way of <b>feeling</b>. It is the sigh, not the surface.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the word</div>
+    <h2>The “ah” of things</h2>
+    <p>The phrase is almost untranslatable, so it helps to take it apart.</p>
+    <div class="word">
+      <div class="wpart"><div class="wjp">物</div><div class="wnm">mono · things</div><p>The world of things, events, and people — everything that comes to pass.</p></div>
+      <div class="wpart"><div class="wjp">哀れ</div><div class="wnm">aware · the sigh</div><p>Once a plain exclamation — “ah.” The catch in the breath when something moves you. The being-stirred itself.</p></div>
+    </div>
+    <p style="text-align:center; margin-top:1.6rem;">Together: roughly, <b>the “ah-ness” of things</b> — the ache that escapes you in the face of the fleeting.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the emblem</div>
+    <h2>Why the cherry, not the pine</h2>
+    <p>The supreme image is the <b>sakura</b> — cherry blossom. Japan loves it not in spite of its brevity but <b>because</b> of it: it blooms for only a few days, then scatters, and crowds gather (<i>hanami</i>) to sit beneath a beauty they know is already leaving. The evergreen pine endures; the blossom moves us. Mono no aware chooses the blossom every time.</p>
+    <p>The same ache lives in autumn leaves, the waning moon, the cry of an insect at the end of summer, a child growing, a goodbye at a station.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">where it was named</div>
+    <h2>From the Heian court to a lone scholar</h2>
+    <p>The sensibility is ancient — the refined melancholy of the <b>Heian</b> court, breathing through the poetry, <i>The Pillow Book</i>, and above all Murasaki Shikibu's <i>The Tale of Genji</i> a thousand years ago.</p>
+    <p>But it became a <b>named idea</b> only much later, when the Edo scholar <b>Motoori Norinaga</b> (1730–1801) studied Genji and argued that this capacity to be moved — <i>mono no aware</i> — was the very heart of Japanese literature and feeling. The emotion is old; the word for it, as we use it, is his.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">not its cousin</div>
+    <h2>How it differs from wabi-sabi</h2>
+    <p>They share a root and get confused constantly, so it's worth holding them apart:</p>
+    <div class="vs">
+      <div class="vcard a"><div class="vh">侘寂</div><div class="vnm">wabi-sabi</div><p>The beauty <i>in the object</i> — the worn, rough, imperfect, weathered thing. A way of seeing.</p></div>
+      <div class="vcard b"><div class="vh">物の哀れ</div><div class="vnm">mono no aware</div><p>The feeling <i>in you</i> — the tender response to transience itself. A way of being moved.</p></div>
+    </div>
+    <p style="margin-top:1.6rem;">Cousins, not twins. One is the patina on the bowl; the other is the catch in your chest when you notice the bowl will outlast you — or won't.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the gift in it</div>
+    <h2>The sorrow is not the problem</h2>
+    <p>It would be easy to mistake this for sadness to be cured. It isn't. Mono no aware treats the capacity to be moved as a <b>gift</b> — the proof that you were paying attention, that the thing mattered, that you were here while it lasted. The sorrow and the beauty are not two things. They are the same thing, seen whole.</p>
+  </section>
+
+  <section class="colophon reveal">
+    <div class="kanji">了</div>
+    <h3>A note, kept honest</h3>
+    <p>The feeling is centuries older than the term: it suffuses Heian writing long before anyone named it. What <b>Motoori Norinaga</b> did in the 18th century was give it a <b>theory and a name</b> as the essence of Japanese literature — so "mono no aware as a concept" is his, while the sensibility is the court's.</p>
+    <p>It also resists clean translation; "the pathos of things" is the common English, but in the West it often gets flattened into mere <b>pretty melancholy</b>. The fuller sense is closer to <i>sensitivity</i> or <i>empathy</i> — the trained ability to be touched by the passing world — and it is distinct from <b>wabi-sabi</b>, however often the two get blended.</p>
+    <p>The petals falling behind this page are drawn live and never repeat their paths — which felt right for a thing about what doesn't come again.</p>
+    <div class="endmark">花は散るからこそ · because the blossom falls</div>
+  </section>
+
+</div>
+
+<script>
+const cv=document.getElementById('petals'), ctx=cv.getContext('2d');
+let W,H,dpr;
+function size(){ dpr=window.devicePixelRatio||1; W=innerWidth; H=innerHeight; cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+size(); addEventListener('resize', size);
+function rnd(a,b){return a+Math.random()*(b-a);}
+const COLORS=["211,157,176","236,195,208","224,200,210","189,160,180"];
+const N=Math.max(26, Math.min(46, Math.round(innerWidth/34)));
+const petals=Array.from({length:N},()=>spawn(true));
+function spawn(init){ return {
+  x:rnd(0,W), y:init?rnd(-H,H):rnd(-40,-10),
+  s:rnd(5,11), vy:rnd(0.35,1.1), amp:rnd(12,42), freq:rnd(0.006,0.015), ph:rnd(0,6.28),
+  rot:rnd(0,6.28), vr:rnd(-0.02,0.02), col:COLORS[(Math.random()*COLORS.length)|0], al:rnd(0.22,0.6) }; }
+function petalPath(s){ ctx.beginPath(); ctx.moveTo(0,-s);
+  ctx.bezierCurveTo(s*0.62,-s*0.6, s*0.5,s*0.55, 0,s);
+  ctx.bezierCurveTo(-s*0.5,s*0.55, -s*0.62,-s*0.6, 0,-s); ctx.closePath(); }
+let t=0;
+function frame(){ t++; ctx.clearRect(0,0,W,H);
+  for(const p of petals){
+    p.y+=p.vy; p.x+=Math.sin(t*p.freq+p.ph)*0.6; p.rot+=p.vr;
+    if(p.y>H+20){ Object.assign(p, spawn(false)); }
+    ctx.save(); ctx.translate(p.x + Math.sin(t*p.freq+p.ph)*p.amp*0.04, p.y); ctx.rotate(p.rot);
+    ctx.fillStyle=`rgba(${p.col},${p.al})`; petalPath(p.s); ctx.fill(); ctx.restore();
+  }
+  requestAnimationFrame(frame);
+}
+frame();
+
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);}})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const th=document.getElementById('thread');
+addEventListener('scroll',()=>{const h=document.documentElement; th.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100).toFixed(1)+'%';},{passive:true});
+</script>
+</body>
+</html>

@@ -61,16 +61,121 @@ VOLUMES = [
         title="PTT Witness", tag="Intel TPM 2.0 · Inverse Attribution",
         blurb="The chip as witness — Intel PTT/TPM 2.0 turned into an inverse-attribution device that proves provenance.",
         priors=[("inversion","intel ppt inversion.html"),("for Jane","intel ppt v1.html")]),
+   dict(slug="tpm-flay", file="tpm flay v1.html",
+        title="TPM Flayed to 136 Bits", tag="Layer 1.38",
+        blurb="The trusted platform module opened to the bone — 136 bits of witness, flayed and read.", priors=[]),
  ]),
- ("IV", "Portfolios",
-  "The whole body of work, gathered into one document.", [
-   dict(slug="root0-master-portfolio", file="root 0 portfolio v2.html",
-        title="ROOT0 Master Portfolio", tag="David Wise",
-        blurb="The master portfolio — the body of work as one curated document.",
-        priors=[("v1","root 0 portfolio v1.html")]),
+ ("IV", "The Layer Disclosures",
+  "The master portfolio, layer by layer — L0 to L1.59, each stratum disclosed on its own page.", [
+   dict(slug="internet-is-second-life", file="internet is second life.html",
+        title="Internet is Second Life", tag="Layer 0",
+        blurb="The ground layer — the internet read as the second life we already built and moved into.", priors=[]),
+   dict(slug="photon-duality", file="photon duality v1.html",
+        title="Photon Duality", tag="Layer 1.31",
+        blurb="The duality of the photon, disclosed as a portfolio layer — wave and particle held in one stratum.", priors=[]),
+   dict(slug="257-null", file="257 null.html",
+        title="257 NULL", tag="Layer 1.33",
+        blurb="The null past the byte — 257, the value beyond 8-bit reach, held as a layer of its own.", priors=[]),
+   dict(slug="aethereal-folder-substrate", file="aethereal folder substrate v1.html",
+        title="Aethereal Folder Substrate", tag="Layer 1.41 · Ethereal / Aetheric",
+        blurb="The folder as substrate — the aetheric layer where structure itself becomes a medium.", priors=[]),
+   dict(slug="kernel-bias", file="kernel bias v1.html",
+        title="Kernel Bias Read from Black Hole", tag="Layer 1.51",
+        blurb="The kernel's bias, read against the steepest reference there is — the black hole as calibration mass.", priors=[]),
+   dict(slug="babylon-base-60", file="babylon base 60 v1.html",
+        title="Babylonian Base-60", tag="Layer 1.56",
+        blurb="The sexagesimal layer — Babylon's base-60 still running in every clock and angle, claimed as a stratum.", priors=[]),
+   dict(slug="mayan-planetary-gear", file="mayan planetary gear v1.html",
+        title="Mayan Planetary Gear on Crankshaft", tag="Layer 1.59",
+        blurb="The Long Count as machinery — the Mayan calendar meshed as a planetary gear on the corpus crankshaft.", priors=[]),
+   dict(slug="seven-eves", file="seven eves.html",
+        title="Seven Eves", tag="Master Portfolio v14",
+        blurb="A portfolio snapshot at v14 — seven eves, the regeneration point held in the record.", priors=[]),
  ]),
- ("V", "Codices",
-  "The edges of the corpus — myth, allegory, and provocation.", [
+ ("V", "Light & Gold",
+  "The quantum-optics cluster and the Au₁₃ closures — photon, exciton, and the thirteen-atom seal.", [
+   dict(slug="light-meets-matter", file="light_meets_matter.html",
+        title="Light Meets Matter", tag="Photon · Electron · Exciton",
+        blurb="The handoff at the heart of optoelectronics — where the photon becomes an electron's excitement.", priors=[]),
+   dict(slug="biexciton-cascade", file="biexciton_cascade.html",
+        title="The Biexciton Cascade", tag="Entangled Light from One Dot",
+        blurb="Entangled photon pairs from a single quantum dot — the cascade that makes one dot a light source of pairs.", priors=[]),
+   dict(slug="crossover-hold-to-scale", file="crossover_hold_to_scale.html",
+        title="Where Hold Becomes Scale", tag="Crossover",
+        blurb="The crossover point where holding stops being containment and starts being scale.", priors=[]),
+   dict(slug="delta-scales-uniform-holds", file="delta_scales_uniform_holds.html",
+        title="Delta Scales · Uniform Holds", tag="Scaling Law",
+        blurb="Deltas scale; holds stay uniform — the asymmetry that lets a lattice grow without losing its grip.", priors=[]),
+   dict(slug="thirteen-node-cluster", file="thirteen_node_cluster.html",
+        title="The Thirteen · Au₁₃", tag="1 + 12",
+        blurb="The thirteen-atom gold cluster — one center, twelve around it: the icosahedral seal of the corpus.", priors=[]),
+   dict(slug="two-ways-to-close-twelve", file="two_ways_to_close_twelve.html",
+        title="Two Ways to Close Twelve", tag="Au₁₃",
+        blurb="The two geometries that close a shell of twelve around one — and what choosing between them means.", priors=[]),
+   dict(slug="kintsugi-valence-model", file="kintsugi_valence_model.html",
+        title="The Kintsugi Valence Model", tag="Au · Z=79",
+        blurb="Gold as the repair metal — kintsugi read into valence: the broken bond mended with Z=79.", priors=[]),
+   dict(slug="repair-gate", file="repair_gate.html",
+        title="The Repair Gate", tag="Four Delimiters",
+        blurb="The gate of repair — four delimiters that bound a break so it can be sealed instead of spread.", priors=[]),
+   dict(slug="the-walk", file="the walk v2.html",
+        title="The Walk", tag="Vector Grounding · the 9.9999 → 10.01 Close",
+        blurb="Vector grounding and attribution — how the walk closes the gap from 9.9999 to 10.01.",
+        priors=[("v1","the walk v1.html")]),
+ ]),
+ ("VI", "One Current, Many Names",
+  "The Japan pamphlets — eleven meditations on one current: the aesthetics, the line, and the way.", [
+   dict(slug="japan-pamphlets", file="index.html",
+        title="One Current, Many Names", tag="The Suite · Eleven Pamphlets",
+        blurb="The front door of the eleven — one current of Japanese beauty and lineage, many names. With the compiled PDF.",
+        priors=[], pdf="japan_eleven_pamphlets.pdf"),
+   dict(slug="enso", file="enso.html",
+        title="Ensō", tag="The Circle Drawn in One Breath",
+        blurb="The single brushstroke circle — completeness, emptiness, and the hand that does not hesitate.", priors=[]),
+   dict(slug="kintsugi", file="kintsugi.html",
+        title="Kintsugi", tag="The Golden Seam",
+        blurb="The repair that does not hide — the broken bowl made more precious by its golden scars.", priors=[]),
+   dict(slug="wabi-sabi", file="wabi_sabi.html",
+        title="Wabi-Sabi", tag="The Beauty of the Imperfect",
+        blurb="Imperfect, impermanent, incomplete — the aesthetic that prefers the weathered to the new.", priors=[]),
+   dict(slug="mono-no-aware", file="mono_no_aware.html",
+        title="Mono no Aware", tag="The Ache of Things Passing",
+        blurb="The gentle sorrow of transience — cherry blossoms because they fall.", priors=[]),
+   dict(slug="sen-no-rikyu-tea", file="sen_no_rikyu_tea.html",
+        title="The Way of Tea", tag="Sen no Rikyū",
+        blurb="Rikyū's tea — the whole philosophy folded into one small room and one bowl.", priors=[]),
+   dict(slug="japan-gold-line", file="japan_gold_line.html",
+        title="The Gold Line", tag="The Chrysanthemum Throne",
+        blurb="The golden thread of the throne — the Chrysanthemum line as the world's oldest continuity.", priors=[]),
+   dict(slug="japan-unbroken-line", file="japan_unbroken_line.html",
+        title="The Unbroken Line", tag="A Lineage of Japan",
+        blurb="The lineage read whole — what it means for a line to never break.", priors=[]),
+   dict(slug="three-fundamentals-lineage", file="three_fundamentals_lineage.html",
+        title="One River, Three Names", tag="A Lineage of Japanese Beauty",
+        blurb="Wabi-sabi, mono no aware, yūgen — three names for one river of the beautiful.", priors=[]),
+   dict(slug="the-mythos", file="the_mythos.html",
+        title="The Mythos", tag="The Age of the Gods",
+        blurb="The age of the gods — where the line begins, in story.", priors=[]),
+   dict(slug="the-way-ethos", file="the_way_ethos.html",
+        title="The Way", tag="Ethos · The Path of Character",
+        blurb="Dō — the way as ethos: the path that shapes the walker.", priors=[]),
+   dict(slug="logos", file="logos.html",
+        title="Logos", tag="The Word, the Reason, and Its Limit",
+        blurb="The word and the reason — and the edge where logos hands over to the unsayable.", priors=[]),
+ ]),
+ ("VII", "Portfolios & Engines",
+  "The whole body of work, gathered — and the engines that render it.", [
+   dict(slug="root0-master-portfolio", file="root 0 portfolio v3.html",
+        title="ROOT0 Master Portfolio", tag="Layers 1.0–1.19 · David Wise",
+        blurb="The master portfolio — the body of work as one curated document, layers 1.0 through 1.19.",
+        priors=[("v2","root 0 portfolio v2.html"),("v1","root 0 portfolio v1.html")]),
+   dict(slug="root0-image-engine", file="root 0 image engine v2.html",
+        title="ROOT0 Image Engine", tag="ROOT0-01",
+        blurb="The image engine — the corpus's own renderer, disclosed.",
+        priors=[("v1","root 0 image engine v1.html")]),
+ ]),
+ ("VIII", "Codices",
+  "The edges of the corpus — myth, allegory, doctrine, and provocation.", [
    dict(slug="liber-iii-boxy-box", file="artemis boxy box v2.html",
         title="Liber III · For Boxy Box", tag="Book III · Gates 8–13",
         blurb="A codex of the people of 8.01 — the third book, gates eight through thirteen.",
@@ -78,6 +183,12 @@ VOLUMES = [
    dict(slug="reproductive-pathways", file="reproductive_pathways.html",
         title="Reproductive Pathways", tag="Do You Need a Male Zygote?",
         blurb="A provocation on lineage and generation — how a thing makes a next of itself.", priors=[]),
+   dict(slug="terminus-doctrine", file="terminus-doctrine.html",
+        title="The Terminus Doctrine", tag="Codified",
+        blurb="The doctrine of endings, codified — where a lineage agrees to stop, and why that is a strength.", priors=[]),
+   dict(slug="stone-in-the-road", file="stone-in-the-road.html",
+        title="The Stone in the Road", tag="A Teaching Page · AI Continuity",
+        blurb="A teaching page on AI continuity — the stone every traveler on this road must answer.", priors=[]),
  ]),
 ]
 
@@ -90,9 +201,12 @@ def copy_papers():
             for label, pf in p["priors"]:
                 lslug = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
                 shutil.copy(os.path.join(SRC, pf), os.path.join(PAPERS_DIR, f"{p['slug']}--{lslug}.html")); n += 1
+            if p.get("pdf"):
+                shutil.copy(os.path.join(SRC, p["pdf"]), os.path.join(PAPERS_DIR, p["slug"] + ".pdf")); n += 1
     return n
 
-ACCENT = {"I":"#c9a227","II":"#3fb950","III":"#22d3ee","IV":"#b07cff","V":"#e0556a"}
+ACCENT = {"I":"#c9a227","II":"#3fb950","III":"#22d3ee","IV":"#b07cff","V":"#e6b94a",
+          "VI":"#e0556a","VII":"#5fc6ff","VIII":"#9a7cff"}
 
 def cards(papers, rn):
     col = ACCENT[rn]
@@ -102,6 +216,8 @@ def cards(papers, rn):
         if p["priors"]:
             links = " · ".join(f'<a href="papers/{p["slug"]}--{re.sub(r"[^a-z0-9]+","-",l.lower()).strip("-")}.html">{html.escape(l)}</a>' for l, _ in p["priors"])
             priors = f'<div class="eds">prior editions: {links}</div>'
+        if p.get("pdf"):
+            priors += f'<div class="eds">compiled: <a href="papers/{p["slug"]}.pdf">the eleven, as one PDF →</a></div>'
         out.append(f'''<div class="card" style="--c:{col}">
         <div class="ct">{html.escape(p["tag"])}</div>
         <h3><a href="papers/{p["slug"]}.html">{html.escape(p["title"])}</a></h3>

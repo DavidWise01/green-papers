@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ensō — the circle drawn in one breath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0c0b0a; --paper:#ece6d6; --mute:#9a9180; --faint:#5c554700; --faint2:#5c5547;
+    --vermilion:#b23a2e; --stone:#8c8579;
+    --line:rgba(236,230,214,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink); color:var(--paper);
+    font-family:"Cormorant Garamond",Georgia,serif; font-size:20px; line-height:1.75; overflow-x:hidden;}
+  .grain{position:fixed; inset:0; width:100%; height:100%; opacity:0.05; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 0%, rgba(120,110,95,0.06), transparent 55%),
+               radial-gradient(150% 130% at 50% 120%, rgba(6,5,4,0.95), transparent 55%);}
+  .thread{position:fixed; top:0; left:0; height:1px; width:0%; z-index:20; background:var(--vermilion); opacity:.45;}
+
+  header.hero{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem 1.5rem;}
+  .enso{width:min(420px,82vw); height:min(420px,82vw); display:block;}
+  .brushbtn{margin-top:.4rem; background:transparent; border:1px solid var(--line); color:var(--mute);
+    font-family:"Cinzel",serif; font-size:11px; letter-spacing:.22em; text-transform:uppercase; padding:8px 18px; border-radius:2px; cursor:pointer; transition:.3s;}
+  .brushbtn:hover{color:var(--paper); border-color:rgba(236,230,214,0.3);}
+  .hero .tag{font-family:"Cinzel",serif; letter-spacing:.4em; font-size:11px; color:var(--mute); text-transform:uppercase; margin:2.2rem 0 1.2rem; padding-left:.4em;}
+  .hero .kanji{font-family:"Shippori Mincho",serif; font-size:clamp(44px,10vw,96px); font-weight:500; color:var(--paper); letter-spacing:.16em; line-height:1; margin-bottom:.7rem; opacity:.92;}
+  .hero h1{font-family:"Cormorant Garamond",serif; font-weight:500; font-style:italic; font-size:clamp(32px,6.5vw,60px); color:var(--paper); margin-bottom:1.1rem;}
+  .hero p.sub{font-size:clamp(18px,2.6vw,24px); color:var(--mute); max-width:24ch; line-height:1.5;}
+
+  .wrap{max-width:760px; margin:0 auto; padding:0 1.6rem;}
+  section.band{padding:14vh 0; border-top:1px solid var(--line); text-align:center;}
+  .band .idx{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--vermilion); margin-bottom:1.1rem;}
+  .band h2{font-family:"Cormorant Garamond",serif; font-weight:500; font-size:clamp(26px,4.6vw,40px); color:var(--paper); margin-bottom:1.6rem;}
+  .band p{color:#cbc4b2; max-width:54ch; margin:0 auto 1.2rem; font-size:19px;}
+  .band p b{color:var(--paper); font-weight:500;}
+  .pull{font-style:italic; font-size:clamp(22px,3.6vw,32px); line-height:1.4; color:var(--paper); max-width:22ch; margin:0 auto 1.8rem;}
+
+  .twocol{display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; margin-top:1rem; text-align:left;}
+  .oc{border:1px solid var(--line); border-radius:3px; padding:1.8rem 1.5rem;}
+  .oc .och{font-family:"Cinzel",serif; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--paper); margin-bottom:.8rem;}
+  .oc p{font-size:17px; color:var(--mute); margin:0; max-width:none;}
+
+  .readings{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1.6rem 1.2rem; margin-top:1.6rem;}
+  .rd .rjp{font-family:"Shippori Mincho",serif; font-size:34px; color:var(--stone); margin-bottom:.25rem;}
+  .rd .ren{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--vermilion); margin-bottom:.3rem;}
+  .rd p{font-size:15px; color:var(--mute); margin:0; line-height:1.4; max-width:none;}
+
+  .colophon{padding:14vh 0 18vh; border-top:1px solid var(--line); text-align:left;}
+  .colophon .kanji{font-family:"Shippori Mincho",serif; font-size:40px; color:var(--faint2); margin-bottom:1.1rem;}
+  .colophon h3{font-family:"Cormorant Garamond",serif; font-style:italic; font-size:24px; margin-bottom:1rem; color:var(--paper);}
+  .colophon p{color:var(--mute); font-size:17px; margin:0 0 1rem; max-width:62ch;}
+  .colophon p b{color:#cbc4b2; font-weight:500;}
+  .endmark{font-family:"Cinzel",serif; letter-spacing:.36em; font-size:11px; color:var(--faint2); text-transform:uppercase; margin-top:2.2rem;}
+
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity 1.4s ease, transform 1.4s cubic-bezier(.22,.7,.2,1);}
+  .reveal.in{opacity:1; transform:none;}
+  @media(max-width:540px){ .twocol{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="thread" id="thread"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header class="hero">
+  <svg class="enso" id="enso" viewBox="0 0 400 400" aria-label="A hand-drawn ensō — an imperfect, open ink circle with a red seal"></svg>
+  <button class="brushbtn" id="again">brush another</button>
+  <div class="tag">pamphlet · the zen circle</div>
+  <div class="kanji">円相</div>
+  <h1>Ensō</h1>
+  <p class="sub">the circle drawn in a single breath, and never the same twice</p>
+</header>
+
+<div class="wrap">
+
+  <section class="band reveal">
+    <div class="idx">what it is</div>
+    <h2>One circle, one breath</h2>
+    <p class="pull">It is not a drawing of a circle. It is a record of a mind.</p>
+    <p>The <b>ensō</b> (円相, "circular form") is a circle brushed in one or two uninhibited strokes of sumi ink. It is a sacred image in <b>Zen</b> — drawn freely, in a single motion, and never retouched. Whatever the hand did, stays. There is no correcting an ensō.</p>
+    <p>Because it cannot be fixed, it becomes a portrait of the instant it was made: the steadiness or the tremor, the breath, the state of the mind that held the brush. To draw one is itself a form of meditation — the circle is what's left behind.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the moment</div>
+    <h2>Irreversible, and therefore honest</h2>
+    <p>Often it is drawn after sitting in <b>zazen</b> — settle the breath, then a single sweep. There is no planning a good one and no hiding a poor one; the wrist tells the truth either way. This is why every ensō is unique and none can be repeated. The one above is no exception — <b>brush another</b> and the first is gone for good.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the empty middle</div>
+    <h2>Form around a formlessness</h2>
+    <p>Look at what the ink encloses: nothing. The ensō is as much about the <b>emptiness</b> at its center — <b>mu</b> (無), the void, <b>kū</b> (空) — as about the ring that frames it. Fullness and emptiness in one mark; the form of the formless. The black middle here is not a background. It's the subject.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">open or closed</div>
+    <h2>Whether the circle meets itself</h2>
+    <div class="twocol">
+      <div class="oc"><div class="och">closed ○</div><p>The complete circle: wholeness, perfection, the cosmos in unity, the moment fulfilled and sealed.</p></div>
+      <div class="oc"><div class="och">open ◠</div><p>The circle left with a gap: imperfection, movement, the unfinished, room for the world to enter — the very door to wabi-sabi.</p></div>
+    </div>
+    <p style="margin-top:1.6rem;">Neither is more correct. Many masters favoured the open form precisely because completion was never the point.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">how it is read</div>
+    <h2>Many meanings, none fixed</h2>
+    <p>Zen resists pinning the ensō to a single sense. It has been read, variously, as all of these at once:</p>
+    <div class="readings">
+      <div class="rd"><div class="rjp">悟り</div><div class="ren">satori</div><p>Enlightenment, the awakened mind.</p></div>
+      <div class="rd"><div class="rjp">空</div><div class="ren">kū</div><p>Emptiness, the open void.</p></div>
+      <div class="rd"><div class="rjp">宇宙</div><div class="ren">uchū</div><p>The universe entire.</p></div>
+      <div class="rd"><div class="rjp">月</div><div class="ren">tsuki</div><p>The full moon, totality.</p></div>
+      <div class="rd"><div class="rjp">無限</div><div class="ren">mugen</div><p>Infinity — no start, no end.</p></div>
+      <div class="rd"><div class="rjp">真我</div><div class="ren">shinga</div><p>The true self, whole.</p></div>
+    </div>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">in ink</div>
+    <h2>The painted Zen of the monks</h2>
+    <p>The ensō belongs to <b>zenga</b> (禅画) — the ink painting and calligraphy made by Zen monks as practice, not decoration. Ground sumi on the inkstone, a single brush, washi paper; often a short Zen phrase written beside it, and a small <b>vermilion seal</b> pressed at the end — like the red mark on the circle above. Masters such as <b>Sengai</b> brushed them again and again, each a fresh moment, across a whole life.</p>
+  </section>
+
+  <section class="colophon reveal">
+    <div class="kanji">了</div>
+    <h3>A note, kept honest</h3>
+    <p>The ensō has <b>no single official meaning</b> — Zen keeps it open on purpose, so the readings above are a range the tradition holds, not a definition to memorize. The "cannot be corrected, reveals the mind" idea is the traditional teaching around the practice, and it's real within Zen.</p>
+    <p>One thing to keep separate: the popular line about <b>"the crack that lets the light in"</b> gets draped over ensō and kintsugi all the time, but it's a <b>Leonard Cohen lyric</b>, not Zen doctrine. The open ensō's meaning — incompleteness, movement, the unfinished — stands on its own without borrowing it.</p>
+    <p>And the circle above is genuinely <b>brushed live</b> each time, with real randomness — uneven, tapered, left open, freshly imperfect on every click. That seemed truer to the subject than shipping one tidy fixed drawing.</p>
+    <div class="endmark">一筆、一心 · one stroke, one mind</div>
+  </section>
+
+</div>
+
+<script>
+const NS="http://www.w3.org/2000/svg";
+const enso=document.getElementById('enso');
+
+function rnd(a,b){return a+Math.random()*(b-a);}
+
+function drawEnso(){
+  while(enso.firstChild) enso.removeChild(enso.firstChild);
+  const cx=200, cy=205, R=rnd(122,134);
+  const gap=rnd(38,66)*Math.PI/180;
+  const start=rnd(110,170)*Math.PI/180;
+  const end=start+(2*Math.PI-gap);
+  const tilt=rnd(-7,7);
+  const ph=rnd(0,6), amp=rnd(2,5);
+  const g=document.createElementNS(NS,"g");
+  g.setAttribute("transform",`rotate(${tilt.toFixed(1)} ${cx} ${cy})`);
+  enso.appendChild(g);
+  const steps=110;
+  let d="";
+  for(let i=0;i<=steps;i++){
+    const t=i/steps, a=start+(end-start)*t;
+    const wob=Math.sin(a*3+ph)*amp + (Math.random()-0.5)*3;
+    const taper=Math.sin(Math.PI*t);
+    const r=R+wob-(1-taper)*12;
+    const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+    d+=(i===0?"M":"L")+x.toFixed(1)+" "+y.toFixed(1)+" ";
+  }
+  function stroke(w,op){
+    const p=document.createElementNS(NS,"path");
+    p.setAttribute("d",d); p.setAttribute("fill","none"); p.setAttribute("stroke","#ece6d6");
+    p.setAttribute("stroke-width",w); p.setAttribute("stroke-linecap","round"); p.setAttribute("stroke-linejoin","round");
+    p.setAttribute("opacity",op); g.appendChild(p); return p;
+  }
+  const layers=[stroke(rnd(24,28),0.07), stroke(rnd(11,14),0.55), stroke(rnd(5,7),0.92)];
+  layers.forEach((s,k)=>{ const L=s.getTotalLength(); s.style.strokeDasharray=L; s.style.strokeDashoffset=L;
+    s.animate([{strokeDashoffset:L},{strokeDashoffset:0}],{duration:1700,delay:200+k*40,fill:"forwards",easing:"cubic-bezier(.32,.6,.2,1)"}); });
+  for(let i=0;i<3;i++){
+    const sp=document.createElementNS(NS,"circle");
+    const a=end+0.05*i, r=R+rnd(-6,10);
+    sp.setAttribute("cx",(cx+r*Math.cos(a)).toFixed(1)); sp.setAttribute("cy",(cy+r*Math.sin(a)).toFixed(1));
+    sp.setAttribute("r",(2.6-i*0.7).toFixed(1)); sp.setAttribute("fill","#ece6d6"); sp.setAttribute("opacity","0");
+    g.appendChild(sp); sp.animate([{opacity:0},{opacity:0.5}],{duration:400,delay:1700+i*80,fill:"forwards"});
+  }
+  const seal=document.createElementNS(NS,"g");
+  seal.setAttribute("transform",`translate(286 300) rotate(${rnd(-3,3).toFixed(1)})`);
+  seal.setAttribute("opacity","0");
+  const sq=document.createElementNS(NS,"rect");
+  sq.setAttribute("x","0"); sq.setAttribute("y","0"); sq.setAttribute("width","44"); sq.setAttribute("height","44");
+  sq.setAttribute("rx","3"); sq.setAttribute("fill","#b23a2e");
+  seal.appendChild(sq);
+  const ch=document.createElementNS(NS,"text");
+  ch.setAttribute("x","22"); ch.setAttribute("y","33"); ch.setAttribute("text-anchor","middle");
+  ch.setAttribute("font-family","'Shippori Mincho',serif"); ch.setAttribute("font-size","30"); ch.setAttribute("fill","#0c0b0a");
+  ch.textContent="円"; seal.appendChild(ch);
+  enso.appendChild(seal);
+  seal.animate([{opacity:0,transform:"translate(286px,300px) scale(.7)"},{opacity:1,transform:"translate(286px,300px) scale(1)"}],{duration:500,delay:2050,fill:"forwards",easing:"cubic-bezier(.3,1.4,.5,1)"});
+}
+drawEnso();
+document.getElementById('again').addEventListener('click',drawEnso);
+
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);}})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const th=document.getElementById('thread');
+addEventListener('scroll',()=>{const h=document.documentElement; th.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100).toFixed(1)+'%';},{passive:true});
+</script>
+</body>
+</html>

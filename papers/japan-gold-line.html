@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Gold Line — the Chrysanthemum Throne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0b0e; --bone:#ece6d6; --mute:#9a8f6f; --faint:#5c5640;
+    --gold:#c9a24b; --gold-lt:#e6c869; --gold-pale:#f3e2ac; --gold-dp:#8a6d28;
+    --line:rgba(201,162,75,0.16);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink); color:var(--bone);
+    font-family:"Cormorant Garamond",Georgia,serif; font-size:19px; line-height:1.65; overflow-x:hidden;}
+  .grain{position:fixed; inset:0; width:100%; height:100%; opacity:0.04; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(120% 80% at 50% -10%, rgba(201,162,75,0.12), transparent 60%),
+               radial-gradient(140% 120% at 50% 120%, rgba(8,8,11,0.92), transparent 55%);}
+  .progress{position:fixed; top:0; left:0; height:2px; width:0%; z-index:20;
+    background:linear-gradient(90deg,var(--gold-dp),var(--gold-lt),var(--gold-pale));}
+
+  header.hero{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:2rem 1.5rem;}
+  .kiku{width:120px; height:120px; margin-bottom:2rem; color:var(--gold); opacity:.9;
+    animation:spin 70s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .hero .tag{font-family:"Cinzel",serif; letter-spacing:.42em; font-size:12px; color:var(--mute);
+    text-transform:uppercase; margin-bottom:1.6rem; padding-left:.42em;}
+  .hero .kanji{font-family:"Shippori Mincho",serif; font-size:clamp(44px,10vw,104px); font-weight:700;
+    color:transparent; -webkit-text-stroke:1px rgba(201,162,75,0.55); letter-spacing:.14em; line-height:1; margin-bottom:1rem;}
+  .hero h1{font-family:"Cinzel",serif; font-weight:700; font-size:clamp(36px,8vw,86px); letter-spacing:.06em; line-height:1.02; margin-bottom:1.3rem;
+    background:linear-gradient(110deg,#8a6d28,#f3e2ac 38%,#e6c869 55%,#8a6d28 90%); background-size:220% auto;
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; animation:shimmer 6s linear infinite;}
+  @keyframes shimmer{to{background-position:220% center}}
+  .hero p.sub{font-style:italic; font-size:clamp(18px,2.6vw,26px); color:var(--mute); max-width:32ch; line-height:1.45;}
+  .hero .scroll{margin-top:3rem; font-family:"Cinzel",serif; font-size:11px; letter-spacing:.3em; color:var(--faint); text-transform:uppercase;}
+  .hero .scroll::after{content:""; display:block; width:1px; height:46px; margin:14px auto 0;
+    background:linear-gradient(var(--gold-dp),transparent); animation:drop 2.4s ease-in-out infinite;}
+  @keyframes drop{0%,100%{opacity:.3; transform:translateY(0)}50%{opacity:1; transform:translateY(6px)}}
+
+  .lineage{position:relative; max-width:880px; margin:4vh auto 0; padding:0 1.2rem;}
+  .river{position:absolute; top:0; bottom:0; left:50%; width:4px; transform:translateX(-50%); overflow:hidden; border-radius:4px;
+    background:linear-gradient(180deg, rgba(201,162,75,.10) 0%, rgba(201,162,75,.38) 14%, var(--gold-lt) 42%, var(--gold) 100%);}
+  .river::before{content:""; position:absolute; inset:-100px 0; 
+    background:repeating-linear-gradient(180deg, transparent 0 56px, rgba(255,244,210,.85) 56px 70px, transparent 70px 112px);
+    animation:flow 2.8s linear infinite;}
+  @keyframes flow{from{transform:translateY(0)} to{transform:translateY(112px)}}
+
+  .node{position:relative; width:50%; padding:1.5rem 2.4rem;}
+  .node:nth-child(odd){left:0; text-align:right;}
+  .node:nth-child(even){left:50%; text-align:left;}
+  .node::after{content:""; position:absolute; top:2rem; width:14px; height:14px; border-radius:50%;
+    background:var(--gold-lt); border:2px solid var(--ink); box-shadow:0 0 14px var(--gold);}
+  .node:nth-child(odd)::after{right:-8px;}
+  .node:nth-child(even)::after{left:-8px;}
+  .node .rank{font-family:"Cinzel",serif; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--gold); margin-bottom:.5rem;}
+  .node .jp{font-family:"Shippori Mincho",serif; font-weight:700; font-size:clamp(28px,5vw,40px); color:var(--gold-lt); line-height:1; margin-bottom:.3rem;}
+  .node .nm{font-family:"Cinzel",serif; font-size:clamp(16px,2.4vw,20px); letter-spacing:.04em; color:var(--bone); margin-bottom:.15rem;}
+  .node .dt{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--mute); margin-bottom:.7rem;}
+  .node .ln{color:#c7bf9f; font-size:17px; line-height:1.5; max-width:42ch; display:inline-block;}
+  .node.legend .jp{color:transparent; -webkit-text-stroke:1px rgba(201,162,75,.5);}
+  .node.legend .ln{color:#8f876c; font-style:italic;}
+  .node.legend::after{background:transparent; border:2px dashed var(--gold-dp); box-shadow:none;}
+  .node.shadow .jp{font-size:clamp(22px,4vw,30px); color:var(--gold-dp);}
+  .node.shadow::after{background:var(--ink); border:2px solid var(--gold-dp); box-shadow:none;}
+
+  .regalia{max-width:820px; margin:8vh auto 0; padding:3rem 1.4rem; text-align:center; border-top:1px solid var(--line);}
+  .regalia .head{font-family:"Shippori Mincho",serif; color:var(--gold); font-size:30px; margin-bottom:.4rem;}
+  .regalia .sub{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--mute); margin-bottom:2.2rem;}
+  .three{display:flex; flex-wrap:wrap; gap:1.4rem; justify-content:center;}
+  .treasure{flex:1 1 200px; max-width:240px; border:1px solid var(--line); border-radius:3px; padding:1.6rem 1.2rem;
+    background:linear-gradient(180deg,rgba(201,162,75,.05),transparent);}
+  .treasure .tjp{font-family:"Shippori Mincho",serif; font-size:32px; color:var(--gold-lt); margin-bottom:.4rem;}
+  .treasure .tnm{font-family:"Cinzel",serif; font-size:13px; letter-spacing:.1em; color:var(--bone); margin-bottom:.5rem;}
+  .treasure .tln{font-size:15px; color:var(--mute); line-height:1.45;}
+
+  .colophon{max-width:720px; margin:6vh auto 0; padding:6vh 1.6rem 16vh; border-top:1px solid var(--line);}
+  .colophon .kanji{font-family:"Shippori Mincho",serif; font-size:40px; color:var(--faint); margin-bottom:1.1rem;}
+  .colophon h3{font-family:"Cinzel",serif; font-weight:500; letter-spacing:.1em; font-size:20px; margin-bottom:1rem; color:var(--bone);}
+  .colophon p{color:var(--mute); font-size:17px; margin-bottom:1rem; max-width:62ch;}
+  .colophon p b{color:#c7bf9f; font-weight:500;}
+  .endmark{font-family:"Cinzel",serif; letter-spacing:.4em; font-size:11px; color:var(--faint); text-transform:uppercase; margin-top:2.2rem;}
+
+  .reveal{opacity:0; transform:translateY(34px); filter:blur(5px); transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1), filter .9s ease;}
+  .reveal.in{opacity:1; transform:none; filter:none;}
+
+  @media(max-width:620px){
+    .river{left:22px;}
+    .node{width:100%; left:0 !important; text-align:left !important; padding-left:3rem; padding-right:.4rem;}
+    .node::after{left:15px !important; right:auto !important;}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="bar"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header class="hero">
+  <div class="kiku" id="kiku" aria-hidden="true"></div>
+  <div class="tag">companion pamphlet · the bloodline</div>
+  <div class="kanji">皇統</div>
+  <h1>The Gold Line</h1>
+  <p class="sub">the Chrysanthemum Throne — from the sun goddess to the present, one line that never broke</p>
+  <div class="scroll">follow it down</div>
+</header>
+
+<section class="lineage" aria-label="Imperial succession">
+  <div class="river" aria-hidden="true"></div>
+  <div id="nodes"></div>
+</section>
+
+<section class="regalia reveal">
+  <div class="head">三種の神器</div>
+  <div class="sub">the three sacred treasures · what flows down the line</div>
+  <div class="three">
+    <div class="treasure"><div class="tjp">鏡</div><div class="tnm">The Mirror</div><div class="tln">Yata no Kagami — Amaterasu's own, standing for wisdom.</div></div>
+    <div class="treasure"><div class="tjp">剣</div><div class="tnm">The Sword</div><div class="tln">Kusanagi — drawn from a slain serpent, standing for valour.</div></div>
+    <div class="treasure"><div class="tjp">勾玉</div><div class="tnm">The Jewel</div><div class="tln">Yasakani no Magatama — the curved stone, standing for benevolence.</div></div>
+  </div>
+</section>
+
+<section class="colophon reveal">
+  <div class="kanji">了</div>
+  <h3>A note, kept honest</h3>
+  <p>Gold here is no metaphor reaching: the throne's emblem is a sixteen-petal <b>chrysanthemum</b> in gold, and its regalia — mirror, sword, jewel — are literally handed from one reign to the next as proof of succession. That hand-to-hand passage is the thing that "flows."</p>
+  <p>But the river's headwaters are myth, and the pamphlet says so. <b>Amaterasu</b> and <b>Jimmu</b> are legend; the eight reigns after him are the <b>"eight undocumented"</b> — names and dates with no recorded deeds, which historians treat as later invention. The line becomes firmly historical only around the sixth century, near <b>Suiko</b>. From there the count runs continuous — through centuries when shoguns held all real power and emperors reigned without ruling — down to <b>Naruhito, the 126th</b>.</p>
+  <p>So "unbroken" is the throne's own traditional claim, and it's true in the way that matters here: the line of succession was never cut, even when its power was. The gold kept flowing underground.</p>
+  <div class="endmark">金は絶えず流れる · the gold flows on</div>
+</section>
+
+<script>
+const NODES = [
+ {cls:"legend", rank:"origin", jp:"天照大神", nm:"Amaterasu-Ōmikami", dt:"the Age of the Gods",
+  ln:"The sun goddess. From her grandson Ninigi — sent down to earth bearing the three treasures — the line is said to begin."},
+ {cls:"legend", rank:"1st", jp:"神武", nm:"Jimmu", dt:"legendary · trad. 660 BCE",
+  ln:"The first emperor. Myth, not record — the headwater the throne would always claim."},
+ {cls:"legend", rank:"2nd – 9th", jp:"闕史八代", nm:"the eight undocumented", dt:"legendary",
+  ln:"Eight reigns with names and dates but no deeds. Tradition keeps them; history doubts them."},
+ {cls:"legend", rank:"10th", jp:"崇神", nm:"Sujin", dt:"semi-legendary",
+  ln:"Remembered as “the emperor who ruled the realm.” Here myth first begins to shade toward a real man."},
+ {cls:"", rank:"16th", jp:"仁徳", nm:"Nintoku", dt:"Kofun · 4th–5th c.",
+  ln:"Tied to the largest keyhole tomb on earth. The throne now leaves monuments, not only stories."},
+ {cls:"", rank:"33rd", jp:"推古", nm:"Suiko", dt:"reigned 593 – 628",
+  ln:"The first reigning empress. With Prince Shōtoku she brings Buddhism and statecraft — and here the line stands on solid history."},
+ {cls:"", rank:"50th", jp:"桓武", nm:"Kanmu", dt:"reigned 781 – 806",
+  ln:"Moves the capital to Heian-kyō — Kyoto — the throne's home for the next thousand years."},
+ {cls:"shadow", rank:"the long shadow", jp:"将軍の世", nm:"the age of shoguns", dt:"1185 – 1868",
+  ln:"For seven centuries warriors rule while emperors only reign. The line holds no power — and never breaks. It flows on beneath."},
+ {cls:"", rank:"96th", jp:"後醍醐", nm:"Go-Daigo", dt:"reigned 1318 – 1339",
+  ln:"Briefly seizes real power back — the Kenmu Restoration of 1333 — before the shoguns return. A flash of gold above the surface."},
+ {cls:"", rank:"122nd", jp:"明治", nm:"Meiji", dt:"reigned 1867 – 1912",
+  ln:"The Restoration ends the shogunate and returns the emperor to power. Japan remakes itself in a single generation."},
+ {cls:"", rank:"124th", jp:"昭和", nm:"Shōwa · Hirohito", dt:"reigned 1926 – 1989",
+  ln:"War, defeat, and a new constitution that recasts the emperor as “the symbol of the State.” Power gone; the line intact."},
+ {cls:"", rank:"125th", jp:"明仁", nm:"Akihito", dt:"reigned 1989 – 2019",
+  ln:"The Heisei era. The first emperor in two centuries to abdicate — passing the throne while still living."},
+ {cls:"", rank:"126th", jp:"徳仁", nm:"Naruhito", dt:"2019 – present",
+  ln:"The Reiwa era. The current emperor, holding the same regalia carried down fourteen centuries. The gold still flows."}
+];
+
+const wrap = document.getElementById('nodes');
+NODES.forEach(d=>{
+  const el = document.createElement('div');
+  el.className = 'node reveal ' + d.cls;
+  el.innerHTML = `<div class="rank">${d.rank}</div><div class="jp">${d.jp}</div><div class="nm">${d.nm}</div><div class="dt">${d.dt}</div><div class="ln">${d.ln}</div>`;
+  wrap.appendChild(el);
+});
+
+const NS="http://www.w3.org/2000/svg";
+const svg=document.createElementNS(NS,"svg"); svg.setAttribute("viewBox","0 0 120 120"); svg.style.width="100%"; svg.style.height="100%";
+for(let i=0;i<16;i++){
+  const p=document.createElementNS(NS,"ellipse");
+  p.setAttribute("cx","60"); p.setAttribute("cy","30"); p.setAttribute("rx","7.5"); p.setAttribute("ry","22");
+  p.setAttribute("fill","none"); p.setAttribute("stroke","currentColor"); p.setAttribute("stroke-width","1.4");
+  p.setAttribute("transform",`rotate(${i*22.5} 60 60)`);
+  svg.appendChild(p);
+}
+const c1=document.createElementNS(NS,"circle"); c1.setAttribute("cx","60"); c1.setAttribute("cy","60"); c1.setAttribute("r","13");
+c1.setAttribute("fill","none"); c1.setAttribute("stroke","currentColor"); c1.setAttribute("stroke-width","1.6"); svg.appendChild(c1);
+const c2=document.createElementNS(NS,"circle"); c2.setAttribute("cx","60"); c2.setAttribute("cy","60"); c2.setAttribute("r","5");
+c2.setAttribute("fill","currentColor"); svg.appendChild(c2);
+document.getElementById('kiku').appendChild(svg);
+
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);}})},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+const bar=document.getElementById('bar');
+addEventListener('scroll',()=>{const h=document.documentElement; bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100).toFixed(1)+'%';},{passive:true});
+</script>
+</body>
+</html>

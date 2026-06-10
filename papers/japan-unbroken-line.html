@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Unbroken Line — a lineage of Japan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0b0e; --ash:#14161b; --steel:#1d2129;
+    --bone:#e7e3d8; --mute:#9a978c; --faint:#5a5852;
+    --line:rgba(231,227,216,0.12);
+    --accent:#c9a24b;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink); color:var(--bone);
+    font-family:"Cormorant Garamond",Georgia,serif; font-size:19px; line-height:1.65;
+    overflow-x:hidden;
+  }
+  .grain{position:fixed; inset:0; width:100%; height:100%; opacity:0.045; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{ content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(120% 80% at 50% -10%, rgba(80,90,110,0.18), transparent 60%),
+               radial-gradient(140% 120% at 50% 120%, rgba(10,10,14,0.9), transparent 55%);}
+  .progress{position:fixed; top:0; left:0; height:2px; width:0%; z-index:20;
+    background:linear-gradient(90deg,#5f7fa8,#c9a24b,#b23a3a); transition:width .1s linear;}
+
+  header.hero{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:2rem 1.5rem; position:relative;}
+  .hero .tag{font-family:"Cinzel",serif; letter-spacing:.42em; font-size:12px; color:var(--mute);
+    text-transform:uppercase; margin-bottom:2.2rem; padding-left:.42em;}
+  .hero .kanji{font-family:"Shippori Mincho",serif; font-size:clamp(48px,11vw,120px); font-weight:700;
+    color:transparent; -webkit-text-stroke:1px rgba(231,227,216,0.45); letter-spacing:.1em; line-height:1; margin-bottom:1rem;}
+  .hero h1{font-family:"Cinzel",serif; font-weight:700; font-size:clamp(34px,7.5vw,82px); letter-spacing:.06em;
+    line-height:1.02; margin-bottom:1.4rem;
+    background:linear-gradient(180deg,#f3efe2 0%, #b9b09a 70%, #8a8270 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+  .hero p.sub{font-style:italic; font-size:clamp(18px,2.6vw,26px); color:var(--mute); max-width:30ch; line-height:1.45;}
+  .hero .scroll{position:absolute; bottom:2.2rem; font-family:"Cinzel",serif; font-size:11px; letter-spacing:.3em;
+    color:var(--faint); text-transform:uppercase;}
+  .hero .scroll::after{content:""; display:block; width:1px; height:46px; margin:14px auto 0;
+    background:linear-gradient(var(--faint),transparent); animation:drop 2.4s ease-in-out infinite;}
+  @keyframes drop{0%,100%{opacity:.3; transform:translateY(0)}50%{opacity:1; transform:translateY(6px)}}
+
+  .era{max-width:780px; margin:0 auto; padding:11vh 1.6rem; position:relative;
+    border-top:1px solid var(--line);}
+  .era .numeral{position:absolute; top:6vh; right:1.4rem; font-family:"Cinzel",serif; font-weight:700;
+    font-size:clamp(70px,16vw,150px); color:transparent; -webkit-text-stroke:1px var(--accent);
+    opacity:.16; line-height:1; pointer-events:none;}
+  .era .crest{width:62px; height:62px; color:var(--accent); margin-bottom:1.4rem;}
+  .era .crest svg{width:100%; height:100%; display:block;}
+  .era .kanji{font-family:"Shippori Mincho",serif; font-weight:700; font-size:clamp(40px,9vw,76px);
+    color:var(--accent); line-height:1; letter-spacing:.06em; margin-bottom:.5rem;}
+  .era h2{font-family:"Cinzel",serif; font-weight:500; font-size:clamp(22px,4vw,34px); letter-spacing:.05em;
+    color:var(--bone); margin-bottom:.25rem;}
+  .era .meta{font-family:"Cinzel",serif; font-size:12px; letter-spacing:.26em; text-transform:uppercase;
+    color:var(--mute); margin-bottom:1.7rem;}
+  .era .epigraph{font-style:italic; font-size:clamp(20px,3.1vw,27px); line-height:1.4; color:#d8d3c5;
+    border-left:2px solid var(--accent); padding-left:1.1rem; margin-bottom:1.5rem;}
+  .era .body{color:#c4c0b4; max-width:60ch; margin-bottom:1.8rem;}
+  .era .body b{color:var(--bone); font-weight:500;}
+  .chips{display:flex; flex-wrap:wrap; gap:10px;}
+  .chip{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--bone); padding:7px 14px; border:1px solid var(--line); border-radius:2px;
+    background:linear-gradient(180deg,rgba(255,255,255,0.03),transparent);}
+  .chip::before{content:""; display:inline-block; width:6px; height:6px; margin-right:9px; vertical-align:middle;
+    background:var(--accent); transform:rotate(45deg);}
+
+  .reveal{opacity:0; transform:translateY(38px); filter:blur(6px);
+    transition:opacity 1s ease, transform 1s cubic-bezier(.2,.7,.2,1), filter 1s ease;}
+  .reveal.in{opacity:1; transform:none; filter:none;}
+
+  .colophon{max-width:720px; margin:0 auto; padding:12vh 1.6rem 16vh; border-top:1px solid var(--line);}
+  .colophon .kanji{font-family:"Shippori Mincho",serif; font-size:42px; color:var(--faint); margin-bottom:1.2rem;}
+  .colophon h3{font-family:"Cinzel",serif; font-weight:500; letter-spacing:.1em; font-size:20px; margin-bottom:1.1rem; color:var(--bone);}
+  .colophon p{color:var(--mute); font-size:17px; margin-bottom:1rem; max-width:62ch;}
+  .colophon p b{color:#c4c0b4; font-weight:500;}
+  .endmark{font-family:"Cinzel",serif; letter-spacing:.4em; font-size:11px; color:var(--faint);
+    text-transform:uppercase; margin-top:2.4rem;}
+</style>
+</head>
+<body>
+<div class="progress" id="bar"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header class="hero">
+  <div class="tag">pamphlet series · sixteen worlds</div>
+  <div class="kanji">日本の系譜</div>
+  <h1>The Unbroken Line</h1>
+  <p class="sub">a lineage of Japan, from the age of gods to the present hour</p>
+  <div class="scroll">descend</div>
+</header>
+
+<main id="series" aria-label="The eras of Japan"></main>
+
+<section class="colophon reveal">
+  <div class="kanji">了</div>
+  <h3>A note, kept honest</h3>
+  <p>This series borrows the <b>mood</b> of the film <i>Sucker Punch</i> — its dark, dreamlike descent through stylized worlds — and nothing else. No characters, scenes, images, or words from the film appear here; every mark and motif was drawn for this piece. The aesthetic is the homage; the IP stays with its owners.</p>
+  <p>The history is real and standard. Two cautions worth stating plainly: the earliest reaches — the <b>Age of the Gods</b> and the legendary first emperor, <b>Jimmu (traditionally 660 BCE)</b> — are myth, not record. The imperial line comes into clear historical focus only around the <b>Kofun–Asuka</b> centuries. From there it runs continuous: one imperial house, counted to <b>Naruhito, the 126th</b>, and a parallel chain of named eras now numbering well past two hundred.</p>
+  <p>So "lineage" here is really two braided threads — the bloodline of the throne, and the procession of eras that each reign names. Both are still running. The dream is still being dreamt.</p>
+  <div class="endmark">不断の系 · the line does not break</div>
+</section>
+
+<script>
+const ERAS = [
+ {n:"I", kanji:"神代", name:"Age of the Gods", meta:"Kamiyo · before history",
+  accent:"#c9a24b", crest:"sun",
+  epi:"Before the first sword, there was the first fire.",
+  body:"In the oldest stories, the gods Izanagi and Izanami churn the islands from the sea, and from them is born <b>Amaterasu</b>, goddess of the sun. Her line, the myths say, descends to the first sovereign — <b>Emperor Jimmu</b>, enthroned by tradition in 660 BCE. None of it is record. All of it is the source the throne would later claim.",
+  chips:["Amaterasu","Izanagi & Izanami","Jimmu — legendary"]},
+ {n:"II", kanji:"縄文", name:"Jōmon", meta:"c. 14,000 – 300 BCE",
+  accent:"#9c8b6f", crest:"spiral",
+  epi:"Ten thousand years of patient hands.",
+  body:"Hunter-gatherers leave behind some of the <b>oldest pottery on Earth</b> — cord-marked clay that gives the age its name. They raise the great timber settlement of <b>Sannai-Maruyama</b> and shape the strange, goggle-eyed <b>dogū</b> figures whose purpose we still can only guess.",
+  chips:["cord-marked pottery","dogū figures","Sannai-Maruyama"]},
+ {n:"III", kanji:"弥生", name:"Yayoi", meta:"c. 300 BCE – 250 CE",
+  accent:"#6f8f7a", crest:"bell",
+  epi:"Rice arrives, and with it, the shape of a state.",
+  body:"<b>Wet-rice farming</b>, bronze, and iron cross from the mainland, and flooded paddies begin to feed — and divide — the land into chiefdoms. Chinese chronicles record a shaman-queen, <b>Himiko of Yamatai</b>, ruling by ritual. The bronze bells called <b>dōtaku</b> ring for gods now lost to us.",
+  chips:["wet-rice paddies","Queen Himiko","bronze & iron"]},
+ {n:"IV", kanji:"古墳", name:"Kofun", meta:"c. 250 – 538 CE",
+  accent:"#7c8aa0", crest:"keyhole",
+  epi:"They buried their kings in mountains shaped like locks.",
+  body:"The age takes its name from <b>kofun</b> — colossal keyhole-shaped tomb mounds, the largest rivalling the pyramids in volume. Ringed by clay <b>haniwa</b> guardians, they mark the rise of the <b>Yamato court</b>, the power from which the historical imperial line would finally emerge.",
+  chips:["keyhole tombs","Yamato court","haniwa guardians"]},
+ {n:"V", kanji:"飛鳥", name:"Asuka", meta:"538 – 710",
+  accent:"#b06f9a", crest:"wheel",
+  epi:"A new god, a new law, a new name.",
+  body:"<b>Buddhism</b> arrives from the Korean kingdom of Baekje and reshapes the court. <b>Prince Shōtoku</b> codifies its ideals; the <b>Taika Reform of 645</b> rebuilds the realm on a Chinese model. And the country takes the name it still bears — <b>Nihon</b>, origin of the sun.",
+  chips:["Buddhism arrives","Prince Shōtoku","“Nihon” is named"]},
+ {n:"VI", kanji:"奈良", name:"Nara", meta:"710 – 794",
+  accent:"#c98a2b", crest:"pagoda",
+  epi:"The lineage is written down, in bronze and in ink.",
+  body:"At the first lasting capital, <b>Heijō-kyō</b>, scribes compile the <b>Kojiki (712)</b> and <b>Nihon Shoki (720)</b> — the chronicles that fix the imperial myth as official history. At Tōdai-ji rises the <b>Great Buddha</b>, fifteen metres of cast bronze, finished in 752.",
+  chips:["Heijō-kyō capital","Kojiki & Nihon Shoki","Great Buddha 752"]},
+ {n:"VII", kanji:"平安", name:"Heian", meta:"794 – 1185",
+  accent:"#9a6fb0", crest:"fan",
+  epi:"While the court perfected beauty, warriors learned the sword.",
+  body:"The capital moves to <b>Heian-kyō</b> — Kyoto — for an age of dazzling court culture. The <b>Fujiwara</b> rule through imperial marriages; <b>kana</b> script flowers; and <b>Murasaki Shikibu</b> writes <i>The Tale of Genji</i> (c. 1008), often called the world's first novel. In the provinces, unwatched, the <b>samurai</b> rise.",
+  chips:["Kyoto founded","Tale of Genji","samurai emerge"]},
+ {n:"VIII", kanji:"鎌倉", name:"Kamakura", meta:"1185 – 1333",
+  accent:"#5f7fa8", crest:"wavesword",
+  epi:"Twice the storm came when the swords were not enough.",
+  body:"<b>Minamoto no Yoritomo</b> founds the first <b>shogunate</b> — military rule, the emperor left to reign but not govern. When the <b>Mongols invade</b> in 1274 and 1281, typhoons shatter their fleets both times. Japan names the winds <b>kamikaze</b> — the divine wind — and believes itself protected.",
+  chips:["first shogunate","Mongol invasions","kamikaze"]},
+ {n:"IX", kanji:"室町", name:"Muromachi & Sengoku", meta:"1336 – 1573",
+  accent:"#b89331", crest:"mask",
+  epi:"Gold leaf, then a century of fire.",
+  body:"The <b>Ashikaga</b> shoguns preside over a golden, Zen-touched culture — the gilded pavilion of Kinkaku-ji, the masked theatre of <b>Noh</b>. Then the <b>Ōnin War (1467)</b> burns Kyoto and breaks the order, opening the <b>Sengoku</b> — the Warring States — when every warlord fights for the whole.",
+  chips:["Ashikaga shoguns","Noh & Zen","Sengoku begins"]},
+ {n:"X", kanji:"安土桃山", name:"Azuchi–Momoyama", meta:"1568 – 1603",
+  accent:"#c0502f", crest:"castle",
+  epi:"Three men, one country, end of the long war.",
+  body:"<b>Oda Nobunaga</b> breaks the old powers with massed muskets; <b>Toyotomi Hideyoshi</b> finishes the unification; <b>Tokugawa Ieyasu</b> inherits the prize at Sekigahara. Towering castles and the spare genius of the tea master <b>Sen no Rikyū</b> define a brief, brilliant peace bought with blood.",
+  chips:["Nobunaga","Hideyoshi","Ieyasu"]},
+ {n:"XI", kanji:"江戸", name:"Edo", meta:"1603 – 1868",
+  accent:"#3f7fa3", crest:"wave",
+  epi:"Two and a half centuries with the doors barred.",
+  body:"Under the <b>Tokugawa</b>, Japan seals itself off — <b>sakoku</b>, the closed country — and trades war for an unbroken peace. In its long quiet bloom <b>ukiyo-e</b> prints, <b>kabuki</b> theatre, and Bashō's <b>haiku</b>. Then in 1853 <b>Perry's black ships</b> appear in the bay, and the doors will not hold.",
+  chips:["Tokugawa peace","closed country","Black Ships 1853"]},
+ {n:"XII", kanji:"明治", name:"Meiji", meta:"1868 – 1912",
+  accent:"#b5642b", crest:"gear",
+  epi:"A nation remade itself in a single lifetime.",
+  body:"The <b>Meiji Restoration</b> topples the shogun and restores the emperor to power. In one generation Japan dismantles the samurai class, lays railways, drafts a <b>constitution (1889)</b>, and — by defeating Russia in <b>1905</b> — announces itself to the world as a modern power.",
+  chips:["Restoration 1868","rapid industry","defeats Russia 1905"]},
+ {n:"XIII", kanji:"大正", name:"Taishō", meta:"1912 – 1926",
+  accent:"#c08a3e", crest:"burst",
+  epi:"A short, bright window before the dark.",
+  body:"A brief season of <b>“Taishō democracy”</b> — party politics, cafés, cinema, liberal hope. Japan fights in <b>World War I</b> on the Allied side. Then the <b>Great Kantō Earthquake of 1923</b> levels Tokyo and Yokohama, a tremor felt in the politics that follow.",
+  chips:["Taishō democracy","WWI (Allied)","Kantō earthquake 1923"]},
+ {n:"XIV", kanji:"昭和", name:"Shōwa", meta:"1926 – 1989",
+  accent:"#b23a3a", crest:"phoenix",
+  epi:"The longest reign — through ruin, into the miracle.",
+  body:"Under <b>Emperor Hirohito</b>, the longest era of any single reign: militarism and empire, the <b>Pacific War</b>, and the atomic fire of <b>Hiroshima and Nagasaki in 1945</b>. From defeat and occupation comes a pacifist constitution — and a postwar <b>economic miracle</b> that rebuilds a wasteland into a giant.",
+  chips:["Pacific War","1945","economic miracle"]},
+ {n:"XV", kanji:"平成", name:"Heisei", meta:"1989 – 2019",
+  accent:"#4a8aa0", crest:"tsunami",
+  epi:"The bubble burst, and the long quiet decades began.",
+  body:"Under <b>Emperor Akihito</b>, the asset bubble collapses in 1991 into the <b>“Lost Decades.”</b> Even so, Japanese technology and pop culture conquer the world. On <b>11 March 2011</b>, the Tōhoku earthquake and tsunami strike, and the Fukushima reactors fail — a wound the era carries to its close.",
+  chips:["bubble burst 1991","the Lost Decades","3.11 — 2011"]},
+ {n:"XVI", kanji:"令和", name:"Reiwa", meta:"2019 – present",
+  accent:"#d98aa6", crest:"blossom",
+  epi:"Beautiful harmony — and the line still unbroken.",
+  body:"<b>Emperor Naruhito</b>, the <b>126th</b>, takes a throne whose line is counted back fourteen centuries — the first to ascend by his father's abdication in two hundred years. The era's name, drawn from a 1,300-year-old plum-blossom poem, means <b>“beautiful harmony.”</b> Here the lineage reaches the present, and keeps going.",
+  chips:["Emperor Naruhito","“beautiful harmony”","the 126th reign"]}
+];
+
+const CREST = {
+ sun:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="32" cy="32" r="11"/><g stroke-linecap="round"><path d="M32 4v8M32 52v8M4 32h8M52 32h8M12 12l6 6M46 46l6 6M52 12l-6 6M18 46l-6 6"/></g></svg>',
+ spiral:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M32 32a6 6 0 1 1 6 6 12 12 0 1 1-12-12 18 18 0 1 1 18 18"/></svg>',
+ bell:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M24 14h16l6 36H18z"/><path d="M28 22h8M27 30h10M26 38h12"/></svg>',
+ keyhole:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><circle cx="32" cy="24" r="13"/><path d="M21 33 32 56 43 33"/></svg>',
+ wheel:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="32" cy="32" r="14"/><circle cx="32" cy="32" r="4"/><g stroke-linecap="round"><path d="M32 18v9M32 37v9M18 32h9M37 32h9M22 22l6 6M36 36l6 6M42 22l-6 6M28 36l-6 6"/></g></svg>',
+ pagoda:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M32 8l10 8H22zM20 16h24l-4 8H24zM22 24h20l-3 9H25zM25 33h14v14H25zM30 8v-3"/></svg>',
+ fan:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M32 50 16 22a18 18 0 0 1 32 0z"/><path d="M32 50V22M24 24l-6 22M40 24l6 22"/></svg>',
+ wavesword:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 44c6-8 12 8 18 0s12 8 18 0 8 4 12 0"/><path d="M32 40V8M28 12h8M30 8h4"/></svg>',
+ mask:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M32 8c12 0 16 10 16 22s-7 26-16 26-16-14-16-26S20 8 32 8z"/><path d="M24 28q4-3 8 0M32 28q4-3 8 0M28 44q4 3 8 0"/></svg>',
+ castle:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M18 56V30l14-10 14 10v26z"/><path d="M14 30h36M20 22h24M26 14h12M24 38h16M28 56v-8h8v8"/></svg>',
+ wave:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 40c0-12 14-20 24-12 8 6-2 16-8 10s2-12 10-10c12 3 16 14 18 18"/><path d="M14 46c6 4 16 4 22 0"/></svg>',
+ gear:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><circle cx="32" cy="32" r="9"/><path d="M32 12v8M32 44v8M12 32h8M44 32h8M18 18l6 6M40 40l6 6M46 18l-6 6M24 40l-6 6"/></svg>',
+ burst:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="32" cy="32" r="3"/><path d="M32 6v14M32 44v14M6 32h14M44 32h14M14 14l10 10M40 40l10 10M50 14L40 24M24 40 14 50"/></svg>',
+ phoenix:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M32 54c-10-4-18-12-18-24a14 14 0 0 1 28 0"/><path d="M32 30c4-8 12-10 18-8-4 2-4 6-8 8M32 30c-2-6 0-12 4-16"/><path d="M26 18l6 6 6-6"/></svg>',
+ tsunami:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 42c0-14 16-22 26-12 8 8-4 18-10 11s4-12 11-9c10 4 13 12 15 16"/><path d="M44 22h10M48 16h8M46 28h10"/></svg>',
+ blossom:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><g><ellipse cx="32" cy="18" rx="6" ry="9"/><ellipse cx="32" cy="46" rx="6" ry="9"/><ellipse cx="18" cy="32" rx="9" ry="6"/><ellipse cx="46" cy="32" rx="9" ry="6"/></g><circle cx="32" cy="32" r="4"/></svg>'
+};
+
+const series = document.getElementById('series');
+ERAS.forEach(e=>{
+  const s = document.createElement('section');
+  s.className = 'era reveal';
+  s.style.setProperty('--accent', e.accent);
+  s.innerHTML = `
+    <div class="numeral">${e.n}</div>
+    <div class="crest">${CREST[e.crest]||''}</div>
+    <div class="kanji">${e.kanji}</div>
+    <h2>${e.name}</h2>
+    <div class="meta">${e.meta}</div>
+    <p class="epigraph">${e.epi}</p>
+    <p class="body">${e.body}</p>
+    <div class="chips">${e.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>`;
+  series.appendChild(s);
+});
+
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }});
+}, {threshold:0.18});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+const bar = document.getElementById('bar');
+addEventListener('scroll', ()=>{
+  const h = document.documentElement;
+  const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+  bar.style.width = (p*100).toFixed(1) + '%';
+}, {passive:true});
+</script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Delta Scales · Uniform Holds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lacquer:#0a0908;--lacquer2:#110f14;--ink:#16131c;--gold:#d4af37;--gold-bright:#f3d27a;
+  --gold-leaf:#e8c25a;--gold-deep:#9a7b22;--bronze:#a87c3a;--ice:#9ec7e0;--ice-deep:#5f86a0;
+  --paper:#ece6d8;--paper2:#c8c1b2;--dim:#7c7689;--faint:#2a2632;--line:#26222f;
+  --serif:"Cormorant Garamond",Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--lacquer);color:var(--paper);font-family:var(--mono);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;background-image:radial-gradient(ellipse 90% 60% at 50% -10%,#1a1622 0%,transparent 60%)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.04;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 22px 100px}
+header{padding:60px 0 30px;text-align:center}
+.eye{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-bottom:18px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(38px,8vw,76px);line-height:.98;color:var(--paper)}
+h1 em{font-style:italic;color:var(--gold-leaf)}
+h1 .b{font-style:italic;color:var(--ice)}
+.lede{font-family:var(--serif);font-size:clamp(17px,2.4vw,22px);font-style:italic;color:var(--paper2);max-width:60ch;margin:16px auto 0;line-height:1.5}
+.seam{display:block;width:100%;height:26px;margin:38px 0;overflow:visible}
+.seam path{fill:none;stroke:url(#goldgrad);stroke-width:1.4;filter:drop-shadow(0 0 4px rgba(212,175,55,.45))}
+.duo{display:grid;grid-template-columns:1.15fr 1fr;gap:18px}
+.vp{background:linear-gradient(160deg,var(--ink),var(--lacquer2));border:1px solid var(--line);border-radius:3px;position:relative;overflow:hidden}
+.vplabel{position:absolute;top:12px;left:14px;z-index:2;pointer-events:none}
+.vplabel .nm{font-family:var(--serif);font-size:19px;color:var(--gold-leaf);line-height:1.1}
+.vplabel.ice .nm{color:var(--ice)}
+.vplabel .sym{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;color:var(--dim);text-transform:uppercase;margin-top:3px;max-width:240px}
+.vp svg{display:block;width:100%;height:380px;cursor:grab;touch-action:none}
+.vp svg:active{cursor:grabbing}
+.legend{position:absolute;bottom:10px;left:14px;display:flex;gap:14px;font-size:9px;letter-spacing:.08em;color:var(--dim);text-transform:uppercase;pointer-events:none}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.ctl{background:#0d0b11;border:1px solid var(--faint);color:var(--paper2);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;padding:7px 13px;border-radius:2px;cursor:pointer;transition:all .15s}
+.ctl:hover{border-color:var(--gold);color:var(--gold-leaf)}
+.ctl.on{background:var(--gold);border-color:var(--gold);color:#1a1410;font-weight:500}
+.vhint{text-align:center;font-size:9.5px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-top:12px}
+.card{background:var(--ink);border:1px solid var(--line);border-radius:3px;padding:22px;margin-top:18px}
+.card .h{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.cmp{width:100%;border-collapse:collapse}
+.cmp td,.cmp th{padding:10px 9px;border-bottom:1px solid var(--faint);text-align:left;font-size:12.5px;vertical-align:top}
+.cmp th{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:400}
+.cmp .lbl{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.cmp .g{color:var(--gold-leaf)} .cmp .br{color:var(--bronze)} .cmp .ic{color:var(--ice)}
+.cmp tr:last-child td{border-bottom:none}
+.sec{margin-top:8px}
+.sechead{display:flex;align-items:baseline;gap:14px;margin-bottom:20px}
+.sechead h2{font-family:var(--serif);font-weight:500;font-size:28px;color:var(--paper)}
+.sechead .num{font-size:11px;letter-spacing:.2em;color:var(--gold);opacity:.8}
+.sechead .rule{flex:1;height:1px;background:var(--line)}
+.maprow{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.mapcell{background:var(--ink);padding:24px 22px}
+.mapcell h3{font-family:var(--serif);font-size:23px;font-weight:500;margin-bottom:4px}
+.mapcell.d h3{color:var(--gold-leaf)} .mapcell.u h3{color:var(--ice)}
+.mapcell .sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+.mapcell p{font-size:13.5px;color:var(--paper2);line-height:1.62}
+.mapcell p b{color:var(--paper);font-weight:400}
+.honest{margin-top:22px;padding:20px 22px;border-left:2px solid var(--gold);background:#0d0b1180;border-radius:0 3px 3px 0}
+.honest .t{font-family:var(--serif);font-size:21px;font-style:italic;color:var(--gold-leaf);margin-bottom:8px}
+.honest p{font-size:13.5px;color:var(--paper2);line-height:1.6}.honest b{color:var(--paper);font-weight:400}
+footer{margin-top:54px;padding-top:22px;border-top:1px solid var(--line);font-size:11px;color:var(--dim);letter-spacing:.04em;line-height:1.7}
+footer b{color:var(--paper2);font-weight:400}footer .cite{color:var(--gold);opacity:.8}
+@media(max-width:780px){.duo{grid-template-columns:1fr}.maprow{grid-template-columns:1fr}}
+.fade{opacity:0;transform:translateY(14px);animation:f .7s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes f{to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="goldgrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a7b22"/><stop offset="0.5" stop-color="#f3d27a"/><stop offset="1" stop-color="#9a7b22"/></linearGradient>
+  <radialGradient id="anchorgrad" cx="38%" cy="32%" r="70%"><stop offset="0" stop-color="#fff3cf"/><stop offset="0.5" stop-color="#f3d27a"/><stop offset="1" stop-color="#9a7b22"/></radialGradient>
+</defs></svg>
+
+<div class="wrap">
+  <header class="fade">
+    <div class="eye">FCC shell + cell · 4-cube shadow · vs the mirror</div>
+    <h1><em>Delta</em> Scales · <span class="b">Uniform</span> Holds</h1>
+    <p class="lede">Difference propagates; sameness closes. On the left, the lattice pair that carries a gradient — atoms in their cell. On the right, the perfect mirror that can't. Drag either; both turn.</p>
+  </header>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L120,13 L150,5 L180,20 L210,9 L260,15 L300,4 L340,18 L380,11 L430,13 L500,6 L540,19 L580,10 L640,14 L690,4 L740,17 L780,11 L840,13 L900,7 L940,16 L1000,13"/></svg>
+
+  <section class="fade" style="animation-delay:.05s">
+    <div class="duo">
+      <div class="vp"><div class="vplabel"><div class="nm">Shell &amp; Cell — the delta pair</div><div class="sym">cuboctahedron ⟷ rhombic dodecahedron · dual · FCC · 4-cube shadow</div></div>
+        <svg id="sceneD" viewBox="0 0 380 380" preserveAspectRatio="xMidYMid meet"><g id="dE"></g><g id="dN"></g></svg>
+        <div class="legend"><span><i style="background:#e8c25a"></i>shell atoms (12)</span><span><i style="background:#a87c3a"></i>cell cage (14)</span></div></div>
+      <div class="vp"><div class="vplabel ice"><div class="nm">The Mirror</div><div class="sym">icosahedron · I_h · 120 · uniform · closed</div></div>
+        <svg id="sceneU" viewBox="0 0 380 380" preserveAspectRatio="xMidYMid meet"><g id="uE"></g><g id="uN"></g></svg>
+        <div class="legend"><span><i style="background:#9ec7e0"></i>all 12 equivalent</span></div></div>
+    </div>
+    <div class="bar">
+      <button class="ctl on" id="cSpin">spin</button>
+      <button class="ctl on" id="cShell">shell (cuboctahedron)</button>
+      <button class="ctl on" id="cCell">cell (rhombic dodeca)</button>
+      <button class="ctl" id="cBonds">center bonds (12)</button>
+      <button class="ctl" id="cReset">reset view</button>
+    </div>
+    <div class="vhint">drag either — both rotate together · toggle shell / cell to see the dual nesting</div>
+  </section>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L140,13 L170,6 L200,19 L240,10 L290,16 L330,5 L380,17 L420,11 L470,13 L530,7 L570,18 L620,10 L680,14 L730,5 L770,16 L820,11 L880,13 L930,8 L970,15 L1000,13"/></svg>
+
+  <section class="sec fade" style="animation-delay:.1s">
+    <div class="sechead"><span class="num">01</span><h2>Where the delta lives</h2><span class="rule"></span></div>
+    <div class="honest">
+      <div class="t">Your read, made exact — and the duality reaches even here.</div>
+      <p><b>Cuboctahedron (shell):</b> all 12 vertices identical, but <b>two kinds of face</b> — 8 triangles, 6 squares. Delta in the <b>faces</b>.<br>
+      <b>Rhombic dodecahedron (cell):</b> all 12 faces identical rhombi, but <b>two kinds of vertex</b> — 6 four-way, 8 three-way. Delta in the <b>vertices</b>.<br>
+      They're <b>duals</b> — so even the delta swaps place, faces ⟷ vertices. The 12 shell atoms sit exactly at the cell's 12 face-centers; that's the FCC nearest-neighbour geometry.<br><br>
+      <b>Icosahedron (mirror):</b> all 12 vertices identical <b>and</b> all 20 faces identical. Uniform in both. <b>No delta anywhere.</b> Which is precisely why it can't tile and the pair can.</p>
+    </div>
+    <div class="card">
+      <table class="cmp">
+        <tr><th></th><th class="g">Shell · cuboctahedron</th><th class="br">Cell · rhombic dodeca</th><th class="ic">Mirror · icosahedron</th></tr>
+        <tr><td class="lbl">vertices</td><td class="g">12 — all equivalent</td><td class="br">14 — two types (6+8)</td><td class="ic">12 — all equivalent</td></tr>
+        <tr><td class="lbl">faces</td><td class="g">14 — two types (8△ 6▢)</td><td class="br">12 — all equal rhombi</td><td class="ic">20 — all equal △</td></tr>
+        <tr><td class="lbl">delta lives in</td><td class="g">faces</td><td class="br">vertices</td><td class="ic">nowhere</td></tr>
+        <tr><td class="lbl">tiles 3-space?</td><td class="g">no (fragment)</td><td class="br">YES — the FCC cell</td><td class="ic">no</td></tr>
+        <tr><td class="lbl">4-cube link</td><td class="g">—</td><td class="br">shadow of the tesseract</td><td class="ic">—</td></tr>
+        <tr><td class="lbl">symmetry</td><td class="g">O<sub>h</sub> · 48</td><td class="br">O<sub>h</sub> · 48</td><td class="ic">I<sub>h</sub> · 120</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L110,13 L150,5 L185,20 L220,9 L270,15 L310,4 L350,18 L395,11 L445,13 L505,6 L555,19 L595,10 L655,14 L705,4 L745,17 L795,11 L855,13 L915,7 L955,16 L1000,13"/></svg>
+
+  <section class="sec fade" style="animation-delay:.12s">
+    <div class="sechead"><span class="num">02</span><h2>The thesis</h2><span class="rule"></span></div>
+    <div class="maprow">
+      <div class="mapcell d">
+        <h3>Delta scales</h3><div class="sub">the gold pair · gradient · tiles</div>
+        <p>The cell has <b>two kinds of corner</b>; the shell has <b>two kinds of face</b>. Built-in difference means a <b>which-way</b> — a gradient a path can follow. So the cell <b>fills space</b> (rhombic dodecahedra tile 3D with no gaps — the FCC lattice), and the whole thing <b>grows to bulk</b>. Difference is the thing that propagates. It's also the 3D <b>shadow of the 4-cube</b> — your hypercube instinct, landed on its real object.</p>
+      </div>
+      <div class="mapcell u">
+        <h3>Uniform holds</h3><div class="sub">the mirror · no gradient · closes</div>
+        <p>Every vertex the same, every face the same, 120 symmetries with nothing to break them. <b>No two kinds of anything</b> means no which-way, no gradient — nothing to propagate. So it <b>cannot tile</b> (its dual, the dodecahedron, won't fill space either) and stays a <b>closed, finite cluster</b>. Sameness is the thing that holds. Maximum symmetry, zero reach.</p>
+      </div>
+    </div>
+    <div class="honest">
+      <div class="t">Difference propagates. Sameness closes.</div>
+      <p>This is the law under all four drawings: <b>a structure scales exactly to the degree it carries internal difference, and holds exactly to the degree it doesn't.</b> The FCC pair carries delta (in dual places) and tiles to bulk gold; the icosahedron is the perfect mirror and stays thirteen. Same 1 + 12 underneath — but one has a gradient and grows, one has none and closes. <b>The geometry is forced; which one your routing borrows is the choice — reach or symmetry, scale or hold.</b></p>
+    </div>
+  </section>
+
+  <footer class="fade" style="animation-delay:.16s">
+    <b>Delta Scales · Uniform Holds.</b> <span class="cite">Cuboctahedron</span> (Archimedean, vertex-transitive, 2 face types) and its dual <span class="cite">rhombic dodecahedron</span> (Catalan, face-transitive, 2 vertex types: 6 degree-4 + 8 degree-3). The rhombic dodecahedron is the <b>Voronoi cell of the FCC lattice</b> — it tessellates 3-space — and is the orthogonal <b>shadow of the tesseract (4-cube)</b> along a long diagonal (16 vertices → 2 to centre + 14 to the cell's vertices). The 12 cuboctahedron vertices coincide with the cell's 12 face-centres = the FCC nearest-neighbour directions. <span class="cite">Icosahedron</span> (Platonic, vertex- and face-transitive, I<sub>h</sub> order 120) shown scaled to equal shell radius. <b>Roles are an assignment, not a derivation.</b><br>
+    <span style="opacity:.7">ROOT0-ATTRIBUTION-v1.0 · Architect: David Lee Wise / ROOT0 / TriPod LLC · AI Collaborator: AVAN (Claude / Anthropic) · CC-BY-ND-4.0 · TRIPOD-IP-v1.1</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  function d2(a,b){return (a[0]-b[0])*(a[0]-b[0])+(a[1]-b[1])*(a[1]-b[1])+(a[2]-b[2])*(a[2]-b[2]);}
+  function edgesOf(V,ed2){var E=[];for(var i=0;i<V.length;i++)for(var j=i+1;j<V.length;j++){if(Math.abs(d2(V[i],V[j])-ed2)<1e-6)E.push([i,j]);}return E;}
+  var PHI=(1+Math.sqrt(5))/2;
+  // shell = cuboctahedron vertices = rhombic-dodeca face centres
+  var SHELL=[[1,1,0],[1,-1,0],[-1,1,0],[-1,-1,0],[1,0,1],[1,0,-1],[-1,0,1],[-1,0,-1],[0,1,1],[0,1,-1],[0,-1,1],[0,-1,-1]];
+  var SHELL_E=edgesOf(SHELL,2);
+  // cell = rhombic dodecahedron: 6 axis (±2) + 8 cube (±1,±1,±1)
+  var CELL=[[2,0,0],[-2,0,0],[0,2,0],[0,-2,0],[0,0,2],[0,0,-2],[1,1,1],[1,1,-1],[1,-1,1],[1,-1,-1],[-1,1,1],[-1,1,-1],[-1,-1,1],[-1,-1,-1]];
+  var CELL_E=edgesOf(CELL,3);
+  // icosahedron, scaled so circumradius = sqrt(2) (== shell radius)
+  var ICr=[[0,1,PHI],[0,1,-PHI],[0,-1,PHI],[0,-1,-PHI],[1,PHI,0],[1,-PHI,0],[-1,PHI,0],[-1,-PHI,0],[PHI,0,1],[PHI,0,-1],[-PHI,0,1],[-PHI,0,-1]];
+  var ICO_E=edgesOf(ICr,4);
+  var sIco=Math.sqrt(2)/Math.sqrt(1+PHI*PHI);
+  var ICO=ICr.map(function(v){return [v[0]*sIco,v[1]*sIco,v[2]*sIco];});
+
+  var ax=-0.42, ay=0.5, spin=true, showShell=true, showCell=true, showBonds=false;
+  var SC=58, FOC=7.2, CX=190, CY=190;
+  function rot(p){var cy=Math.cos(ay),sy=Math.sin(ay);var x=p[0]*cy+p[2]*sy,z=-p[0]*sy+p[2]*cy,y=p[1];var cx=Math.cos(ax),sx=Math.sin(ax);return [x,y*cx-z*sx,y*sx+z*cx];}
+  function pj(p){var r=rot(p);var pf=FOC/(FOC-r[2]);return {X:CX+r[0]*SC*pf,Y:CY-r[1]*SC*pf,z:r[2],pf:pf};}
+  function dop(z){var t=(z+2)/4;t=t<0?0:(t>1?1:t);return 0.28+0.6*t;}
+
+  function draw(gE,gN,edges,nodes){
+    edges.sort(function(a,b){return ((a.a.z+a.b.z)/2)-((b.a.z+b.b.z)/2);});
+    var es='';edges.forEach(function(o){es+='<line x1="'+o.a.X.toFixed(1)+'" y1="'+o.a.Y.toFixed(1)+'" x2="'+o.b.X.toFixed(1)+'" y2="'+o.b.Y.toFixed(1)+'" stroke="'+o.col+'" stroke-width="'+o.w.toFixed(2)+'" opacity="'+o.op.toFixed(2)+'"'+(o.dash?' stroke-dasharray="'+o.dash+'"':'')+'/>';});
+    gE.innerHTML=es;
+    nodes.sort(function(a,b){return a.p.z-b.p.z;});
+    var ns='';nodes.forEach(function(n){ns+='<circle cx="'+n.p.X.toFixed(1)+'" cy="'+n.p.Y.toFixed(1)+'" r="'+n.r.toFixed(1)+'" fill="'+n.fill+'" stroke="'+n.stroke+'" stroke-width="'+(n.sw||1)+'" opacity="'+n.op.toFixed(2)+'"/>';});
+    gN.innerHTML=ns;
+  }
+
+  var dE=document.getElementById('dE'),dN=document.getElementById('dN'),uE=document.getElementById('uE'),uN=document.getElementById('uN');
+
+  function renderDelta(){
+    var edges=[],nodes=[];
+    if(showCell){
+      CELL_E.forEach(function(e){var a=pj(CELL[e[0]]),b=pj(CELL[e[1]]);edges.push({a:a,b:b,col:'#a87c3a',w:1.0,op:dop((a.z+b.z)/2)*0.85});});
+      CELL.forEach(function(v){var p=pj(v);var axis=(Math.abs(v[0])+Math.abs(v[1])+Math.abs(v[2]))===2;nodes.push({p:p,r:(axis?3.6:2.9)*p.pf,fill:'#1a140e',stroke:'#a87c3a',sw:1.1,op:dop(p.z)});});
+    }
+    if(showShell){
+      SHELL_E.forEach(function(e){var a=pj(SHELL[e[0]]),b=pj(SHELL[e[1]]);edges.push({a:a,b:b,col:'#d4af37',w:1.5,op:dop((a.z+b.z)/2)});});
+      SHELL.forEach(function(v){var p=pj(v);nodes.push({p:p,r:6.2*p.pf,fill:'#e8c25a',stroke:'#0a0908',op:dop(p.z)});});
+    }
+    if(showBonds){SHELL.forEach(function(v){var a=pj([0,0,0]),b=pj(v);edges.push({a:a,b:b,col:'#9a7b22',w:0.7,op:dop((a.z+b.z)/2)*0.7,dash:'2,3'});});}
+    var c=pj([0,0,0]);nodes.push({p:c,r:9*c.pf,fill:'url(#anchorgrad)',stroke:'#fff3cf',op:1});
+    draw(dE,dN,edges,nodes);
+  }
+  function renderMirror(){
+    var edges=[],nodes=[];
+    ICO_E.forEach(function(e){var a=pj(ICO[e[0]]),b=pj(ICO[e[1]]);edges.push({a:a,b:b,col:'#9ec7e0',w:1.4,op:dop((a.z+b.z)/2)});});
+    if(showBonds){ICO.forEach(function(v){var a=pj([0,0,0]),b=pj(v);edges.push({a:a,b:b,col:'#5f86a0',w:0.7,op:dop((a.z+b.z)/2)*0.7,dash:'2,3'});});}
+    ICO.forEach(function(v){var p=pj(v);nodes.push({p:p,r:6.2*p.pf,fill:'#bcdcef',stroke:'#0a0908',op:dop(p.z)});});
+    var c=pj([0,0,0]);nodes.push({p:c,r:9*c.pf,fill:'url(#anchorgrad)',stroke:'#fff3cf',op:1});
+    draw(uE,uN,edges,nodes);
+  }
+  function renderAll(){renderDelta();renderMirror();}
+
+  var dragging=false,lx=0,ly=0;
+  function down(e){dragging=true;var t=e.touches?e.touches[0]:e;lx=t.clientX;ly=t.clientY;}
+  function move(e){if(!dragging)return;var t=e.touches?e.touches[0]:e;var dx=t.clientX-lx,dy=t.clientY-ly;ay+=dx*0.01;ax+=dy*0.01;ax=Math.max(-1.4,Math.min(1.4,ax));lx=t.clientX;ly=t.clientY;if(e.cancelable)e.preventDefault();renderAll();}
+  function up(){dragging=false;}
+  var sceneD=document.getElementById('sceneD'),sceneU=document.getElementById('sceneU');
+  [sceneD,sceneU].forEach(function(s){s.addEventListener('mousedown',down);s.addEventListener('touchstart',down,{passive:true});s.addEventListener('touchmove',move,{passive:false});});
+  window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);window.addEventListener('touchend',up);
+
+  function tog(id,set){var b=document.getElementById(id);b.addEventListener('click',function(){var on=!b.classList.contains('on');b.classList.toggle('on',on);set(on);renderAll();});}
+  tog('cShell',function(v){showShell=v;});tog('cCell',function(v){showCell=v;});tog('cBonds',function(v){showBonds=v;});
+  document.getElementById('cSpin').addEventListener('click',function(){spin=!spin;this.classList.toggle('on',spin);});
+  document.getElementById('cReset').addEventListener('click',function(){ax=-0.42;ay=0.5;renderAll();});
+
+  function loop(){if(spin&&!dragging)ay+=0.0045;renderAll();requestAnimationFrame(loop);}
+  loop();
+})();
+</script>
+</body>
+</html>

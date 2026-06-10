@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Way of Tea — Sen no Rikyū</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0d0c0a; --paper:#e8e1d2; --mute:#9c9280; --faint:#5d5645;
+    --matcha:#7e9a55; --matcha-lt:#a6c074; --clay:#a9683f; --stone:#8c8579;
+    --line:rgba(232,225,210,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink); color:var(--paper);
+    font-family:"Cormorant Garamond",Georgia,serif; font-size:20px; line-height:1.75; overflow-x:hidden;}
+  .grain{position:fixed; inset:0; width:100%; height:100%; opacity:0.05; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(130% 95% at 50% -5%, rgba(126,154,85,0.07), transparent 58%),
+               radial-gradient(150% 130% at 50% 120%, rgba(6,6,4,0.94), transparent 55%);}
+  .thread{position:fixed; top:0; left:0; height:1px; width:0%; z-index:20; background:var(--matcha); opacity:.5;}
+
+  header.hero{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem 1.5rem;}
+  .bowlwrap{width:min(300px,72vw); height:min(280px,68vw); margin-bottom:2.2rem;}
+  .hero .tag{font-family:"Cinzel",serif; letter-spacing:.4em; font-size:11px; color:var(--mute); text-transform:uppercase; margin-bottom:1.4rem; padding-left:.4em;}
+  .hero .kanji{font-family:"Shippori Mincho",serif; font-size:clamp(44px,10vw,96px); font-weight:500; color:var(--paper); letter-spacing:.16em; line-height:1; margin-bottom:.7rem; opacity:.93;}
+  .hero h1{font-family:"Cormorant Garamond",serif; font-weight:500; font-style:italic; font-size:clamp(32px,6.5vw,60px); color:var(--paper); margin-bottom:1.1rem;}
+  .hero p.sub{font-size:clamp(18px,2.6vw,24px); color:var(--mute); max-width:26ch; line-height:1.5;}
+  .hero .scroll{margin-top:2.8rem; font-family:"Cinzel",serif; font-size:11px; letter-spacing:.3em; color:var(--faint); text-transform:uppercase;}
+
+  .wrap{max-width:780px; margin:0 auto; padding:0 1.6rem;}
+  section.band{padding:13vh 0; border-top:1px solid var(--line);}
+  .band .idx{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--matcha); margin-bottom:1.1rem;}
+  .band h2{font-family:"Cormorant Garamond",serif; font-weight:500; font-size:clamp(26px,4.6vw,40px); color:var(--paper); margin-bottom:1.5rem; max-width:20ch;}
+  .band p{color:#cdc5b5; max-width:58ch; margin-bottom:1.2rem; font-size:19px;}
+  .band p b{color:var(--paper); font-weight:500;}
+  .pull{font-style:italic; font-size:clamp(21px,3.4vw,30px); line-height:1.4; color:#ddd4c2; max-width:26ch; margin:0 0 1.9rem;}
+
+  .four{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1.4rem; margin-top:1.4rem;}
+  .pc{border:1px solid var(--line); border-radius:3px; padding:1.6rem 1.3rem; text-align:center; background:rgba(126,154,85,0.04);}
+  .pc .pjp{font-family:"Shippori Mincho",serif; font-size:46px; line-height:1; color:var(--matcha-lt); margin-bottom:.4rem;}
+  .pc .pnm{font-family:"Cinzel",serif; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--paper); margin-bottom:.5rem;}
+  .pc p{font-size:15px; color:var(--mute); margin:0; max-width:none;}
+
+  .colophon{padding:13vh 0 18vh; border-top:1px solid var(--line);}
+  .colophon .kanji{font-family:"Shippori Mincho",serif; font-size:40px; color:var(--faint); margin-bottom:1.1rem;}
+  .colophon h3{font-family:"Cormorant Garamond",serif; font-style:italic; font-size:24px; margin-bottom:1rem; color:var(--paper);}
+  .colophon p{color:var(--mute); font-size:17px; margin:0 0 1rem; max-width:62ch;}
+  .colophon p b{color:#cdc5b5; font-weight:500;}
+  .endmark{font-family:"Cinzel",serif; letter-spacing:.34em; font-size:11px; color:var(--faint); text-transform:uppercase; margin-top:2.2rem;}
+
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity 1.3s ease, transform 1.3s cubic-bezier(.22,.7,.2,1);}
+  .reveal.in{opacity:1; transform:none;}
+
+  .steam{stroke:var(--paper); stroke-width:2; fill:none; opacity:0; stroke-linecap:round;}
+  .s1{animation:rise 4.5s ease-in-out infinite;}
+  .s2{animation:rise 4.5s ease-in-out 1.5s infinite;}
+  .s3{animation:rise 4.5s ease-in-out 3s infinite;}
+  @keyframes rise{0%{opacity:0; transform:translateY(8px) scaleY(.85)}25%{opacity:.32}70%{opacity:.12}100%{opacity:0; transform:translateY(-16px) scaleY(1.1)}}
+</style>
+</head>
+<body>
+<div class="thread" id="thread"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header class="hero">
+  <svg class="bowlwrap" viewBox="0 0 300 280" aria-label="A tea bowl of whisked matcha with rising steam">
+    <g class="steam s1"><path class="steam" d="M120 96 q-9 -16 0 -30 q9 -14 0 -28"/></g>
+    <g class="steam s2"><path class="steam" d="M150 92 q-9 -16 0 -30 q9 -14 0 -28"/></g>
+    <g class="steam s3"><path class="steam" d="M180 96 q-9 -16 0 -30 q9 -14 0 -28"/></g>
+    <path d="M58 120 Q56 104 76 104 L224 104 Q244 104 242 120 Q236 196 150 218 Q64 196 58 120 Z" fill="#23211c" stroke="#3c372d" stroke-width="2.5"/>
+    <ellipse cx="150" cy="110" rx="86" ry="15" fill="#6f8c4c"/>
+    <ellipse cx="150" cy="108" rx="74" ry="11" fill="#85a35c"/>
+    <ellipse cx="138" cy="106" rx="22" ry="5" fill="#9fbb74" opacity="0.6"/>
+    <path d="M58 120 Q70 150 150 150 Q230 150 242 120" fill="none" stroke="#3c372d" stroke-width="1.5" opacity="0.5"/>
+  </svg>
+  <div class="tag">pamphlet · the way of tea</div>
+  <div class="kanji">茶道</div>
+  <h1>Sen no Rikyū</h1>
+  <p class="sub">the master who made a bowl of tea into a whole way of being</p>
+  <div class="scroll">be seated</div>
+</header>
+
+<div class="wrap">
+
+  <section class="band reveal">
+    <div class="idx">what it is</div>
+    <h2>Not a drink — a discipline</h2>
+    <p class="pull">A bowl of tea, served so completely that nothing else needs to happen.</p>
+    <p>The <b>way of tea</b> — <i>chadō</i> (茶道) or <i>chanoyu</i> (茶の湯, "hot water for tea") — is the choreographed practice of preparing and sharing whisked green <b>matcha</b>. Every motion is deliberate: the cleaning of the utensils, the laying of the fire, the whisking, the turning of the bowl. It is hospitality raised to the level of meditation, where host and guest give each other their whole attention for one gathering.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the man</div>
+    <h2>The tea master to warlords</h2>
+    <p><b>Sen no Rikyū</b> (1522–1591) is the most revered figure in the whole tradition. He served as tea master to the two men who unified Japan — first <b>Oda Nobunaga</b>, then <b>Toyotomi Hideyoshi</b> — wielding extraordinary cultural influence from behind the tea bowl.</p>
+    <p>His revolution was <b>subtraction</b>. Against an age drunk on imported Chinese luxury, Rikyū perfected <b>wabi-cha</b> — tea stripped to the bone, finding the infinite in the plain, the humble, and the imperfect. He is the human hinge of this entire set: the wabi spirit, made into a practice.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the room</div>
+    <h2>A hut, a low door, no swords</h2>
+    <p>Rikyū's ideal tea room was a tiny <b>grass hut</b> (<i>sōan</i>), sometimes just two mats. You entered through the <b>nijiriguchi</b> — a crawl-through door so low that everyone, even a sword-bearing lord, had to <b>kneel and bow</b> to pass, and leave weapons outside. Inside, all were equal.</p>
+    <p>The utensils matched: rough, asymmetric, locally made <b>Raku</b> bowls; a bamboo scoop; a plain iron kettle. Restraint <i>was</i> the luxury. A single flower, a hanging scroll, and the sound of the water.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the spirit</div>
+    <h2>Four words hold the whole of it</h2>
+    <p>The heart of tea is carried in four principles long attributed to Rikyū — <b>和敬清寂</b>:</p>
+    <div class="four">
+      <div class="pc"><div class="pjp">和</div><div class="pnm">wa · harmony</div><p>Between guests, host, season, and things.</p></div>
+      <div class="pc"><div class="pjp">敬</div><div class="pnm">kei · respect</div><p>For one another and for every humble object.</p></div>
+      <div class="pc"><div class="pjp">清</div><div class="pnm">sei · purity</div><p>Of the room, the utensils, and the heart.</p></div>
+      <div class="pc"><div class="pjp">寂</div><div class="pnm">jaku · tranquility</div><p>The stillness that the first three finally yield.</p></div>
+    </div>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the moment</div>
+    <h2>One time, one meeting</h2>
+    <p class="pull">この一服は、二度とない。</p>
+    <p>From the tea world comes <b>ichigo ichie</b> (一期一会) — "one time, one meeting." This exact gathering, these exact guests, this light, this bowl: it has never happened before and will never happen again. So the host prepares as if it is the only tea that will ever be served, and the guests receive it the same way. It is the ensō and mono no aware, poured into a cup — the unrepeatable moment, treasured because it cannot return.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the end</div>
+    <h2>Ordered to die by the lord he served</h2>
+    <p>In <b>1591</b>, at the height of his fame, Rikyū was commanded by Hideyoshi to commit <b>seppuku</b> — ritual suicide. The reasons are still <b>debated</b>: a wooden statue of himself placed above a temple gate Hideyoshi passed beneath, suspected pride, a refusal, tangled court politics. He obeyed, reportedly holding a last tea gathering before the end, at around seventy.</p>
+    <p>The master of harmony, undone by power — a final, real <i>mono no aware</i>. Yet his tea outlived him: the three great schools (<b>Omotesenke, Urasenke, Mushakōjisenke</b>), led by his descendants, carry his way to this day.</p>
+  </section>
+
+  <section class="colophon reveal">
+    <div class="kanji">了</div>
+    <h3>A note, kept honest</h3>
+    <p>The <b>four principles</b> (和敬清寂) are traditionally attributed to Rikyū and sit at the centre of tea practice. <b>Ichigo ichie</b> grows from his circle — its famous phrasing is usually credited to the later lord <b>Ii Naosuke</b> (19th c.), rooting back to Rikyū's disciple Yamanoue Sōji — so the spirit is Rikyū's, the catchphrase came after.</p>
+    <p>His <b>death is real history</b> (1591, by Hideyoshi's order), but the <b>cause is genuinely uncertain</b> — the statue story is the popular account, not a settled fact, and several Rikyū anecdotes drift into legend. I've kept to the solid parts and flagged the rest.</p>
+    <p>The bowl above is an original drawing, steam and all. And note how Rikyū quietly ties the whole series together: his <b>wabi-cha</b> is the source of the wabi-sabi sensibility, his tea world is where the kintsugi origin tale lives, and his end is mono no aware in the flesh.</p>
+    <div class="endmark">和敬清寂 · harmony, respect, purity, stillness</div>
+  </section>
+
+</div>
+
+<script>
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);}})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const th=document.getElementById('thread');
+addEventListener('scroll',()=>{const h=document.documentElement; th.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100).toFixed(1)+'%';},{passive:true});
+</script>
+</body>
+</html>

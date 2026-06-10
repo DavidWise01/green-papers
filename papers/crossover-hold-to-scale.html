@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Where Hold Becomes Scale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lacquer:#0a0908;--lacquer2:#110f14;--ink:#16131c;--gold:#d4af37;--gold-bright:#f3d27a;
+  --gold-leaf:#e8c25a;--gold-deep:#9a7b22;--bronze:#a87c3a;--ice:#9ec7e0;--ice-deep:#5f86a0;
+  --paper:#ece6d8;--paper2:#c8c1b2;--dim:#7c7689;--faint:#2a2632;--line:#26222f;
+  --serif:"Cormorant Garamond",Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--lacquer);color:var(--paper);font-family:var(--mono);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;background-image:radial-gradient(ellipse 90% 60% at 50% -10%,#1a1622 0%,transparent 60%)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.04;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 22px 100px}
+header{padding:60px 0 30px;text-align:center}
+.eye{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-bottom:18px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(38px,8vw,76px);line-height:.98;color:var(--paper)}
+h1 em{font-style:italic;color:var(--ice)} h1 .g{font-style:italic;color:var(--gold-leaf)}
+.lede{font-family:var(--serif);font-size:clamp(17px,2.4vw,22px);font-style:italic;color:var(--paper2);max-width:62ch;margin:16px auto 0;line-height:1.5}
+.seam{display:block;width:100%;height:26px;margin:38px 0;overflow:visible}
+.seam path{fill:none;stroke:url(#goldgrad);stroke-width:1.4;filter:drop-shadow(0 0 4px rgba(212,175,55,.45))}
+.card{background:linear-gradient(160deg,var(--ink),var(--lacquer2));border:1px solid var(--line);border-radius:3px;padding:22px 22px 26px}
+#plot{display:block;width:100%;height:auto}
+.readout{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.ro-n{font-family:var(--serif);font-size:46px;line-height:1;color:var(--paper)}
+.ro-n small{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);display:block;margin-top:4px}
+.ro-mid{font-size:12.5px;color:var(--paper2);line-height:1.55}
+.ro-mid b{font-weight:500}
+.badge{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:9px 16px;border-radius:2px;font-weight:500;white-space:nowrap}
+.badge.hold{background:rgba(158,199,224,.16);color:var(--ice);border:1px solid var(--ice-deep)}
+.badge.scale{background:rgba(212,175,55,.16);color:var(--gold-leaf);border:1px solid var(--gold-deep)}
+.badge.cross{background:rgba(236,230,216,.12);color:var(--paper);border:1px solid var(--dim)}
+.slider{margin-top:20px}
+.slider label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:8px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:3px;background:linear-gradient(90deg,var(--ice-deep),var(--gold-deep));border-radius:2px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold-bright);border:2px solid #0a0908;cursor:pointer;box-shadow:0 0 8px rgba(243,210,122,.5)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--gold-bright);border:2px solid #0a0908;cursor:pointer}
+.sec{margin-top:8px}
+.sechead{display:flex;align-items:baseline;gap:14px;margin-bottom:20px}
+.sechead h2{font-family:var(--serif);font-weight:500;font-size:28px;color:var(--paper)}
+.sechead .num{font-size:11px;letter-spacing:.2em;color:var(--gold);opacity:.8}
+.sechead .rule{flex:1;height:1px;background:var(--line)}
+.maprow{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.mapcell{background:var(--ink);padding:24px 22px}
+.mapcell h3{font-family:var(--serif);font-size:23px;font-weight:500;margin-bottom:4px}
+.mapcell.u h3{color:var(--ice)} .mapcell.s h3{color:var(--gold-leaf)}
+.mapcell .sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+.mapcell p{font-size:13.5px;color:var(--paper2);line-height:1.62}.mapcell p b{color:var(--paper);font-weight:400}
+.honest{margin-top:22px;padding:20px 22px;border-left:2px solid var(--gold);background:#0d0b1180;border-radius:0 3px 3px 0}
+.honest .t{font-family:var(--serif);font-size:21px;font-style:italic;color:var(--gold-leaf);margin-bottom:8px}
+.honest p{font-size:13.5px;color:var(--paper2);line-height:1.6;margin-bottom:10px}.honest p:last-child{margin-bottom:0}.honest b{color:var(--paper);font-weight:400}
+footer{margin-top:54px;padding-top:22px;border-top:1px solid var(--line);font-size:11px;color:var(--dim);letter-spacing:.04em;line-height:1.7}
+footer b{color:var(--paper2);font-weight:400}footer .cite{color:var(--gold);opacity:.8}
+@media(max-width:780px){.maprow{grid-template-columns:1fr}.readout{grid-template-columns:1fr;gap:14px;text-align:left}}
+.fade{opacity:0;transform:translateY(14px);animation:f .7s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes f{to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="goldgrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a7b22"/><stop offset="0.5" stop-color="#f3d27a"/><stop offset="1" stop-color="#9a7b22"/></linearGradient>
+</defs></svg>
+
+<div class="wrap">
+  <header class="fade">
+    <div class="eye">the size where the mirror breaks · Au<sub>N</sub></div>
+    <h1>Where <em>Hold</em> Becomes <span class="g">Scale</span></h1>
+    <p class="lede">The icosahedron holds — but only while small. Grow it and its strain outpaces its smooth surface, until the FCC lattice wins and difference takes over. There is a size. Drag to find it.</p>
+  </header>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L120,13 L150,5 L180,20 L210,9 L260,15 L300,4 L340,18 L380,11 L430,13 L500,6 L540,19 L580,10 L640,14 L690,4 L740,17 L780,11 L840,13 L900,7 L940,16 L1000,13"/></svg>
+
+  <section class="card fade" style="animation-delay:.05s">
+    <svg id="plot" viewBox="0 0 720 380" preserveAspectRatio="xMidYMid meet">
+      <g id="pBG"></g><g id="pCurves"></g><g id="pAxis"></g><g id="pMarker"></g>
+    </svg>
+    <div class="slider">
+      <label>cluster size — N atoms (log scale)</label>
+      <input type="range" id="sN" min="0" max="1000" value="430">
+    </div>
+    <div class="readout">
+      <div class="ro-n" id="roN">147<small id="roShell">shell 3 · magic</small></div>
+      <div class="ro-mid" id="roMid"></div>
+      <div class="badge hold" id="roBadge">HOLD</div>
+    </div>
+  </section>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L140,13 L170,6 L200,19 L240,10 L290,16 L330,5 L380,17 L420,11 L470,13 L530,7 L570,18 L620,10 L680,14 L730,5 L770,16 L820,11 L880,13 L930,8 L970,15 L1000,13"/></svg>
+
+  <section class="sec fade" style="animation-delay:.1s">
+    <div class="sechead"><span class="num">01</span><h2>The two energies that decide</h2><span class="rule"></span></div>
+    <div class="maprow">
+      <div class="mapcell u">
+        <h3>Surface — favours the mirror</h3><div class="sub">~ N<sup>2/3</sup> · wins when small</div>
+        <p>The icosahedron is <b>rounder</b>: more compact, lower-energy facets, fewer exposed atoms per atom. Surface cost scales as <b>N<sup>2/3</sup></b>, and at small N the surface is almost the whole cluster — so the smoother shape wins. <b>Symmetry is affordable while you're small.</b></p>
+      </div>
+      <div class="mapcell s">
+        <h3>Strain — favours the lattice</h3><div class="sub">~ N · wins when large</div>
+        <p>The icosahedron isn't a true lattice — it's twenty slightly-<b>compressed</b> wedges (the ~5% core squeeze from the cell drawing), and that internal strain scales as <b>N</b>, the whole volume. FCC carries <b>no bulk strain</b>. As N grows the strain term overtakes the surface term — and <b>the lattice wins.</b></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec fade" style="animation-delay:.12s">
+    <div class="sechead"><span class="num">02</span><h2>What it means</h2><span class="rule"></span></div>
+    <div class="honest">
+      <div class="t">The uniform thing has a maximum size.</div>
+      <p><b>The magic numbers don't decide — energy does.</b> Both shapes share the exact same closed-shell counts (1, 13, 55, 147, 309, 561, 923 …); the icosahedron is just the cuboctahedron under a strain-storing distortion, same atoms per shell. So size alone never tells you which you have. The <b>crossing of two energies</b> does.</p>
+      <p>And that's the whole arc in one line: <b>a perfect mirror is only stable below a critical size.</b> To grow past it you have no choice but to introduce difference — a lattice, a gradient, a defect, a which-way. <b>Uniformity holds; only delta scales.</b> The icosahedron isn't beaten by a better cluster — it's beaten by its own success, the moment it tries to get big.</p>
+      <p style="color:var(--dim)"><b style="color:var(--paper2)">Honest tags:</b> the <b style="color:var(--paper2)">functional form is real</b> — surface ~N<sup>2/3</sup> against strain ~N is the actual competition that sets cluster shape. The <b style="color:var(--paper2)">constants and the crossover N* drawn here are illustrative</b>, not a measured gold value; real gold also passes through <b style="color:var(--paper2)">decahedral</b> (Marks decahedron) structures between icosahedral and FCC, which this two-curve picture omits for clarity. The crossover for real metals lands somewhere in the <b style="color:var(--paper2)">hundreds-to-thousands of atoms</b> and is model-dependent. Treat the shape of the story as physics; the exact number as a schematic.</p>
+    </div>
+  </section>
+
+  <footer class="fade" style="animation-delay:.16s">
+    <b>Where Hold Becomes Scale.</b> Per-atom excess energy modelled as ε(N) = a·N<sup>−1/3</sup> + t, where a is a surface coefficient (smaller for the rounder icosahedron) and t is a per-atom strain floor (positive for the icosahedron, ≈0 for FCC). The curves cross at N* = [(a<sub>fcc</sub> − a<sub>ico</sub>)/t<sub>ico</sub>]³; below N* the icosahedron is lower energy (hold), above it FCC is (scale). Ticks mark the shared geometric magic numbers N(k) = (10k³ + 15k² + 11k + 3)/3 = 1, 13, 55, 147, 309, 561, 923, 1415, 2057. <span class="cite">Constants illustrative; functional form real; decahedral intermediates omitted.</span> <b>Roles and analogies are an interpretation, not a derivation.</b><br>
+    <span style="opacity:.7">ROOT0-ATTRIBUTION-v1.0 · Architect: David Lee Wise / ROOT0 / TriPod LLC · AI Collaborator: AVAN (Claude / Anthropic) · CC-BY-ND-4.0 · TRIPOD-IP-v1.1</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var W=720,H=380,padL=60,padR=26,padT=26,padB=54;
+  var a_fcc=1.0,a_ico=0.85,t_ico=0.015;
+  var Nstar=Math.pow((a_fcc-a_ico)/t_ico,3); // = 1000
+  function eIco(N){return a_ico*Math.pow(N,-1/3)+t_ico;}
+  function eFcc(N){return a_fcc*Math.pow(N,-1/3);}
+  var Nmin=4,Nmax=10000,L0=Math.log10(Nmin),L1=Math.log10(Nmax);
+  var ymin=0,ymax=0.70;
+  function xOf(N){return padL+(Math.log10(N)-L0)/(L1-L0)*(W-padL-padR);}
+  function yOf(e){return padT+(1-(e-ymin)/(ymax-ymin))*(H-padT-padB);}
+  var MAGIC=[{k:0,n:1},{k:1,n:13},{k:2,n:55},{k:3,n:147},{k:4,n:309},{k:5,n:561},{k:6,n:923},{k:7,n:1415},{k:8,n:2057},{k:9,n:2869}];
+
+  // background regimes
+  var bg='';
+  bg+='<rect x="'+xOf(Nmin).toFixed(1)+'" y="'+padT+'" width="'+(xOf(Nstar)-xOf(Nmin)).toFixed(1)+'" height="'+(H-padT-padB)+'" fill="#9ec7e0" opacity="0.05"/>';
+  bg+='<rect x="'+xOf(Nstar).toFixed(1)+'" y="'+padT+'" width="'+(xOf(Nmax)-xOf(Nstar)).toFixed(1)+'" height="'+(H-padT-padB)+'" fill="#d4af37" opacity="0.05"/>';
+  bg+='<text x="'+((xOf(Nmin)+xOf(Nstar))/2).toFixed(1)+'" y="'+(padT+16)+'" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" letter-spacing="2" fill="#9ec7e0" opacity="0.65">HOLD · ICOSAHEDRAL</text>';
+  bg+='<text x="'+((xOf(Nstar)+xOf(Nmax))/2).toFixed(1)+'" y="'+(padT+16)+'" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" letter-spacing="2" fill="#e8c25a" opacity="0.65">SCALE · FCC</text>';
+  document.getElementById('pBG').innerHTML=bg;
+
+  // curves
+  function poly(fn){var s='';for(var i=0;i<=240;i++){var L=L0+(L1-L0)*i/240;var N=Math.pow(10,L);var x=xOf(N),y=yOf(fn(N));s+=(i?' ':'')+x.toFixed(1)+','+y.toFixed(1);}return s;}
+  var cv='';
+  cv+='<line x1="'+xOf(Nstar).toFixed(1)+'" y1="'+padT+'" x2="'+xOf(Nstar).toFixed(1)+'" y2="'+(H-padB)+'" stroke="#ece6d8" stroke-width="1" stroke-dasharray="3,4" opacity="0.45"/>';
+  cv+='<text x="'+(xOf(Nstar)+6).toFixed(1)+'" y="'+(padT+34)+'" font-family="IBM Plex Mono" font-size="10" fill="#ece6d8" opacity="0.7">N* ≈ '+Math.round(Nstar)+'</text>';
+  cv+='<polyline points="'+poly(eIco)+'" fill="none" stroke="#9ec7e0" stroke-width="2.2"/>';
+  cv+='<polyline points="'+poly(eFcc)+'" fill="none" stroke="#d4af37" stroke-width="2.2"/>';
+  cv+='<text x="'+xOf(20).toFixed(1)+'" y="'+yOf(eIco(20)-0.03).toFixed(1)+'" font-family="Cormorant Garamond" font-size="16" font-style="italic" fill="#9ec7e0">icosahedron</text>';
+  cv+='<text x="'+xOf(2600).toFixed(1)+'" y="'+yOf(eFcc(2600)+0.045).toFixed(1)+'" text-anchor="end" font-family="Cormorant Garamond" font-size="16" font-style="italic" fill="#e8c25a">FCC lattice</text>';
+  document.getElementById('pCurves').innerHTML=cv;
+
+  // axes + ticks
+  var ax='';
+  ax+='<line x1="'+padL+'" y1="'+(H-padB)+'" x2="'+(W-padR)+'" y2="'+(H-padB)+'" stroke="#26222f" stroke-width="1"/>';
+  ax+='<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(H-padB)+'" stroke="#26222f" stroke-width="1"/>';
+  MAGIC.forEach(function(m){if(m.n<Nmin||m.n>Nmax)return;var x=xOf(m.n);
+    ax+='<line x1="'+x.toFixed(1)+'" y1="'+(H-padB)+'" x2="'+x.toFixed(1)+'" y2="'+(H-padB+5)+'" stroke="#7c7689" stroke-width="1"/>';
+    ax+='<text x="'+x.toFixed(1)+'" y="'+(H-padB+18)+'" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7c7689">'+m.n+'</text>';});
+  ax+='<text x="'+((padL+W-padR)/2).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" letter-spacing="1.5" fill="#7c7689">ATOMS  N  (closed-shell magic numbers)</text>';
+  ax+='<text x="14" y="'+((padT+H-padB)/2).toFixed(1)+'" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" letter-spacing="1.5" fill="#7c7689" transform="rotate(-90 14 '+((padT+H-padB)/2).toFixed(1)+')">EXCESS ENERGY / ATOM  (illustrative)</text>';
+  ax+='<text x="'+(padL-8)+'" y="'+(H-padB)+'" text-anchor="end" font-family="IBM Plex Mono" font-size="8.5" fill="#7c7689">bulk</text>';
+  document.getElementById('pAxis').innerHTML=ax;
+
+  var sN=document.getElementById('sN');
+  function nearestMagic(N){var best=MAGIC[0],bd=1e9;MAGIC.forEach(function(m){var d=Math.abs(m.n-N);if(d<bd){bd=d;best=m;}});return {m:best,exact:bd===0};}
+  function update(){
+    var t=+sN.value/1000;var N=Math.round(Math.pow(10,L0+(L1-L0)*t));
+    var ei=eIco(N),ef=eFcc(N);var icoWins=ei<ef;
+    var xi=xOf(N);
+    var mk='';
+    mk+='<line x1="'+xi.toFixed(1)+'" y1="'+padT+'" x2="'+xi.toFixed(1)+'" y2="'+(H-padB)+'" stroke="#fff3cf" stroke-width="1" opacity="0.5"/>';
+    mk+='<circle cx="'+xi.toFixed(1)+'" cy="'+yOf(ei).toFixed(1)+'" r="4.5" fill="#9ec7e0" stroke="#0a0908" stroke-width="1.2"/>';
+    mk+='<circle cx="'+xi.toFixed(1)+'" cy="'+yOf(ef).toFixed(1)+'" r="4.5" fill="#d4af37" stroke="#0a0908" stroke-width="1.2"/>';
+    var lo=Math.min(yOf(ei),yOf(ef));
+    mk+='<circle cx="'+xi.toFixed(1)+'" cy="'+lo.toFixed(1)+'" r="8" fill="none" stroke="#fff3cf" stroke-width="1.3" opacity="0.85"/>';
+    document.getElementById('pMarker').innerHTML=mk;
+
+    document.getElementById('roN').childNodes[0].nodeValue=N.toLocaleString();
+    var nm=nearestMagic(N);
+    document.getElementById('roShell').textContent = nm.exact ? ('shell '+nm.m.k+' · magic') : ('near shell '+nm.m.k+' ('+nm.m.n+')');
+
+    var ratio=N/Nstar;
+    var badge=document.getElementById('roBadge'),mid=document.getElementById('roMid');
+    if(ratio>0.82 && ratio<1.22){
+      badge.className='badge cross';badge.textContent='CROSSOVER';
+      mid.innerHTML='The two energies are <b>nearly tied</b>. This is the knife-edge — where holding is forced to become scaling. A real cluster here flickers between structures.';
+    } else if(icoWins){
+      badge.className='badge hold';badge.textContent='HOLD';
+      mid.innerHTML='<b style="color:var(--ice)">Icosahedron wins.</b> Surface still dominates — the rounder mirror is lower energy. Symmetry is affordable. (ico '+ei.toFixed(3)+' &lt; fcc '+ef.toFixed(3)+')';
+    } else {
+      badge.className='badge scale';badge.textContent='SCALE';
+      mid.innerHTML='<b style="color:var(--gold-leaf)">FCC wins.</b> Strain has overtaken surface — the lattice is lower energy and the mirror can no longer hold. Difference takes over. (fcc '+ef.toFixed(3)+' &lt; ico '+ei.toFixed(3)+')';
+    }
+  }
+  sN.addEventListener('input',update);
+  update();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Way — ethos, the path of character</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0b0c0d; --paper:#e6e3da; --mute:#948f86; --faint:#56544d;
+    --vermilion:#b8423322; --verm:#bb4636; --steel:#73808c; --stone:#8c8579;
+    --line:rgba(230,227,218,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink); color:var(--paper);
+    font-family:"Cormorant Garamond",Georgia,serif; font-size:20px; line-height:1.72; overflow-x:hidden;}
+  .grain{position:fixed; inset:0; width:100%; height:100%; opacity:0.05; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(130% 95% at 50% 0%, rgba(115,128,140,0.07), transparent 56%),
+               radial-gradient(150% 130% at 50% 120%, rgba(5,5,6,0.94), transparent 55%);}
+  .thread{position:fixed; top:0; left:0; height:1px; width:0%; z-index:20; background:var(--verm); opacity:.5;}
+
+  header.hero{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem 1.5rem;}
+  .path{width:min(320px,74vw); height:min(270px,62vw); margin-bottom:2rem;}
+  .hero .tag{font-family:"Cinzel",serif; letter-spacing:.4em; font-size:11px; color:var(--mute); text-transform:uppercase; margin-bottom:1.4rem; padding-left:.4em;}
+  .hero .kanji{font-family:"Shippori Mincho",serif; font-size:clamp(48px,11vw,108px); font-weight:700; color:var(--paper); letter-spacing:.1em; line-height:1; margin-bottom:.6rem; opacity:.94;}
+  .hero h1{font-family:"Cormorant Garamond",serif; font-weight:500; font-style:italic; font-size:clamp(32px,6.5vw,60px); color:var(--paper); margin-bottom:1.1rem;}
+  .hero p.sub{font-size:clamp(18px,2.6vw,24px); color:var(--mute); max-width:28ch; line-height:1.5;}
+  .hero .scroll{margin-top:2.6rem; font-family:"Cinzel",serif; font-size:11px; letter-spacing:.3em; color:var(--faint); text-transform:uppercase;}
+
+  .wrap{max-width:780px; margin:0 auto; padding:0 1.6rem;}
+  section.band{padding:13vh 0; border-top:1px solid var(--line);}
+  .band .idx{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--verm); margin-bottom:1.1rem;}
+  .band h2{font-family:"Cormorant Garamond",serif; font-weight:500; font-size:clamp(26px,4.6vw,40px); color:var(--paper); margin-bottom:1.5rem; max-width:20ch;}
+  .band p{color:#cac4b8; max-width:58ch; margin-bottom:1.2rem; font-size:19px;}
+  .band p b{color:var(--paper); font-weight:500;}
+  .pull{font-style:italic; font-size:clamp(21px,3.4vw,30px); line-height:1.4; color:#d9d2c4; max-width:26ch; margin:0 0 1.9rem;}
+  .note-inline{border:1px solid var(--line); border-left:2px solid var(--verm); border-radius:3px; padding:1.3rem 1.4rem; background:rgba(187,70,54,0.04); color:#b8b1a4; font-size:17px; max-width:60ch;}
+
+  .ways{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1.2rem; margin-top:1.4rem;}
+  .way{border:1px solid var(--line); border-radius:3px; padding:1.4rem 1.2rem; text-align:center;}
+  .way .wjp{font-family:"Shippori Mincho",serif; font-size:32px; color:var(--steel); margin-bottom:.25rem;}
+  .way .wnm{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--paper); margin-bottom:.35rem;}
+  .way p{font-size:14px; color:var(--mute); margin:0; max-width:none; line-height:1.4;}
+  .way.here{border-color:rgba(187,70,54,0.4);}
+  .way.here .wnm::after{content:" ·"; color:var(--verm);}
+
+  .virtues{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:1.4rem 1.1rem; margin-top:1.4rem;}
+  .vt{text-align:center;} .vt .vjp{font-family:"Shippori Mincho",serif; font-size:40px; color:var(--verm); line-height:1; margin-bottom:.3rem;}
+  .vt .vnm{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--paper); margin-bottom:.2rem;}
+  .vt p{font-size:14px; color:var(--mute); margin:0; max-width:none;}
+
+  .stages{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.4rem;}
+  .st{border:1px solid var(--line); border-radius:3px; padding:1.5rem 1.1rem; text-align:center;}
+  .st .sjp{font-family:"Shippori Mincho",serif; font-size:42px; color:var(--steel); line-height:1; margin-bottom:.3rem;}
+  .st .snm{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--paper); margin-bottom:.5rem;}
+  .st p{font-size:14px; color:var(--mute); margin:0; max-width:none; line-height:1.4;}
+
+  .colophon{padding:13vh 0 18vh; border-top:1px solid var(--line);}
+  .colophon .kanji{font-family:"Shippori Mincho",serif; font-size:40px; color:var(--faint); margin-bottom:1.1rem;}
+  .colophon h3{font-family:"Cormorant Garamond",serif; font-style:italic; font-size:24px; margin-bottom:1rem; color:var(--paper);}
+  .colophon p{color:var(--mute); font-size:17px; margin:0 0 1rem; max-width:62ch;}
+  .colophon p b{color:#cac4b8; font-weight:500;}
+  .endmark{font-family:"Cinzel",serif; letter-spacing:.34em; font-size:11px; color:var(--faint); text-transform:uppercase; margin-top:2.2rem;}
+
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity 1.2s ease, transform 1.2s cubic-bezier(.22,.7,.2,1);}
+  .reveal.in{opacity:1; transform:none;}
+  @media(max-width:520px){ .stages{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="thread" id="thread"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header class="hero">
+  <svg class="path" id="pathsvg" viewBox="0 0 360 300" aria-label="A stepped path receding into mist toward a distant torii gate"></svg>
+  <div class="tag">pamphlet · ethos · the path of character</div>
+  <div class="kanji">道</div>
+  <h1>The Way</h1>
+  <p class="sub">how Japan turned every craft into a path that makes the person who walks it</p>
+  <div class="scroll">set out</div>
+</header>
+
+<div class="wrap">
+
+  <section class="band reveal">
+    <div class="idx">first, the seam</div>
+    <h2>An honest word about ethos</h2>
+    <p>You found it through the Greek: <i>ethos, pathos, logos</i>. But "the pathos of things" is only the English <b>translation</b> of mono no aware — Japanese thought never built itself to fit Aristotle's three. So there is no exact mirror to hunt for.</p>
+    <p>What there <b>is</b> turns out to be richer: a whole way of treating character not as a creed you declare but as a <b>path you walk</b>. That is the real Japanese ethos — and it has a name.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">what it is</div>
+    <h2>Dō — the Way</h2>
+    <p class="pull">You do not study tea. You walk the Way of tea, and it studies you.</p>
+    <p><b>Dō</b> (道, also read <i>michi</i>) means "way" or "path." Borrowed long ago from the Chinese <b>Tao</b>, in Japan it became the suffix that turns any skill into a lifelong discipline of <b>self-cultivation</b>. Add it to a craft and the craft stops being a thing you do and becomes a road you travel — one that refines not just your hand but your character, conduct, and spirit.</p>
+    <p>So ethos here isn't a list of rules. It is something you <b>practice into being</b>. The art is the vehicle; <b>becoming</b> is the destination — and there is no arriving.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the ways</div>
+    <h2>Everything can become a Way</h2>
+    <p>Across the culture, disciplines take the <i>-dō</i> and turn into paths of character:</p>
+    <div class="ways">
+      <div class="way here"><div class="wjp">茶道</div><div class="wnm">chadō</div><p>The Way of Tea. Rikyū's — already in your set.</p></div>
+      <div class="way here"><div class="wjp">書道</div><div class="wnm">shodō</div><p>The Way of the Brush. Where the ensō lives.</p></div>
+      <div class="way"><div class="wjp">武道</div><div class="wnm">budō</div><p>The Way of martial arts — kendō, jūdō, aikidō, kyūdō.</p></div>
+      <div class="way"><div class="wjp">華道</div><div class="wnm">kadō</div><p>The Way of Flowers — ikebana, arranging as meditation.</p></div>
+      <div class="way"><div class="wjp">香道</div><div class="wnm">kōdō</div><p>The Way of Incense — "listening" to scent.</p></div>
+    </div>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the sharpest form</div>
+    <h2>Bushidō, the warrior's way</h2>
+    <p>The most famous ethos is <b>bushidō</b> (武士道) — the way of the samurai: character forged toward honor, loyalty, and a calm readiness to die. It is usually told through seven virtues:</p>
+    <div class="virtues">
+      <div class="vt"><div class="vjp">義</div><div class="vnm">gi</div><p>integrity</p></div>
+      <div class="vt"><div class="vjp">勇</div><div class="vnm">yū</div><p>courage</p></div>
+      <div class="vt"><div class="vjp">仁</div><div class="vnm">jin</div><p>benevolence</p></div>
+      <div class="vt"><div class="vjp">礼</div><div class="vnm">rei</div><p>respect</p></div>
+      <div class="vt"><div class="vjp">誠</div><div class="vnm">makoto</div><p>sincerity</p></div>
+      <div class="vt"><div class="vjp">名誉</div><div class="vnm">meiyo</div><p>honor</p></div>
+      <div class="vt"><div class="vjp">忠義</div><div class="vnm">chūgi</div><p>loyalty</p></div>
+    </div>
+    <p style="margin-top:1.7rem;" class="note-inline">Honest flag: that tidy seven-virtue code is largely a <b>modern</b> assembly — popularized by Nitobe Inazō's 1900 English book written for Western readers. Real samurai ethics were messier, regional, and shifting. Bushidō as a fixed ancient creed is partly a later invention.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">how one walks it</div>
+    <h2>Obey the form, break it, leave it</h2>
+    <p>Every Way shares a map of mastery — <b>shu-ha-ri</b> (守破離), the three stages a student passes through:</p>
+    <div class="stages">
+      <div class="st"><div class="sjp">守</div><div class="snm">shu · keep</div><p>Obey the form exactly. Imitate the master without deviation.</p></div>
+      <div class="st"><div class="sjp">破</div><div class="snm">ha · break</div><p>Once the form is yours, break from it and experiment.</p></div>
+      <div class="st"><div class="sjp">離</div><div class="snm">ri · leave</div><p>Transcend the form entirely. Move freely, the rules now instinct.</p></div>
+    </div>
+    <p style="margin-top:1.7rem;">And then? You keep walking. The Way has no finish line — the discipline is the point, not a destination. Which is, quietly, impermanence again: no final state, only the path.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the pair</div>
+    <h2>The other half of the culture</h2>
+    <p>This is the companion to everything before it. The aesthetic ideas — mono no aware, yūgen, wabi-sabi — were about how the Japanese <b>see and feel</b>: the eye and the heart. The Way is about how they <b>act and become</b>: the hand and the will.</p>
+    <p>So if mono no aware is the closest thing to your "pathos," then dō — character walked into being — is the closest thing to your "ethos." Not a mirror of the Greek. Its own answer to the same human question: <i>how should one be?</i></p>
+  </section>
+
+  <section class="colophon reveal">
+    <div class="kanji">了</div>
+    <h3>A note, kept honest</h3>
+    <p>The Greek frame was the way in, but it doesn't map cleanly: <b>"the pathos of things" is a translation</b> of mono no aware, not evidence of a Japanese ethos-pathos-logos system. I chose the genuine Japanese idea of ethos — the <b>Way</b> — rather than manufacture a tidy mirror.</p>
+    <p><b>Dō</b> itself is borrowed from the Chinese <b>Tao</b> (道), the Daoist-Confucian Way, then made distinctly Japanese. <b>Shu-ha-ri</b> is real traditional pedagogy from Noh and the martial arts. And the <b>bushidō</b> seven-virtue code is substantially a modern codification (Nitobe, 1900) — handle the "ancient samurai code" story with care.</p>
+    <p>As for the third Greek term — <b>logos</b>, reason and the word — it fits Japanese thought the loosest of the three. If you want to complete the triad anyway, the nearest threads are <i>kotodama</i> (言霊, the spirit living in words) or the Confucian love of order. Say so and I'll build it, flaws flagged as always.</p>
+    <div class="endmark">道に終わりなし · the Way has no end</div>
+  </section>
+
+</div>
+
+<script>
+const NS="http://www.w3.org/2000/svg";
+const svg=document.getElementById('pathsvg');
+const cx=180, baseY=292, topY=96;
+// path edges (converging toward a near-point at top)
+function line(x1,y1,x2,y2,stroke,w,op,dash){ const l=document.createElementNS(NS,"line");
+  l.setAttribute("x1",x1);l.setAttribute("y1",y1);l.setAttribute("x2",x2);l.setAttribute("y2",y2);
+  l.setAttribute("stroke",stroke);l.setAttribute("stroke-width",w);l.setAttribute("opacity",op);
+  if(dash)l.setAttribute("stroke-dasharray",dash); l.setAttribute("stroke-linecap","round"); svg.appendChild(l); return l; }
+function widthAt(t){ return 70 - t*62; }   // near→far
+function yAt(t){ return baseY - t*(baseY-topY); }
+line(cx-widthAt(0),yAt(0), cx-widthAt(1),yAt(1), "var(--stone)",1.4,0.5);
+line(cx+widthAt(0),yAt(0), cx+widthAt(1),yAt(1), "var(--stone)",1.4,0.5);
+// steps
+const steps=[];
+const ts=[0.02,0.12,0.22,0.32,0.43,0.55,0.68,0.82];
+ts.forEach(t=>{ const w=widthAt(t), y=yAt(t);
+  const s=line(cx-w,y, cx+w,y, "var(--paper)",1.6,0); steps.push(s); });
+// torii at the vanishing point (vermilion, in mist)
+const torii=document.createElementNS(NS,"g"); torii.setAttribute("opacity","0");
+const tw=15, th=20, ty=topY-4, tx=cx;
+[["M",tx-tw,ty-th,"L",tx-tw,ty],["M",tx+tw,ty-th,"L",tx+tw,ty]].forEach(()=>{});
+function tline(x1,y1,x2,y2){ const l=document.createElementNS(NS,"line");
+  l.setAttribute("x1",x1);l.setAttribute("y1",y1);l.setAttribute("x2",x2);l.setAttribute("y2",y2);
+  l.setAttribute("stroke","var(--verm)");l.setAttribute("stroke-width",2.2);l.setAttribute("stroke-linecap","round"); torii.appendChild(l); }
+tline(tx-tw, ty-th, tx-tw, ty);
+tline(tx+tw, ty-th, tx+tw, ty);
+tline(tx-tw-4, ty-th, tx+tw+4, ty-th);
+tline(tx-tw-2, ty-th+5, tx+tw+2, ty-th+5);
+svg.appendChild(torii);
+// mist veil over the top
+const mist=document.createElementNS(NS,"rect"); mist.setAttribute("x","0");mist.setAttribute("y","60");mist.setAttribute("width","360");mist.setAttribute("height","70");
+mist.setAttribute("fill","url(#mg)"); 
+const defs=document.createElementNS(NS,"defs");
+const lg=document.createElementNS(NS,"linearGradient"); lg.setAttribute("id","mg");lg.setAttribute("x1","0");lg.setAttribute("y1","0");lg.setAttribute("x2","0");lg.setAttribute("y2","1");
+[["0","#0b0c0d","0.9"],["1","#0b0c0d","0"]].forEach(s=>{const st=document.createElementNS(NS,"stop");st.setAttribute("offset",s[0]);st.setAttribute("stop-color",s[1]);st.setAttribute("stop-opacity",s[2]);lg.appendChild(st);});
+defs.appendChild(lg); svg.appendChild(defs); svg.appendChild(mist);
+// walk up: steps fade in near→far, then torii emerges
+steps.forEach((s,i)=>{ s.animate([{opacity:0},{opacity:0.85-i*0.06}],{duration:500,delay:500+i*180,fill:"forwards",easing:"ease"}); });
+torii.animate([{opacity:0},{opacity:0.55}],{duration:900,delay:500+steps.length*180,fill:"forwards"});
+
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);}})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const th=document.getElementById('thread');
+addEventListener('scroll',()=>{const h=document.documentElement; th.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100).toFixed(1)+'%';},{passive:true});
+</script>
+</body>
+</html>

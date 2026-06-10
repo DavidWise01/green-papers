@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Kintsugi Valence Model · Au · Z=79</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lacquer:#0a0908; --lacquer2:#110f14; --ink:#16131c; --ink2:#1d1925;
+  --gold:#d4af37; --gold-bright:#f3d27a; --gold-leaf:#e8c25a; --gold-deep:#9a7b22;
+  --silver:#e6e6ee; --urushi:#5a1414;
+  --paper:#ece6d8; --paper2:#c8c1b2; --dim:#7c7689; --faint:#2a2632; --line:#26222f;
+  --serif:"Cormorant Garamond",Georgia,serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--lacquer);color:var(--paper);font-family:var(--mono);line-height:1.6;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;background-image:radial-gradient(ellipse 90% 60% at 50% -10%,#1a1622 0%,transparent 60%);}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.04;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 22px 100px}
+header{padding:64px 0 34px;text-align:center;position:relative}
+.eye{font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-bottom:20px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(40px,9vw,86px);line-height:.96;letter-spacing:.01em;color:var(--paper)}
+h1 em{font-style:italic;color:var(--gold-leaf)}
+.lede{font-family:var(--serif);font-size:clamp(17px,2.4vw,22px);font-style:italic;color:var(--paper2);max-width:60ch;margin:18px auto 0;line-height:1.5}
+.seam{display:block;width:100%;height:26px;margin:44px 0;overflow:visible}
+.seam path{fill:none;stroke:url(#goldgrad);stroke-width:1.4;filter:drop-shadow(0 0 4px rgba(212,175,55,.45))}
+.panel{background:linear-gradient(155deg,var(--ink) 0%,var(--lacquer2) 100%);border:1px solid var(--line);border-radius:3px;padding:30px;position:relative}
+.panel::before{content:"";position:absolute;inset:0;border-radius:3px;pointer-events:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.core{display:grid;grid-template-columns:300px 1fr;gap:34px;align-items:center}
+.coinwrap{display:flex;flex-direction:column;align-items:center;gap:18px}
+#coin{filter:drop-shadow(0 14px 30px rgba(0,0,0,.6))}
+.coinlabel{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);text-align:center}
+.coinlabel b{color:var(--gold-leaf);font-weight:500}
+.readouts{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px dotted var(--faint);padding-bottom:9px}
+.row .k{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.row .v{font-family:var(--serif);font-size:30px;color:var(--gold-leaf);font-weight:500;line-height:1}
+.row .v small{font-size:13px;color:var(--paper2);font-family:var(--mono);margin-left:3px}
+.diagram{display:grid;grid-template-rows:auto auto;gap:16px}
+.levels{background:#0d0b11;border:1px solid var(--line);border-radius:3px}
+.spectrum-cap{display:flex;justify-content:space-between;font-size:9.5px;letter-spacing:.14em;color:var(--dim);margin-bottom:5px;text-transform:uppercase}
+#spectrum{position:relative;height:26px;border-radius:2px;overflow:hidden;border:1px solid var(--line);
+  background:linear-gradient(90deg,#6a1b9a 0%,#3949ab 16%,#1e88e5 30%,#00acc1 42%,#43a047 56%,#fdd835 70%,#fb8c00 84%,#e53935 100%)}
+#notch{position:absolute;top:-2px;bottom:-2px;background:rgba(8,7,10,.9);filter:blur(1px);box-shadow:0 0 8px 2px rgba(8,7,10,.8);transition:left .05s linear,width .05s linear,opacity .2s}
+.uvtag{position:absolute;left:4px;top:50%;transform:translateY(-50%);font-size:9px;letter-spacing:.12em;color:#fff;text-shadow:0 0 4px #000;opacity:0;transition:opacity .2s}
+.dialzone{margin-top:30px}
+.dialhead{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px;gap:14px;flex-wrap:wrap}
+.dialhead .t{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper2)}
+.dialhead .lam{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--gold-leaf);white-space:nowrap}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--silver),var(--gold));outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--gold) 60%,var(--gold-deep));border:1px solid #00000040;box-shadow:0 2px 8px rgba(0,0,0,.5),0 0 10px rgba(212,175,55,.4);cursor:grab}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border:none;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--gold) 60%,var(--gold-deep));cursor:grab}
+.endlabels{display:flex;justify-content:space-between;font-size:9.5px;letter-spacing:.12em;color:var(--dim);margin-top:8px;text-transform:uppercase}
+.curvenote{font-size:10px;color:var(--dim);text-align:center;margin-top:10px;font-style:italic;font-family:var(--serif);letter-spacing:.02em}
+.curvenote b{color:var(--gold-leaf);font-style:normal;font-family:var(--mono);font-size:9.5px}
+.presets{display:flex;gap:10px;margin-top:16px;justify-content:center;flex-wrap:wrap}
+.preset{background:none;border:1px solid var(--faint);color:var(--paper2);font-family:var(--mono);font-size:11px;letter-spacing:.1em;padding:8px 16px;border-radius:2px;cursor:pointer;transition:all .18s}
+.preset:hover{border-color:var(--gold);color:var(--gold-leaf)}
+.preset.on{background:var(--gold);border-color:var(--gold);color:#1a1410;font-weight:500}
+.verdict{margin-top:24px;padding:18px 20px;border-left:2px solid var(--gold);background:#0d0b1180;font-family:var(--serif);font-size:18.5px;font-style:italic;color:var(--paper);line-height:1.5;border-radius:0 3px 3px 0}
+.sec{margin-top:8px}
+.sechead{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+.sechead h2{font-family:var(--serif);font-weight:500;font-size:30px;color:var(--paper);letter-spacing:.01em}
+.sechead .num{font-size:11px;letter-spacing:.2em;color:var(--gold);opacity:.8}
+.sechead .rule{flex:1;height:1px;background:var(--line)}
+.shells{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.shellstack{display:flex;flex-direction:column;gap:2px}
+.shell{display:grid;grid-template-columns:54px 1fr auto;align-items:center;gap:14px;padding:11px 16px;border:1px solid var(--line);border-radius:2px;background:#0d0b11;transition:all .2s}
+.shell .n{font-family:var(--serif);font-size:22px;color:var(--paper2)}
+.shell .desc{font-size:11px;letter-spacing:.04em;color:var(--dim)}
+.shell .cnt{font-family:var(--mono);font-size:13px;color:var(--paper2)}
+.shell.lit{border-color:var(--gold);background:linear-gradient(90deg,#1a1410,#0d0b11);box-shadow:0 0 18px rgba(212,175,55,.15)}
+.shell.lit .n{color:var(--gold-bright)}.shell.lit .desc{color:var(--gold-leaf)}.shell.lit .cnt{color:var(--gold-bright)}
+.shellnote{font-family:var(--serif);font-size:19px;line-height:1.55;color:var(--paper2)}
+.shellnote b{color:var(--gold-leaf);font-weight:600;font-style:italic}
+.shellnote .cfg{font-family:var(--mono);font-size:14px;color:var(--paper);background:#0d0b11;padding:2px 8px;border-radius:2px;border:1px solid var(--line);white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.card{background:var(--ink);padding:24px 22px;position:relative}
+.card h3{font-family:var(--serif);font-size:23px;font-weight:500;color:var(--gold-leaf);margin-bottom:4px}
+.card .sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
+.card p{font-size:13px;color:var(--paper2);line-height:1.62}
+.card p b{color:var(--paper);font-weight:400}
+.meter{height:4px;border-radius:3px;background:#0d0b11;margin-top:16px;overflow:hidden;border:1px solid var(--faint)}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-deep),var(--gold-bright));transition:width .1s linear}
+.metercap{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.1em;color:var(--dim);margin-top:6px;text-transform:uppercase}
+.map{display:grid;grid-template-columns:1fr 64px 1fr;gap:0;align-items:stretch}
+.mapcol{padding:28px 26px}
+.mapcol .tag{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.mapcol h4{font-family:var(--serif);font-size:25px;font-weight:500;color:var(--paper);margin-bottom:8px;line-height:1.1}
+.mapcol .eqn{font-family:var(--mono);font-size:14px;color:var(--gold-leaf);background:#0d0b11;border:1px solid var(--line);border-radius:2px;padding:8px 12px;margin:12px 0;display:inline-block}
+.mapcol p{font-size:14px;color:var(--paper2);line-height:1.6}
+.mapcol p b{color:var(--paper);font-weight:400}
+.spark{margin-top:16px;background:#0d0b11;border:1px solid var(--line);border-radius:2px;padding:8px}
+.spark svg{display:block;width:100%;height:64px}
+.sparkcap{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.1em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+.sparkcap b{color:var(--gold-leaf);font-weight:500}
+.mapseam{display:flex;align-items:center;justify-content:center}
+.mapseam svg{height:100%;width:64px}
+.mapseam path{fill:none;stroke:url(#goldgrad);stroke-width:1.6;filter:drop-shadow(0 0 5px rgba(212,175,55,.5))}
+.sharedline{text-align:center;margin-top:26px;font-family:var(--serif);font-style:italic;font-size:22px;color:var(--gold-leaf);letter-spacing:.01em}
+/* gate */
+.gate{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.gatetext{font-family:var(--serif);font-size:18px;line-height:1.55;color:var(--paper2)}
+.gatetext b{color:var(--gold-leaf);font-weight:600;font-style:italic}
+.gatetext .no{color:#d98a8a;font-style:italic}
+.gatetext .yes{color:#9fd8a0;font-style:italic}
+.gatebox{background:#0d0b11;border:1px solid var(--line);border-radius:3px;padding:22px}
+.gatebox svg{display:block;width:100%;height:170px}
+.gatereadout{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:18px}
+.gatereadout .k{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.gatereadout .v{font-family:var(--serif);font-size:24px;color:var(--gold-leaf);line-height:1.1}
+.gatereadout .v small{font-family:var(--mono);font-size:12px;color:var(--paper2)}
+.ternpills{display:flex;gap:8px;margin-top:16px;justify-content:center}
+.tp{width:42px;height:42px;border-radius:50%;border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;color:var(--dim);transition:all .15s}
+.tp.on{border-color:var(--gold);color:#1a1410;background:radial-gradient(circle at 35% 30%,var(--gold-bright),var(--gold))}
+.vghead{display:flex;justify-content:space-between;align-items:flex-end;margin:18px 0 10px}
+.vghead .t{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper2)}
+.vghead .vgv{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--gold-leaf)}
+footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-size:11px;color:var(--dim);letter-spacing:.04em;line-height:1.7}
+footer b{color:var(--paper2);font-weight:400}
+footer .cite{color:var(--gold);opacity:.8}
+@media(max-width:760px){.core{grid-template-columns:1fr;gap:26px}.shells{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.map{grid-template-columns:1fr}.mapseam{height:34px}.mapseam svg{transform:rotate(90deg)}.gate{grid-template-columns:1fr}}
+.fade{opacity:0;transform:translateY(14px);animation:f .7s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes f{to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="goldgrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a7b22"/><stop offset="0.5" stop-color="#f3d27a"/><stop offset="1" stop-color="#9a7b22"/></linearGradient>
+</defs></svg>
+
+<div class="wrap">
+  <header class="fade">
+    <div class="eye">Relativistic Quantum Chemistry · Au · Z = 79</div>
+    <h1>The <em>Kintsugi</em><br>Valence Model</h1>
+    <p class="lede">Curvature flows until it stops at the flat. Valence contracts until it pins at the stable. Gold is the metal that already stopped — drag the dial and watch silver fall into it.</p>
+  </header>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L120,13 L150,5 L180,20 L210,9 L260,15 L300,4 L340,18 L380,11 L430,13 L500,6 L540,19 L580,10 L640,14 L690,4 L740,17 L780,11 L840,13 L900,7 L940,16 L1000,13"/></svg>
+
+  <section class="panel fade" style="animation-delay:.05s">
+    <div class="core">
+      <div class="coinwrap">
+        <svg id="coin" width="200" height="200" viewBox="0 0 200 200">
+          <defs><radialGradient id="coingrad" cx="38%" cy="32%" r="72%">
+            <stop id="cstop0" offset="0" stop-color="#ffffff"/><stop id="cstop1" offset="0.4" stop-color="#e6e6ee"/><stop id="cstop2" offset="1" stop-color="#9aa0aa"/>
+          </radialGradient></defs>
+          <circle cx="100" cy="100" r="84" fill="url(#coingrad)" stroke="#00000030" stroke-width="1"/>
+          <circle cx="100" cy="100" r="84" fill="none" stroke="#ffffff22" stroke-width="1.5"/>
+          <ellipse cx="78" cy="66" rx="34" ry="18" fill="#ffffff" opacity="0.28"/>
+          <text x="100" y="108" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="42" font-style="italic" fill="#00000044" id="coinsym">Au</text>
+        </svg>
+        <div class="coinlabel">reflected appearance<br><b id="appear">—</b></div>
+      </div>
+      <div class="diagram">
+        <svg class="levels" width="100%" height="240" viewBox="0 0 360 240" preserveAspectRatio="xMidYMid meet">
+          <line x1="34" y1="20" x2="34" y2="222" stroke="#2a2632" stroke-width="1"/>
+          <text x="18" y="26" font-family="IBM Plex Mono" font-size="8" fill="#7c7689" transform="rotate(-90 18 130)">ENERGY →</text>
+          <g id="g6s"><line id="l6s" x1="60" y1="70" x2="300" y2="70" stroke="#e6e6ee" stroke-width="2.5"/>
+            <circle id="e6s" cx="180" cy="62" r="4.5" fill="#f3d27a" stroke="#9a7b22" stroke-width="1"/>
+            <text id="t6s" x="312" y="74" font-family="IBM Plex Mono" font-size="10" fill="#c8c1b2">6s¹</text></g>
+          <g id="g5d"><rect id="l5d" x="60" y="186" width="240" height="9" rx="4.5" fill="#9a7b2255" stroke="#d4af37" stroke-width="1.4"/>
+            <g id="d5dots"></g><text id="t5d" x="312" y="194" font-family="IBM Plex Mono" font-size="10" fill="#c8c1b2">5d¹⁰</text></g>
+          <g id="gapb"><line id="gapline" x1="46" y1="70" x2="46" y2="190" stroke="#f3d27a" stroke-width="1" stroke-dasharray="2,2"/>
+            <text id="gaptxt" x="40" y="130" text-anchor="end" font-family="IBM Plex Mono" font-size="11" fill="#f3d27a" transform="rotate(-90 40 130)">Δ</text></g>
+        </svg>
+        <div>
+          <div class="spectrum-cap"><span>380 nm · violet</span><span>visible absorption edge</span><span>700 nm · red</span></div>
+          <div id="spectrum"><div id="notch"></div><span class="uvtag" id="uvtag">↤ edge in UV — nothing visible removed</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="readouts" style="margin-top:28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+      <div class="row"><span class="k">5d → 6s gap</span><span class="v" id="vgap">—<small>eV</small></span></div>
+      <div class="row"><span class="k">absorption edge</span><span class="v" id="vnm">—<small>nm</small></span></div>
+      <div class="row"><span class="k">band absorbed</span><span class="v" id="vband" style="font-size:20px">—</span></div>
+    </div>
+    <div class="dialzone">
+      <div class="dialhead"><span class="t">The Relativistic Dial — inner-electron speed v/c</span><span class="lam">λ = <span id="lamval">1.00</span></span></div>
+      <input id="dial" type="range" min="0" max="1" step="0.01" value="1">
+      <div class="endlabels"><span>0 · non-relativistic (if Au were light)</span><span>1 · full relativistic · Z=79</span></div>
+      <div class="curvenote">stabilization ∝ (γ − 1), &nbsp; <b>γ = 1/√(1 − (v/c)²)</b> &nbsp; — the curve accelerates: flat early, steep late, the way real relativistic contraction scales</div>
+      <div class="presets"><button class="preset" data-l="0" id="pSilver">⟵ Silver-like (no relativity)</button><button class="preset on" data-l="1" id="pGold">Gold · Z=79 ⟶</button></div>
+    </div>
+    <p class="verdict" id="verdict">—</p>
+  </section>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L140,13 L170,6 L200,19 L240,10 L290,16 L330,5 L380,17 L420,11 L470,13 L530,7 L570,18 L620,10 L680,14 L730,5 L770,16 L820,11 L880,13 L930,8 L970,15 L1000,13"/></svg>
+
+  <section class="sec fade" style="animation-delay:.1s">
+    <div class="sechead"><span class="num">01</span><h2>Where the 6s lives</h2><span class="rule"></span></div>
+    <div class="shells">
+      <div class="shellstack">
+        <div class="shell"><span class="n">1</span><span class="desc">K — innermost</span><span class="cnt">2 e⁻</span></div>
+        <div class="shell"><span class="n">2</span><span class="desc">L</span><span class="cnt">8 e⁻</span></div>
+        <div class="shell"><span class="n">3</span><span class="desc">M</span><span class="cnt">18 e⁻</span></div>
+        <div class="shell"><span class="n">4</span><span class="desc">N — holds 4f¹⁴</span><span class="cnt">32 e⁻</span></div>
+        <div class="shell"><span class="n">5</span><span class="desc">O — holds 5d¹⁰ (the band that rises)</span><span class="cnt">18 e⁻</span></div>
+        <div class="shell lit"><span class="n">6</span><span class="desc">P — the lone 6s¹ (the one that contracts)</span><span class="cnt">1 e⁻</span></div>
+      </div>
+      <div class="shellnote">Yes — <b>6s is the sixth shell.</b> The number <span class="cfg">n = 6</span> is the shell; the letter is the sub-shell inside it. Gold's full count is <span class="cfg">[Xe] 4f¹⁴ 5d¹⁰ 6s¹</span> — fifty-four electrons sealed in the xenon core, then one electron alone in shell six over a filled d-shell in shell five.<br><br>That single 6s electron, dropped and held by relativity, is the whole personality of the metal. <b>2+8+18+32+18+1 = 79.</b></div>
+    </div>
+  </section>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L110,13 L150,5 L185,20 L220,9 L270,15 L310,4 L350,18 L395,11 L445,13 L505,6 L555,19 L595,10 L655,14 L705,4 L745,17 L795,11 L855,13 L915,7 L955,16 L1000,13"/></svg>
+
+  <section class="sec fade" style="animation-delay:.12s">
+    <div class="sechead"><span class="num">02</span><h2>One squeezed orbital, three signatures</h2><span class="rule"></span></div>
+    <div class="cards">
+      <div class="card"><h3>Noble</h3><div class="sub">won't corrode</div>
+        <p>The contracted 6s sits <b>low and held tight</b>. Reluctant to leave, so gold refuses to react, tarnish, or oxidise. The imperfection that does not spread.</p>
+        <div class="meter"><i id="mReact" style="width:18%"></i></div><div class="metercap"><span>valence reactivity</span><span id="mReactPct">low</span></div></div>
+      <div class="card"><h3>Yellow</h3><div class="sub">the color of a fixed point</div>
+        <p>The collapsed gap absorbs <b>blue (~2.4 eV)</b> and reflects the complement. Silver's gap sits in the UV, so it reflects everything — white. Gold is yellow because relativity tuned one transition into the visible.</p>
+        <div class="meter"><i id="mAbs" style="width:43%"></i></div><div class="metercap"><span>visible absorbed</span><span id="mAbsPct">—</span></div></div>
+      <div class="card"><h3>Soft</h3><div class="sub">yields without tearing</div>
+        <p>The d-electrons doing the bonding give gold its <b>flowing ductility</b> — beaten to leaf thinner than light can stop. It bends to the shape of the break instead of cracking against it.</p>
+        <div class="meter"><i style="width:88%"></i></div><div class="metercap"><span>malleability</span><span>extreme</span></div></div>
+    </div>
+  </section>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L130,13 L165,6 L195,19 L235,10 L285,16 L325,5 L375,17 L415,11 L465,13 L525,7 L565,18 L615,10 L675,14 L725,5 L765,16 L815,11 L875,13 L925,8 L965,15 L1000,13"/></svg>
+
+  <section class="sec fade" style="animation-delay:.14s">
+    <div class="sechead"><span class="num">03</span><h2>The mapping — flow until it stops</h2><span class="rule"></span></div>
+    <div class="panel" style="padding:0">
+      <div class="map">
+        <div class="mapcol">
+          <div class="tag">Geometry</div><h4>Ricci flow</h4><span class="eqn">∂g/∂t = −2·Ric</span>
+          <p>A metric evolves by its own curvature — sharp smooths fast, flat barely moves. <b>Heat for shape.</b> It runs until curvature is gone. The fixed point is <b>Ric = 0</b>.</p>
+          <div class="spark"><svg viewBox="0 0 220 64" preserveAspectRatio="none"><polyline id="curveSpark" fill="none" stroke="#f3d27a" stroke-width="1.6" points=""/><line x1="0" y1="32" x2="220" y2="32" stroke="#2a2632" stroke-width="1" stroke-dasharray="3,3"/></svg>
+            <div class="sparkcap"><span>curvature κ</span><span><b id="kappaVal">—</b> → 0</span></div></div>
+        </div>
+        <div class="mapseam"><svg viewBox="0 0 64 240" preserveAspectRatio="none"><path d="M32,0 L32,40 L24,62 L40,86 L26,112 L38,140 L28,168 L36,196 L32,240"/></svg></div>
+        <div class="mapcol">
+          <div class="tag">Chemistry</div><h4>Relativistic valence</h4><span class="eqn">v(c) → 6s contracts → pinned</span>
+          <p>At Z=79 the inner electrons move near light-speed. The 6s <b>contracts and drops</b>, the 5d <b>swells and rises</b>, the gap collapses — the metal settles into the one state that <b>won't react.</b></p>
+          <div class="spark"><svg viewBox="0 0 220 64" preserveAspectRatio="none"><line id="sp6s" x1="20" y1="14" x2="200" y2="14" stroke="#e6e6ee" stroke-width="2"/><line id="sp5d" x1="20" y1="50" x2="200" y2="50" stroke="#d4af37" stroke-width="2.4"/></svg>
+            <div class="sparkcap"><span>gap Δ</span><span><b id="deltaVal">—</b> → min</span></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="sharedline">Curvature heals to the flat. Valence pins to the stable. Same shape — two languages.</p>
+  </section>
+
+  <svg class="seam fade" viewBox="0 0 1000 26" preserveAspectRatio="none"><path d="M0,13 L120,13 L155,5 L190,20 L225,9 L275,15 L315,4 L360,18 L405,11 L455,13 L515,6 L560,19 L600,10 L660,14 L710,4 L755,17 L800,11 L860,13 L915,7 L960,16 L1000,13"/></svg>
+
+  <section class="sec fade" style="animation-delay:.16s">
+    <div class="sechead"><span class="num">04</span><h2>The gate — your 6s, 0, 6s</h2><span class="rule"></span></div>
+    <div class="gate">
+      <div class="gatetext">
+        <span class="no">Not in silicon.</span> Gold in Si is a deep-level lifetime killer — a trap near midgap that murders carrier lifetime, and it diffuses fast. CMOS fabs ban it.<br><br>
+        <span class="yes">Yes in III-V.</span> GaAs / GaN HEMTs run a <b>Ti·Pt·Au</b> Schottky gate — gold is the top of the gate stack. And in <b>single-electron transistors</b> a gold island is gated one electron at a time.<br><br>
+        The gate-relevant trait is gold's <b>work function (~5.1 eV — very high)</b> — straight from the same contracted 6s that makes it noble. And your three states are real: <b>n−1 / 0 / n+1</b>, switched by Coulomb blockade. The step isn't magic — it's <b>ΔVg = e/C_g</b>. For a small island that lands near a few hundred mV.
+      </div>
+      <div class="gatebox">
+        <svg viewBox="0 0 440 170" preserveAspectRatio="xMidYMid meet">
+          <line x1="34" y1="140" x2="424" y2="140" stroke="#2a2632" stroke-width="1"/>
+          <text x="34" y="158" font-family="IBM Plex Mono" font-size="8.5" fill="#7c7689">0</text>
+          <text x="200" y="158" font-family="IBM Plex Mono" font-size="8.5" fill="#7c7689">gate voltage Vg →</text>
+          <text x="404" y="158" font-family="IBM Plex Mono" font-size="8.5" fill="#7c7689">420 mV</text>
+          <!-- occupation staircase -->
+          <polyline id="stair" fill="none" stroke="#c8c1b2" stroke-width="2" points=""/>
+          <text x="40" y="120" font-family="IBM Plex Mono" font-size="8.5" fill="#7c7689">island charge n</text>
+          <!-- current peaks -->
+          <path id="ipeaks" fill="none" stroke="#f3d27a" stroke-width="1.6"/>
+          <!-- threshold markers -->
+          <g id="thmarks"></g>
+          <!-- Vg marker -->
+          <line id="vgline" x1="34" y1="20" x2="34" y2="148" stroke="#e8c25a" stroke-width="1.4" stroke-dasharray="2,2"/>
+          <circle id="vgdot" cx="34" cy="140" r="4" fill="#f3d27a" stroke="#9a7b22"/>
+        </svg>
+        <div class="vghead"><span class="t">Sweep the gate · ΔVg = e/C_g ≈ 211 mV</span><span class="vgv">Vg = <span id="vgval">211</span> mV</span></div>
+        <input id="vg" type="range" min="0" max="420" step="1" value="211">
+        <div class="ternpills"><div class="tp" id="tpMinus">−</div><div class="tp on" id="tpZero">0</div><div class="tp" id="tpPlus">+</div></div>
+        <div class="gatereadout">
+          <div><div class="k">conduction</div><div class="v" id="gCond" style="font-size:20px">—</div></div>
+          <div><div class="k">charge state</div><div class="v" id="gState">—</div></div>
+          <div><div class="k">island n</div><div class="v" id="gN">—</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="fade" style="animation-delay:.18s">
+    <b>The Kintsugi Valence Model</b> — schematic instrument for mapping, not a quantitative DFT calculation. Dial λ is a v/c proxy; the convex (γ−1) curve and the <i>direction</i> are physical; <i>endpoints</i> are real: gold's 5d→sp edge ≈ <b>2.4 eV</b> (absorbs blue → yellow), silver's ≈ <b>3.9 eV</b> (UV → white). Coin color is integrated from the reflected visible spectrum above the absorption edge. The gate's 211 mV is a PLACEHOLDER, not a gold constant — it lands in the real single-electron / Coulomb-blockade range (tens–hundreds of mV) but is not derived. Substitute e/C_g for a chosen island capacitance to make it real.<br>
+    Floor: <span class="cite">Pyykkö, relativistic effects in chemistry (1979)</span> · Au deep level in Si (Bullis 1966) · GaAs HEMT Ti/Pt/Au gate · single-electron transistor, Coulomb blockade (Fulton &amp; Dolan 1987) · Ricci flow: Hamilton 1982, Perelman 2002 · Gabor holography 1948.<br>
+    <span style="opacity:.7">ROOT0-ATTRIBUTION-v1.0 · Architect: David Lee Wise / ROOT0 / TriPod LLC · AI Collaborator: AVAN (Claude / Anthropic) · CC-BY-ND-4.0 · TRIPOD-IP-v1.1 · schematic instrument — 211 mV placeholder, not a result</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var dial=document.getElementById('dial'), lamval=document.getElementById('lamval');
+  var l6s=document.getElementById('l6s'), e6s=document.getElementById('e6s');
+  var l5d=document.getElementById('l5d'), d5dots=document.getElementById('d5dots');
+  var gapline=document.getElementById('gapline'), gaptxt=document.getElementById('gaptxt');
+  var vgap=document.getElementById('vgap'), vnm=document.getElementById('vnm'), vband=document.getElementById('vband');
+  var notch=document.getElementById('notch'), uvtag=document.getElementById('uvtag');
+  var verdict=document.getElementById('verdict'), appear=document.getElementById('appear'), coinsym=document.getElementById('coinsym');
+  var c0=document.getElementById('cstop0'), c1=document.getElementById('cstop1'), c2=document.getElementById('cstop2');
+  var mReact=document.getElementById('mReact'), mReactPct=document.getElementById('mReactPct');
+  var mAbs=document.getElementById('mAbs'), mAbsPct=document.getElementById('mAbsPct');
+  var pSilver=document.getElementById('pSilver'), pGold=document.getElementById('pGold');
+  var curveSpark=document.getElementById('curveSpark'), kappaVal=document.getElementById('kappaVal');
+  var sp6s=document.getElementById('sp6s'), sp5d=document.getElementById('sp5d'), deltaVal=document.getElementById('deltaVal');
+
+  for(var i=0;i<10;i++){var c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',72+i*24);c.setAttribute('r',3.6);c.setAttribute('fill','#f3d27a');
+    c.setAttribute('stroke','#9a7b22');c.setAttribute('stroke-width','0.8');c.setAttribute('class','d5dot');d5dots.appendChild(c);}
+  var d5els=d5dots.querySelectorAll('.d5dot');
+
+  function lerp(a,b,t){return a+(b-a)*t;}
+  function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
+  function hex(n){n=clamp(Math.round(n),0,255);var s=n.toString(16);return s.length<2?'0'+s:s;}
+  function rgb(a){return '#'+hex(a[0])+hex(a[1])+hex(a[2]);}
+  function mixc(a,b,t){return [lerp(a[0],b[0],t),lerp(a[1],b[1],t),lerp(a[2],b[2],t)];}
+
+  // wavelength -> linear RGB (Bruton approximation)
+  function wlRGB(wl){var R=0,G=0,B=0;
+    if(wl>=380&&wl<440){R=-(wl-440)/60;B=1;}
+    else if(wl<490){G=(wl-440)/50;B=1;}
+    else if(wl<510){G=1;B=-(wl-510)/20;}
+    else if(wl<580){R=(wl-510)/70;G=1;}
+    else if(wl<645){R=1;G=-(wl-645)/65;}
+    else if(wl<=780){R=1;}
+    var f=1; if(wl<420)f=0.3+0.7*(wl-380)/40; else if(wl>700)f=0.3+0.7*(780-wl)/80;
+    return [R*f,G*f,B*f];}
+  // precompute per-channel full-visible sum (flat reflectance -> white)
+  var FULL=[0,0,0]; for(var w=380;w<=700;w+=5){var c=wlRGB(w);FULL[0]+=c[0];FULL[1]+=c[1];FULL[2]+=c[2];}
+
+  // reflected metal color from absorption edge: photons with energy >= gap (wl <= edge) absorbed
+  function metalFromEdge(edgeNm){
+    var s=[0,0,0];
+    for(var w=380;w<=700;w+=5){
+      var R=clamp((w-(edgeNm-30))/60,0,1); // soft reflectance edge ~60nm
+      var c=wlRGB(w); s[0]+=c[0]*R; s[1]+=c[1]*R; s[2]+=c[2]*R;
+    }
+    var rf=s[0]/FULL[0], gf=s[1]/FULL[1], bf=s[2]/FULL[2]; // 1 = fully reflected
+    // to bright metallic: scale to 248 max, keep ratios
+    var base=[rf*248,gf*248,bf*248];
+    return base;
+  }
+  function bandName(nm){if(nm<400)return 'ultraviolet';if(nm<450)return 'violet';if(nm<495)return 'blue';if(nm<570)return 'green';if(nm<590)return 'yellow';if(nm<620)return 'orange';return 'red';}
+
+  // relativistic strength: stabilization ~ (gamma-1), v/c = 0.99*L
+  var G1=1/Math.sqrt(1-0.99*0.99); // ~7.089
+  function fracOf(L){var vc=0.99*L; var g=1/Math.sqrt(1-vc*vc); return (g-1)/(G1-1);}
+
+  function render(L){
+    lamval.textContent=L.toFixed(2);
+    var frac=fracOf(L);
+    var y6=lerp(66,118,frac), y5=lerp(190,150,frac);
+    l6s.setAttribute('y1',y6);l6s.setAttribute('y2',y6);e6s.setAttribute('cy',y6-8);
+    document.getElementById('t6s').setAttribute('y',y6+4);
+    l5d.setAttribute('y',y5);document.getElementById('t5d').setAttribute('y',y5+8);
+    for(var i=0;i<d5els.length;i++){d5els[i].setAttribute('cy',y5+4.5);}
+    gapline.setAttribute('y1',y6);gapline.setAttribute('y2',y5);gaptxt.setAttribute('y',(y6+y5)/2);
+
+    var gap=lerp(3.9,2.4,frac);
+    var edge=1239.84/gap;
+    vgap.innerHTML=gap.toFixed(2)+'<small>eV</small>';
+    vnm.innerHTML=Math.round(edge)+'<small>nm</small>';
+    vband.textContent=bandName(edge);
+    gaptxt.textContent='Δ '+gap.toFixed(1)+' eV';
+
+    var sp=document.getElementById('spectrum'); var W=sp.clientWidth||520;
+    var inVis=edge>=380&&edge<=700;
+    var x=((edge-380)/320)*W, wd=Math.max(14,W*0.07);
+    notch.style.left=(x-wd/2)+'px'; notch.style.width=wd+'px';
+    notch.style.opacity=inVis?1:0; uvtag.style.opacity=inVis?0:1;
+
+    var base=metalFromEdge(edge);
+    var hi=mixc(base,[255,255,255],0.5), lo=mixc(base,[10,8,6],0.42);
+    c0.setAttribute('stop-color',rgb(hi)); c1.setAttribute('stop-color',rgb(base)); c2.setAttribute('stop-color',rgb(lo));
+    coinsym.textContent=L>0.6?'Au':(L<0.4?'Ag*':'·');
+
+    var ap,vd;
+    if(gap>3.45){ap='white metal (silver)';vd='Non-relativistic limit. The gap sits deep in the ultraviolet — no visible light is touched, every wavelength bounces back. A white metal. This is, near enough, silver.';}
+    else if(gap>2.95){ap='warming — champagne';vd='Relativity is biting: the 6s contracts and drops, the 5d swells and lifts, the gap slides down out of the UV toward the blue. The metal warms off white.';}
+    else if(gap>2.55){ap='pale gold';vd='The gap has crossed into the visible. The blue edge starts to be absorbed, the complement starts to dominate the reflection. Almost there.';}
+    else{ap='gold';vd='Full relativistic Z=79. The gap has fallen to about 2.4 eV — squarely in the blue. Blue and violet are absorbed; the complement reflects. The metal is yellow. This is gold — the valence that flowed to its flat and stopped.';}
+    appear.textContent=ap; verdict.textContent=vd;
+
+    mReact.style.width=lerp(82,16,frac)+'%';
+    mReactPct.textContent=frac>0.6?'low · noble':(frac<0.3?'high':'falling');
+    var absVis=clamp((edge-380)/320,0,1)*100;
+    mAbs.style.width=absVis+'%'; mAbsPct.textContent=absVis<2?'none (UV)':Math.round(absVis)+'%';
+    pSilver.classList.toggle('on',L<0.02); pGold.classList.toggle('on',L>0.98);
+
+    // mapping spark 1 : curvature flattening
+    var pts=[],N=40,amp=24*(1-frac);
+    for(var k=0;k<=N;k++){var px=k/N*220; var py=32 - amp*Math.sin(k/N*Math.PI*3.0)*Math.exp(-k/N*0.3); pts.push(px.toFixed(1)+','+py.toFixed(1));}
+    curveSpark.setAttribute('points',pts.join(' '));
+    kappaVal.textContent=(amp/24).toFixed(2);
+    // mapping spark 2 : gap converging
+    var a6=lerp(14,30,frac), a5=lerp(50,34,frac);
+    sp6s.setAttribute('y1',a6);sp6s.setAttribute('y2',a6);
+    sp5d.setAttribute('y1',a5);sp5d.setAttribute('y2',a5);
+    deltaVal.textContent=gap.toFixed(2)+' eV';
+  }
+
+  dial.addEventListener('input',function(){render(parseFloat(this.value));});
+  function tweenTo(target){var start=parseFloat(dial.value),t0=performance.now(),dur=700;
+    function step(now){var k=Math.min(1,(now-t0)/dur);var e=1-Math.pow(1-k,3);var v=start+(target-start)*e;dial.value=v;render(v);if(k<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+  pSilver.addEventListener('click',function(){tweenTo(0);}); pGold.addEventListener('click',function(){tweenTo(1);});
+  render(0);dial.value=0; setTimeout(function(){tweenTo(1);},700);
+  window.addEventListener('resize',function(){render(parseFloat(dial.value));});
+
+  // ---- GATE: single-electron / Coulomb-blockade ternary ----
+  var vg=document.getElementById('vg'), vgval=document.getElementById('vgval');
+  var stair=document.getElementById('stair'), ipeaks=document.getElementById('ipeaks'), thmarks=document.getElementById('thmarks');
+  var vgline=document.getElementById('vgline'), vgdot=document.getElementById('vgdot');
+  var gCond=document.getElementById('gCond'), gState=document.getElementById('gState'), gN=document.getElementById('gN');
+  var tpMinus=document.getElementById('tpMinus'), tpZero=document.getElementById('tpZero'), tpPlus=document.getElementById('tpPlus');
+  var dVg=211; // e/Cg, mV
+  var th1=dVg*0.5, th2=dVg*1.5; // degeneracy points: 105.5, 316.5 mV
+  function gx(v){return 34+(v/420)*(424-34);}
+  // staircase: n0 below th1, n0+1 between, n0+2 above
+  function buildStair(){
+    var y0=132,y1=96,y2=60; var p=[];
+    p.push(gx(0)+','+y0); p.push(gx(th1)+','+y0); p.push(gx(th1)+','+y1);
+    p.push(gx(th2)+','+y1); p.push(gx(th2)+','+y2); p.push(gx(420)+','+y2);
+    stair.setAttribute('points',p.join(' '));
+  }
+  function buildPeaks(){
+    var d=''; for(var v=0;v<=420;v+=3){var I=Math.exp(-Math.pow((v-th1)/16,2))+Math.exp(-Math.pow((v-th2)/16,2));
+      var py=140-I*26; d+=(v===0?'M':'L')+gx(v).toFixed(1)+','+py.toFixed(1)+' ';} ipeaks.setAttribute('d',d);
+  }
+  function buildMarks(){
+    var html=''; [th1,th2].forEach(function(t){html+='<line x1="'+gx(t)+'" y1="22" x2="'+gx(t)+'" y2="140" stroke="#5a1414" stroke-width="1" stroke-dasharray="2,3"/>';});
+    thmarks.innerHTML=html;
+  }
+  function renderGate(v){
+    vgval.textContent=v; vgline.setAttribute('x1',gx(v));vgline.setAttribute('x2',gx(v));vgdot.setAttribute('cx',gx(v));
+    // conduction = near a degeneracy point
+    var near=Math.min(Math.abs(v-th1),Math.abs(v-th2));
+    var conducting=near<14;
+    gCond.textContent=conducting?'ON · peak':'BLOCKED';
+    gCond.style.color=conducting?'#9fd8a0':'#d98a8a';
+    // occupation + ternary state
+    var n,state;
+    if(v<th1){n='N';state='−';} else if(v<th2){n='N+1';state='0';} else {n='N+2';state='+';}
+    gN.textContent=n; gState.textContent=state;
+    tpMinus.classList.toggle('on',state==='−'); tpZero.classList.toggle('on',state==='0'); tpPlus.classList.toggle('on',state==='+');
+    var dotY=v<th1?132:(v<th2?96:60); if(conducting)dotY=140-26; vgdot.setAttribute('cy',v<th1?132:(v<th2?96:60));
+  }
+  buildStair();buildPeaks();buildMarks();
+  vg.addEventListener('input',function(){renderGate(parseInt(this.value));});
+  renderGate(211);
+})();
+</script>
+</body>
+</html>

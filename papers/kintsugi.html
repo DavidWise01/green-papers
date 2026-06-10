@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kintsugi — the golden seam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0b0e; --clay:#1b1712; --bone:#ece6d6; --mute:#9a8f6f; --faint:#5c5640;
+    --gold:#c9a24b; --gold-lt:#e6c869; --gold-pale:#f3e2ac; --gold-dp:#8a6d28;
+    --line:rgba(201,162,75,0.16);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink); color:var(--bone);
+    font-family:"Cormorant Garamond",Georgia,serif; font-size:19px; line-height:1.65; overflow-x:hidden;}
+  .grain{position:fixed; inset:0; width:100%; height:100%; opacity:0.04; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(120% 80% at 50% -10%, rgba(201,162,75,0.10), transparent 60%),
+               radial-gradient(140% 120% at 50% 120%, rgba(8,8,11,0.92), transparent 55%);}
+  .progress{position:fixed; top:0; left:0; height:2px; width:0%; z-index:20;
+    background:linear-gradient(90deg,var(--gold-dp),var(--gold-lt),var(--gold-pale));}
+
+  header.hero{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem 1.5rem;}
+  .bowl{width:min(360px,80vw); height:min(300px,68vw); margin-bottom:2.4rem;}
+  .hero .tag{font-family:"Cinzel",serif; letter-spacing:.42em; font-size:12px; color:var(--mute); text-transform:uppercase; margin-bottom:1.5rem; padding-left:.42em;}
+  .hero .kanji{font-family:"Shippori Mincho",serif; font-size:clamp(44px,10vw,100px); font-weight:700;
+    color:transparent; -webkit-text-stroke:1px rgba(201,162,75,0.55); letter-spacing:.14em; line-height:1; margin-bottom:1rem;}
+  .hero h1{font-family:"Cinzel",serif; font-weight:700; font-size:clamp(34px,7.5vw,80px); letter-spacing:.06em; line-height:1.02; margin-bottom:1.3rem;
+    background:linear-gradient(110deg,#8a6d28,#f3e2ac 38%,#e6c869 55%,#8a6d28 90%); background-size:220% auto;
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; animation:shimmer 6s linear infinite;}
+  @keyframes shimmer{to{background-position:220% center}}
+  .hero p.sub{font-style:italic; font-size:clamp(18px,2.6vw,26px); color:var(--mute); max-width:30ch; line-height:1.45;}
+  .hero .scroll{margin-top:2.6rem; font-family:"Cinzel",serif; font-size:11px; letter-spacing:.3em; color:var(--faint); text-transform:uppercase;}
+  .hero .scroll::after{content:""; display:block; width:1px; height:44px; margin:14px auto 0; background:linear-gradient(var(--gold-dp),transparent); animation:drop 2.4s ease-in-out infinite;}
+  @keyframes drop{0%,100%{opacity:.3; transform:translateY(0)}50%{opacity:1; transform:translateY(6px)}}
+
+  section.band{max-width:760px; margin:0 auto; padding:11vh 1.6rem; border-top:1px solid var(--line); position:relative;}
+  .band .idx{font-family:"Cinzel",serif; font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem;}
+  .band .jp{font-family:"Shippori Mincho",serif; font-weight:700; font-size:clamp(34px,7vw,58px); color:var(--gold-lt); line-height:1; margin-bottom:.4rem;}
+  .band h2{font-family:"Cinzel",serif; font-weight:500; font-size:clamp(20px,3.4vw,30px); letter-spacing:.05em; color:var(--bone); margin-bottom:1.4rem;}
+  .band p{color:#c7bf9f; max-width:60ch; margin-bottom:1.1rem;}
+  .band p b{color:var(--bone); font-weight:500;}
+  .band .epi{font-style:italic; font-size:clamp(19px,2.8vw,25px); line-height:1.4; color:#d8cfae; border-left:2px solid var(--gold); padding-left:1.1rem; margin:0 0 1.6rem;}
+
+  .steps{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:4px; overflow:hidden; margin-top:1rem;}
+  .step{background:var(--clay); padding:1.4rem 1.5rem; display:flex; gap:1.1rem; align-items:flex-start;}
+  .step .num{font-family:"Shippori Mincho",serif; font-size:30px; color:var(--gold); line-height:1; min-width:1.4em;}
+  .step .stx h3{font-family:"Cinzel",serif; font-weight:500; font-size:16px; letter-spacing:.06em; color:var(--bone); margin-bottom:.3rem;}
+  .step .stx .ro{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:.5rem;}
+  .step .stx p{font-size:16px; color:var(--mute); margin:0; max-width:48ch;}
+
+  .styles{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-top:1.2rem;}
+  .scard{border:1px solid var(--line); border-radius:4px; padding:1.4rem; background:linear-gradient(180deg,rgba(201,162,75,.05),transparent);}
+  .scard .sjp{font-family:"Shippori Mincho",serif; font-size:26px; color:var(--gold-lt); margin-bottom:.3rem;}
+  .scard .snm{font-family:"Cinzel",serif; font-size:13px; letter-spacing:.08em; color:var(--bone); margin-bottom:.5rem;}
+  .scard p{font-size:15px; color:var(--mute); margin:0; line-height:1.45;}
+
+  .colophon{max-width:720px; margin:0 auto; padding:11vh 1.6rem 16vh; border-top:1px solid var(--line);}
+  .colophon .kanji{font-family:"Shippori Mincho",serif; font-size:40px; color:var(--faint); margin-bottom:1.1rem;}
+  .colophon h3{font-family:"Cinzel",serif; font-weight:500; letter-spacing:.1em; font-size:20px; margin-bottom:1rem; color:var(--bone);}
+  .colophon p{color:var(--mute); font-size:17px; margin-bottom:1rem; max-width:62ch;}
+  .colophon p b{color:#c7bf9f; font-weight:500;}
+  .endmark{font-family:"Cinzel",serif; letter-spacing:.4em; font-size:11px; color:var(--faint); text-transform:uppercase; margin-top:2.2rem;}
+
+  .reveal{opacity:0; transform:translateY(34px); filter:blur(5px); transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1), filter .9s ease;}
+  .reveal.in{opacity:1; transform:none; filter:none;}
+
+  .seam{stroke-dasharray:1; stroke-dashoffset:1; }
+  .seam.go{animation:fill 2.6s ease forwards;}
+  @keyframes fill{to{stroke-dashoffset:0;}}
+</style>
+</head>
+<body>
+<div class="progress" id="bar"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header class="hero">
+  <svg class="bowl" id="bowl" viewBox="0 0 360 300" aria-label="A broken bowl mended with golden seams"></svg>
+  <div class="tag">pamphlet · the art of the golden seam</div>
+  <div class="kanji">金継ぎ</div>
+  <h1>Kintsugi</h1>
+  <p class="sub">to mend what broke with gold — and call the scar the most beautiful part</p>
+  <div class="scroll">trace the crack</div>
+</header>
+
+<section class="band reveal">
+  <div class="idx">what it is</div>
+  <div class="jp">金繕い</div>
+  <h2>Golden repair</h2>
+  <p class="epi">The flaw is not hidden. It is gilded, so the eye goes straight to it.</p>
+  <p>Kintsugi — <b>“golden joinery”</b>, also called <i>kintsukuroi</i>, “golden repair” — is the Japanese craft of fixing broken ceramics with lacquer mixed or dusted with <b>gold</b>. Instead of disguising the damage, the mender turns every crack into a bright vein of metal, so the history of the break is written plainly across the piece.</p>
+  <p>The lacquer is <b>urushi</b>, tapped from the same tree used for centuries of Japanese lacquerware. The gold is real <b>maki-e</b> powder, the technique borrowed from lacquer art. A repaired bowl is often considered <b>more valuable</b> than it was unbroken — not despite the damage, but because of how it was answered.</p>
+</section>
+
+<section class="band reveal">
+  <div class="idx">where it comes from</div>
+  <div class="jp">由来</div>
+  <h2>A shogun's ugly staple</h2>
+  <p>The usual origin story sends it back to the <b>15th century</b>: the shogun <b>Ashikaga Yoshimasa</b> breaks a favourite tea bowl, ships it to China to be fixed, and gets it back stitched with ugly metal staples. Dissatisfied, his craftsmen look for a mend that is itself worth looking at — and the golden seam is born.</p>
+  <p>True or embellished, the craft grew up inside the world of the <b>tea ceremony</b> and its love of <b>wabi-sabi</b> — beauty found in the imperfect, the worn, the impermanent. A cracked bowl made whole in gold is wabi-sabi you can hold.</p>
+</section>
+
+<section class="band reveal">
+  <div class="idx">how it's done</div>
+  <div class="jp">手順</div>
+  <h2>The work, in five patient acts</h2>
+  <div class="steps">
+    <div class="step"><div class="num">一</div><div class="stx"><div class="ro">Tsukuroi · gather</div><h3>Collect the pieces</h3><p>Every shard is saved. Nothing is replaced with new clay if it can be helped — the bowl is rebuilt from its own broken self.</p></div></div>
+    <div class="step"><div class="num">二</div><div class="stx"><div class="ro">Mugi-urushi · join</div><h3>Glue with lacquer</h3><p>Urushi lacquer, sometimes thickened with rice flour, bonds the fragments. Then the long wait — urushi cures slowly, in a humid box, over days or weeks.</p></div></div>
+    <div class="step"><div class="num">三</div><div class="stx"><div class="ro">Sabi-urushi · fill</div><h3>Fill the gaps</h3><p>Missing chips are built up with a lacquer putty, layer on layer, each cured and sanded smooth before the next.</p></div></div>
+    <div class="step"><div class="num">四</div><div class="stx"><div class="ro">Maki-e · gild</div><h3>Lay the gold</h3><p>A final coat of lacquer is brushed along the seam and, while still tacky, dusted with powdered gold so the line ignites.</p></div></div>
+    <div class="step"><div class="num">五</div><div class="stx"><div class="ro">Migaki · burnish</div><h3>Polish and cure</h3><p>The gold is burnished, the piece cured a last time. The break is now the brightest thing on the bowl.</p></div></div>
+  </div>
+</section>
+
+<section class="band reveal">
+  <div class="idx">three ways to mend</div>
+  <div class="jp">三様</div>
+  <h2>Not all seams are equal</h2>
+  <div class="styles">
+    <div class="scard"><div class="sjp">ひび</div><div class="snm">Crack · hibi</div><p>The simplest: a clean fracture rejoined, a single gold line tracing where it split.</p></div>
+    <div class="scard"><div class="sjp">欠け</div><div class="snm">Piece method · kake</div><p>A missing fragment rebuilt entirely from gold-and-lacquer fill, a solid golden patch in the wall.</p></div>
+    <div class="scard"><div class="sjp">呼継ぎ</div><div class="snm">Joint-call · yobitsugi</div><p>A lost shard replaced by a piece from a <i>different</i> vessel — two histories fused into one bowl.</p></div>
+  </div>
+</section>
+
+<section class="band reveal">
+  <div class="idx">why it lasts</div>
+  <div class="jp">心</div>
+  <h2>The idea under the gold</h2>
+  <p class="epi">A thing that has been broken and mended can be stronger, and stranger, than a thing that never broke.</p>
+  <p>Kintsugi outgrew the workshop and became a way of seeing. The cracks are not erased from the record; they are <b>illuminated</b> and kept. The object's biography — the drop, the shatter, the careful answer — stays visible for the rest of its life, and that visible history is treated as the source of its worth.</p>
+  <p>It pairs, almost too neatly, with the gold-line pamphlet beside it: that one was a lineage that prided itself on <b>never breaking</b>. This is the opposite virtue — that breaking, met with care, can become the most luminous part of the whole.</p>
+</section>
+
+<section class="colophon reveal">
+  <div class="kanji">了</div>
+  <h3>A note, kept honest</h3>
+  <p>The spelling is <b>kintsugi</b> (金継ぎ) — you wrote "kitsugi," so I confirmed the subject rather than guess. The <b>Yoshimasa</b> origin tale is the popular account and may be more legend than documented fact; what's solid is that the technique grew out of <b>urushi lacquer</b> work and the <b>maki-e</b> gold-dusting craft, within the aesthetics of the tea ceremony and <b>wabi-sabi</b>.</p>
+  <p>The bowl above is an original drawing, not a photograph of a real piece — the cracks and gold are illustrative, traced live when the page loads.</p>
+  <div class="endmark">割れて、なお美しい · broken, and the more beautiful for it</div>
+</section>
+
+<script>
+const NS="http://www.w3.org/2000/svg";
+const bowl=document.getElementById('bowl');
+
+const body=document.createElementNS(NS,"path");
+body.setAttribute("d","M40 110 Q40 96 60 96 L300 96 Q320 96 320 110 Q320 210 180 250 Q40 210 40 110 Z");
+body.setAttribute("fill","#1b1712"); body.setAttribute("stroke","#3a3127"); body.setAttribute("stroke-width","2");
+bowl.appendChild(body);
+
+const rim=document.createElementNS(NS,"ellipse");
+rim.setAttribute("cx","180"); rim.setAttribute("cy","98"); rim.setAttribute("rx","140"); rim.setAttribute("ry","20");
+rim.setAttribute("fill","#100d09"); rim.setAttribute("stroke","#3a3127"); rim.setAttribute("stroke-width","2");
+bowl.appendChild(rim);
+
+const cracks=[
+ "M180 80 L172 118 L196 150 L182 200 L188 244",
+ "M196 150 L250 156 L300 138",
+ "M182 200 L120 196 L66 168",
+ "M172 118 L96 116",
+ "M196 150 L210 110 L246 100"
+];
+const seams=[];
+cracks.forEach(d=>{
+  const glow=document.createElementNS(NS,"path");
+  glow.setAttribute("d",d); glow.setAttribute("fill","none"); glow.setAttribute("stroke","#6b531c");
+  glow.setAttribute("stroke-width","5.5"); glow.setAttribute("stroke-linecap","round"); glow.setAttribute("stroke-linejoin","round");
+  glow.setAttribute("opacity","0.5"); glow.classList.add("seam"); bowl.appendChild(glow); seams.push(glow);
+  const g=document.createElementNS(NS,"path");
+  g.setAttribute("d",d); g.setAttribute("fill","none"); g.setAttribute("stroke","#e6c869");
+  g.setAttribute("stroke-width","2.4"); g.setAttribute("stroke-linecap","round"); g.setAttribute("stroke-linejoin","round");
+  g.classList.add("seam"); bowl.appendChild(g); seams.push(g);
+});
+seams.forEach(s=>{ const L=s.getTotalLength(); s.style.strokeDasharray=L; s.style.strokeDashoffset=L; });
+
+function igniteBowl(){ seams.forEach((s,i)=>{ const L=s.getTotalLength();
+  s.animate([{strokeDashoffset:L},{strokeDashoffset:0}],{duration:2400,delay:i*120,fill:"forwards",easing:"ease"}); }); }
+setTimeout(igniteBowl,500);
+
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);}})},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+const bar=document.getElementById('bar');
+addEventListener('scroll',()=>{const h=document.documentElement; bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100).toFixed(1)+'%';},{passive:true});
+</script>
+</body>
+</html>

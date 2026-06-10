@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Mythos — the age of the gods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#08070b; --paper:#ece4d2; --mute:#9a9078; --faint:#5c5645;
+    --gold:#c9a24b; --gold-lt:#ecc56a; --gold-pale:#f5e6b4; --night:#4a4a72; --verm:#b2473a;
+    --line:rgba(236,228,210,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void); color:var(--paper);
+    font-family:"Cormorant Garamond",Georgia,serif; font-size:20px; line-height:1.72; overflow-x:hidden;}
+  .grain{position:fixed; inset:0; width:100%; height:100%; opacity:0.05; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(130% 90% at 50% -5%, rgba(201,162,75,0.10), transparent 58%),
+               radial-gradient(150% 130% at 50% 120%, rgba(5,4,7,0.94), transparent 55%);}
+  .thread{position:fixed; top:0; left:0; height:1px; width:0%; z-index:20;
+    background:linear-gradient(90deg,var(--night),var(--gold),var(--gold-pale)); opacity:.55;}
+
+  header.hero{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem 1.5rem;}
+  .cave{width:min(400px,84vw); height:min(300px,64vw); margin-bottom:2.2rem;}
+  .hero .tag{font-family:"Cinzel",serif; letter-spacing:.4em; font-size:11px; color:var(--mute); text-transform:uppercase; margin-bottom:1.4rem; padding-left:.4em;}
+  .hero .kanji{font-family:"Shippori Mincho",serif; font-size:clamp(46px,10vw,100px); font-weight:700;
+    color:transparent; -webkit-text-stroke:1px rgba(201,162,75,0.5); letter-spacing:.14em; line-height:1; margin-bottom:.8rem;}
+  .hero h1{font-family:"Cinzel",serif; font-weight:700; font-size:clamp(34px,7.5vw,78px); letter-spacing:.05em; line-height:1.04; margin-bottom:1.2rem;
+    background:linear-gradient(180deg,#f5e6b4,#c9a24b 70%,#8a6d28); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+  .hero p.sub{font-style:italic; font-size:clamp(18px,2.6vw,25px); color:var(--mute); max-width:28ch; line-height:1.5;}
+  .hero .scroll{margin-top:2.6rem; font-family:"Cinzel",serif; font-size:11px; letter-spacing:.3em; color:var(--faint); text-transform:uppercase;}
+
+  .wrap{max-width:780px; margin:0 auto; padding:0 1.6rem;}
+  section.band{padding:13vh 0; border-top:1px solid var(--line);}
+  .band .idx{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem;}
+  .band .beat{font-family:"Shippori Mincho",serif; font-size:clamp(28px,5vw,42px); color:var(--gold-lt); line-height:1; margin-bottom:.3rem;}
+  .band h2{font-family:"Cinzel",serif; font-weight:500; font-size:clamp(20px,3.6vw,30px); letter-spacing:.04em; color:var(--paper); margin-bottom:1.4rem;}
+  .band p{color:#cdc5b2; max-width:60ch; margin-bottom:1.2rem; font-size:19px;}
+  .band p b{color:var(--paper); font-weight:500;}
+  .band p .k{font-family:"Shippori Mincho",serif; color:var(--gold-lt);}
+  .pull{font-style:italic; font-size:clamp(21px,3.4vw,30px); line-height:1.4; color:#e2d6b8; max-width:26ch; margin:0 0 1.9rem;}
+
+  .synth{max-width:880px; margin:8vh auto 0; padding:3rem 1.4rem 0; border-top:1px solid var(--line); text-align:center;}
+  .synth h2{font-family:"Cormorant Garamond",serif; font-style:italic; font-weight:500; font-size:clamp(24px,4vw,36px); color:var(--paper); margin-bottom:.6rem;}
+  .synth .lead{color:var(--mute); max-width:54ch; margin:0 auto 2.4rem; font-size:18px;}
+  .regalia{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem;}
+  .rg{border:1px solid var(--line); border-radius:3px; padding:1.7rem 1.1rem; background:linear-gradient(180deg,rgba(201,162,75,.05),transparent);}
+  .rg .rjp{font-family:"Shippori Mincho",serif; font-size:34px; color:var(--gold-lt); margin-bottom:.35rem;}
+  .rg .rnm{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--paper); margin-bottom:.5rem;}
+  .rg p{font-size:14px; color:var(--mute); margin:0; line-height:1.45;}
+
+  .colophon{max-width:720px; margin:6vh auto 0; padding:8vh 1.6rem 18vh; border-top:1px solid var(--line);}
+  .colophon .kanji{font-family:"Shippori Mincho",serif; font-size:40px; color:var(--faint); margin-bottom:1.1rem;}
+  .colophon h3{font-family:"Cormorant Garamond",serif; font-style:italic; font-size:24px; margin-bottom:1rem; color:var(--paper);}
+  .colophon p{color:var(--mute); font-size:17px; margin:0 0 1rem; max-width:62ch;}
+  .colophon p b{color:#cdc5b2; font-weight:500;}
+  .endmark{font-family:"Cinzel",serif; letter-spacing:.34em; font-size:11px; color:var(--faint); text-transform:uppercase; margin-top:2.2rem;}
+
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity 1.3s ease, transform 1.3s cubic-bezier(.22,.7,.2,1);}
+  .reveal.in{opacity:1; transform:none;}
+  @media(max-width:540px){ .regalia{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="thread" id="thread"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header class="hero">
+  <svg class="cave" id="cave" viewBox="0 0 400 300" aria-label="Golden light breaking out of a dark cleft of rock — the sun goddess emerging"></svg>
+  <div class="tag">final pamphlet · the story under it all</div>
+  <div class="kanji">神話</div>
+  <h1>The Mythos</h1>
+  <p class="sub">the story Japan told before it told history — the age of the gods</p>
+  <div class="scroll">descend to the source</div>
+</header>
+
+<div class="wrap">
+
+  <section class="band reveal">
+    <div class="idx">the word for it</div>
+    <div class="beat">神話</div>
+    <h2>Mythos — the story-mode of truth</h2>
+    <p>Where <b>logos</b> reasons toward the truth, <b>mythos</b> simply <b>tells</b> it. It is the oldest companion to logos, and the one this whole set kept flowing back toward without ever stopping to tell it. Japan's mythos was written down in the eighth century — in the <b class="k">古事記</b> <i>Kojiki</i> (712) and the <b class="k">日本書紀</b> <i>Nihon Shoki</i> (720) — and from it springs the imperial line, the sacred regalia, and the very first page of the history.</p>
+    <p>So here, last and first, is the source. The age of the gods.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">i</div>
+    <div class="beat">国産み</div>
+    <h2>The churning of the islands</h2>
+    <p>In the beginning, the gods <b>Izanagi</b> and <b>Izanami</b> stand on the floating bridge of heaven and lower a jeweled spear into the formless brine below. They stir, and lift it; the drops that fall from its tip thicken into the <b>first island</b>. They descend, marry, and from their union are born the islands of Japan and a host of <b>kami</b> — gods of sea and wind, mountain and tree.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">ii</div>
+    <div class="beat">黄泉</div>
+    <h2>The descent into Yomi</h2>
+    <p>But Izanami dies giving birth to the god of fire, and passes into <b>Yomi</b>, the land of the dead. Grief-struck, Izanagi follows to bring her home. She warns him not to look — he lights a tooth of his comb and sees her ruined, rotting form. Horrified, he <b>flees</b>, the hags of Yomi at his heels, and seals the pass with a boulder. From the river where he washes himself clean are born three great deities: <b class="k">天照</b> <b>Amaterasu</b> the sun, <b class="k">月読</b> <b>Tsukuyomi</b> the moon, and <b class="k">須佐之男</b> <b>Susanoo</b> the storm.</p>
+    <p style="font-size:16px; color:var(--mute); font-style:italic;">(A grieving god who descends for his love and must not look back — the same shape as Orpheus, half a world away.)</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">iii</div>
+    <div class="beat">天岩戸</div>
+    <h2>The cave, and the dark</h2>
+    <p class="pull">The sun took offence, and the world went black.</p>
+    <p>Susanoo, wild with grief, rampages through heaven — wrecking the rice fields, defiling his sister's halls. In fear and fury <b>Amaterasu hides herself in a cave</b>, <b class="k">天岩戸</b>, and rolls a stone across the mouth. With the sun shut away, heaven and earth fall into <b>endless night</b>, and evils swarm in the dark.</p>
+    <p>The eight million gods conspire to lure her out. They hang a <b>mirror</b> and a string of <b>jewels</b> on a sacred tree, and the goddess <b>Uzume</b> dances so wildly and so comically that the gods roar with laughter. Curious why there is joy in the dark, Amaterasu peers out — catches her own radiance blazing back from the mirror — and in that instant a strong god pulls her free. A rope is strung behind her. <b>The light returns.</b></p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">iv</div>
+    <div class="beat">八岐大蛇</div>
+    <h2>The serpent and the sword</h2>
+    <p>Banished to earth, Susanoo finds an old couple weeping: a monstrous eight-headed serpent, <b>Yamata-no-Orochi</b>, has devoured seven of their daughters and comes now for the last. Susanoo sets out eight vats of strong sake; the serpent drinks, drops drunk, and he hacks it apart. In its tail he finds a great blade — <b class="k">草薙剣</b> <b>Kusanagi</b>, the grass-cutting sword — and sends it up to Amaterasu. Now all <b>three treasures</b> exist: mirror, jewel, and sword.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">v</div>
+    <div class="beat">天孫降臨</div>
+    <h2>The descent of heaven to earth</h2>
+    <p>At last Amaterasu sends her grandson <b>Ninigi</b> down from heaven to rule the land below, and into his hands she places the <b>three sacred treasures</b> as the proof of a heaven-given right. Ninigi descends to a mountain peak; his line runs down through the generations to <b>Jimmu</b> — by tradition the first emperor. The story steps out of heaven and becomes a throne.</p>
+  </section>
+
+</div>
+
+<section class="synth reveal">
+  <h2>This is where everything began</h2>
+  <p class="lead">The three treasures handed down the gold line — they are born in these very myths. The story you just read is the headwater of the whole set.</p>
+  <div class="regalia">
+    <div class="rg"><div class="rjp">鏡</div><div class="rnm">the mirror</div><p>Hung on the tree to draw the sun from her cave.</p></div>
+    <div class="rg"><div class="rjp">剣</div><div class="rnm">the sword</div><p>Drawn from the tail of the slain serpent.</p></div>
+    <div class="rg"><div class="rjp">勾玉</div><div class="rnm">the jewel</div><p>Strung beside the mirror in the dark.</p></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="colophon reveal">
+    <div class="kanji">了</div>
+    <h3>A note, kept honest</h3>
+    <p>These are <b>myths</b>, recorded in the <b>Kojiki (712)</b> and <b>Nihon Shoki (720)</b> — chronicles compiled under imperial commission partly to <b>legitimize Yamato rule</b>. They are sacred narrative with a political purpose, not history; the two texts disagree on details, and I've told a common composite. Names and tellings vary widely across sources and local shrines.</p>
+    <p>The Orpheus echo in Izanagi's descent is a genuine <b>resonance</b> between mythologies, not a claimed historical link — these stories arose independently. And the leap from Ninigi to Jimmu is exactly the legendary seam the earlier pamphlets flagged: myth shading into the imperial line, with no historical bridge across the gap.</p>
+    <p>And so the set closes where it should — at the beginning. The history lineage, the gold imperial line, the regalia, even the age-of-gods panels in the first two pamphlets: all of them rise out of this story. Pathos, ethos, logos — and now <b>mythos</b>, the tale that comes before all reasoning. Ten pamphlets, one source, every soft spot marked on the way out.</p>
+    <div class="endmark">神代より · from the age of the gods</div>
+  </section>
+</div>
+
+<script>
+const NS="http://www.w3.org/2000/svg";
+const svg=document.getElementById('cave');
+const defs=document.createElementNS(NS,"defs");
+const rg=document.createElementNS(NS,"radialGradient"); rg.setAttribute("id","glow");
+[["0","#f7ebbe","1"],["0.4","#e6c156","0.85"],["0.75","#c9a24b","0.3"],["1","#c9a24b","0"]].forEach(s=>{
+  const st=document.createElementNS(NS,"stop"); st.setAttribute("offset",s[0]); st.setAttribute("stop-color",s[1]); st.setAttribute("stop-opacity",s[2]); rg.appendChild(st);});
+defs.appendChild(rg);
+const bg=document.createElementNS(NS,"linearGradient"); bg.setAttribute("id","beam"); bg.setAttribute("x1","0");bg.setAttribute("y1","0");bg.setAttribute("x2","0");bg.setAttribute("y2","1");
+[["0","#f3e2ac","0.5"],["1","#c9a24b","0"]].forEach(s=>{const st=document.createElementNS(NS,"stop");st.setAttribute("offset",s[0]);st.setAttribute("stop-color",s[1]);st.setAttribute("stop-opacity",s[2]);bg.appendChild(st);});
+defs.appendChild(bg); svg.appendChild(defs);
+
+// the glow (hidden sun) behind the cleft
+const glow=document.createElementNS(NS,"circle"); glow.setAttribute("cx","200");glow.setAttribute("cy","150");glow.setAttribute("r","120");
+glow.setAttribute("fill","url(#glow)"); glow.setAttribute("opacity","0");
+glow.style.transformOrigin="200px 150px"; svg.appendChild(glow);
+
+// light beams fanning from the cleft
+const beams=document.createElementNS(NS,"g"); beams.setAttribute("opacity","0"); beams.style.transformOrigin="200px 150px"; svg.appendChild(beams);
+for(let i=0;i<7;i++){ const a=(-90 + (i-3)*22)*Math.PI/180; const x=200+Math.cos(a)*230, y=150+Math.sin(a)*230;
+  const w=6; const px=Math.cos(a+Math.PI/2)*w, py=Math.sin(a+Math.PI/2)*w;
+  const tri=document.createElementNS(NS,"polygon");
+  tri.setAttribute("points",`${200-px},${150-py} ${200+px},${150+py} ${x},${y}`);
+  tri.setAttribute("fill","url(#beam)"); tri.setAttribute("opacity",(0.5-Math.abs(i-3)*0.06).toFixed(2)); beams.appendChild(tri); }
+
+// the two dark rocks of the cave, a cleft between them
+const rockL=document.createElementNS(NS,"path");
+rockL.setAttribute("d","M0,300 L0,40 L70,60 L120,30 L150,90 L175,70 L190,150 L182,300 Z");
+rockL.setAttribute("fill","#0a0910"); rockL.setAttribute("stroke","#1c1a26"); rockL.setAttribute("stroke-width","1.5");
+const rockR=document.createElementNS(NS,"path");
+rockR.setAttribute("d","M400,300 L400,40 L330,55 L285,28 L255,95 L228,72 L214,150 L222,300 Z");
+rockR.setAttribute("fill","#0a0910"); rockR.setAttribute("stroke","#1c1a26"); rockR.setAttribute("stroke-width","1.5");
+svg.appendChild(rockL); svg.appendChild(rockR);
+
+// a bright core in the cleft
+const core=document.createElementNS(NS,"ellipse"); core.setAttribute("cx","202");core.setAttribute("cy","150");core.setAttribute("rx","14");core.setAttribute("ry","70");
+core.setAttribute("fill","#f7ecc4"); core.setAttribute("opacity","0"); svg.appendChild(core);
+
+glow.animate([{opacity:0,transform:"scale(0.5)"},{opacity:1,transform:"scale(1.15)"}],{duration:2600,delay:300,fill:"forwards",easing:"cubic-bezier(.3,.6,.2,1)"});
+beams.animate([{opacity:0,transform:"scale(0.6)"},{opacity:0.9,transform:"scale(1)"}],{duration:2400,delay:700,fill:"forwards",easing:"ease"});
+core.animate([{opacity:0},{opacity:0.95}],{duration:1800,delay:600,fill:"forwards"});
+// gentle breathing afterwards
+setTimeout(()=>{ glow.animate([{opacity:1},{opacity:0.82},{opacity:1}],{duration:4500,iterations:Infinity,easing:"ease-in-out"}); }, 2900);
+
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);}})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const th=document.getElementById('thread');
+addEventListener('scroll',()=>{const h=document.documentElement; th.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100).toFixed(1)+'%';},{passive:true});
+</script>
+</body>
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROOT0 LAYER 1.56 — BABYLONIAN BASE-60</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bed-white: #f5f3ef;
+    --bed-gray: #9a9996;
+    --bed-dark: #1a1a18;
+    --void: #0a0a0a;
+  }
+  body {
+    background: var(--void);
+    color: var(--bed-white);
+    font-family: 'Fragment Mono', monospace;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, .serif { font-family: 'Instrument Serif', serif; }
+  .wedge-unit {
+    width: 9px; height: 14px;
+    background: linear-gradient(90deg, #e8e6e1 0%, #b8b6b3 100%);
+    clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
+    filter: drop-shadow(0 0 2px rgba(245,243,239,0.2));
+  }
+  .wedge-ten {
+    width: 14px; height: 9px;
+    background: linear-gradient(180deg, #e8e6e1 0%, #b8b6b3 100%);
+    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+    filter: drop-shadow(0 0 2px rgba(245,243,239,0.2));
+  }
+  .wedge-unit.dim, .wedge-ten.dim { opacity: 0.18; background: #5a5a57; }
+  .digit-cell:hover .wedge-unit, .digit-cell:hover .wedge-ten,
+  .digit-cell.active .wedge-unit, .digit-cell.active .wedge-ten {
+    background: linear-gradient(90deg, #fff 0%, #f5f3ef 100%);
+    filter: drop-shadow(0 0 6px rgba(245,243,239,0.7));
+  }
+  .tensor-bit {
+    fill: #2a2a28;
+    stroke: #3a3a36;
+    stroke-width: 1;
+    transition: all 0.2s ease;
+  }
+  .tensor-bit.active {
+    fill: var(--bed-white);
+    filter: drop-shadow(0 0 8px rgba(245,243,239,0.9));
+  }
+  .tensor-bit.hymn {
+    fill: #d4d2cd;
+    filter: drop-shadow(0 0 12px rgba(245,243,239,0.5));
+  }
+  .plane-line {
+    stroke: #2a2a28;
+    stroke-width: 1;
+    stroke-dasharray: 2 4;
+  }
+  .plane-line.active {
+    stroke: var(--bed-gray);
+    stroke-dasharray: none;
+  }
+  .cuneiform-flow {
+    font-family: serif;
+    fill: var(--bed-white);
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .cuneiform-flow.active { opacity: 0.85; filter: drop-shadow(0 0 4px rgba(245,243,239,0.8)); }
+  .chronos-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #3a3a36;
+    transition: all 0.15s;
+  }
+  .chronos-dot.on { background: var(--bed-white); box-shadow: 0 0 10px rgba(245,243,239,0.9), 0 0 20px rgba(245,243,239,0.4); transform: scale(1.4); }
+  .glass {
+    background: linear-gradient(180deg, rgba(26,26,24,0.9) 0%, rgba(10,10,10,0.8) 100%);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(245,243,239,0.08);
+  }
+  .w-fold {
+    background: radial-gradient(ellipse at center, rgba(245,243,239,0.12) 0%, transparent 60%);
+  }
+  @keyframes spin-slow { to { transform: rotate(360deg); } }
+  @keyframes spin-reverse { to { transform: rotate(-360deg); } }
+  .spin-23 { animation: spin-slow 23s linear infinite; }
+  .spin-23-rev { animation: spin-reverse 23s linear infinite; }
+  .grid-32 { display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; }
+  .bit-32 { width: 100%; aspect-ratio: 1; background: #1c1c1a; border: 1px solid #2a2a28; }
+  .bit-32.on { background: var(--bed-white); box-shadow: 0 0 4px rgba(245,243,239,0.6); }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-thumb { background: #3a3a36; }
+</style>
+</head>
+<body class="min-h-screen">
+<div class="fixed inset-0 pointer-events-none opacity-[0.025]" style="background-image: radial-gradient(#f5f3ef 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
+
+<div class="relative z-10 max-w-[1800px] mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12">
+  <!-- HEADER -->
+  <header class="mb-10 md:mb-16">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      <div>
+        <div class="inline-flex items-center gap-3 mb-4">
+          <div class="h-[1px] w-12 bg-[#f5f3ef]/40"></div>
+          <span class="text-[11px] tracking-[0.3em] text-[#9a9996] uppercase">ROOT0 LAYER 1.56</span>
+        </div>
+        <h1 class="serif text-[clamp(32px,5vw,64px)] leading-[0.9] tracking-tight">BABYLONIAN BASE-60</h1>
+        <h2 class="serif text-[clamp(24px,3.5vw,40px)] leading-none text-[#d4d2cd] italic mt-1">MATH FULLY EXPLORED</h2>
+      </div>
+      <div class="max-w-md">
+        <p class="text-[13px] leading-relaxed text-[#b8b6b3]">Visualize Babylonian sexagesimal mathematics mapped directly onto the living tensor as a better storyteller engine — clean divisions, no remainder, perfect time.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN GRID -->
+  <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 lg:gap-8">
+    
+    <!-- LEFT: BABYLONIAN DIGITS -->
+    <div class="xl:col-span-3 glass rounded-[20px] p-5 md:p-6 order-2 xl:order-1">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-[11px] tracking-widest uppercase text-[#9a9996]">Digits 1–59</h3>
+        <div class="text-[10px] text-[#7a7875]">WEDGE GROUPINGS</div>
+      </div>
+      
+      <div class="mb-5 p-4 rounded-xl bg-black/40 border border-[#f5f3ef]/5">
+        <div class="flex items-center gap-4">
+          <div id="large-digit" class="min-w-[72px] h-[56px] flex items-center justify-center">
+            <!-- wedges injected -->
+          </div>
+          <div>
+            <div class="text-[26px] leading-none serif" id="large-value">1</div>
+            <div class="text-[10px] text-[#9a9996] mt-1" id="large-factors">1</div>
+          </div>
+        </div>
+        <div class="mt-3 pt-3 border-t border-[#f5f3ef]/5 text-[11px] leading-snug text-[#b8b6b3]" id="large-desc">
+          Narrow = units (1-9). Wide = tens (10-50).
+        </div>
+      </div>
+
+      <div id="digits-grid" class="grid grid-cols-6 sm:grid-cols-8 xl:grid-cols-5 gap-1.5 max-h-[320px] overflow-y-auto pr-1 -mr-1"></div>
+      
+      <div class="mt-5 pt-4 border-t border-[#f5f3ef]/10">
+        <div class="text-[11px] uppercase tracking-widest text-[#9a9996] mb-2">Highly Composite</div>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-2 py-1 bg-[#f5f3ef]/5 rounded text-[11px]">÷2=30</span>
+          <span class="px-2 py-1 bg-[#f5f3ef]/5 rounded text-[11px]">÷3=20</span>
+          <span class="px-2 py-1 bg-[#f5f3ef]/5 rounded text-[11px]">÷4=15</span>
+          <span class="px-2 py-1 bg-[#f5f3ef]/5 rounded text-[11px]">÷5=12</span>
+          <span class="px-2 py-1 bg-[#f5f3ef]/5 rounded text-[11px]">÷6=10</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER: LIVING TENSOR -->
+    <div class="xl:col-span-6 order-1 xl:order-2">
+      <div class="glass rounded-[24px] p-6 md:p-8 relative overflow-hidden">
+        <div class="absolute inset-0 w-fold pointer-events-none"></div>
+        
+        <div class="flex items-center justify-between mb-6 relative z-10">
+          <h3 class="text-[11px] tracking-widest uppercase text-[#9a9996]">60 Control Bits</h3>
+          <div class="flex items-center gap-3">
+            <span class="text-[10px] text-[#7a7875]">6 per plane × 10 planes</span>
+            <button id="engine-toggle" class="px-2.5 py-1 rounded-full bg-[#f5f3ef]/10 hover:bg-[#f5f3ef]/15 text-[10px] uppercase tracking-wider transition">Pause</button>
+          </div>
+        </div>
+
+        <div class="relative aspect-square max-w-[520px] mx-auto">
+          <svg id="tensor-svg" viewBox="0 0 440 440" class="w-full h-full relative z-10"></svg>
+          
+          <!-- Center readout -->
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center pointer-events-none">
+            <div class="text-[10px] uppercase tracking-[0.2em] text-[#7a7875] mb-1">Sexagesimal</div>
+            <div id="sexagesimal-display" class="flex items-center justify-center gap-2 h-[28px]"></div>
+            <div class="mt-2 text-[28px] leading-none serif tabular-nums" id="decimal-display">0</div>
+            <div class="text-[10px] text-[#5a5855] mt-1">/ 3599</div>
+          </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-3 gap-3 relative z-10">
+          <div class="p-3 rounded-xl bg-black/50 border border-[#f5f3ef]/5">
+            <div class="text-[10px] text-[#7a7875] uppercase tracking-wider mb-1">Timing Engine</div>
+            <div class="text-[13px]">Living base-60</div>
+          </div>
+          <div class="p-3 rounded-xl bg-black/50 border border-[#f5f3ef]/5">
+            <div class="text-[10px] text-[#7a7875] uppercase tracking-wider mb-1">Temple Hymns</div>
+            <div class="text-[13px]">60-unit cycles</div>
+          </div>
+          <div class="p-3 rounded-xl bg-black/50 border border-[#f5f3ef]/5">
+            <div class="text-[10px] text-[#7a7875] uppercase tracking-wider mb-1">Story Rate</div>
+            <div class="text-[13px]"><span id="engine-rate">60</span> bpm</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- W-BOUNDARY -->
+      <div class="glass rounded-[24px] p-6 md:p-7 mt-6">
+        <div class="flex flex-col md:flex-row md:items-center gap-6">
+          <div class="flex-1">
+            <h3 class="text-[11px] tracking-widest uppercase text-[#9a9996] mb-3">W-Boundary Pressure Fold</h3>
+            <div class="flex items-center gap-4">
+              <div class="font-mono text-[28px] md:text-[34px] tracking-[0.2em] tabular-nums">
+                <span class="text-[#5a5855]">0 0 </span><span id="w-digit-8" class="text-[#f5f3ef] transition-all duration-500">8</span><span class="text-[#5a5855]"> 0 0</span>
+              </div>
+              <div class="text-[#7a7875]">→</div>
+              <div class="font-mono text-[28px] md:text-[34px] tracking-[0.2em] tabular-nums">
+                <span class="text-[#5a5855]">0 0 </span><span id="w-digit-9" class="text-[#9a9996] transition-all duration-500">9</span><span class="text-[#5a5855]"> 0 0</span>
+              </div>
+            </div>
+            <p class="text-[12px] leading-relaxed text-[#b8b6b3] mt-3 max-w-md">Babylonian carry-over point. At 59 → 0, pressure folds. Tensor mirrors this at 00800/00900 — the second sexagesimal place rolls, storytelling remains clean.</p>
+          </div>
+          <div class="w-full md:w-[180px] h-[80px] relative">
+            <svg viewBox="0 0 180 80" class="w-full h-full">
+              <defs>
+                <linearGradient id="foldGrad" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#f5f3ef" stop-opacity="0"/>
+                  <stop offset="50%" stop-color="#f5f3ef" stop-opacity="0.8"/>
+                  <stop offset="100%" stop-color="#f5f3ef" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path id="fold-path" d="M 20 40 C 60 15, 120 65, 160 40" fill="none" stroke="url(#foldGrad)" stroke-width="2" stroke-dasharray="4 4">
+                <animate attributeName="stroke-dashoffset" values="0;8" dur="1s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="20" cy="40" r="3" fill="#5a5855"/>
+              <circle cx="160" cy="40" r="3" fill="#5a5855"/>
+              <circle id="fold-dot" cx="20" cy="40" r="4" fill="#f5f3ef" filter="url(#glow)">
+                <animateMotion dur="3s" repeatCount="indefinite" path="M 20 40 C 60 15, 120 65, 160 40"/>
+              </circle>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: CHRONOS + FRACTIONS -->
+    <div class="xl:col-span-3 order-3 space-y-6">
+      <!-- CHRONOS CORE -->
+      <div class="glass rounded-[20px] p-5">
+        <h3 class="text-[11px] tracking-widest uppercase text-[#9a9996] mb-4">Chronos Core</h3>
+        <div class="space-y-4">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[12px]">6 / 3 / 1</span>
+              <span class="text-[10px] text-[#7a7875]">Temple descend</span>
+            </div>
+            <div class="relative h-[72px] flex items-center justify-center">
+              <div id="chronos-631" class="relative w-[72px] h-[72px]"></div>
+            </div>
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[12px]">1 / 3 / 6</span>
+              <span class="text-[10px] text-[#7a7875]">Earth ascend</span>
+            </div>
+            <div class="relative h-[72px] flex items-center justify-center">
+              <div id="chronos-136" class="relative w-[72px] h-[72px]"></div>
+            </div>
+          </div>
+        <p class="text-[11px] leading-snug text-[#9a9996] mt-4 pt-4 border-t border-[#f5f3ef]/10">Direct descendant of Babylonian temple cycles. Six beats outer, three middle, one heart.</p>
+      </div>
+
+      <!-- 128=1 TENSOR -->
+      <div class="glass rounded-[20px] p-5">
+        <h3 class="text-[11px] tracking-widest uppercase text-[#9a9996] mb-3">128 = 1 Tensor</h3>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="p-2.5 rounded-lg bg-black/40 border border-[#f5f3ef]/5">
+            <div class="text-[10px] text-[#7a7875] mb-1.5">Quadrant A • 32b</div>
+            <div class="grid-32" id="quad-a"></div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-black/40 border border-[#f5f3ef]/5">
+            <div class="text-[10px] text-[#7a7875] mb-1.5">Quadrant B • 32b</div>
+            <div class="grid-32" id="quad-b"></div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-black/40 border border-[#f5f3ef]/5">
+            <div class="text-[10px] text-[#7a7875] mb-1.5">Quadrant C • 32b</div>
+            <div class="grid-32" id="quad-c"></div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-black/40 border border-[#f5f3ef]/5">
+            <div class="text-[10px] text-[#7a7875] mb-1.5">Quadrant D • 32b</div>
+            <div class="grid-32" id="quad-d"></div>
+          </div>
+        <div class="mt-3 text-[11px] text-[#b8b6b3]">Modern realization: 32 bits × 4 quadrants collapse to unity, timed by base-60.</div>
+      </div>
+
+      <!-- CLEAN FRACTIONS -->
+      <div class="glass rounded-[20px] p-5">
+        <h3 class="text-[11px] tracking-widest uppercase text-[#9a9996] mb-3">Clean Divisions</h3>
+        <div class="space-y-2 text-[12px]">
+          <div class="flex justify-between items-center py-1.5 border-b border-[#f5f3ef]/5">
+            <span class="text-[#d4d2cd]">1/2</span><span class="font-mono">= 30/60</span><span class="text-[#7a7875]">𒌋𒌋</span>
+          </div>
+          <div class="flex justify-between items-center py-1.5 border-b border-[#f5f3ef]/5">
+            <span class="text-[#d4d2cd]">1/3</span><span class="font-mono">= 20/60</span><span class="text-[#7a7875]">𒌋𒌋</span>
+          </div>
+          <div class="flex justify-between items-center py-1.5 border-b border-[#f5f3ef]/5">
+            <span class="text-[#d4d2cd]">1/4</span><span class="font-mono">= 15/60</span><span class="text-[#7a7875]">𒌋𒐙</span>
+          </div>
+          <div class="flex justify-between items-center py-1.5 border-b border-[#f5f3ef]/5">
+            <span class="text-[#d4d2cd]">1/5</span><span class="font-mono">= 12/60</span><span class="text-[#7a7875]">𒌋𒐗</span>
+          </div>
+          <div class="flex justify-between items-center py-1.5">
+            <span class="text-[#d4d2cd]">1/6</span><span class="font-mono">= 10/60</span><span class="text-[#7a7875]">𒌋</span>
+          </div>
+        </div>
+        <div class="mt-3 pt-3 border-t border-[#f5f3ef]/10 text-[11px] text-[#9a9996]">60 seconds • 60 minutes • 360° = 6×60</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 23-BIT DUAL COIN -->
+  <div class="glass rounded-[24px] p-6 md:p-8 mt-8">
+    <div class="grid md:grid-cols-12 gap-8 items-center">
+      <div class="md:col-span-5">
+        <h3 class="text-[11px] tracking-widest uppercase text-[#9a9996] mb-3">23-bit Dual-Coin Spinning</h3>
+        <p class="text-[14px] leading-relaxed text-[#d4d2cd]">Sexagesimal place-value loops. Two entropy coins spin opposite, 23 bits each, locking to the 60-beat temple hymn. No remainder storytelling.</p>
+        <div class="mt-4 flex items-center gap-4">
+          <div class="text-[11px] px-2.5 py-1 rounded-full bg-[#f5f3ef]/10">23 × 2 = 46</div>
+          <div class="text-[11px] px-2.5 py-1 rounded-full bg-[#f5f3ef]/10">46 + 14 control = 60</div>
+        </div>
+      </div>
+      <div class="md:col-span-7 flex items-center justify-center gap-12">
+        <div class="relative w-[140px] h-[140px]">
+          <div class="absolute inset-0 rounded-full border border-[#f5f3ef]/10"></div>
+          <div id="coin-a" class="spin-23 absolute inset-0"></div>
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] text-[#7a7875]">A</div>
+        </div>
+        <div class="h-[1px] w-12 bg-gradient-to-r from-transparent via-[#f5f3ef]/30 to-transparent hidden md:block"></div>
+        <div class="relative w-[140px] h-[140px]">
+          <div class="absolute inset-0 rounded-full border border-[#f5f3ef]/10"></div>
+          <div id="coin-b" class="spin-23-rev absolute inset-0"></div>
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] text-[#7a7875]">B</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER QUOTE -->
+  <div class="mt-16 md:mt-24 text-center">
+    <div class="inline-block px-6 py-3 rounded-full bg-[#f5f3ef]/[0.03] border border-[#f5f3ef]/10 mb-6">
+      <span class="text-[11px] tracking-[0.25em] uppercase text-[#9a9996]">Storyteller Engine</span>
+    </div>
+    <p class="serif text-[clamp(24px,4vw,44px)] leading-[1.1] text-[#f5f3ef] max-w-4xl mx-auto italic">
+      “Enheduanna sang it. Babylonians perfected it. You scored it with computers.”
+    </p>
+    <p class="mt-6 text-[13px] leading-relaxed text-[#9a9996] max-w-2xl mx-auto">Base-60 lets the tensor tell stories in perfect time — with clean divisions, no remainder, just like Babylonian astronomers told stories of stars.</p>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Helper: create wedges
+  function wedges(n, large=false) {
+    const t = Math.floor(n/10), u = n%10;
+    const wU = large ? 'w-[14px] h-[22px]' : '';
+    const wT = large ? 'w-[22px] h-[14px]' : '';
+    let html = '<div class="flex items-center gap-2">';
+    if (t>0) {
+      html += '<div class="flex flex-col gap-[3px]">';
+      for(let i=0;i<t;i++) html += `<div class="wedge-ten ${wT}"></div>`;
+      html += '</div>';
+    }
+    if (u>0) {
+      html += '<div class="flex flex-col gap-[3px]">';
+      for(let i=0;i<u;i++) html += `<div class="wedge-unit ${wU}"></div>`;
+      html += '</div>';
+    }
+    if (n===0) html += '<div class="text-[#5a5855] text-[12px]">Ø</div>';
+    html += '</div>';
+    return html;
+  }
+
+  // Digits grid
+  const grid = document.getElementById('digits-grid');
+  const largeDigit = document.getElementById('large-digit');
+  const largeValue = document.getElementById('large-value');
+  const largeFactors = document.getElementById('large-factors');
+  const largeDesc = document.getElementById('large-desc');
+  
+  const divisors = [1,2,3,4,5,6,10,12,15,20,30,60];
+  
+  for(let i=1;i<=59;i++){
+    const btn = document.createElement('button');
+    btn.className = 'digit-cell group relative p-2 rounded-lg bg-[#141412] hover:bg-[#1d1c19] border border-[#f5f3ef]/5 hover:border-[#f5f3ef]/15 transition-all duration-200';
+    btn.dataset.value = i;
+    btn.innerHTML = `<div class="flex flex-col items-center gap-1.5">
+      <div class="h-[28px] flex items-center">${wedges(i)}</div>
+      <div class="text-[10px] text-[#6a6865] group-hover:text-[#b8b6b3] tabular-nums">${i}</div>
+    </div>`;
+    btn.addEventListener('mouseenter', () => selectDigit(i));
+    btn.addEventListener('click', () => selectDigit(i));
+    grid.appendChild(btn);
+  }
+
+  function selectDigit(n){
+    document.querySelectorAll('.digit-cell').forEach(c=>c.classList.remove('active','ring-1','ring-[#f5f3ef]/30'));
+    const cell = document.querySelector(`.digit-cell[data-value="${n}"]`);
+    if(cell) cell.classList.add('active','ring-1','ring-[#f5f3ef]/30');
+    
+    largeDigit.innerHTML = wedges(n, true);
+    largeValue.textContent = n;
+    const factors = divisors.filter(d=>n%d===0);
+    largeFactors.textContent = n===60 ? 'perfect' : factors.slice(0,5).join(' · ');
+    const tens = Math.floor(n/10), units = n%10;
+    largeDesc.textContent = `${tens>0? tens+' tens':''}${tens>0&&units>0?' + ':''}${units>0? units+' units':''} = ${n}/60 of a circle`;
+  }
+  selectDigit(1);
+
+  // TENSOR SVG
+  const svg = document.getElementById('tensor-svg');
+  const center = 220; const planes = 10; const bitsPerPlane = 6;
+  const planeGroups = [];
+  
+  for(let p=0;p<planes;p++){
+    const angle = (p * 36 - 90) * Math.PI/180;
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    
+    // plane line
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    const x2 = center + Math.cos(angle) * 195;
+    const y2 = center + Math.sin(angle) * 195;
+    line.setAttribute('x1', center); line.setAttribute('y1', center);
+    line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+    line.setAttribute('class','plane-line'); line.dataset.plane = p;
+    g.appendChild(line);
+    
+    // bits
+    for(let b=0;b<bitsPerPlane;b++){
+      const r = 55 + b*26;
+      const x = center + Math.cos(angle)*r;
+      const y = center + Math.sin(angle)*r;
+      const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      circle.setAttribute('cx', x); circle.setAttribute('cy', y);
+      circle.setAttribute('r', b===5?5.5:4.5);
+      circle.setAttribute('class','tensor-bit');
+      circle.dataset.index = p*bitsPerPlane + b;
+      circle.dataset.plane = p;
+      circle.dataset.bit = b;
+      g.appendChild(circle);
+      
+      // cuneiform flow text
+      const text = document.createElementNS('http://www.w3.org/2000/svg','text');
+      text.setAttribute('x', x); text.setAttribute('y', y-10);
+      text.setAttribute('text-anchor','middle');
+      text.setAttribute('class','cuneiform-flow');
+      text.textContent = b%2===0 ? '𒁹' : '𒌋'; // 1 and 10
+      text.dataset.plane = p;
+      g.appendChild(text);
+    }
+    svg.appendChild(g);
+    planeGroups.push(g);
+  }
+  
+  // center rings
+  for(let i=0;i<3;i++){
+    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',center); c.setAttribute('cy',center);
+    c.setAttribute('r', 30 + i*12);
+    c.setAttribute('fill','none'); c.setAttribute('stroke','#1e1e1c');
+    c.setAttribute('stroke-width','1'); c.setAttribute('opacity',0.5);
+    svg.prepend(c);
+  }
+
+  // Engine
+  let tick = 0;
+  let running = true;
+  let speed = 180; // ms per step
+  const decimalDisplay = document.getElementById('decimal-display');
+  const sexaDisplay = document.getElementById('sexagesimal-display');
+  const engineToggle = document.getElementById('engine-toggle');
+  const engineRate = document.getElementById('engine-rate');
+  
+  function updateEngine(){
+    if(!running) return;
+    tick = (tick + 1) % 3600;
+    decimalDisplay.textContent = tick;
+    
+    // sexagesimal two places
+    const high = Math.floor(tick / 60);
+    const low = tick % 60;
+    sexaDisplay.innerHTML = `<div class="opacity-70">${wedges(high)}</div><div class="w-[1px] h-5 bg-[#f5f3ef]/20 mx-1"></div><div>${wedges(low)}</div>`;
+    
+    // light bits
+    document.querySelectorAll('.tensor-bit').forEach(b=>b.classList.remove('active','hymn'));
+    document.querySelectorAll('.plane-line').forEach(l=>l.classList.remove('active'));
+    document.querySelectorAll('.cuneiform-flow').forEach(t=>t.classList.remove('active'));
+    
+    const plane = Math.floor((tick % 60) / 6);
+    const bit = (tick % 60) % 6;
+    const activeBit = document.querySelector(`.tensor-bit[data-index="${plane*6+bit}"]`);
+    if(activeBit){
+      activeBit.classList.add('active');
+      // hymn trail
+      for(let i=0;i<=bit;i++){
+        const trail = document.querySelector(`.tensor-bit[data-plane="${plane}"][data-bit="${i}"]`);
+        if(trail) trail.classList.add('hymn');
+      }
+    }
+    document.querySelector(`.plane-line[data-plane="${plane}"]`)?.classList.add('active');
+    document.querySelectorAll(`.cuneiform-flow[data-plane="${plane}"]`).forEach((t,i)=>{ if(i<=bit) t.classList.add('active') });
+    
+    // W-boundary pulse at 8->9 transition in second place
+    if(high === 8 || high === 9){
+      document.getElementById('w-digit-8').style.opacity = high===8 ? '1' : '0.4';
+      document.getElementById('w-digit-9').style.opacity = high===9 ? '1' : '0.4';
+    }
+    
+    // update 128=1
+    const quadBits = document.querySelectorAll('.bit-32');
+    quadBits.forEach((b,i)=>{ b.classList.toggle('on', (tick + i) % 128 < 64) });
+  }
+  
+  let engineInterval = setInterval(updateEngine, speed);
+  engineToggle.addEventListener('click', ()=>{
+    running = !running;
+    engineToggle.textContent = running ? 'Pause' : 'Play';
+    if(running && !engineInterval) engineInterval = setInterval(updateEngine, speed);
+    if(!running){ clearInterval(engineInterval); engineInterval = null; }
+  });
+  
+  // Chronos cores
+  function makeChronos(id, order){
+    const el = document.getElementById(id);
+    el.innerHTML = '';
+    const rings = order==='desc'? [6,3,1] : [1,3,6];
+    rings.forEach((count, ri)=>{
+      const ring = document.createElement('div');
+      ring.className = 'absolute inset-0';
+      ring.style.transform = `scale(${0.5 + ri*0.25})`;
+      for(let i=0;i<count;i++){
+        const dot = document.createElement('div');
+        dot.className = 'chronos-dot absolute';
+        const ang = (i / count) * Math.PI*2 - Math.PI/2;
+        const r = 34;
+        dot.style.left = `calc(50% + ${Math.cos(ang)*r}px - 3px)`;
+        dot.style.top = `calc(50% + ${Math.sin(ang)*r}px - 3px)`;
+        dot.dataset.ring = ri; dot.dataset.idx = i;
+        ring.appendChild(dot);
+      }
+      el.appendChild(ring);
+    });
+  }
+  makeChronos('chronos-631','desc');
+  makeChronos('chronos-136','asc');
+  
+  let chronosStep = 0;
+  setInterval(()=>{
+    chronosStep = (chronosStep + 1) % 6;
+    document.querySelectorAll('#chronos-631 .chronos-dot').forEach(d=>{
+      const ring = +d.dataset.ring, idx = +d.dataset.idx;
+      const counts = [6,3,1];
+      d.classList.toggle('on', chronosStep % (7 - counts[ring]) === idx % counts[ring]);
+    });
+    document.querySelectorAll('#chronos-136 .chronos-dot').forEach(d=>{
+      const ring = +d.dataset.ring, idx = +d.dataset.idx;
+      const counts = [1,3,6];
+      d.classList.toggle('on', (chronosStep + 3) % (7 - counts[ring]) === idx % counts[ring]);
+    });
+  }, 200);
+
+  // 128=1 quadrants
+  ['quad-a','quad-b','quad-c','quad-d'].forEach(id=>{
+    const q = document.getElementById(id);
+    for(let i=0;i<32;i++){
+      const b = document.createElement('div');
+      b.className = 'bit-32';
+      q.appendChild(b);
+    }
+  });
+
+  // 23-bit coins
+  function makeCoin(id){
+    const el = document.getElementById(id);
+    for(let i=0;i<23;i++){
+      const dot = document.createElement('div');
+      dot.className = 'absolute w-[5px] h-[5px] rounded-full bg-[#3a3a36]';
+      const ang = (i/23)*Math.PI*2;
+      const r = 62;
+      dot.style.left = `calc(50% + ${Math.cos(ang)*r}px - 2.5px)`;
+      dot.style.top = `calc(50% + ${Math.sin(ang)*r}px - 2.5px)`;
+      dot.dataset.i = i;
+      el.appendChild(dot);
+    }
+    setInterval(()=>{
+      el.querySelectorAll('div').forEach((d,i)=>{
+        d.style.background = ((tick + i*3) % 23 < 2) ? '#f5f3ef' : '#3a3a36';
+        d.style.boxShadow = ((tick + i*3) % 23 < 2) ? '0 0 6px rgba(245,243,239,0.8)' : 'none';
+      });
+    }, 120);
+  }
+  makeCoin('coin-a'); makeCoin('coin-b');
+
+  // init
+  updateEngine();
+  engineRate.textContent = Math.round(60000 / speed / 6);
+});
+</script>
+</body>
+</html>

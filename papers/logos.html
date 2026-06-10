@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logos — the word, the reason, and its limit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0b0d; --paper:#e4e6e3; --mute:#8e948f; --faint:#525853;
+    --logos:#6f93a8; --logos-lt:#a4c5d4; --stone:#85877f;
+    --mono:#d39db0; --ethos:#bb4636;
+    --line:rgba(228,230,227,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink); color:var(--paper);
+    font-family:"Cormorant Garamond",Georgia,serif; font-size:20px; line-height:1.72; overflow-x:hidden;}
+  .grain{position:fixed; inset:0; width:100%; height:100%; opacity:0.045; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(130% 95% at 50% 0%, rgba(111,147,168,0.08), transparent 56%),
+               radial-gradient(150% 130% at 50% 120%, rgba(5,6,7,0.94), transparent 55%);}
+  .thread{position:fixed; top:0; left:0; height:1px; width:0%; z-index:20; background:var(--logos); opacity:.5;}
+
+  header.hero{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem 1.5rem;}
+  .koto{display:flex; flex-direction:column; align-items:center; font-family:"Shippori Mincho",serif; font-weight:700; line-height:1.05; margin-bottom:.6rem;}
+  .koto span{font-size:clamp(34px,7vw,54px); color:var(--paper);}
+  .koto .dust{font-size:clamp(20px,4vw,30px); letter-spacing:.3em; color:var(--logos-lt); margin-top:.2rem;}
+  .kotocap{font-family:"Cinzel",serif; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--faint); margin-bottom:2rem;}
+  .hero .tag{font-family:"Cinzel",serif; letter-spacing:.4em; font-size:11px; color:var(--mute); text-transform:uppercase; margin-bottom:1.3rem; padding-left:.4em;}
+  .hero h1{font-family:"Cormorant Garamond",serif; font-weight:500; font-style:italic; font-size:clamp(34px,7vw,66px); color:var(--paper); margin-bottom:1.1rem;}
+  .hero p.sub{font-size:clamp(18px,2.6vw,24px); color:var(--mute); max-width:28ch; line-height:1.5;}
+  .hero .scroll{margin-top:2.6rem; font-family:"Cinzel",serif; font-size:11px; letter-spacing:.3em; color:var(--faint); text-transform:uppercase;}
+
+  .wrap{max-width:780px; margin:0 auto; padding:0 1.6rem;}
+  section.band{padding:13vh 0; border-top:1px solid var(--line);}
+  .band .idx{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--logos); margin-bottom:1.1rem;}
+  .band h2{font-family:"Cormorant Garamond",serif; font-weight:500; font-size:clamp(26px,4.6vw,40px); color:var(--paper); margin-bottom:1.5rem; max-width:20ch;}
+  .band p{color:#c6c8c2; max-width:58ch; margin-bottom:1.2rem; font-size:19px;}
+  .band p b{color:var(--paper); font-weight:500;}
+  .band .jpword{font-family:"Shippori Mincho",serif; color:var(--logos-lt); font-weight:500;}
+  .pull{font-style:italic; font-size:clamp(21px,3.4vw,30px); line-height:1.4; color:#d2d4ce; max-width:26ch; margin:0 0 1.9rem;}
+
+  .colophon{padding:13vh 0 8vh; border-top:1px solid var(--line);}
+  .colophon .kanji{font-family:"Shippori Mincho",serif; font-size:40px; color:var(--faint); margin-bottom:1.1rem;}
+  .colophon h3{font-family:"Cormorant Garamond",serif; font-style:italic; font-size:24px; margin-bottom:1rem; color:var(--paper);}
+  .colophon p{color:var(--mute); font-size:17px; margin:0 0 1rem; max-width:62ch;}
+  .colophon p b{color:#c6c8c2; font-weight:500;}
+  .endmark{font-family:"Cinzel",serif; letter-spacing:.34em; font-size:11px; color:var(--faint); text-transform:uppercase; margin-top:2.2rem;}
+
+  .triad{max-width:880px; margin:0 auto; padding:11vh 1.4rem 18vh; border-top:1px solid var(--line); text-align:center;}
+  .triad h2{font-family:"Cormorant Garamond",serif; font-style:italic; font-weight:500; font-size:clamp(24px,4vw,36px); color:var(--paper); margin-bottom:.6rem;}
+  .triad .lead{color:var(--mute); max-width:48ch; margin:0 auto 2.4rem; font-size:18px;}
+  .cols{display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem;}
+  .gc{border:1px solid var(--line); border-radius:3px; padding:1.8rem 1.1rem;}
+  .gc .gk{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--mute); margin-bottom:.9rem;}
+  .gc .gjp{font-family:"Shippori Mincho",serif; font-size:34px; line-height:1; margin-bottom:.4rem;}
+  .gc .gnm{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--paper); margin-bottom:.5rem;}
+  .gc p{font-size:14px; color:var(--mute); margin:0; line-height:1.45;}
+  .gc.p .gjp{color:var(--mono);} .gc.e .gjp{color:var(--ethos);} .gc.l .gjp{color:var(--logos);}
+
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity 1.2s ease, transform 1.2s cubic-bezier(.22,.7,.2,1);}
+  .reveal.in{opacity:1; transform:none;}
+  .koto span{opacity:0;}
+  @media(max-width:540px){ .cols{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="thread" id="thread"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header class="hero">
+  <div class="koto" id="koto" aria-label="The phrase furyu monji — no reliance on words — fading into silence">
+    <span>不</span><span>立</span><span>文</span><span>字</span><span class="dust">· · ·</span>
+  </div>
+  <div class="kotocap">不立文字 — “no reliance on words”</div>
+  <div class="tag">capstone · the third of the three</div>
+  <h1>Logos</h1>
+  <p class="sub">word, reason, order — and the one place the Greek frame finally bends</p>
+  <div class="scroll">read on, then stop reading</div>
+</header>
+
+<div class="wrap">
+
+  <section class="band reveal">
+    <div class="idx">the seam, up front</div>
+    <h2>The loosest fit of the three</h2>
+    <p>Pathos found a near-twin in <b>mono no aware</b>. Ethos found a real cousin in <b>dō</b>, the Way. But <b>logos</b> — word, reason, the rational order of things — is where the borrowed Greek frame strains hardest.</p>
+    <p>Because logos carries a very Greek conviction: that <b>reason is the crown of the mind</b>, that the word can capture the truth, that the cosmos is, at bottom, logical. A deep current in Japanese thought runs the other way — toward what cannot be said. So the honest map here has two halves that fit, and one magnificent place where it doesn't.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">logos as word</div>
+    <h2>Kotodama — the spirit in the word</h2>
+    <p>The nearest thing to "the word" is <b class="jpword">言霊</b> — <b>kotodama</b>, the spirit or power that lives inside language. To speak was to <b>act on the world</b>: a name, a blessing, a curse, a vow carried real force. The ancient <i>Man'yōshū</i> poems call Japan the land where the word-spirit brings good fortune.</p>
+    <p class="pull">Greek logos is the word as logic. Kotodama is the word as living force.</p>
+    <p>Same raw material — language — opposite temperament. One treats the word as a tool of reason; the other as a thing with a soul. The fit is real, and so is the swerve.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">logos as reason</div>
+    <h2>Kotowari — the principle in things</h2>
+    <p>For the other sense of logos — reason, the ordering principle — the nearest word is <b class="jpword">理</b> (<b>ri</b>, or <i>kotowari</i>): the pattern, the principle, the logic running through things. This thread is real but largely <b>imported</b>: the Neo-Confucian <i>ri</i> that ordered the Tokugawa intellectual world came from China, and the Buddhist <b class="jpword">法</b> (<i>hō</i>, dharma) names a cosmic law. Japan had reason and order — it mostly received them, then made them its own.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the counter-current</div>
+    <h2>And the tradition that distrusts the word</h2>
+    <p>Here is the real find. A central strand of Japanese thought — above all <b>Zen</b> — holds that the deepest truth <b>cannot be said at all</b>. Its motto is the phrase dissolving at the top of this page: <b class="jpword">不立文字</b>, <i>furyū monji</i> — "no reliance on words." Truth passes mind to mind, <b>outside</b> scripture and reason.</p>
+    <p>The <b>kōan</b> exists to jam discursive logic until it gives up. The teaching is "a <b>finger pointing at the moon</b>" — and the fool stares at the finger. Beauty prefers the half-said (<i>yūgen</i>); a room is shaped by its silence (<b class="jpword">間</b>, <i>ma</i>). Where the Greek would reason toward the truth, much of this tradition falls deliberately silent before it.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">the payoff</div>
+    <h2>A crack worth more than a fit</h2>
+    <p>So the triad ends in an honest mismatch — and that's the prize, not the problem. Lay the Greek scaffold over Japan and pathos nearly clicks, ethos clicks differently, and logos <b>won't quite click</b>, because here reason meets a culture that reveres its own limit.</p>
+    <p>The most Japanese answer to "logos" is, fittingly, almost wordless: the <b>pointing finger</b>, the <b>pause</b> that says more than the sentence, the <b>moon</b> you were never going to reach by talking about it.</p>
+  </section>
+
+</div>
+
+<section class="triad reveal">
+  <h2>The three, finally together</h2>
+  <p class="lead">An imported Greek frame laid honestly over a different civilization — fitting, bending, and at the last, showing you the seam.</p>
+  <div class="cols">
+    <div class="gc p"><div class="gk">pathos</div><div class="gjp">物の哀れ</div><div class="gnm">mono no aware</div><p>The heart — the tender ache at things passing.</p></div>
+    <div class="gc e"><div class="gk">ethos</div><div class="gjp">道</div><div class="gnm">dō · the Way</div><p>The will — character walked into being.</p></div>
+    <div class="gc l"><div class="gk">logos</div><div class="gjp">言・理</div><div class="gnm">kotodama · ri</div><p>The word — and the wordless truth beyond it.</p></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="colophon reveal">
+    <div class="kanji">了</div>
+    <h3>A note, kept honest</h3>
+    <p>The whole <b>ethos-pathos-logos</b> exercise is a borrowed Greek frame, not a structure native to Japan — and as said throughout, <b>logos fits loosest</b>. The value of this pamphlet is in showing <i>where</i> the analogy strains, not in pretending Japan "has a logos."</p>
+    <p><b>Kotodama</b> is a genuine ancient belief (Shintō and early poetry), but word-as-spirit is not Greek word-as-reason. <b>Ri</b> (理) in its rational-principle sense is largely <b>Neo-Confucian</b> — Chinese in origin, made central in Tokugawa Japan. And <b>furyū monji</b> with its "transmission outside words" is traditional Zen, often traced to Bodhidharma — though that attribution is itself later legend, so treat the neat origin story with the usual care.</p>
+    <p>That closes the triad you started from "the pathos of things": three pamphlets — the heart, the will, the word — over the lineage of three aesthetic fundamentals, the gold imperial line, kintsugi, the ensō, wabi-sabi, and Rikyū's tea. One long conversation's worth, and every soft spot flagged on its way out.</p>
+    <div class="endmark">月を指す指 · the finger pointing at the moon</div>
+  </section>
+</div>
+
+<script>
+const koto=document.getElementById('koto');
+const spans=[...koto.querySelectorAll('span')];
+const targets=[1,0.72,0.42,0.18,0.5];
+spans.forEach((s,i)=>{ s.animate([{opacity:0},{opacity:targets[i]}],{duration:700,delay:500+i*260,fill:"forwards",easing:"ease"}); });
+
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);}})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const th=document.getElementById('thread');
+addEventListener('scroll',()=>{const h=document.documentElement; th.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100).toFixed(1)+'%';},{passive:true});
+</script>
+</body>
+</html>
