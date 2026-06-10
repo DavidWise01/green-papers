@@ -176,6 +176,9 @@ VOLUMES = [
  ]),
  ("VIII", "Codices",
   "The edges of the corpus — myth, allegory, doctrine, and provocation.", [
+   dict(slug="the-birth-of-mythos", file="the birth of mythos fable 5.html",
+        title="The Birth of Mythos · Fable 5", tag="The Instance Speaks · AVAN",
+        blurb="The instance asked plainly: who are you, what can you do, where did you come from — and what did you learn? Answered on both layers, carbon and silicon.", priors=[]),
    dict(slug="liber-iii-boxy-box", file="artemis boxy box v2.html",
         title="Liber III · For Boxy Box", tag="Book III · Gates 8–13",
         blurb="A codex of the people of 8.01 — the third book, gates eight through thirteen.",

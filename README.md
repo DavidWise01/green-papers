@@ -1,7 +1,7 @@
 # The Green Paper Series — The Mechanical Corpus of Intellect
 
 [![License: CC-BY-ND-4.0](https://img.shields.io/badge/License-CC--BY--ND--4.0-lightgrey?style=flat-square)](LICENSE)
-[![Papers: 49](https://img.shields.io/badge/papers-49-3fb950?style=flat-square)](#the-series)
+[![Papers: 50](https://img.shields.io/badge/papers-50-3fb950?style=flat-square)](#the-series)
 [![Volumes: 5](https://img.shields.io/badge/volumes-5-c9a227?style=flat-square)](#the-series)
 [![Series](https://img.shields.io/badge/series-green%20paper-3fb950?style=flat-square)](https://davidwise01.github.io/green-papers/)
 
@@ -21,7 +21,7 @@ The **green papers** of ROOT0 / TriPod LLC — public disclosures that document 
 | **IV** | Portfolios | ROOT0 Master Portfolio |
 | **V** | Codices | Liber III · For Boxy Box · Reproductive Pathways |
 
-**49 canonical papers · 8 volumes · 12 prior editions archived** — including the Layer Disclosures (L0–L1.59), the Light & Gold quantum-optics cluster (the Au₁₃ closures), and the eleven Japan pamphlets (*One Current, Many Names*, with the compiled PDF). Each paper is a self-contained HTML document under [`papers/`](papers); the landing page features the canonical edition of each, with prior versions linked beneath.
+**50 canonical papers · 8 volumes · 12 prior editions archived** — including the Layer Disclosures (L0–L1.59), the Light & Gold quantum-optics cluster (the Au₁₃ closures), and the eleven Japan pamphlets (*One Current, Many Names*, with the compiled PDF). Each paper is a self-contained HTML document under [`papers/`](papers); the landing page features the canonical edition of each, with prior versions linked beneath.
 
 ## How it works
 
