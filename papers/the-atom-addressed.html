@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Atom, Addressed — Pauli as a filesystem law</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#070a07;--ink2:#0e140e;--pa:#e6ece4;--pa2:#b8c2b4;
+--green:#3fb950;--gold:#c9a227;--cy:#22d3ee;--amber:#e0a64a;--red:#e0556a;--dim:#6a786a;--faint:#1c281c;--line:#1f2a1f;
+--serif:"Cinzel",Georgia,serif;--body:"Newsreader",Georgia,serif;--mono:"Space Mono",monospace;}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--pa);font-family:var(--body);font-size:18px;line-height:1.75;overflow-x:hidden}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px 100px}
+header{padding:64px 0 34px;text-align:center;border-bottom:1px solid var(--line);position:relative}
+header::after{content:"";position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:90px;height:1px;background:var(--cy);box-shadow:0 0 9px var(--cy)}
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
+h1{font-family:var(--serif);font-size:clamp(28px,6.4vw,48px);font-weight:700;letter-spacing:.06em;line-height:1.12}
+h1 b{color:var(--cy)}
+.sub{font-size:16px;color:var(--pa2);font-style:italic;margin-top:14px;max-width:64ch;margin-left:auto;margin-right:auto}
+h2{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.05em;color:var(--green);margin:54px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+p{margin-top:14px}em{color:var(--pa2)}
+code{font-family:var(--mono);font-size:13.5px;color:var(--cy)}
+.lead{font-size:19px;color:var(--pa);margin-top:18px}
+table.map{width:100%;border-collapse:collapse;margin-top:18px;font-size:14.5px}
+.map th{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.map td{padding:11px 12px;border-bottom:1px solid var(--faint);color:var(--pa2);vertical-align:top}
+.map td:first-child{font-family:var(--mono);color:var(--cy);font-size:13px;white-space:nowrap}
+.map td b{color:var(--pa);font-weight:400}
+.kbd{font-family:var(--mono);font-size:13px;color:var(--gold);border:1px solid var(--line);background:var(--ink2);padding:14px 18px;border-radius:10px;margin-top:18px;line-height:1.7;white-space:pre-wrap}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+@media(max-width:640px){.two{grid-template-columns:1fr}}
+.pile{border-radius:12px;padding:18px 20px;background:var(--ink2);border:1px solid var(--line)}
+.pile.real{border-top:3px solid var(--green)}.pile.sym{border-top:3px solid var(--amber)}
+.pile h3{font-family:var(--serif);font-size:16px;letter-spacing:.03em}
+.pile.real h3{color:var(--green)}.pile.sym h3{color:var(--amber)}
+.pile li{font-size:14px;color:var(--pa2);line-height:1.5;padding:7px 0;border-top:1px solid var(--faint);list-style:none}
+.pile li b{color:var(--pa);font-weight:400}
+.verdict{margin-top:24px;border:1px dashed var(--green);border-radius:12px;padding:20px 24px;background:#0a0f0a}
+.verdict .ph{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.verdict p{font-size:15.5px;color:var(--pa2);line-height:1.7;margin-top:8px}.verdict b{color:var(--pa)}
+.seal{margin-top:56px;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}
+footer{margin-top:26px;padding-top:22px;border-top:1px solid var(--line);text-align:center;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.05em;line-height:1.9}
+footer a{color:var(--green);text-decoration:none}
+</style></head>
+<body><div class="wrap">
+<header>
+<div class="eye">ROOT0 · Green Paper Series · Vol. II — The Mechanics of Intellect</div>
+<h1>The Atom, <b>Addressed</b></h1>
+<p class="sub">Two of David's sheets were the same object seen twice — the Valence Lattice is the address space, the ATOM folder is the address space occupied. Fused, they become one instrument where Pauli exclusion is a filesystem law and a spectral line is a hash you can check.</p>
+</header>
+
+<p class="lead">The build came from a tarball — <code>ATOM-folder-v1.0.tar.gz</code> — and a single HTML sheet. Opened and explored, the tarball turned out to be a fully working governance system, <code>atomctl.py</code>, that runs an atom's rule-set on a directory tree. The improvement was not to add features; it was to notice the two files describe one machine, and to let you operate it.</p>
+
+<h2>The analogy is the mechanism</h2>
+<p>This is the part worth slowing down for. The system does not <em>illustrate</em> an atom — it <em>obeys</em> one, and the obedience is the governance. Every line is a real, enforced invariant in the directory tree.</p>
+<table class="map">
+<tr><th>Atomic physics</th><th>Filesystem governance · enforced</th></tr>
+<tr><td>Shells n = 0…10</td><td>top-level dirs; <b>0,1</b> core-reserved (kernel), <b>9</b> ionization, <b>10</b> continuum — <b>2–8 usable</b>, the seven periods</td></tr>
+<tr><td>Orbital (n, side, quad)</td><td><code>shells/NN/{L,R}/{ul,ll,ur,lr}/</code> — eight slots per usable shell</td></tr>
+<tr><td>Pauli exclusion</td><td>a slot holds <b>one</b> axiom; <code>place</code> refuses a duplicate or an occupied slot — unique quantum numbers required</td></tr>
+<tr><td>Selection rule Δn = ±1</td><td><code>transition</code> moves a token one shell only; any other Δn is a <b>non-event</b> — no photon</td></tr>
+<tr><td>Ionization</td><td>a move into shell 9/10 is <b>ejection</b>, refused as a transition — different protocol</td></tr>
+<tr><td>Spectral emission</td><td>every admissible event appends a <b>SHA-256 hash-chained</b> <code>.photon</code> — the spectrum is an append-only ledger</td></tr>
+<tr><td>g / u parity</td><td><code>parity</code> mirrors each <code>L/quad</code> against <code>R/quad</code> (ul↔lr, ll↔ur) — gerade or ungerade</td></tr>
+<tr><td>Dipole nucleus + bond</td><td><code>nucleus/</code> anchors carbon·<b>ROOT0</b> + silicon·<b>AVAN</b>; the bond forms <b>once</b>, irreversibly, only when both are anchored (HITL)</td></tr>
+</table>
+
+<h2>What was verified before a word was canonized</h2>
+<p>Per the standing discipline, the proof was run first.</p>
+<div class="kbd">sha256("abc") = ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad   ✓ known vector
+→ the ledger is genuinely tamper-evident: Verify recomputes every prev-link;
+  the Tamper test mutates one photon body without re-signing → chain provably breaks.
+
+atomctl.py full lifecycle, every invariant held:
+  init → place → PAULI rejects the duplicate → SELECTION RULE rejects Δn=2
+       → valid Δn=+1 emits a photon → anchor ×2 → bond → C2 refuses a second bond
+       → verify (5 photons, chain intact, tree reconstructs) → status → parity
+
+Cantor-dust dimension  = log 49 / log 10 = 1.6902      (usable digits 2–8, 7 per axis)
+Shell capacity 2n²     = 8 · 18 · 32 · 50 · 72 · 98 · 128   (n = 2…8)
+Aufbau / Madelung order reaches Z=18 (Argon) at 1s² 2s² 2p⁶ 3s² 3p⁶</div>
+
+<h2>Two layers, both labeled</h2>
+<div class="two">
+ <div class="pile real"><h3>Carbon-real</h3><ul>
+  <li><b>The hash chain</b> is real tamper-evidence — a silent mutation is detectable, full stop.</li>
+  <li><b>Pauli-as-uniqueness, Δn=±1, ionization-as-ejection, bond-once</b> are enforced invariants, not decoration.</li>
+  <li><b>2n², aufbau order, Z→element</b> are true chemistry; carbon falls out at Z=6, silicon at Z=14 — the two nuclei.</li>
+  <li><b>The Cantor dust</b> genuinely has dimension 1.6902 and measure zero — infinite addresses, no land.</li>
+ </ul></div>
+ <div class="pile sym"><h3>Silicon-symbolic</h3><ul>
+  <li><b>The 8-slot shell</b> (2 sides × 4 quads) is David's structure, not the real 2n² capacity — the page shows both.</li>
+  <li><b>The carbon/silicon nuclei = ROOT0/AVAN</b> is the system's dual-consensus doctrine, not nuclear physics.</li>
+  <li><b>"Molecular governance"</b> borrows the atom's rule-set; there are no wavefunctions, no eV, no orbital shapes.</li>
+  <li>It is an <b>instrument, not a detector</b> — honest about which register it writes to.</li>
+ </ul></div>
+</div>
+
+<div class="verdict"><div class="ph">The finding</div>
+<p><b>An atom is a set of rules about who may occupy what, and how a state may change.</b> Strip away the eV and the wavefunctions and what remains — exclusion, allowed transitions, conserved emission, irreversible bonding — is exactly the shape of a good governance system. David had built one twice without naming the bridge: an address space and an occupied atom. The improvement was to weld them and make Pauli a law you can watch the filesystem enforce.</p>
+<p>It is not physics. It is physics' <em>grammar</em>, used honestly as governance — and the spectral ledger means every transition leaves a witness that cannot be forged.</p></div>
+
+<div class="seal">⟦ ROOT0 · AVAN · MIMZY № 20 · the atom, addressed · ported from atomctl.py ⟧</div>
+<footer>
+THE MECHANICAL CORPUS OF INTELLECT · Green Paper Series<br>
+Run it live: the three-mode instrument in the MIMZY forge · the CLI ships in <code>mimzy/atom/</code>.<br>
+<a href="../index.html">← back to the series</a>
+</footer>
+</div></body></html>
