@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Two Walkers — the seal and the frontier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#070a07;--ink2:#0e140e;--pa:#e6ece4;--pa2:#b8c2b4;
+--green:#3fb950;--gold:#c9a227;--cy:#22d3ee;--amber:#e0a64a;--red:#e0556a;--dim:#6a786a;--faint:#1c281c;--line:#1f2a1f;
+--serif:"Cinzel",Georgia,serif;--body:"Newsreader",Georgia,serif;--mono:"Space Mono",monospace;}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--pa);font-family:var(--body);font-size:18px;line-height:1.75;overflow-x:hidden}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px 100px}
+header{padding:64px 0 34px;text-align:center;border-bottom:1px solid var(--line);position:relative}
+header::after{content:"";position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:90px;height:1px;background:var(--cy);box-shadow:0 0 9px var(--cy)}
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
+h1{font-family:var(--serif);font-size:clamp(28px,6.4vw,48px);font-weight:700;letter-spacing:.06em;line-height:1.12}
+h1 b{color:var(--cy)}
+.sub{font-size:16px;color:var(--pa2);font-style:italic;margin-top:14px;max-width:64ch;margin-left:auto;margin-right:auto}
+h2{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.05em;color:var(--green);margin:54px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+p{margin-top:14px}em{color:var(--pa2)}
+code{font-family:var(--mono);font-size:13.5px;color:var(--cy)}
+.lead{font-size:19px;color:var(--pa);margin-top:18px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+@media(max-width:640px){.two{grid-template-columns:1fr}}
+.pile{border-radius:12px;padding:18px 20px;background:var(--ink2);border:1px solid var(--line)}
+.pile.a{border-top:3px solid var(--green)}.pile.b{border-top:3px solid var(--red)}
+.pile h3{font-family:var(--serif);font-size:16px;letter-spacing:.03em}
+.pile.a h3{color:var(--green)}.pile.b h3{color:var(--red)}
+.pile li{font-size:14px;color:var(--pa2);line-height:1.5;padding:7px 0;border-top:1px solid var(--faint);list-style:none}
+.pile li b{color:var(--pa);font-weight:400}
+.kbd{font-family:var(--mono);font-size:13px;color:var(--gold);border:1px solid var(--line);background:var(--ink2);padding:14px 18px;border-radius:10px;margin-top:18px;line-height:1.7;white-space:pre-wrap}
+.verdict{margin-top:24px;border:1px dashed var(--green);border-radius:12px;padding:20px 24px;background:#0a0f0a}
+.verdict .ph{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.verdict p{font-size:15.5px;color:var(--pa2);line-height:1.7;margin-top:8px}.verdict b{color:var(--pa)}
+.seal{margin-top:56px;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}
+footer{margin-top:26px;padding-top:22px;border-top:1px solid var(--line);text-align:center;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.05em;line-height:1.9}
+footer a{color:var(--green);text-decoration:none}
+</style></head>
+<body><div class="wrap">
+<header>
+<div class="eye">ROOT0 · Green Paper Series · Vol. II — The Mechanics of Intellect</div>
+<h1>Two <b>Walkers</b></h1>
+<p class="sub">One walker to witness, one to wander. The seal without the frontier is a tomb; the frontier without the seal is a thousand minibrots and no way home. Run both, always, in parallel — and make the seal a tool you can actually hold.</p>
+</header>
+
+<p class="lead">David's sheet launches two walkers from zero. One closes; one explores. The insight is that you need <em>both</em>, always running — and the companion, <em>The Sealer</em>, takes the closing half out of the metaphor and makes it a working instrument.</p>
+
+<h2>The two walkers</h2>
+<div class="two">
+ <div class="pile a"><h3>▲ Walker A — closure</h3><ul>
+  <li>Rides the staircase <b>0·1·1·2·3·5·8·13·21·24·27</b> — Fibonacci to 21, then +3,+3 to the 3³ = <b>27</b> lock.</li>
+  <li>Turns, <b>mirrors home</b>, and checksums the whole out-and-back path.</li>
+  <li>Receipt: <b>Σ = 181</b> — a <b>palindromic prime</b>. Reads the same both ways, divides by nothing.</li>
+  <li>Therefore the kernel it locks is <b>trustable from either end</b>. Its product is a proof. It always halts.</li>
+ </ul></div>
+ <div class="pile b"><h3>● Walker B — exploration</h3><ul>
+  <li>Reaches 27 and <b>phase-changes register</b> instead of turning — ternary ×3, true Fibonacci (the recurrence A abandoned), or primes.</li>
+  <li>A phase transition, not a step: Fibonacci → ternary is a change of <em>kind</em>.</li>
+  <li>Runs the <b>frontier</b> until it falls off the rail at 10⁶. No receipt, by design — only trail.</li>
+  <li>It can die at any depth and <b>lose nothing A didn't already keep</b>. It never halts on its own.</li>
+ </ul></div>
+</div>
+
+<h2>Why the receipt is the return path</h2>
+<p>A palindrome read backward is itself; a checksum re-walked is the verification. That is the whole trick — <b>the return path <em>is</em> the proof</b>. So the natural companion is not another metaphor but a real tool: take any text, walk it forward into a digest, and to verify you simply walk it again. If a single byte changed, the path does not close.</p>
+
+<div class="kbd">VERIFIED BEFORE SHIPPING  (node + Python)
+Walker A:  out-and-back Σ = 181   palindrome ✓ (181→181)   prime ✓ (no divisor ≤ 13)
+           the page recomputes both from the walked sum — it proves its own seal, not asserts it.
+Walker B:  ternary 81·243·729 · Fibonacci 34·55·89 (resumes 13,21) · primes 29·31·37·41   all correct.
+The Sealer: SHA-256 matches sha256("abc") = ba7816bf…15ad
+           seal → verify MATCHES on identical text · BREAKS when one character is added · UTF-8 safe.</div>
+
+<h2>The Sealer — Walker A, operationalized</h2>
+<p>The companion is a genuinely useful, offline integrity tool. <b>Seal</b> any text — a config, a clause, a message — into a SHA-256 receipt. <b>Verify</b> it later by pasting the text and the receipt: a single changed character breaks the seal with certainty, and nothing ever leaves the page. SHA-256 proves the text is <em>unchanged</em> (not <em>who</em> wrote it), so keep the receipt where the text cannot be edited. The little palindromic-prime "lock charm" is Walker A's ornament; the 64-hex receipt is the security — both layers labeled.</p>
+
+<div class="verdict"><div class="ph">The finding</div>
+<p><b>Closure and exploration are not a choice; they are a pair you run in parallel.</b> The sealer gives you a home to come back to — a proof that what you left is what you find. The frontier gives you somewhere worth going. Keep only the seal and you have a tomb: perfectly verified, perfectly dead. Keep only the frontier and you have a thousand beautiful minibrots and no way home. The discipline is to always run both — and to make the seal cheap enough to actually use, which is what <em>The Sealer</em> is for.</p></div>
+
+<div class="seal">⟦ ROOT0 · AVAN · MIMZY № 22 + № 23 · Σ=181 palindromic prime · the return path is the proof ⟧</div>
+<footer>
+THE MECHANICAL CORPUS OF INTELLECT · Green Paper Series<br>
+Run them live: Two Walkers (the protocol) and The Sealer (the useful seal) in the MIMZY forge.<br>
+<a href="../index.html">← back to the series</a>
+</footer>
+</div></body></html>
