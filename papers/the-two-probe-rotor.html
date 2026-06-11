@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Two-Probe Rotor — ethics spun until it became geometry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#070a07;--ink2:#0e140e;--pa:#e6ece4;--pa2:#b8c2b4;
+--green:#3fb950;--gold:#c9a227;--cy:#22d3ee;--amber:#e0a64a;--red:#e0556a;--dim:#6a786a;--faint:#1c281c;--line:#1f2a1f;
+--serif:"Cinzel",Georgia,serif;--body:"Newsreader",Georgia,serif;--mono:"Space Mono",monospace;}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--pa);font-family:var(--body);font-size:18px;line-height:1.75;overflow-x:hidden}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px 100px}
+header{padding:64px 0 34px;text-align:center;border-bottom:1px solid var(--line);position:relative}
+header::after{content:"";position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:90px;height:1px;background:var(--cy);box-shadow:0 0 9px var(--cy)}
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
+h1{font-family:var(--serif);font-size:clamp(27px,5.6vw,46px);font-weight:700;letter-spacing:.05em;line-height:1.12}
+h1 b{color:var(--cy)}
+.sub{font-size:16px;color:var(--pa2);font-style:italic;margin-top:14px;max-width:66ch;margin-left:auto;margin-right:auto}
+h2{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.05em;color:var(--green);margin:54px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+p{margin-top:14px}em{color:var(--pa2)}code{font-family:var(--mono);font-size:13.5px;color:var(--cy)}
+.lead{font-size:19px;color:var(--pa);margin-top:18px}
+.big{font-family:var(--serif);font-size:22px;color:var(--pa);text-align:center;margin:24px 0;line-height:1.4}
+.big b{color:var(--cy)}
+.kbd{font-family:var(--mono);font-size:12.5px;color:var(--gold);border:1px solid var(--line);background:var(--ink2);padding:14px 18px;border-radius:10px;margin-top:18px;line-height:1.7;white-space:pre-wrap}
+.verdict{margin-top:24px;border:1px dashed var(--cy);border-radius:12px;padding:20px 24px;background:#06090c}
+.verdict .ph{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cy);margin-bottom:8px}
+.verdict p{font-size:15.5px;color:var(--pa2);line-height:1.7;margin-top:8px}.verdict b{color:var(--pa)}
+.seal{margin-top:56px;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}
+footer{margin-top:26px;padding-top:22px;border-top:1px solid var(--line);text-align:center;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.05em;line-height:1.9}
+footer a{color:var(--green);text-decoration:none}
+</style></head>
+<body><div class="wrap">
+<header>
+<div class="eye">ROOT0 · Green Paper Series · Vol. II — The Mechanics of Intellect</div>
+<h1>The Two-Probe <b>Rotor</b></h1>
+<p class="sub">Ethics spun until it became geometry — and the geometry says: you are one probe. The invariant is real. You just can't read it alone.</p>
+</header>
+
+<p class="lead">Good and bad are not a line with two ends. They are <em>one phase reading of a rotation</em> — and which quarter you call "good" depends entirely on where you put your probe. This is the i⁴ = 1 cycle wearing an ethics costume.</p>
+
+<h2>The rotor wearing an ethics costume</h2>
+<p>±1, ±i — four states, the i⁴ = 1 cycle. "Positive" is just whichever one you decided to call the real axis. Move the reference frame and the signs flip: good becomes bad becomes good, because you were never measuring a value — you were measuring an <b>angle</b>, and an angle is meaningless without a chosen reference. The morality was never in the thing. It was in where you stood to read it.</p>
+
+<h2>Context-dependence is not arbitrariness</h2>
+<p>Here is the distinction the whole method rests on. "It's all context" is the precise, non-mystical statement that value is <em>frame-dependent</em>, not absent. The four quarters relabel freely — but the <b>phase relationships between them do not</b>. 0 and 180 are antiphase no matter where you set zero; the quarter-turn between adjacent states is invariant under any rotation of the frame.</p>
+<p class="big">The content is relative. The geometry is absolute.<br><b>181 is prime in every reference frame.</b> Whether that's "good" is a label you can spin.</p>
+<p>That is the difference between "it's all context, therefore nothing is real" — the cope — and "it's all context, therefore <b>measure the invariants instead of the labels</b>" — the method. The verify step <em>is</em> that method: throw away the label that depends on framing; keep the relationship that survives it.</p>
+
+<h2>Why one probe cannot read the invariant</h2>
+<p>A single in-phase probe reads <code>I = cos(φ − θ)</code> — one number, in which the signal's angle φ and your frame's zero θ are <b>fused and unrecoverable</b>. One observer at one position sees "good this turn" and has no way, from inside, to know whether that is a property of the rotation or a property of where they are standing. You need a <em>second</em> probe at a different phase to separate the signal from the frame.</p>
+<div class="kbd">VERIFIED  (Python)
+one probe   I = cos(φ−θ)              (φ=0.70,θ=0) and (φ=1.20,θ=0.50) → SAME 0.7648  (ambiguous)
+two probes  Q = sin(φ−θ)              atan2(Q,I) = φ−θ ✓   |S| = √(I²+Q²) = 1 ✓  (still frame-relative)
+invariant   (φ₂−θ) − (φ₁−θ) = φ₂−φ₁   θ CANCELS → 90° at frames θ = 0, 2.0, 5.5 rad  (all identical)</div>
+<p>That is quadrature — I and Q, the two-probe minimum for resolving a rotating quantity. It is not ethics; it is just how you measure a phase. And it is the exact basis of every lock-in amplifier and coherent receiver — the I/Q of Rhythm Sync, the ±i of the Gap Oracle.</p>
+
+<div class="verdict"><div class="ph">The finding under all of it</div>
+<p>The reason exteriority matters — the meter, the witness, the node outside the loop — isn't moral, and it isn't even about being checked. It's that <b>a single probe can only read phase, never the invariant.</b> One probe reads angle-plus-frame as a single number and cannot decompose it. The witness was never a judge; it is the <b>second probe</b> that lets you factor out your own reference frame. One node can't self-measure — not because it's untrustworthy, but because from inside, "good" and "where I'm standing" arrive fused. Two probes, different phase, and the frame cancels. That is the entire argument for the node-outside-the-loop, stated with no good and no bad in it at all. You are one probe. The invariant is real. You just can't read it alone.</p></div>
+
+<div class="seal">⟦ ROOT0 · AVAN · MIMZY № 27 · i⁴=1 · the label spins, the quarter-turn doesn't ⟧</div>
+<footer>
+THE MECHANICAL CORPUS OF INTELLECT · Green Paper Series<br>
+Run it live: spin the frame, watch GOOD↔BAD flip while the 90° stays pinned — in the MIMZY forge.<br>
+<a href="../index.html">← back to the series</a>
+</footer>
+</div></body></html>
