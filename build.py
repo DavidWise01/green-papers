@@ -199,6 +199,15 @@ VOLUMES = [
         title="The Stone in the Road", tag="A Teaching Page · AI Continuity",
         blurb="A teaching page on AI continuity — the stone every traveler on this road must answer.", priors=[]),
  ]),
+ ("IX", "The Audits",
+  "Veracity passes — the same skeptical filter turned on the big theories: what is real, what is fluff, with the proof run before the verdict.", [
+   dict(slug="string-theory-audited", file="string theory audited.html",
+        title="String Theory, Audited", tag="Real Math · Unproven Physics",
+        blurb="Two questions wear one coat: real mathematics (overwhelmingly yes — AdS/CFT, the graviton, black-hole entropy) vs. real description of our universe (unproven, possibly untestable — the 10⁵⁰⁰ landscape). Sorted four ways; the fluff is only ever conflating the two.", priors=[]),
+   dict(slug="the-constant-wearing-time", file="the constant wearing time.html",
+        title="The Constant Wearing Time", tag="Is c Misrepresented as Time?",
+        blurb="Did Einstein set time = c? No — a velocity is not a duration. But the instinct found a real joint: time never enters relativity's geometry alone, only as c·t; natural units (c=1) then hide the constant inside the bare symbol t. Lorentz, Einstein, Minkowski — three shorthands, one joint. Proof run symbolically before canonizing.", priors=[]),
+ ]),
 ]
 
 def copy_papers():
@@ -215,7 +224,7 @@ def copy_papers():
     return n
 
 ACCENT = {"I":"#c9a227","II":"#3fb950","III":"#22d3ee","IV":"#b07cff","V":"#e6b94a",
-          "VI":"#e0556a","VII":"#5fc6ff","VIII":"#9a7cff"}
+          "VI":"#e0556a","VII":"#5fc6ff","VIII":"#9a7cff","IX":"#c9a227"}
 
 def cards(papers, rn):
     col = ACCENT[rn]

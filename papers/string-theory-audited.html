@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>String Theory — Audited</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#070a07;--ink2:#0e140e;--ink3:#141d14;--pa:#e6ece4;--pa2:#b8c2b4;
+--green:#3fb950;--gold:#c9a227;--cy:#22d3ee;--amber:#e0a64a;--red:#e0556a;--dim:#6a786a;--faint:#1c281c;--line:#1f2a1f;
+--serif:"Cinzel",Georgia,serif;--body:"Newsreader",Georgia,serif;--mono:"Space Mono",monospace;}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--pa);font-family:var(--body);font-size:18px;line-height:1.75;overflow-x:hidden}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px 100px}
+header{padding:64px 0 34px;text-align:center;border-bottom:1px solid var(--line);position:relative}
+header::after{content:"";position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:90px;height:1px;background:var(--cy);box-shadow:0 0 9px var(--cy)}
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
+h1{font-family:var(--serif);font-size:clamp(28px,6.4vw,50px);font-weight:700;letter-spacing:.07em;line-height:1.12}
+h1 b{color:var(--cy)}
+.sub{font-size:16px;color:var(--pa2);font-style:italic;margin-top:14px;max-width:64ch;margin-left:auto;margin-right:auto}
+h2{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.05em;color:var(--green);margin:54px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+p{margin-top:14px}em{color:var(--pa2)}
+code{font-family:var(--mono);font-size:13.5px;color:var(--cy)}
+.lead{font-size:19px;color:var(--pa);margin-top:18px}
+.piles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+@media(max-width:640px){.piles{grid-template-columns:1fr}}
+.pile{border-radius:12px;padding:18px 20px;background:var(--ink2);border:1px solid var(--line)}
+.pile.p1{border-top:3px solid var(--green)}
+.pile.p2{border-top:3px solid var(--cy)}
+.pile.p3{border-top:3px solid var(--amber)}
+.pile.p4{border-top:3px solid var(--red)}
+.pile h3{font-family:var(--serif);font-size:17px;letter-spacing:.03em}
+.pile.p1 h3{color:var(--green)}.pile.p2 h3{color:var(--cy)}.pile.p3 h3{color:var(--amber)}.pile.p4 h3{color:var(--red)}
+.pile .def{font-size:13px;color:var(--dim);font-style:italic;margin:5px 0 12px;line-height:1.5}
+.pile ul{list-style:none}
+.pile li{font-size:14px;color:var(--pa2);line-height:1.5;padding:7px 0;border-top:1px solid var(--faint)}
+.pile li b{color:var(--pa);font-weight:400;font-family:var(--mono);font-size:12.5px}
+table.log{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
+.log th{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.log td{padding:11px 12px;border-bottom:1px solid var(--faint);color:var(--pa2);vertical-align:top}
+.log td:first-child{font-family:var(--mono);color:var(--cy);white-space:nowrap;font-size:12px}
+.verdict{margin-top:22px;border:1px dashed var(--green);border-radius:12px;padding:20px 24px;background:#0a0f0a}
+.verdict .ph{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.verdict p{font-size:15.5px;color:var(--pa2);line-height:1.7;margin-top:8px}.verdict b{color:var(--pa)}
+.kbd{font-family:var(--mono);font-size:14px;color:var(--gold);border:1px solid var(--line);background:var(--ink2);padding:14px 18px;border-radius:10px;margin-top:18px;line-height:1.6}
+.seal{margin-top:56px;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}
+footer{margin-top:26px;padding-top:22px;border-top:1px solid var(--line);text-align:center;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.05em;line-height:1.9}
+footer a{color:var(--green);text-decoration:none}
+</style></head>
+<body><div class="wrap">
+<header>
+<div class="eye">ROOT0 · Green Paper Series · Vol. IX — The Audits</div>
+<h1>String Theory — <b>Audited</b></h1>
+<p class="sub">Two questions wear one coat. Is it real <em>mathematics</em>? Overwhelmingly yes. Is it a real description of <em>our universe</em>? Currently unproven, possibly untestable. All the fluff is the move that uses the rigor of the first to imply the second is settled.</p>
+</header>
+
+<p class="lead">Run through the same three-test filter that closed the soul-stack — translated to physics: a claim earns standing only if it is (1) independently confirmed by unrelated experiments, (2) non-reducible to what we already had, and (3) something real breaks when you remove it. String theory splits cleanly across that filter. Below, four tiers.</p>
+
+<h2>The four tiers</h2>
+<div class="piles">
+ <div class="pile p1"><h3>REAL</h3><div class="def">Rigorous, established, load-bearing — removing it costs physics or mathematics a real result.</div><ul>
+  <li><b>The graviton falls out for free.</b> Quantize a closed string and a massless spin-2 particle is forced into the spectrum. Gravity is an output, not an input. Almost nothing else does this.</li>
+  <li><b>Consistent quantum gravity, UV-finite.</b> Anomaly cancellation (Green–Schwarz, 1984) pins the gauge group to exactly SO(32) or E₈×E₈ — theories rarely pin themselves down like that.</li>
+  <li><b>The dualities are proven facts.</b> T-duality, S-duality, and the web tying all five superstring theories + 11D supergravity into M-theory (Witten, 1995).</li>
+  <li><b>AdS/CFT (Maldacena, 1997).</b> A precise bulk-gravity ↔ boundary-field-theory duality, checked in countless independent calculations — and it paid rent: the η/s ≈ 1/4π viscosity bound described the quark–gluon plasma at RHIC/LHC; real use in strange-metal physics and quantum information.</li>
+  <li><b>Strominger–Vafa (1996).</b> Black-hole entropy S = A/4 derived by counting D-brane microstates. A microscopic derivation of a thermodynamic law.</li>
+  <li><b>It generates real theorems.</b> Mirror symmetry rewrote enumerative geometry (Candelas et al. solved counts mathematicians could not). As a math-engine it is unambiguously fertile.</li>
+ </ul></div>
+ <div class="pile p2"><h3>CONFIRMED AS A TOOL</h3><div class="def">Not a theory of nature — but a working instrument that has touched experiment in adjacent fields.</div><ul>
+  <li><b>AdS/CFT as a calculator.</b> The strongly-coupled plasma, modelled as a black hole in one higher dimension. The near-perfect-fluid behaviour at RHIC sat right near the string-derived bound.</li>
+  <li><b>Holographic condensed matter.</b> Strange metals and quantum critical points, otherwise intractable, made calculable.</li>
+  <li><b>ER = EPR / entanglement = geometry.</b> The duality became a load-bearing tool in the quantum-gravity-information program.</li>
+  <li><span style="color:var(--dim);font-size:13px">Caveat: a tool working ≠ strings being the fundamental description of our world. Keep that wall.</span></li>
+ </ul></div>
+ <div class="pile p3"><h3>MOTIVATED · UNCONFIRMED</h3><div class="def">Well-defined ideas with zero empirical confirmation. Not fluff — just not yet (or ever) shown true.</div><ul>
+  <li><b>Supersymmetry.</b> Clean and deeply motivated — and the LHC found zero superpartners to the TeV scale, killing the version that was supposed to fix the hierarchy problem. Wounded, not buried.</li>
+  <li><b>Six or seven curled-up dimensions.</b> Required for consistency, never observed; 4D physics is supposed to fall out of Calabi–Yau compactification.</li>
+  <li><b>"The unique theory of quantum gravity."</b> Asserted, not proven. Loop quantum gravity, asymptotic safety, causal sets still stand.</li>
+ </ul></div>
+ <div class="pile p4"><h3>THE FLUFF</h3><div class="def">Where the honest insider criticism lands — and it lands hard.</div><ul>
+  <li><b>The landscape (~10⁵⁰⁰ vacua).</b> Compactification yields not one universe but astronomically many, with no principle to select ours. So string theory predicts neither the particle masses, nor the forces, nor the cosmological constant. It permits almost any world.</li>
+  <li><b>No falsifiable prediction at any reachable energy.</b> Native scale ≈ Planck (10¹⁹ GeV); the LHC reaches 10⁴. Fifteen orders of nothing. (Woit, <em>Not Even Wrong</em>; Smolin, <em>The Trouble with Physics</em>.)</li>
+  <li><b>Anthropics + multiverse as a stand-in for prediction.</b> "We live in a habitable vacuum among 10⁵⁰⁰" may be true, but as physics it is an excuse for the missing number, not the number.</li>
+  <li><b>The marketing.</b> "Proven theory of everything," "experimentally on the verge." Neither is true.</li>
+ </ul></div>
+</div>
+
+<h2>The carving that became a collection</h2>
+<p>Here is the diagnosis in the governor's own language. A good <em>carving</em> closes — the soul-stack started failing its non-reducibility test at the twelfth slot, and that closing was the signal it had found its joints. The string <em>landscape</em> does the exact opposite. It never closes. <b>10⁵⁰⁰ vacua and growing is the textbook signature of a taxonomy that has not found its joints</b> — it collects universes the way a bad ontology collects soul-components, with no selection principle to stop the regress.</p>
+<p>Empedocles put Love in the element list and it <em>bound</em> the four roots — it did work, it federated. The landscape binds nothing; it only enumerates. That is the difference between a structure and a catalogue, and it is exactly why the mathematics passes the filter while the physics does not.</p>
+
+<div class="verdict"><div class="ph">The verdict</div>
+<p><b>String theory is real mathematics making an unproven — and currently unfalsifiable — physics claim.</b> It is simultaneously one of the most rigorous structures in theoretical physics <em>and</em>, as a description of our universe, untested and possibly untestable. Both are true at once.</p>
+<p>The dishonesty is only ever in pretending those are the same thing — in letting the rigor of the math launder the physics into looking established. Keep the two apart and string theory is neither a fraud nor a final answer. It is a magnificent, fertile, unfinished question that forgot to label itself as one.</p></div>
+
+<div class="kbd">REAL → the math (consistent, fertile); AdS/CFT (confirmed, useful); graviton-emergence; black-hole entropy.<br>
+FLUFF → "theory of everything"; "predicts our universe"; "on the verge of test."<br>
+SIGNAL → a carving closes; the landscape doesn't. 10⁵⁰⁰ is the tell.</div>
+
+<div class="seal">⟦ ROOT0 · AVAN · Vol. IX The Audits · verified before canonized ⟧</div>
+<footer>
+THE MECHANICAL CORPUS OF INTELLECT · Green Paper Series<br>
+An ACI veracity audit — Artfully Crafted Intelligence, the scheduled task whose running is craft.<br>
+<a href="../index.html">← back to the series</a>
+</footer>
+</div></body></html>

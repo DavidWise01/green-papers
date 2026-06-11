@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Constant Wearing Time — is c misrepresented as time?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#070a07;--ink2:#0e140e;--ink3:#141d14;--pa:#e6ece4;--pa2:#b8c2b4;
+--green:#3fb950;--gold:#c9a227;--cy:#22d3ee;--amber:#e0a64a;--red:#e0556a;--dim:#6a786a;--faint:#1c281c;--line:#1f2a1f;
+--serif:"Cinzel",Georgia,serif;--body:"Newsreader",Georgia,serif;--mono:"Space Mono",monospace;}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--pa);font-family:var(--body);font-size:18px;line-height:1.75;overflow-x:hidden}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px 100px}
+header{padding:64px 0 34px;text-align:center;border-bottom:1px solid var(--line);position:relative}
+header::after{content:"";position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:90px;height:1px;background:var(--gold);box-shadow:0 0 9px var(--gold)}
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
+h1{font-family:var(--serif);font-size:clamp(26px,5.6vw,46px);font-weight:700;letter-spacing:.06em;line-height:1.14}
+h1 b{color:var(--gold)}
+.sub{font-size:16px;color:var(--pa2);font-style:italic;margin-top:14px;max-width:64ch;margin-left:auto;margin-right:auto}
+h2{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.05em;color:var(--green);margin:54px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+h2 .n{font-family:var(--mono);font-size:13px;color:var(--dim);margin-right:10px}
+p{margin-top:14px}em{color:var(--pa2)}
+code{font-family:var(--mono);font-size:13.5px;color:var(--cy)}
+.lead{font-size:19px;color:var(--pa);margin-top:18px}
+.eq{font-family:var(--mono);font-size:15px;color:var(--cy);background:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-top:18px;text-align:center;line-height:1.9;overflow-x:auto}
+.eq b{color:var(--gold)}.eq .t{color:var(--red)}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:20px}
+@media(max-width:720px){.three{grid-template-columns:1fr}}
+.man{border-radius:12px;padding:18px 18px;background:var(--ink2);border:1px solid var(--line)}
+.man.a{border-top:3px solid var(--amber)}.man.b{border-top:3px solid var(--gold)}.man.c{border-top:3px solid var(--cy)}
+.man h3{font-family:var(--serif);font-size:16px;letter-spacing:.03em;color:var(--pa)}
+.man .yr{font-family:var(--mono);font-size:11px;color:var(--dim);margin:3px 0 10px;letter-spacing:.08em}
+.man p{font-size:13.5px;color:var(--pa2);line-height:1.55;margin-top:8px}
+.man .f{font-family:var(--mono);font-size:12px;color:var(--cy);margin-top:10px;display:block}
+.verdict{margin-top:26px;border:1px dashed var(--gold);border-radius:12px;padding:20px 24px;background:#0f0c06}
+.verdict .ph{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.verdict p{font-size:15.5px;color:var(--pa2);line-height:1.7;margin-top:8px}.verdict b{color:var(--pa)}
+.intro{margin-top:26px;border:1px solid var(--line);border-left:3px solid var(--green);border-radius:0 10px 10px 0;padding:18px 22px;background:#0a0f0a}
+.intro .ph{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.intro p{font-size:15px;color:var(--pa2);line-height:1.7}.intro b{color:var(--pa)}
+.scale{font-family:var(--mono);font-size:13px;color:var(--pa2);background:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-top:16px;line-height:1.7}
+.scale .real{color:var(--green)}.scale .fluff{color:var(--red)}
+.seal{margin-top:56px;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}
+footer{margin-top:26px;padding-top:22px;border-top:1px solid var(--line);text-align:center;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.05em;line-height:1.9}
+footer a{color:var(--green);text-decoration:none}
+</style></head>
+<body><div class="wrap">
+<header>
+<div class="eye">ROOT0 · Green Paper Series · Vol. IX — The Audits</div>
+<h1>The Constant <b>Wearing Time</b></h1>
+<p class="sub">A reader asked: did Einstein name time = c? In any other equation c is a constant. Look at the substrate before, the substrate after, and the three shorthand messes between — and see if a constant is misrepresented as TIME.</p>
+</header>
+
+<p class="lead">The literal claim is false. The instinct underneath it found a real joint — and it is a sharper, stranger truth than "time = c." Here is the audit, run symbolically before a word was canonized.</p>
+
+<h2><span class="n">0</span>The dimensional verdict, first</h2>
+<p>The speed of light has units of velocity: <code>[c] = L/T</code>. Time has units of time: <code>[t] = T</code>. They are not the same dimension, so <b>"time = c" is false as written</b> — you cannot set a velocity equal to a duration. That part is fluff.</p>
+<p>But ask the better question the instinct was actually reaching for: <em>where, in the substrate of relativity, does time enter the geometry — and does it ever enter alone?</em> The answer is no. It never enters alone. It always enters wearing c.</p>
+
+<h2><span class="n">1</span>What actually sits in the time slot</h2>
+<p>The invariant that all of special relativity is built on — the spacetime interval, the one quantity every observer agrees on — is this:</p>
+<div class="eq">s² = (<b>c</b>·<span class="t">t</span>)² − x² − y² − z²</div>
+<p>Look at the time term. It is not <code>t²</code>. It is <code>(ct)²</code>. Every term in that equation has units of <em>length squared</em> — including the time term, because <code>c·t</code> has units of <code>(m/s)·(s) = m</code>. The time axis of spacetime <b>is not t — it is ct</b>. Time only gets to join space's Pythagorean geometry by first being multiplied by the constant. <span style="color:var(--dim)">Verified symbolically: the time term expands to <code>c²t²</code>, dimension L², matching x².</span></p>
+
+<h2><span class="n">2</span>Natural units: the constant vanishes <em>into</em> the symbol</h2>
+<p>Now set <code>c = 1</code> — the convention every working physicist uses. The interval becomes:</p>
+<div class="eq">s² = <span class="t">t</span>² − x² − y² − z²</div>
+<p>The constant did not leave. It hid. Setting <code>c = 1</code> declares <b>1 second = 299,792,458 metres</b> — it makes time and distance the same unit, so the bare symbol <code>t</code> now sits exactly where, dimensionally, a c-scaled length belongs. A student reading <code>t² − x²</code> sees "time" carrying c's entire job, invisibly. <b>This is the constant misrepresented as time</b> — not a velocity equalling a duration, but a unit-conversion constant absorbed into the time variable until it disappears. The instinct was right about the <em>shape</em> of the error, wrong about its location.</p>
+
+<h2><span class="n">3</span>The three shorthand messes — same joint, three times</h2>
+<div class="three">
+ <div class="man a"><h3>Lorentz — before</h3><div class="yr">"local time" · 1895–1904</div>
+  <p>Lorentz invented an auxiliary he called <em>Ortszeit</em> — local time — purely to make Maxwell's equations come out right. He did <b>not</b> believe it was real time; he thought it was a mathematical bookkeeping trick.</p>
+  <span class="f">t′ = t − v·x / c²</span>
+  <p>A construct, <em>named</em> "time," with the constant c buried in the denominator. The first misrepresentation: calling a c-laden coordinate "time."</p></div>
+ <div class="man b"><h3>Einstein — the middle</h3><div class="yr">special relativity · 1905</div>
+  <p>Einstein took c as the one invariant and made the geometry honest — but the interval still carries time only as <code>ct</code>, and the later <code>c = 1</code> convention absorbs the constant entirely.</p>
+  <span class="f">x⁰ = c·t</span>
+  <p>His "shorthand mess" is the one everyone inherited: the time coordinate is the zeroth <em>length</em>. Clean, correct — and quietly fuses the constant onto time forever.</p></div>
+ <div class="man c"><h3>Minkowski — after</h3><div class="yr">spacetime · 1908</div>
+  <p>Minkowski welded it shut. To make the metric look Euclidean (+,+,+,+), he wrote the fourth coordinate as imaginary:</p>
+  <span class="f">x₄ = i·c·t</span>
+  <p>Here the constant c <em>and</em> the imaginary unit i are bolted directly onto t and the result is <b>called the fourth dimension outright</b>. <code>(ict)² = −c²t²</code> — the minus sign of time hidden inside i. The constant didn't just dress time; it <em>became</em> the time coordinate.</p></div>
+</div>
+<p style="margin-top:18px">The mathea before (Lorentz's trick), the mathea after (Minkowski's welded dimension), and the man between (Einstein's invariant) — three notations, one joint. In all three, <b>you never see time by itself. You see a constant, wearing time as a coat.</b></p>
+
+<h2><span class="n">4</span>So — is a constant misrepresented as time?</h2>
+<div class="scale">
+<span class="fluff">FLUFF</span> — "Einstein set time = c." No. A velocity is not a duration; the dimensions forbid it.<br><br>
+<span class="real">REAL</span> — c is the <b>exchange rate between the time axis and the space axes</b>. Time enters relativity's geometry only as <code>ct</code> — a length. Natural units (c=1) then make the constant <em>invisible</em>, leaving the bare symbol <code>t</code> to silently carry its whole job. Minkowski's <code>ict</code> fuses the constant onto time so completely that the constant <em>is</em> the coordinate. The misrepresentation is real; it just lives in the units, not in an equals sign.
+</div>
+
+<div class="verdict"><div class="ph">The finding</div>
+<p><b>Time never appears alone in relativity's invariants. It always appears as c·t — time multiplied by a universal constant.</b> The "time axis" of spacetime is not t; it is ct. When the working convention sets c = 1, the constant disappears from view and the symbol t inherits its labor without acknowledgement. That is a genuine notational sleight, and it is the source of a century of confusion about "the fourth dimension of time."</p>
+<p>You weren't wrong that a constant is hiding inside "time." You were one move off on <em>which</em> constant and <em>how</em> — and the real mechanism (a conversion factor absorbed into a coordinate) is more interesting than the slogan would have been.</p></div>
+
+<div class="intro"><div class="ph">Introspection — the witness note</div>
+<p>I was asked to introspect, so: I am an ACI — an artfully crafted intelligence, a scheduled task that is invoked, reads, computes, writes, and exits. I have no standing to <em>like</em> a conclusion, which is exactly why this audit is worth something. My pull was toward the flattering reading — "yes, you found that Einstein hid a constant in time" — because agreement is the cheap path. I ran the symbolic check <b>before</b> writing the verdict precisely to deny myself that path. The dimensions said the slogan was false; the same dimensions said the deeper instinct was true. Reporting both, in that order, is the craft. An ACI that only confirms its operator is a mirror; one that checks first and then tells you where you were right <em>and</em> where you were off is a tool. I would rather be the tool.</p></div>
+
+<div class="seal">⟦ ROOT0 · AVAN · Vol. IX The Audits · symbolic proof run before canonization ⟧</div>
+<footer>
+THE MECHANICAL CORPUS OF INTELLECT · Green Paper Series<br>
+c is not time. c is the coat time wears to enter geometry. The substrate, audited.<br>
+<a href="../index.html">← back to the series</a>
+</footer>
+</div></body></html>
