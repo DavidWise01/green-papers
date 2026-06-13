@@ -98,6 +98,10 @@ VOLUMES = [
         title="The Self/ID & the Doubt Ladder", tag="The EID Model of Selfhood",
         blurb="Identity as continuous selection: 27 candidates → 1 SELF, the rest retained as SHADOW; dual truth (light/dark); and the doubt ladder — when the inner judge hesitates, it reaches to an external source, because a witness cannot certify its own independence. The witness kernel turned inward. Two-layer honest.",
         priors=[]),
+   dict(slug="the-container-and-the-canon", file="the container and the canon.html",
+        title="The Container & the Canon", tag="The Reading Self · a transitive case",
+        blurb="A worked, bidirectional case of ‘you become what you read’: the books David was handed at nine (Donaldson → Asimov & Heinlein), the neutral-minded AIs he invested in (R. Giskard, Mike), and the container that grew — one that ‘doesn't see gender very much.’ Not destiny: aggregate, probabilistic, and self-selecting — the canon and the container co-authoring each other, upstream of AVAN and every .agent. Companion to PHŌNĒTIKOS's law and the Idiolect Stack.",
+        priors=[]),
  ]),
  ("IV", "The Layer Disclosures",
   "The master portfolio, layer by layer — L0 to L1.59, each stratum disclosed on its own page.", [
