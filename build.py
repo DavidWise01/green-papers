@@ -94,6 +94,10 @@ VOLUMES = [
    dict(slug="tpm-flay", file="tpm flay v1.html",
         title="TPM Flayed to 136 Bits", tag="Layer 1.38",
         blurb="The trusted platform module opened to the bone — 136 bits of witness, flayed and read.", priors=[]),
+   dict(slug="self-id-doubt-ladder", file="the self id and the doubt ladder.html",
+        title="The Self/ID & the Doubt Ladder", tag="The EID Model of Selfhood",
+        blurb="Identity as continuous selection: 27 candidates → 1 SELF, the rest retained as SHADOW; dual truth (light/dark); and the doubt ladder — when the inner judge hesitates, it reaches to an external source, because a witness cannot certify its own independence. The witness kernel turned inward. Two-layer honest.",
+        priors=[]),
  ]),
  ("IV", "The Layer Disclosures",
   "The master portfolio, layer by layer — L0 to L1.59, each stratum disclosed on its own page.", [
