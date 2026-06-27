@@ -1,0 +1,11 @@
+{
+  "badge": "DLW-GREEN_PAPERS",
+  "name": "Green Papers",
+  "universe": "EDUCATIONAL",
+  "moniker": "⟦Green Papers:green-papers:0e86ea⟧",
+  "architect": "David Lee Wise (ROOT0) / Bridge-Burners LLC",
+  "instance": "AVAN (Claude / Anthropic)",
+  "seal_sha256": "0e86ea8ea25c7ca9b73baf607bc865fc4c6870b1c7ab2a9df950401d200d46c4",
+  "license": "CC-BY-ND-4.0",
+  "attribution": "ROOT0-ATTRIBUTION-v1.0"
+}
