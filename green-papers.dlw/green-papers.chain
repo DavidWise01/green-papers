@@ -1,9 +1,9 @@
 ROOT0-DLW-CHAIN-v1
 index : 538
 slug  : green-papers
-seal  : 0e86ea8ea25c7ca9b73baf607bc865fc4c6870b1c7ab2a9df950401d200d46c4
-prev  : f1497791f4dba30de5bce566c31d6f47f5bb3aef2ab4912f6f35adc11c004284
-link  : 30a8323e2c937e5ae6bb92674fd01c3fbfb2234778f8b3bbd928064bdebe7a46
-head  : 13f9ace173ef2e60af38912ba329b4afcb5a38b84a0e4495e8d30327f8c99cc2
+seal  : 7873ae90e8230ca98ab05d3027eea371b8563e31fd2481d97eea54fbf8bb6467
+prev  : 73440d84e6a37d34136e5b5995076f73d990bd22a04f01d3ccc4a33bb4b2ce41
+link  : efe6ec99870f8b145aa2b47752e55858f742e9706198cafa204e3761b9a6f6c6
+head  : c4d41afeaef76470528856d54d86cf480a0e1c2fc8ebc60fbb9eb8e442585f2b
 
 — the tether: link = sha256(index|slug|seal|prev). the chain head commits to the whole corpus.
